@@ -4,10 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="c_33">#333333</color>
-    <color name="c_66">#666666</color>
-    <color name="c_80">#808080</color>
-    <color name="c_88">#888888</color>
-    <color name="c_99">#999999</color>
-    <color name="c_cc">#CCCCCC</color>
+    <color name="c_333333">#333333</color>
+    <color name="c_666666">#666666</color>
+    <color name="c_808080">#808080</color>
+    <color name="c_888888">#888888</color>
+    <color name="c_999999">#999999</color>
+    <color name="c_cccccc">#cccccc</color>
 </resources>
