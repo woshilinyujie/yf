@@ -33,9 +33,9 @@
         android:layout_width="@dimen/dp_25"
         android:layout_height="@dimen/dp_25" />
     <ImageView
+        android:id="@+id/main_activity_price_list"
         android:layout_marginTop="@dimen/dp_7"
         app:layout_constraintRight_toLeftOf="@+id/main_activity_open_bill"
-        android:id="@+id/main_activity_price_list"
         app:layout_constraintLeft_toRightOf="@+id/main_activity_home_page"
         app:layout_constraintTop_toTopOf="@+id/home_activity_view"
         android:background="#000000"
@@ -101,9 +101,9 @@
         android:id="@+id/main_activity_my_text"
         android:text="我的"
         android:textSize="@dimen/dp_10"
-        app:layout_constraintTop_toBottomOf="@+id/main_activity_my"
-        app:layout_constraintRight_toRightOf="@+id/main_activity_my"
-        app:layout_constraintLeft_toLeftOf="@+id/main_activity_my"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_my"
+        app:layout_constraintRight_toRightOf="@id/main_activity_my"
+        app:layout_constraintLeft_toLeftOf="@id/main_activity_my"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
