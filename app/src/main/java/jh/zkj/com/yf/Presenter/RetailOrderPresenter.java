@@ -2,8 +2,7 @@ package jh.zkj.com.yf.Presenter;
 
 import jh.zkj.com.yf.Activity.RetailOrderActivity;
 import jh.zkj.com.yf.Contract.RetailOrderContract;
-import jh.zkj.com.yf.Fragment.RetailList.RetailOrderFragment;
-import jh.zkj.com.yf.R;
+import jh.zkj.com.yf.Fragment.Retail.RetailOrderFragment;
 
 /**
  * Created by wdefer

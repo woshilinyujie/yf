@@ -26,7 +26,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     ImageView mainActivityPriceList;
     @BindView(R.id.main_activity_open_bill)
     ImageView mainActivityOpenBill;
-    @BindView(R.id.main_activity_retail_list)
+    @BindView(R.id.main_activity_retail)
     ImageView mainActivityRetailList;
     @BindView(R.id.main_activity_my)
     ImageView mainActivityMy;
@@ -34,7 +34,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     TextView mainActivityHomeText;
     @BindView(R.id.main_activity_price_list_text)
     TextView mainActivityPriceListText;
-    @BindView(R.id.main_activity_retail_list_text)
+    @BindView(R.id.main_activity_retail_text)
     TextView mainActivityRetailListText;
     @BindView(R.id.main_activity_my_text)
     TextView mainActivityMyText;
@@ -53,7 +53,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         presenter.initPager(homeActivityViewPage);
     }
 
-    @OnClick({R.id.main_activity_home_page, R.id.main_activity_price_list, R.id.main_activity_open_bill, R.id.main_activity_retail_list, R.id.main_activity_my})
+    @OnClick({R.id.main_activity_home_page, R.id.main_activity_price_list, R.id.main_activity_open_bill, R.id.main_activity_retail, R.id.main_activity_my})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_activity_home_page://首页
@@ -65,7 +65,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
             case R.id.main_activity_open_bill://开单
                 presenter.selectOpenBill(homeActivityViewPage);
                 break;
-            case R.id.main_activity_retail_list://零售单
+            case R.id.main_activity_retail://零售单
                 presenter.selectRetailList(homeActivityViewPage);
                 break;
             case R.id.main_activity_my://我的

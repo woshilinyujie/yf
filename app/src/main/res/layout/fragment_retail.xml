@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout
+        android:id="@+id/retail_sliding_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tl_indicator_color="#ff0000"
+        app:tl_indicator_height="1.5dp"
+        app:tl_indicator_width_equal_title="true"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="#ff0000"
+        app:tl_textUnselectColor="#ff0000"
+        app:tl_textsize="16sp"
+        app:tl_underline_color="#ff0000"
+        app:tl_underline_height="1dp"
+        android:background="@color/Blue"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/retail_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/retail_sliding_tab"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</android.support.constraint.ConstraintLayout>
