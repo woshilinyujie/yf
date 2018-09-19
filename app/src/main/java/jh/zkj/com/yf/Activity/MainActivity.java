@@ -10,6 +10,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Mview.MainViewPager;
+import jh.zkj.com.yf.Presenter.MainPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -41,27 +42,34 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     TextView mainActivityOpenBillText;
     @BindView(R.id.home_activity_view_page)
     MainViewPager homeActivityViewPage;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        presenter = new MainPresenter(this);
+        presenter.initPager(homeActivityViewPage);
     }
 
     @OnClick({R.id.main_activity_home_page, R.id.main_activity_price_list, R.id.main_activity_open_bill, R.id.main_activity_retail_list, R.id.main_activity_my})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_activity_home_page://首页
+                presenter.selectHome(homeActivityViewPage);
                 break;
             case R.id.main_activity_price_list://报价单
+                presenter.selectPriceList(homeActivityViewPage);
                 break;
             case R.id.main_activity_open_bill://开单
+                presenter.selectOpenBill(homeActivityViewPage);
                 break;
             case R.id.main_activity_retail_list://零售单
+                presenter.selectRetailList(homeActivityViewPage);
                 break;
             case R.id.main_activity_my://我的
+                presenter.selectMy(homeActivityViewPage);
                 break;
         }
     }
