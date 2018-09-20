@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Contract.RetailListContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Presenter.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -32,7 +33,8 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_retail_list, null);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
+        RetailListPresenter presenter = new RetailListPresenter(this);
         return view;
     }
 
@@ -42,7 +44,7 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     }
 
     @Override
-    public void setListAdapter() {
-//        recyclerView.setAdapter();
+    public void setListAdapter(RecyclerView.Adapter adapter) {
+        recyclerView.setAdapter(adapter);
     }
 }

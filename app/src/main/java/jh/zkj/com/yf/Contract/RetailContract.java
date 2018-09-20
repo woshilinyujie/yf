@@ -18,7 +18,5 @@ public class RetailContract {
     }
 
     public interface IRetailPresenter{
-        //初始化fragment
-        public void initView();
     }
 }

@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import jh.zkj.com.yf.Contract.RetailContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
+import jh.zkj.com.yf.Presenter.RetailPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -27,6 +28,7 @@ public class RetailFragment extends MBaseFragment implements RetailContract.IRet
     SlidingTabLayout slidingTab;
     @BindView(R.id.retail_viewpager)
     ViewPager viewPager;
+    private RetailPresenter presenter;
 
     public static RetailFragment newInstance() {
         RetailFragment fragment = new RetailFragment();
@@ -42,7 +44,9 @@ public class RetailFragment extends MBaseFragment implements RetailContract.IRet
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_retail, null);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
+
+        presenter = new RetailPresenter(this);
         return view;
     }
 
