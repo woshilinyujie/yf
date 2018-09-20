@@ -1,9 +1,12 @@
 package jh.zkj.com.yf.Activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -11,12 +14,13 @@ import cn.bingoogolapple.qrcode.zbar.ZBarView;
 import jh.zkj.com.yf.Contract.ScanContract;
 import jh.zkj.com.yf.Presenter.ScanPresenter;
 import jh.zkj.com.yf.R;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * linyujie  二维码扫描类
  */
 
-public class ScanActivity extends AppCompatActivity implements ScanContract.IScanView {
+public class ScanActivity extends AppCompatActivity implements ScanContract.IScanView,EasyPermissions.PermissionCallbacks {
 
     @BindView(R.id.scan_zbarview)
     ZBarView scanZbarview;
@@ -31,6 +35,7 @@ public class ScanActivity extends AppCompatActivity implements ScanContract.ISca
         ButterKnife.bind(this);
         presenter = new ScanPresenter(this);
         scanZbarview.setDelegate(presenter);
+        presenter.requestCodeQRCodePermissions();
     }
 
     @Override
@@ -58,11 +63,29 @@ public class ScanActivity extends AppCompatActivity implements ScanContract.ISca
 
     @Override
     public void setScanText(String s) {
-        scanText.setText(s);
+        scanText.setText("扫描码为: "+s);
+        scanZbarview.startSpotDelay(1000);
     }
 
     @Override
     public void showToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override  //权限回调
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override //权限申请成功时调用
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        scanZbarview.startCamera();
+        scanZbarview.startSpotAndShowRect();
+    }
+
+    @Override //权限申请失败时调用
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        showToast("权限请求失败，请手动打开相机权限");
     }
 }

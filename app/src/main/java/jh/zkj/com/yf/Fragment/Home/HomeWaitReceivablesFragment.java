@@ -35,4 +35,9 @@ public class HomeWaitReceivablesFragment extends MBaseFragment{
         view = View.inflate(getActivity(), R.layout.wait_receivables_layout,null);
         return view;
     }
+
+    @Override
+    public View getView() {
+        return view;
+    }
 }

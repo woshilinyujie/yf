@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Mview.MeasureViewpager;
+import jh.zkj.com.yf.Mview.SwitchText;
+import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
 import jh.zkj.com.yf.Presenter.Home.HomeFragmentPresenter;
 import jh.zkj.com.yf.R;
 
@@ -30,6 +32,8 @@ public class HomeFragment extends MBaseFragment {
     Context context;
     @BindView(R.id.home_fragment_scan)
     ImageView homeFragmentScan;
+
+
     @BindView(R.id.home_fragment_severs)
     ImageView homeFragmentSevers;
     @BindView(R.id.home_fragment_msg)
@@ -57,10 +61,12 @@ public class HomeFragment extends MBaseFragment {
     @BindView(R.id.home_fragment_trumpet_more)
     RelativeLayout homeFragmentTrumpetMore;
     @BindView(R.id.home_fragment_tab)
-    android.support.design.widget.TabLayout homeFragmentTab;
+    SlidingTabLayout homeFragmentTab;
     @BindView(R.id.home_fragment_viewpager)
-    ViewPager homeFragmentViewpager;
+    MeasureViewpager homeFragmentViewpager;
     Unbinder unbinder;
+    @BindView(R.id.home_fragment_switch_text)
+    SwitchText homeFragmentSwitchText;
 
 
     private View rootView;
@@ -87,8 +93,11 @@ public class HomeFragment extends MBaseFragment {
         return rootView;
     }
 
+
     private void initdata() {
         presenter.initViewPager();
+        presenter.initListener();
+        presenter.startSwitch();
     }
 
     @Override
@@ -101,6 +110,7 @@ public class HomeFragment extends MBaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.home_fragment_scan: //扫描
+                presenter.scanClick();
                 break;
             case R.id.home_fragment_severs://客服
                 break;
@@ -180,11 +190,19 @@ public class HomeFragment extends MBaseFragment {
         return homeFragmentTrumpetMore;
     }
 
-    public TabLayout getHomeFragmentTab() {
+    public SlidingTabLayout getHomeFragmentTab() {
         return homeFragmentTab;
     }
 
     public ViewPager getHomeFragmentViewpager() {
         return homeFragmentViewpager;
+    }
+
+    public View getRootView() {
+        return rootView;
+    }
+
+    public SwitchText getHomeFragmentSwitchText() {
+        return homeFragmentSwitchText;
     }
 }

@@ -12,7 +12,6 @@ import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
-import jh.zkj.com.yf.Fragment.OpenBill.OpenBillFragment;
 import jh.zkj.com.yf.Fragment.PriceList.PriceListFragment;
 import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
 import jh.zkj.com.yf.Mview.MainViewPager;
@@ -34,7 +33,6 @@ public class MainPresenter implements MainContract.IMainPresenter {
         fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance());
         fragments.add(PriceListFragment.newInstance());
-        fragments.add(OpenBillFragment.newInstance());
         fragments.add(RetailFragment.newInstance());
         fragments.add(MyFragment.newInstance());
         //预加载3页，缓存
@@ -67,12 +65,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
     @Override
     public void selectOpenBill() {
-        activity.setHomePageTvColor(0xFF999999);
-        activity.setPriceListColor(0xff999999);
-        activity.setOpenBillColor(0xFFFF9500);
-        activity.setRetailListColor(0xff999999);
-        activity.setMyColor(0xff999999);
-        activity.getViewPager().setCurrentItem(2);
+
     }
 
     @Override
