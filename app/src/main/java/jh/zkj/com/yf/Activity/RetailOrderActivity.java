@@ -1,15 +1,13 @@
 package jh.zkj.com.yf.Activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jh.zkj.com.yf.Contract.RetailOrderContract;
-import jh.zkj.com.yf.Presenter.RetailOrderPresenter;
+import jh.zkj.com.yf.Contract.Retail.RetailOrderContract;
+import jh.zkj.com.yf.Presenter.Retail.RetailOrderPresenter;
 import jh.zkj.com.yf.R;
 
 /**

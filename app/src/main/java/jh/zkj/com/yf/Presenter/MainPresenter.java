@@ -3,7 +3,6 @@ package jh.zkj.com.yf.Presenter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
 import jh.zkj.com.yf.Fragment.OpenBill.OpenBillFragment;
 import jh.zkj.com.yf.Fragment.PriceList.PriceListFragment;
-import jh.zkj.com.yf.Fragment.RetailList.RetailListFragment;
+import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
 import jh.zkj.com.yf.Mview.MainViewPager;
 
 /**
@@ -36,7 +35,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         fragments.add(HomeFragment.newInstance());
         fragments.add(PriceListFragment.newInstance());
         fragments.add(OpenBillFragment.newInstance());
-        fragments.add(RetailListFragment.newInstance());
+        fragments.add(RetailFragment.newInstance());
         fragments.add(MyFragment.newInstance());
         //预加载3页，缓存
         pager.setOffscreenPageLimit(3);
@@ -45,7 +44,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectHome(MainViewPager pager) {
+    public void selectHome() {
         activity.setHomePageTvColor(0xFFFF9500);
         activity.setPriceListColor(0xff999999);
         activity.setOpenBillColor(0xff999999);
@@ -54,7 +53,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectPriceList(MainViewPager pager) {
+    public void selectPriceList() {
         activity.setHomePageTvColor(0xFF999999);
         activity.setPriceListColor(0xFFFF9500);
         activity.setOpenBillColor(0xff999999);
@@ -63,7 +62,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectOpenBill(MainViewPager pager) {
+    public void selectOpenBill() {
         activity.setHomePageTvColor(0xFF999999);
         activity.setPriceListColor(0xff999999);
         activity.setOpenBillColor(0xFFFF9500);
@@ -72,7 +71,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectRetailList(MainViewPager pager) {
+    public void selectRetailList() {
         activity.setHomePageTvColor(0xFF999999);
         activity.setPriceListColor(0xff999999);
         activity.setOpenBillColor(0xff999999);
@@ -81,7 +80,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectMy(MainViewPager pager) {
+    public void selectMy() {
         activity.setHomePageTvColor(0xFF999999);
         activity.setPriceListColor(0xff999999);
         activity.setOpenBillColor(0xff999999);

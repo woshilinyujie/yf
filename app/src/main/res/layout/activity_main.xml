@@ -44,14 +44,14 @@
     <ImageView
         android:id="@+id/main_activity_open_bill"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/main_activity_retail_list"
+        app:layout_constraintRight_toLeftOf="@+id/main_activity_retail"
         app:layout_constraintLeft_toRightOf="@+id/main_activity_price_list"
         app:layout_constraintTop_toTopOf="@+id/home_activity_view1"
         android:background="#000000"
         android:layout_width="@dimen/dp_57"
         android:layout_height="0dp" />
     <ImageView
-        android:id="@+id/main_activity_retail_list"
+        android:id="@+id/main_activity_retail"
         android:layout_marginTop="@dimen/dp_7"
         app:layout_constraintRight_toLeftOf="@+id/main_activity_my"
         app:layout_constraintLeft_toRightOf="@+id/main_activity_open_bill"
@@ -88,12 +88,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:id="@+id/main_activity_retail_list_text"
+        android:id="@+id/main_activity_retail_text"
         android:textSize="@dimen/dp_10"
         android:text="零售单"
-        app:layout_constraintTop_toBottomOf="@+id/main_activity_retail_list"
-        app:layout_constraintRight_toRightOf="@+id/main_activity_retail_list"
-        app:layout_constraintLeft_toLeftOf="@+id/main_activity_retail_list"
+        app:layout_constraintTop_toBottomOf="@+id/main_activity_retail"
+        app:layout_constraintRight_toRightOf="@+id/main_activity_retail"
+        app:layout_constraintLeft_toLeftOf="@+id/main_activity_retail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

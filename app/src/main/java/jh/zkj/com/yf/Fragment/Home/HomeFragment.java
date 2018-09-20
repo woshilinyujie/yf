@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Presenter.Home.HomeFragmentPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -59,7 +61,10 @@ public class HomeFragment extends MBaseFragment {
     @BindView(R.id.home_fragment_viewpager)
     ViewPager homeFragmentViewpager;
     Unbinder unbinder;
+
+
     private View rootView;
+    private HomeFragmentPresenter presenter;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -77,7 +82,13 @@ public class HomeFragment extends MBaseFragment {
         context = getActivity();
         rootView = View.inflate(context, R.layout.home_fragment_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
+        presenter = new HomeFragmentPresenter(this);
+        initdata();
         return rootView;
+    }
+
+    private void initdata() {
+        presenter.initViewPager();
     }
 
     @Override
@@ -110,5 +121,70 @@ public class HomeFragment extends MBaseFragment {
             case R.id.home_fragment_trumpet_more://喇叭
                 break;
         }
+    }
+
+
+    public ImageView getHomeFragmentScan() {
+        return homeFragmentScan;
+    }
+
+    public ImageView getHomeFragmentSevers() {
+        return homeFragmentSevers;
+    }
+
+    public ImageView getHomeFragmentMsg() {
+        return homeFragmentMsg;
+    }
+
+    public EditText getHomeFragmentSearch() {
+        return homeFragmentSearch;
+    }
+
+    public TextView getHomeFragmentCommonMenuMore() {
+        return homeFragmentCommonMenuMore;
+    }
+
+    public ImageView getHomeFragmentCommonMenuOne() {
+        return homeFragmentCommonMenuOne;
+    }
+
+    public TextView getHomeFragmentCommonMenuOneText() {
+        return homeFragmentCommonMenuOneText;
+    }
+
+    public ImageView getHomeFragmentCommonMenuTwo() {
+        return homeFragmentCommonMenuTwo;
+    }
+
+    public TextView getHomeFragmentCommonMenuTwoText() {
+        return homeFragmentCommonMenuTwoText;
+    }
+
+    public ImageView getHomeFragmentCommonMenuThree() {
+        return homeFragmentCommonMenuThree;
+    }
+
+    public TextView getHomeFragmentCommonMenuThreeText() {
+        return homeFragmentCommonMenuThreeText;
+    }
+
+    public ImageView getHomeFragmentCommonMenuFour() {
+        return homeFragmentCommonMenuFour;
+    }
+
+    public TextView getHomeFragmentCommonMenuFourText() {
+        return homeFragmentCommonMenuFourText;
+    }
+
+    public RelativeLayout getHomeFragmentTrumpetMore() {
+        return homeFragmentTrumpetMore;
+    }
+
+    public TabLayout getHomeFragmentTab() {
+        return homeFragmentTab;
+    }
+
+    public ViewPager getHomeFragmentViewpager() {
+        return homeFragmentViewpager;
     }
 }
