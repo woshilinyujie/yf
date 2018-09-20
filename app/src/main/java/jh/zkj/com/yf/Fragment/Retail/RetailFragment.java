@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jh.zkj.com.yf.Contract.RetailContract;
+import jh.zkj.com.yf.Contract.Retail.RetailContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
-import jh.zkj.com.yf.Presenter.RetailPresenter;
+import jh.zkj.com.yf.Presenter.Retail.RetailPresenter;
 import jh.zkj.com.yf.R;
 
 /**

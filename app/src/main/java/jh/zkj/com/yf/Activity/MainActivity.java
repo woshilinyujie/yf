@@ -57,19 +57,19 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_activity_home_page://首页
-                presenter.selectHome(homeActivityViewPage);
+                presenter.selectHome();
                 break;
             case R.id.main_activity_price_list://报价单
-                presenter.selectPriceList(homeActivityViewPage);
+                presenter.selectPriceList();
                 break;
             case R.id.main_activity_open_bill://开单
-                presenter.selectOpenBill(homeActivityViewPage);
+                presenter.selectOpenBill();
                 break;
             case R.id.main_activity_retail://零售单
-                presenter.selectRetailList(homeActivityViewPage);
+                presenter.selectRetailList();
                 break;
             case R.id.main_activity_my://我的
-                presenter.selectMy(homeActivityViewPage);
+                presenter.selectMy();
                 break;
         }
     }

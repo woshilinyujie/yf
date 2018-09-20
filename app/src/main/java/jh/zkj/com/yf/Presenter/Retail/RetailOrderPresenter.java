@@ -1,7 +1,7 @@
-package jh.zkj.com.yf.Presenter;
+package jh.zkj.com.yf.Presenter.Retail;
 
 import jh.zkj.com.yf.Activity.RetailOrderActivity;
-import jh.zkj.com.yf.Contract.RetailOrderContract;
+import jh.zkj.com.yf.Contract.Retail.RetailOrderContract;
 import jh.zkj.com.yf.Fragment.Retail.RetailOrderFragment;
 
 /**

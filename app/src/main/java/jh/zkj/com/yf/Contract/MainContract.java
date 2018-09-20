@@ -38,14 +38,14 @@ public class MainContract {
         //viewpager配置
         void initPager(MainViewPager pager);
         //点击首页
-        void selectHome(MainViewPager pager);
+        void selectHome();
         //点击报价单
-        void selectPriceList(MainViewPager pager);
+        void selectPriceList();
         //点击开单
-        void selectOpenBill(MainViewPager pager);
+        void selectOpenBill();
         //点击零售
-        void selectRetailList(MainViewPager pager);
+        void selectRetailList();
         //点击我的
-        void selectMy(MainViewPager pager);
+        void selectMy();
     }
 }

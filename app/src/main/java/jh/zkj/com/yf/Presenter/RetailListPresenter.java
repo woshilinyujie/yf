@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-import jh.zkj.com.yf.Contract.RetailListContract;
+import jh.zkj.com.yf.Contract.Retail.RetailListContract;
 import jh.zkj.com.yf.Fragment.Retail.RetailListFragment;
 import jh.zkj.com.yf.R;
 

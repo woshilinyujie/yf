@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Contract;
+package jh.zkj.com.yf.Contract.Retail;
 
 import android.widget.FrameLayout;
 

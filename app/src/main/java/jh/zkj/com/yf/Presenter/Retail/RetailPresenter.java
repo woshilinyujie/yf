@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Presenter;
+package jh.zkj.com.yf.Presenter.Retail;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-import jh.zkj.com.yf.Contract.RetailContract;
+import jh.zkj.com.yf.Contract.Retail.RetailContract;
 import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
 import jh.zkj.com.yf.Fragment.Retail.RetailListFragment;
 

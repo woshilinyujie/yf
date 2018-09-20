@@ -44,7 +44,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectHome(MainViewPager pager) {
+    public void selectHome() {
         activity.setHomePageTvColor(0xFFFF9500);
         activity.setPriceListColor(0xff999999);
         activity.setOpenBillColor(0xff999999);
@@ -53,7 +53,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectPriceList(MainViewPager pager) {
+    public void selectPriceList() {
         activity.setHomePageTvColor(0xFF999999);
         activity.setPriceListColor(0xFFFF9500);
         activity.setOpenBillColor(0xff999999);
@@ -62,7 +62,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectOpenBill(MainViewPager pager) {
+    public void selectOpenBill() {
         activity.setHomePageTvColor(0xFF999999);
         activity.setPriceListColor(0xff999999);
         activity.setOpenBillColor(0xFFFF9500);
@@ -71,7 +71,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectRetailList(MainViewPager pager) {
+    public void selectRetailList() {
         activity.setHomePageTvColor(0xFF999999);
         activity.setPriceListColor(0xff999999);
         activity.setOpenBillColor(0xff999999);
@@ -80,7 +80,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectMy(MainViewPager pager) {
+    public void selectMy() {
         activity.setHomePageTvColor(0xFF999999);
         activity.setPriceListColor(0xff999999);
         activity.setOpenBillColor(0xff999999);
