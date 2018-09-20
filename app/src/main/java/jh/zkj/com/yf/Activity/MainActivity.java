@@ -1,6 +1,7 @@
 package jh.zkj.com.yf.Activity;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -120,9 +121,16 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     }
 
     @Override
+    public ViewPager getViewPager() {
+        return homeActivityViewPage;
+    }
+
+    @Override
     public TextView getMyTv() {
         return mainActivityMyText;
     }
+
+
 
     @Override
     public void setHomePageIvBg(int resource) {

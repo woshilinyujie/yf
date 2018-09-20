@@ -41,6 +41,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         pager.setOffscreenPageLimit(3);
         MainFragmentPagerAdapter adapter = new MainFragmentPagerAdapter(activity.getSupportFragmentManager(), fragments);
         pager.setAdapter(adapter);
+        selectHome();
     }
 
     @Override
@@ -50,6 +51,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setOpenBillColor(0xff999999);
         activity.setRetailListColor(0xff999999);
         activity.setMyColor(0xff999999);
+        activity.getViewPager().setCurrentItem(0);
+
     }
 
     @Override
@@ -59,6 +62,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setOpenBillColor(0xff999999);
         activity.setRetailListColor(0xff999999);
         activity.setMyColor(0xff999999);
+        activity.getViewPager().setCurrentItem(1);
     }
 
     @Override
@@ -68,6 +72,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setOpenBillColor(0xFFFF9500);
         activity.setRetailListColor(0xff999999);
         activity.setMyColor(0xff999999);
+        activity.getViewPager().setCurrentItem(2);
     }
 
     @Override
@@ -77,6 +82,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setOpenBillColor(0xff999999);
         activity.setRetailListColor(0xFFFF9500);
         activity.setMyColor(0xff999999);
+        activity.getViewPager().setCurrentItem(3);
     }
 
     @Override
@@ -86,6 +92,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setOpenBillColor(0xff999999);
         activity.setRetailListColor(0xff999999);
         activity.setMyColor(0xFFFF9500);
+        activity.getViewPager().setCurrentItem(4);
     }
 
 

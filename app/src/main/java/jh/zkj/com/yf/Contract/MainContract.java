@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Contract;
 
+import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class MainContract {
         TextView getPriceListTv();
         TextView getOpenBillTv();
         TextView getRetailListTv();
+        ViewPager getViewPager();
         TextView getMyTv();
         void setHomePageIvBg(int resource);
         void setPriceListBg(int resource);
