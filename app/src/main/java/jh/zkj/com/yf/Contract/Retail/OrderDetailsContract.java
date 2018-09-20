@@ -3,23 +3,24 @@ package jh.zkj.com.yf.Contract.Retail;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by wdefer
- * on 2018.9.19
+ * on 2018/9/20
+ * use
  */
-
-public class RetailOrderContract {
-
+public class OrderDetailsContract {
     public interface IRetailOrderView{
-        //获取fragment显示的layout
-        public FrameLayout getFragmentLayout();
-        public EditText getUserName();
-        public EditText getUserPhone();
+        public TextView getUserName();
+        public TextView getUserPhone();
         public RecyclerView getRecyclerView();
 
     }
 
     public interface IRetailOrderPresenter{
+
     }
 }

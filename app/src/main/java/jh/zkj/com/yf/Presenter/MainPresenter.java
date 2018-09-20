@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Presenter;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.RetailOrderActivity;
 import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
@@ -73,6 +75,9 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setRetailListColor(0xff999999);
         activity.setMyColor(0xff999999);
         activity.getViewPager().setCurrentItem(2);
+
+        Intent intent = new Intent(activity, RetailOrderActivity.class);
+        activity.startActivity(intent);
     }
 
     @Override

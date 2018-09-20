@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
 
     <color name="c_333333">#333333</color>
     <color name="c_666666">#666666</color>
@@ -11,8 +12,10 @@
     <color name="c_999999">#999999</color>
     <color name="c_cccccc">#cccccc</color>
     <color name="c_6fb1fc">#6fb1fc</color>
+    <color name="c_666fb1fc">#666fb1fc</color>
     <color name="c_a6a6a6">#a6a6a6</color>
+    <!-- 一般用于背景色 -->
     <color name="c_f6f7fb">#f6f7fb</color>
     <color name="c_ff6600">#ff6600</color>
->>>>>>> f153173b8cfc5111be4a64ee097eac812aa98ddb
+    <color name="c_d9d9d9">#d9d9d9</color>
 </resources>

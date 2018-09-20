@@ -35,7 +35,6 @@ public class RetailPresenter implements RetailContract.IRetailPresenter{
         fragments.add(receivables);
         fragments.add(unReceivables);
         if(fragment.getActivity() != null){
-            FragmentManager supportFragmentManager = fragment.getActivity().getSupportFragmentManager();
             fragment.getViewPager().setAdapter(new FragmentPagerAdapter(
                     fragment.getActivity().getSupportFragmentManager()) {
                 @Override
