@@ -17,9 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ScanActivity"/>
-        <activity android:name=".Activity.RetailOrderActivity"
-                  android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name=".Activity.ScanActivity" />
+        <activity
+            android:name=".Activity.RetailOrderActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".Activity.My.PhotoActivity"></activity>
     </application>
 
 </manifest>

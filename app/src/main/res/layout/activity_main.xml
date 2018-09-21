@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5"
+    android:background="@color/c_f6f7fb"
     tools:context="jh.zkj.com.yf.Activity.MainActivity">
 
 
@@ -15,129 +15,163 @@
         android:layout_height="@dimen/dp_50"
         android:background="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent" />
-    
+
     <View
         android:id="@+id/home_activity_view1"
-        app:layout_constraintBottom_toTopOf="@+id/home_activity_view"
-        android:background="#00ffffff"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_20"/>
+        android:layout_height="@dimen/dp_20"
+        android:background="#00000000"
+        app:layout_constraintBottom_toTopOf="@+id/home_activity_view" />
 
-    <ImageView
-        android:id="@+id/main_activity_home_page"
-        android:layout_marginTop="@dimen/dp_7"
-        android:layout_marginLeft="@dimen/dp_35"
+    <LinearLayout
+        app:layout_constraintRight_toLeftOf="@id/main_activity_home_price_list_linear"
+        android:id="@+id/home_activity_home_page_linear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_activity_view"
-        android:background="@mipmap/home_select"
-        android:layout_width="@dimen/dp_24"
-        android:layout_height="@dimen/dp_24" />
-    <ImageView
-        android:id="@+id/main_activity_price_list"
-        android:layout_marginTop="@dimen/dp_7"
+        app:layout_constraintTop_toTopOf="@+id/home_activity_view">
+
+        <ImageView
+            android:id="@+id/main_activity_home_page"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_7"
+            android:background="@mipmap/home_select" />
+
+        <TextView
+            android:id="@+id/main_activity_home_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="首页"
+            android:textColor="@color/c_333333"
+            android:textSize="@dimen/sp_10" />
+    </LinearLayout>
+
+
+    <LinearLayout
         app:layout_constraintRight_toLeftOf="@id/main_activity_open_bill"
-        app:layout_constraintLeft_toRightOf="@id/main_activity_home_page"
+        android:id="@+id/main_activity_home_price_list_linear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@id/home_activity_home_page_linear"
+        app:layout_constraintTop_toTopOf="@id/home_activity_view">
+
+        <ImageView
+            android:id="@+id/main_activity_price_list"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_7"
+            android:background="@mipmap/quotation" />
+
+        <TextView
+            android:id="@+id/main_activity_price_list_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="报价单"
+            android:textColor="@color/c_333333"
+            android:textSize="@dimen/sp_10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_activity_retail_linear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+
+        app:layout_constraintRight_toLeftOf="@id/main_activity_my_linear"
+        app:layout_constraintLeft_toRightOf="@id/main_activity_open_bill"
+        app:layout_constraintTop_toTopOf="@id/home_activity_view">
+
+
+        <ImageView
+
+            android:id="@+id/main_activity_retail"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_7"
+            android:background="@mipmap/retail" />
+
+
+        <TextView
+            android:id="@+id/main_activity_retail_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="零售单"
+            android:textColor="@color/c_333333"
+            android:textSize="@dimen/sp_10" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/main_activity_my_linear"
+        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="@id/home_activity_view"
-        android:background="@mipmap/quotation"
-        android:layout_width="@dimen/dp_22"
-        android:layout_height="@dimen/dp_24" />
-    <ImageView
-        android:id="@+id/main_activity_open_bill"
-        app:layout_constraintTop_toTopOf="@id/home_activity_view1"
-        app:layout_constraintBottom_toTopOf="@+id/main_activity_open_bill_text"
-        app:layout_constraintRight_toLeftOf="@+id/main_activity_retail"
-        app:layout_constraintLeft_toRightOf="@+id/main_activity_price_list"
-        android:background="@mipmap/xiadan"
-        android:layout_width="@dimen/dp_56"
-        android:layout_height="0dp" />
-    <ImageView
+        app:layout_constraintLeft_toRightOf="@id/main_activity_retail_linear"
+        app:layout_constraintRight_toRightOf="parent">
 
-        android:id="@+id/main_activity_retail"
-        android:layout_marginTop="@dimen/dp_7"
-        app:layout_constraintRight_toLeftOf="@+id/main_activity_my"
-        app:layout_constraintLeft_toRightOf="@+id/main_activity_open_bill"
-        app:layout_constraintTop_toTopOf="@+id/home_activity_view"
-        android:background="@mipmap/retail"
-        android:layout_width="@dimen/dp_22"
-        android:layout_height="@dimen/dp_24" />
+        <ImageView
+            android:id="@+id/main_activity_my"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_7"
+            android:background="@mipmap/my" />
 
-    <ImageView
-        android:id="@+id/main_activity_my"
-        android:layout_marginTop="@dimen/dp_7"
-        android:layout_width="@dimen/dp_24"
-        android:layout_height="@dimen/dp_24"
-        android:layout_marginRight="@dimen/dp_35"
-        android:background="@mipmap/my"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_activity_view" />
-    <TextView
-        android:layout_marginBottom="@dimen/dp_4"
-        android:textColor="@color/c_333333"
-        android:layout_marginTop="@dimen/dp_4"
-        android:id="@+id/main_activity_home_text"
-        android:textSize="@dimen/sp_10"
-        app:layout_constraintRight_toRightOf="@+id/main_activity_home_page"
-        app:layout_constraintLeft_toLeftOf="@+id/main_activity_home_page"
-        app:layout_constraintTop_toBottomOf="@+id/main_activity_home_page"
-        android:text="首页"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:textColor="@color/c_333333"
-        android:layout_marginBottom="@dimen/dp_4"
-        android:layout_marginTop="@dimen/dp_4"
-        android:id="@+id/main_activity_price_list_text"
-        android:textSize="@dimen/sp_10"
-        android:text="报价单"
-        app:layout_constraintRight_toRightOf="@+id/main_activity_price_list"
-        app:layout_constraintLeft_toLeftOf="@+id/main_activity_price_list"
-        app:layout_constraintTop_toBottomOf="@+id/main_activity_price_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:textColor="@color/c_333333"
-        android:layout_marginTop="@dimen/dp_4"
-        android:id="@+id/main_activity_retail_text"
-        android:textSize="@dimen/sp_10"
-        android:text="零售单"
-        app:layout_constraintTop_toBottomOf="@+id/main_activity_retail"
-        app:layout_constraintRight_toRightOf="@+id/main_activity_retail"
-        app:layout_constraintLeft_toLeftOf="@+id/main_activity_retail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/main_activity_my_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="我的"
+            android:textColor="@color/c_333333"
+            android:textSize="@dimen/sp_10" />
+
+
+    </LinearLayout>
 
     <TextView
-        android:textColor="@color/c_333333"
-        android:id="@+id/main_activity_my_text"
-        android:text="我的"
-        android:layout_marginTop="@dimen/dp_4"
-        android:textSize="@dimen/sp_10"
-        app:layout_constraintTop_toBottomOf="@id/main_activity_my"
-        app:layout_constraintRight_toRightOf="@id/main_activity_my"
-        app:layout_constraintLeft_toLeftOf="@id/main_activity_my"
+        android:id="@+id/main_activity_open_bill_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
-    <TextView
-        android:layout_marginTop="@dimen/dp_8"
-        android:id="@+id/main_activity_open_bill_text"
         android:layout_marginBottom="@dimen/dp_1"
-        android:textColor="@color/c_333333"
+        android:layout_marginTop="@dimen/dp_8"
         android:text="下单"
+        android:textColor="@color/c_333333"
         android:textSize="@dimen/sp_10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/main_activity_open_bill"
-        app:layout_constraintRight_toRightOf="@+id/main_activity_open_bill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        app:layout_constraintRight_toRightOf="@+id/main_activity_open_bill" />
 
     <jh.zkj.com.yf.Mview.MainViewPager
         android:id="@+id/home_activity_view_page"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/home_activity_view1"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/home_activity_view"
+        app:layout_constraintTop_toTopOf="parent">
+
     </jh.zkj.com.yf.Mview.MainViewPager>
 
+    <ImageView
+        app:layout_constraintRight_toLeftOf="@id/main_activity_retail_linear"
+        app:layout_constraintLeft_toRightOf="@id/main_activity_home_price_list_linear"
+        android:id="@+id/main_activity_open_bill"
+        android:layout_width="@dimen/dp_56"
+        android:layout_height="@dimen/dp_56"
+        android:background="@mipmap/xiadan"
+        app:layout_constraintTop_toTopOf="@id/home_activity_view1" />
 </android.support.constraint.ConstraintLayout>
