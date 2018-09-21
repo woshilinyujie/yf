@@ -74,6 +74,13 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
 
         popup = PopupUtils.getDefaultPopup();
         View view = View.inflate(activity, R.layout.popup_receivable_type, null);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popup.dismiss();
+            }
+        });
         view.findViewById(R.id.receivable_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +115,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
                 popup.dismiss();
             }
         });
+
         popup.setContentView(view);
 
         activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {

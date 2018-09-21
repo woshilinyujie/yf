@@ -52,7 +52,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <TextView
                 android:id="@+id/home_fragment_search"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_32"

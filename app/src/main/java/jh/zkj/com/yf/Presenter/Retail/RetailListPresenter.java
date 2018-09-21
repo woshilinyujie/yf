@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Presenter;
+package jh.zkj.com.yf.Presenter.Retail;
 
 import android.content.Context;
 import android.content.Intent;
@@ -49,22 +49,22 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
         twinklingRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
-                initFalseData(true, 10);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         refreshLayout.finishRefreshing();
+                        initFalseData(true, 10);
                     }
                 },2000);
             }
 
             @Override
             public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
-                initFalseData(false, 20);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         refreshLayout.finishLoadmore();
+                        initFalseData(false, 20);
                     }
                 },2000);
             }

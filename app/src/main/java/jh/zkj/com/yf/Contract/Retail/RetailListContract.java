@@ -4,8 +4,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
-import jh.zkj.com.yf.Presenter.RetailListPresenter;
-
 /**
  * Created by wdefer
  * on 2018/9/19

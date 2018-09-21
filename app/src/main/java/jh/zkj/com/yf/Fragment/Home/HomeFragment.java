@@ -39,7 +39,7 @@ public class HomeFragment extends MBaseFragment {
     @BindView(R.id.home_fragment_msg)
     ImageView homeFragmentMsg;
     @BindView(R.id.home_fragment_search)
-    EditText homeFragmentSearch;
+    TextView homeFragmentSearch;
     @BindView(R.id.home_fragment_common_menu_more)
     TextView homeFragmentCommonMenuMore;
     @BindView(R.id.home_fragment_common_menu_one)
@@ -147,7 +147,7 @@ public class HomeFragment extends MBaseFragment {
         return homeFragmentMsg;
     }
 
-    public EditText getHomeFragmentSearch() {
+    public TextView getHomeFragmentSearch() {
         return homeFragmentSearch;
     }
 

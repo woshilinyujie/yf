@@ -16,7 +16,7 @@ public class PopupUtils {
         PopupWindow popupWindow = new PopupWindow();
         popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0xB2000000));
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x66000000));
         popupWindow.setAnimationStyle(R.style.default_popup_animation);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
