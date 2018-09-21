@@ -1,11 +1,17 @@
 package jh.zkj.com.yf.Activity.My;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
 
-import com.jph.takephoto.app.TakePhotoActivity;
-import com.jph.takephoto.model.TResult;
+import org.devio.takephoto.app.TakePhotoActivity;
+import org.devio.takephoto.model.TImage;
+import org.devio.takephoto.model.TResult;
 
+import java.util.ArrayList;
+
+import jh.zkj.com.yf.Mview.photo.CustomHelper;
 import jh.zkj.com.yf.R;
 
 
@@ -16,26 +22,40 @@ import jh.zkj.com.yf.R;
 
 public class PhotoActivity extends TakePhotoActivity {
 
+    private CustomHelper customHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.activity_photo, null);
+        setContentView(contentView);
+        customHelper = CustomHelper.of(contentView);
+
+    }
+
+    public void onClick(View view) {
+        customHelper.onClick(view, getTakePhoto());
     }
 
     @Override
-    public void takeSuccess(TResult result){
-        showToast("takeSuccess");
-    }
-    @Override
-    public void takeFail(TResult result, String msg){
-        showToast("takeFail");
-    }
-    @Override
-    public void takeCancel(){
-        showToast("takeCancel");
+    public void takeCancel() {
+        super.takeCancel();
     }
 
-    public void showToast(String s){
-        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        showImg(result.getImages());
+    }
+
+    private void showImg(ArrayList<TImage> images) {
+//        Intent intent = new Intent(this, ResultActivity.class);
+//        intent.putExtra("images", images);
+//        startActivity(intent);
     }
 }

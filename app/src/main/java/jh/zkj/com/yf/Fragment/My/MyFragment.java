@@ -7,8 +7,26 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+
+import com.bumptech.glide.Glide;
+
+import org.devio.takephoto.app.TakePhoto;
+import org.devio.takephoto.model.TImage;
+import org.devio.takephoto.model.TResult;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Mview.CircleView;
+import jh.zkj.com.yf.Presenter.My.MyFragmentPreSenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -17,22 +35,95 @@ import jh.zkj.com.yf.R;
 
 public class MyFragment extends MBaseFragment {
     Activity activity;
+    @BindView(R.id.my_photo)
+    CircleView myPhoto;
+    @BindView(R.id.my_name)
+    TextView myName;
+    @BindView(R.id.my_company)
+    TextView myCompany;
+    @BindView(R.id.my_account_name)
+    TextView myAccountName;
+    @BindView(R.id.my_account_realtve)
+    RelativeLayout myAccountRealtve;
+    @BindView(R.id.my_phone)
+    TextView myPhone;
+    @BindView(R.id.my_phone_realtve)
+    RelativeLayout myPhoneRealtve;
+    @BindView(R.id.my_email)
+    TextView myEmail;
+    @BindView(R.id.my_email_relative)
+    RelativeLayout myEmailRelative;
+    @BindView(R.id.my_exit)
+    Button myExit;
+    Unbinder unbinder;
     private View rootView;
+    private MyFragmentPreSenter presenter;
 
     public static MyFragment newInstance() {
         MyFragment fragment = new MyFragment();
         return fragment;
     }
+
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity=getActivity();
+        activity = getActivity();
         rootView = View.inflate(activity, R.layout.my_fragment_layout, null);
+        unbinder = ButterKnife.bind(this, rootView);
+        presenter = new MyFragmentPreSenter(this);
+        presenter.initListener();
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick({R.id.my_photo, R.id.my_account_realtve, R.id.my_phone_realtve, R.id.my_email_relative, R.id.my_exit})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.my_photo: //头像
+                presenter.ClickPhoto();
+                break;
+            case R.id.my_account_realtve://账户名
+                break;
+            case R.id.my_phone_realtve://手机
+                break;
+            case R.id.my_email_relative://邮箱
+                break;
+            case R.id.my_exit://退出
+                break;
+        }
+    }
+
+    public CircleView getMyPhoto() {
+        return myPhoto;
+    }
+
+    @Override
+    public void takeCancel() {
+        super.takeCancel();
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        String iconPath = result.getImage().getOriginalPath();
+        Glide.with(this).load(iconPath).into(myPhoto);
+    }
+
+    public TakePhoto getFrameTakePhoto(){
+        return  getTakePhoto();
     }
 }

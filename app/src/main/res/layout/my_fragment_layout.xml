@@ -1,208 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
-    android:background="@color/c_f6f7fb"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/c_f6f7fb"
+    android:orientation="vertical">
 
 
     <android.support.constraint.ConstraintLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_136">
-        
-        
+        android:layout_height="@dimen/dp_136"
+        android:background="@color/white">
+
+
         <jh.zkj.com.yf.Mview.CircleView
-            android:src="@mipmap/photo"
             android:id="@+id/my_photo"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/dp_36"
-            android:layout_marginLeft="@dimen/dp_22"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_80" />
-        
-        
+            android:layout_height="@dimen/dp_80"
+            android:layout_marginLeft="@dimen/dp_22"
+            android:layout_marginTop="@dimen/dp_36"
+            android:src="@mipmap/photo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <LinearLayout
-            android:paddingLeft="@dimen/dp_16"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_16"
             app:layout_constraintBottom_toBottomOf="@id/my_photo"
-            app:layout_constraintTop_toTopOf="@id/my_photo"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@id/my_photo"
-            android:layout_width="0dp"
-            android:layout_height="0dp">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/my_photo">
 
 
             <TextView
-                android:textStyle="bold"
-                android:textSize="@dimen/sp_18"
+                android:id="@+id/my_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="城陵陵"
                 android:textColor="@color/c_333333"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/my_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
-                android:textSize="@dimen/sp_14"
                 android:text="杭州骏杭有限公司"
                 android:textColor="@color/c_a6a6a6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
 
-        
-        <ImageView
-            android:layout_marginRight="@dimen/dp_16"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@mipmap/right_lab"
-            android:layout_width="@dimen/dp_6"
-            android:layout_height="@dimen/dp_12" />
 
-        
+        <ImageView
+            android:layout_width="@dimen/dp_6"
+            android:layout_height="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_16"
+            android:background="@mipmap/right_lab"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </android.support.constraint.ConstraintLayout>
 
-    
+
     <RelativeLayout
-        android:background="@color/white"
+        android:id="@+id/my_account_realtve"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
         android:layout_marginTop="@dimen/dp_10"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44">
+        android:background="@color/white">
+
         <ImageView
-            android:background="@mipmap/yonghu"
-            android:layout_marginLeft="@dimen/dp_16"
-            android:layout_centerVertical="true"
             android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_18" />
+            android:layout_height="@dimen/dp_18"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:background="@mipmap/yonghu" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_44"
             android:text="用户名"
-            android:layout_marginLeft="@dimen/dp_44"
-            android:textSize="@dimen/sp_14"
             android:textColor="@color/c_333333"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/sp_14" />
+
         <TextView
-            android:layout_marginRight="@dimen/dp_24"
+            android:id="@+id/my_account_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_24"
             android:text="城陵陵"
-            android:textSize="@dimen/sp_14"
             android:textColor="@color/c_666666"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/sp_14" />
 
         <ImageView
+            android:layout_width="@dimen/dp_6"
+            android:layout_height="@dimen/dp_12"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_16"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@mipmap/right_lab"
-            android:layout_width="@dimen/dp_6"
-            android:layout_height="@dimen/dp_12" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
+
     <RelativeLayout
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/dp_1"
+        android:id="@+id/my_phone_realtve"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44">
+        android:layout_height="@dimen/dp_44"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white">
+
         <ImageView
-            android:background="@mipmap/shouji"
-            android:layout_marginLeft="@dimen/dp_16"
-            android:layout_centerVertical="true"
             android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_18" />
+            android:layout_height="@dimen/dp_18"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:background="@mipmap/shouji" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_44"
             android:text="手机号"
-            android:layout_marginLeft="@dimen/dp_44"
-            android:textSize="@dimen/sp_14"
             android:textColor="@color/c_333333"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/sp_14" />
+
         <TextView
-            android:layout_marginRight="@dimen/dp_24"
+            android:id="@+id/my_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_24"
             android:text="134****1234"
-            android:textSize="@dimen/sp_14"
             android:textColor="@color/c_666666"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/sp_14" />
 
         <ImageView
+            android:layout_width="@dimen/dp_6"
+            android:layout_height="@dimen/dp_12"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_16"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@mipmap/right_lab"
-            android:layout_width="@dimen/dp_6"
-            android:layout_height="@dimen/dp_12" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
+
     <RelativeLayout
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/dp_1"
+        android:id="@+id/my_email_relative"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44">
+        android:layout_height="@dimen/dp_44"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white">
+
         <ImageView
-            android:background="@mipmap/invalidname"
-            android:layout_marginLeft="@dimen/dp_16"
-            android:layout_centerVertical="true"
             android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_18" />
+            android:layout_height="@dimen/dp_18"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:background="@mipmap/invalidname" />
 
         <TextView
-            android:text="邮箱"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_44"
-            android:textSize="@dimen/sp_14"
+            android:text="邮箱"
             android:textColor="@color/c_333333"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/sp_14" />
+
         <TextView
-            android:layout_marginRight="@dimen/dp_24"
-            android:layout_alignParentRight="true"
-            android:text="1998***@qq.com"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/c_666666"
-            android:layout_centerVertical="true"
+            android:id="@+id/my_email"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_24"
+            android:text="1998***@qq.com"
+            android:textColor="@color/c_666666"
+            android:textSize="@dimen/sp_14" />
 
         <ImageView
+            android:layout_width="@dimen/dp_6"
+            android:layout_height="@dimen/dp_12"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_16"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@mipmap/right_lab"
-            android:layout_width="@dimen/dp_6"
-            android:layout_height="@dimen/dp_12" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
-    
-    
+
+
     <Button
+        android:id="@+id/my_exit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_135"
         android:background="@drawable/shape_radius_4_6fb1fc"
         android:gravity="center"
         android:text="退出当前帐号"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_14"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_135"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44" />
+        android:textSize="@dimen/sp_14" />
 </LinearLayout>
