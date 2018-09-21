@@ -24,6 +24,8 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
 
     @BindView(R.id.retail_list_recycler)
     RecyclerView recyclerView;
+    private RetailListPresenter presenter;
+
     public static RetailListFragment newInstance() {
         RetailListFragment fragment = new RetailListFragment();
         return fragment;
@@ -34,7 +36,7 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_retail_list, null);
         ButterKnife.bind(this, view);
-        RetailListPresenter presenter = new RetailListPresenter(this);
+        presenter = new RetailListPresenter(this);
         return view;
     }
 

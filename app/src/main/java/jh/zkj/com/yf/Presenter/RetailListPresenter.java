@@ -68,8 +68,11 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             bean.setNumber("共" + (int)(random * 7) +"件");
             bean.setOrderTitle("荣耀rx1 经典旗舰版；小米xxsssssss122223");
             bean.setDate("创建日期：2017-09-12");
+            bean.setMoney((int)(random * 10000) + ".0元");
             beans.add(bean);
         }
+
+        adapter.notifyData(beans);
     }
 
 
@@ -120,7 +123,6 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             }
 
             holder.orderStatus.setTextColor(color);
-            holder.orderStatus.setText(item.getDate());
             holder.name.setText(item.getName());
             holder.phone.setText(item.getPhone());
             holder.number.setText(item.getNumber());
