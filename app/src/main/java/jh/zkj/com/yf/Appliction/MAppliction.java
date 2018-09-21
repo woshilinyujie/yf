@@ -21,7 +21,7 @@ public class MAppliction extends Application {
     public void onCreate() {
         super.onCreate();
         initOkGo();
-        initX5();
+//        initX5();
     }
 
     public void initOkGo() {

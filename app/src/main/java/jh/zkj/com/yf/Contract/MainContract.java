@@ -19,18 +19,15 @@ public class MainContract {
         ImageView getMyIv();
         TextView getHomePageTv();
         TextView getPriceListTv();
-        TextView getOpenBillTv();
         TextView getRetailListTv();
         ViewPager getViewPager();
         TextView getMyTv();
         void setHomePageIvBg(int resource);
         void setPriceListBg(int resource);
-        void setOpenBillBg(int resource);
         void setRetailListBg(int resource);
         void setMyBg(int resource);
         void setHomePageTvColor(int color);
         void setPriceListColor(int color);
-        void setOpenBillColor(int color);
         void setRetailListColor(int color);
         void setMyColor(int color);
 

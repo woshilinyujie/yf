@@ -22,6 +22,7 @@
         <activity android:name=".Activity.RetailReceivableActivity"/>
         <activity android:name=".Activity.RetailOrderActivity"
                   android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name=".Activity.My.PhotoActivity"></activity>
     </application>
 
 </manifest>

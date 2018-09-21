@@ -54,24 +54,24 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         presenter.initPager(homeActivityViewPage);
     }
 
-    @OnClick({R.id.main_activity_home_page, R.id.main_activity_price_list, R.id.main_activity_open_bill, R.id.main_activity_retail, R.id.main_activity_my})
+    @OnClick({R.id.home_activity_home_page_linear, R.id.main_activity_home_price_list_linear, R.id.main_activity_retail_linear, R.id.main_activity_my_linear, R.id.main_activity_open_bill})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.main_activity_home_page://首页
+            case R.id.home_activity_home_page_linear://首页
                 presenter.selectHome();
                 break;
-            case R.id.main_activity_price_list://报价单
+            case R.id.main_activity_home_price_list_linear://报价单
                 presenter.selectPriceList();
-                break;
+            break;
             case R.id.main_activity_open_bill://开单
                 presenter.selectOpenBill();
                 break;
-            case R.id.main_activity_retail://零售单
+            case R.id.main_activity_retail_linear://零售单
                 presenter.selectRetailList();
-                break;
-            case R.id.main_activity_my://我的
+            break;
+            case R.id.main_activity_my_linear://我的
                 presenter.selectMy();
-                break;
+            break;
         }
     }
 
@@ -110,10 +110,6 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         return mainActivityPriceListText;
     }
 
-    @Override
-    public TextView getOpenBillTv() {
-        return mainActivityOpenBillText;
-    }
 
     @Override
     public TextView getRetailListTv() {
@@ -131,30 +127,25 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     }
 
 
-
     @Override
     public void setHomePageIvBg(int resource) {
-
+        mainActivityHomePage.setBackgroundResource(resource);
     }
 
     @Override
     public void setPriceListBg(int resource) {
-
+        mainActivityPriceList.setBackgroundResource(resource);
     }
 
-    @Override
-    public void setOpenBillBg(int resource) {
-
-    }
 
     @Override
     public void setRetailListBg(int resource) {
-
+        mainActivityRetailList.setBackgroundResource(resource);
     }
 
     @Override
     public void setMyBg(int resource) {
-
+        mainActivityMy.setBackgroundResource(resource);
     }
 
     @Override
@@ -167,10 +158,6 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         mainActivityPriceListText.setTextColor(color);
     }
 
-    @Override
-    public void setOpenBillColor(int color) {
-        mainActivityOpenBillText.setTextColor(color);
-    }
 
     @Override
     public void setRetailListColor(int color) {
@@ -181,4 +168,5 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     public void setMyColor(int color) {
         mainActivityMyText.setTextColor(color);
     }
+
 }

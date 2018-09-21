@@ -14,10 +14,10 @@ import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
-import jh.zkj.com.yf.Fragment.OpenBill.OpenBillFragment;
 import jh.zkj.com.yf.Fragment.PriceList.PriceListFragment;
 import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
 import jh.zkj.com.yf.Mview.MainViewPager;
+import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/9/17.
@@ -36,7 +36,6 @@ public class MainPresenter implements MainContract.IMainPresenter {
         fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance());
         fragments.add(PriceListFragment.newInstance());
-        fragments.add(OpenBillFragment.newInstance());
         fragments.add(RetailFragment.newInstance());
         fragments.add(MyFragment.newInstance());
         //预加载3页，缓存
@@ -48,56 +47,61 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
     @Override
     public void selectHome() {
-        activity.setHomePageTvColor(0xFFFF9500);
-        activity.setPriceListColor(0xff999999);
-        activity.setOpenBillColor(0xff999999);
-        activity.setRetailListColor(0xff999999);
-        activity.setMyColor(0xff999999);
+        activity.setHomePageTvColor(0xFF4fa3fb);
+        activity.setPriceListColor(0xff333333);
+        activity.setRetailListColor(0xff333333);
+        activity.setMyColor(0xff333333);
+        activity.setHomePageIvBg(R.mipmap.home_select);
+        activity.setPriceListBg(R.mipmap.quotation);
+        activity.setRetailListBg(R.mipmap.retail);
+        activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(0);
 
     }
 
     @Override
     public void selectPriceList() {
-        activity.setHomePageTvColor(0xFF999999);
-        activity.setPriceListColor(0xFFFF9500);
-        activity.setOpenBillColor(0xff999999);
-        activity.setRetailListColor(0xff999999);
-        activity.setMyColor(0xff999999);
+        activity.setHomePageTvColor(0xFF333333);
+        activity.setPriceListColor(0xFF4fa3fb);
+        activity.setRetailListColor(0xff333333);
+        activity.setMyColor(0xff333333);
+        activity.setHomePageIvBg(R.mipmap.home);
+        activity.setPriceListBg(R.mipmap.quotation_select);
+        activity.setRetailListBg(R.mipmap.retail);
+        activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(1);
     }
 
     @Override
     public void selectOpenBill() {
-        activity.setHomePageTvColor(0xFF999999);
-        activity.setPriceListColor(0xff999999);
-        activity.setOpenBillColor(0xFFFF9500);
-        activity.setRetailListColor(0xff999999);
-        activity.setMyColor(0xff999999);
-        activity.getViewPager().setCurrentItem(2);
-
         Intent intent = new Intent(activity, RetailOrderActivity.class);
         activity.startActivity(intent);
     }
 
     @Override
     public void selectRetailList() {
-        activity.setHomePageTvColor(0xFF999999);
-        activity.setPriceListColor(0xff999999);
-        activity.setOpenBillColor(0xff999999);
-        activity.setRetailListColor(0xFFFF9500);
-        activity.setMyColor(0xff999999);
-        activity.getViewPager().setCurrentItem(3);
+        activity.setHomePageTvColor(0xFF333333);
+        activity.setPriceListColor(0xff333333);
+        activity.setRetailListColor(0xFF4fa3fb);
+        activity.setMyColor(0xff333333);
+        activity.setHomePageIvBg(R.mipmap.home);
+        activity.setPriceListBg(R.mipmap.quotation);
+        activity.setRetailListBg(R.mipmap.retail_select);
+        activity.setMyBg(R.mipmap.my);
+        activity.getViewPager().setCurrentItem(2);
     }
 
     @Override
     public void selectMy() {
-        activity.setHomePageTvColor(0xFF999999);
-        activity.setPriceListColor(0xff999999);
-        activity.setOpenBillColor(0xff999999);
-        activity.setRetailListColor(0xff999999);
-        activity.setMyColor(0xFFFF9500);
-        activity.getViewPager().setCurrentItem(4);
+        activity.setHomePageTvColor(0xFF333333);
+        activity.setPriceListColor(0xff333333);
+        activity.setRetailListColor(0xff333333);
+        activity.setMyColor(0xFF4fa3fb);
+        activity.setHomePageIvBg(R.mipmap.home);
+        activity.setPriceListBg(R.mipmap.quotation);
+        activity.setRetailListBg(R.mipmap.retail);
+        activity.setMyBg(R.mipmap.my_select);
+        activity.getViewPager().setCurrentItem(3);
     }
 
 

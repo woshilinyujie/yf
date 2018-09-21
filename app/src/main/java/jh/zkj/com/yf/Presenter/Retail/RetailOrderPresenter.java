@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Presenter.Retail;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.Activity.OrderDetailsActivity;
 import jh.zkj.com.yf.Activity.RetailOrderActivity;
+import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Bean.OrderBean;
 import jh.zkj.com.yf.Contract.Retail.RetailOrderContract;
 import jh.zkj.com.yf.Mview.TitleLayout;
@@ -86,6 +89,12 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     @Override
     public void activityFinish() {
         activity.finish();
+    }
+
+    @Override
+    public void startOrderDetail() {
+        Intent intent = new Intent(activity, OrderDetailsActivity.class);
+        activity.startActivity(intent);
     }
 
 //    @Override
@@ -186,6 +195,14 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                 }
             });
 
+            holder.scan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, ScanActivity.class);
+                    activity.startActivity(intent);
+                }
+            });
+
 
             holder.newCommodity.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -236,6 +253,9 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             //新增商品
             @BindView(R.id.retail_order_new_commodity)
             ConstraintLayout newCommodity;
+            //扫描
+            @BindView(R.id.retail_order_price_scan)
+            ImageView scan;
 
             public ViewHolder(View itemView) {
                 super(itemView);

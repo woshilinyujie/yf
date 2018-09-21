@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- popupwindow打开动画 -->
+    <style name="default_popup_animation">
+        <item name="android:windowEnterAnimation">@anim/popup_end_to_top</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
 </resources>

@@ -24,6 +24,7 @@
         android:background="#ffffff">
 
         <TextView
+            android:id="@+id/retail_order_receivable"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_44"
             android:text="确认并收款"
@@ -37,6 +38,7 @@
             android:background="@color/c_6fb1fc"/>
 
         <TextView
+            android:id="@+id/retail_order_success"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_44"
             android:text="确认订单"

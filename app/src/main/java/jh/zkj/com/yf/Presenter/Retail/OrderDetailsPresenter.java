@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -60,6 +61,20 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         userPhone = activity.getUserPhone();
         recyclerView = activity.getRecyclerView();
         receivables = activity.getReceivables();
+
+        activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
+
+        activity.getTitleLayout().getRigthText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void initData() {

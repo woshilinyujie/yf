@@ -1,8 +1,11 @@
 package jh.zkj.com.yf.Contract.Retail;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import jh.zkj.com.yf.Mview.TitleLayout;
 
 /**
  * Created by wdefer
@@ -12,6 +15,7 @@ import android.widget.TextView;
 public class RetailReceivableContract {
     public interface IRetailOrderView{
 
+        ConstraintLayout getMainLayout();
         View getSpace();
         TextView getOrder();
         TextView getOrderStatus();
@@ -22,6 +26,7 @@ public class RetailReceivableContract {
         TextView getDate();
         TextView getMoney();
         RecyclerView getRecyclerView();
+        TitleLayout getTitleLayout();
     }
 
     public interface IRetailOrderPresenter{

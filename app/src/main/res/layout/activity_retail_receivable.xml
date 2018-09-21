@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
+    android:id="@+id/retail_receivable_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+        <jh.zkj.com.yf.Mview.TitleLayout
+            android:id="@+id/retail_receivable_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            app:leftImageBg="@mipmap/back_arrow"
+            app:leftImageWidthSize="@dimen/dp_12"
+            app:leftImageHeightSize="@dimen/dp_20"
+            app:leftMargin="@dimen/dp_16"
+            app:centerText="零售收款"
+            android:background="@color/white"/>
+
         <include
             android:id="@+id/retail_receivable_top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/item_retail_list"/>
+            layout="@layout/item_retail_list"
+            app:layout_constraintTop_toBottomOf="@id/retail_receivable_title"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/retail_receivable_recycler"

@@ -2,6 +2,7 @@ package jh.zkj.com.yf.Activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Contract.Retail.RetailReceivableContract;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Presenter.Retail.RetailReceivablePresenter;
 import jh.zkj.com.yf.R;
 
@@ -19,6 +21,8 @@ import jh.zkj.com.yf.R;
  */
 public class RetailReceivableActivity extends MBaseActivity implements RetailReceivableContract.IRetailOrderView {
 
+    @BindView(R.id.retail_receivable_main)
+    ConstraintLayout main;
     @BindView(R.id.retail_list_space)
     View space;
     @BindView(R.id.retail_list_order)
@@ -39,6 +43,8 @@ public class RetailReceivableActivity extends MBaseActivity implements RetailRec
     TextView money;
     @BindView(R.id.retail_receivable_recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.retail_receivable_title)
+    TitleLayout titleLayout;
     private RetailReceivablePresenter presenter;
 
     @Override
@@ -47,6 +53,11 @@ public class RetailReceivableActivity extends MBaseActivity implements RetailRec
         setContentView(R.layout.activity_retail_receivable);
         ButterKnife.bind(this);
         presenter = new RetailReceivablePresenter(this);
+    }
+
+    @Override
+    public ConstraintLayout getMainLayout() {
+        return main;
     }
 
     @Override
@@ -97,5 +108,10 @@ public class RetailReceivableActivity extends MBaseActivity implements RetailRec
     @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    @Override
+    public TitleLayout getTitleLayout() {
+        return titleLayout;
     }
 }

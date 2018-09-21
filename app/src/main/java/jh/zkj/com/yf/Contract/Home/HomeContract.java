@@ -12,6 +12,10 @@ public class HomeContract {
     }
     public interface IHomeFragmentPresenter{
         void initViewPager();
-
+        void initListener();
+        void scanClick();//点击扫描
+        void startSwitch();//开启文字轮播
+        void toRetailOrder();//零售下单
+        void toRetail();//零售查询
     }
 }

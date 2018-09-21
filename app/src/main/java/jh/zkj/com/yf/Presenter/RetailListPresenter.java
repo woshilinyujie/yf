@@ -2,11 +2,15 @@ package jh.zkj.com.yf.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,6 +32,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
     private RecyclerView recyclerView;
     private RetailListAdapter adapter;
     private ArrayList<RetailListBean> beans;
+    private TwinklingRefreshLayout twinklingRefreshLayout;
 
     public RetailListPresenter(RetailListFragment fragment){
         this.fragment = fragment;
@@ -37,7 +42,33 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
     private void initPresenter() {
         context = fragment.getContext();
         recyclerView = fragment.getRecyclerView();
+        twinklingRefreshLayout = fragment.getTwinklingRefreshLayout();
         initAdapter();
+
+
+        twinklingRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+                initFalseData(true, 10);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishRefreshing();
+                    }
+                },2000);
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+                initFalseData(false, 20);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishLoadmore();
+                    }
+                },2000);
+            }
+        });
     }
 
     private void initAdapter() {
@@ -48,14 +79,14 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
         beans = new ArrayList<>();
 
         //造假数据
-        initFalseData(true);
+        initFalseData(true, 10);
     }
 
-    private void initFalseData(boolean clear) {
+    private void initFalseData(boolean clear, int number) {
         if(clear)
             beans.clear();
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < number; i++){
             RetailListBean bean = new RetailListBean();
             double random = Math.random();
             bean.setOrder("订单编号：" + (int)(random * 100000000));

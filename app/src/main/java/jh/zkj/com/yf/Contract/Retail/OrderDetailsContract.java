@@ -3,9 +3,12 @@ package jh.zkj.com.yf.Contract.Retail;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import jh.zkj.com.yf.Mview.TitleLayout;
 
 /**
  * Created by wdefer
@@ -18,7 +21,7 @@ public class OrderDetailsContract {
         TextView getUserPhone();
         RecyclerView getRecyclerView();
         TextView getReceivables();
-
+        TitleLayout getTitleLayout();
     }
 
     public interface IRetailOrderPresenter{

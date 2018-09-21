@@ -7,6 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +31,8 @@ public class RetailFragment extends MBaseFragment implements RetailContract.IRet
     SlidingTabLayout slidingTab;
     @BindView(R.id.retail_viewpager)
     ViewPager viewPager;
+    @BindView(R.id.home_fragment_search)
+    TextView search;
     private RetailPresenter presenter;
 
     public static RetailFragment newInstance() {
@@ -60,4 +65,10 @@ public class RetailFragment extends MBaseFragment implements RetailContract.IRet
     public SlidingTabLayout getSlidingTab() {
         return slidingTab;
     }
+
+    @Override
+    public TextView getSearch() {
+        return search;
+    }
+
 }

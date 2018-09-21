@@ -3,9 +3,11 @@ package jh.zkj.com.yf.Presenter.Retail;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import butterknife.ButterKnife;
 import jh.zkj.com.yf.Activity.RetailReceivableActivity;
 import jh.zkj.com.yf.Bean.OrderBean;
 import jh.zkj.com.yf.Contract.Retail.RetailReceivableContract;
+import jh.zkj.com.yf.Mutils.PopupUtils;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
@@ -31,6 +34,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
     private ArrayList<FalseBean> beans = new ArrayList<>();
 
     private double totalMoney = 2128.00;
+    private PopupWindow popup;
 
     public RetailReceivablePresenter(RetailReceivableActivity activity) {
         this.activity = activity;
@@ -44,6 +48,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
             FalseBean bean = new FalseBean();
             bean.setMoney(money);
             bean.setPs("");
+            bean.setType("");
             beans.add(bean);
         }else{
             if (beans.size() > position)
@@ -66,13 +71,58 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
     private void initView() {
         recyclerView = activity.getRecyclerView();
         activity.getSpace().setVisibility(View.GONE);
+
+        popup = PopupUtils.getDefaultPopup();
+        View view = View.inflate(activity, R.layout.popup_receivable_type, null);
+        view.findViewById(R.id.receivable_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popup.dismiss();
+            }
+        });
+        view.findViewById(R.id.item_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.setReceivableType("支付宝");
+                popup.dismiss();
+            }
+        });
+        view.findViewById(R.id.item_2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.setReceivableType("微信");
+                popup.dismiss();
+            }
+        });
+        view.findViewById(R.id.item_3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.setReceivableType("银行卡");
+                popup.dismiss();
+            }
+        });
+        view.findViewById(R.id.item_4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.setReceivableType("零钱");
+                popup.dismiss();
+            }
+        });
+        popup.setContentView(view);
+
+        activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
     }
 
     /**
      * 使用：
      */
     class RetailReceivableAdapter extends RecyclerView.Adapter<RetailReceivableAdapter.ViewHolder> {
-
+        private int selectPosition = 0;
         private ArrayList<FalseBean> mArr = new ArrayList<>();
 
         //后期传入刷新
@@ -95,6 +145,11 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
             return null;
         }
 
+        public void setReceivableType(String s){
+            mArr.get(selectPosition).setType(s);
+            notifyDataSetChanged();
+        }
+
         @Override
         public int getItemViewType(int position) {
             return super.getItemViewType(position);
@@ -103,6 +158,9 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             final FalseBean item = getItem(position);
+            if(item == null)
+                return;
+            holder.type.setText(item.getType());
             holder.money.setText(String.valueOf(item.getMoney()));
             holder.ps.setText(item.getPs());
 
@@ -153,7 +211,8 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
             holder.type.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    selectPosition = position;
+                    popup.showAtLocation(activity.getMainLayout(), Gravity.CENTER,0,0);
                 }
             });
         }
@@ -191,8 +250,17 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
     }
 
     class FalseBean{
+        private String type;
         private double money;
         private String ps;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
 
         public double getMoney() {
             return money;

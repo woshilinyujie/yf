@@ -5,12 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Contract.Retail.OrderDetailsContract;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Presenter.Retail.OrderDetailsPresenter;
 import jh.zkj.com.yf.R;
 
@@ -32,6 +34,9 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
     //去收款
     @BindView(R.id.order_detail_receivables)
     TextView receivables;
+    //title
+    @BindView(R.id.order_detail_title)
+    TitleLayout titleLayout;
     //汇总金额
 //    @BindView(R.id.order_detail_total_amount)
 //    TextView totalAmount;
@@ -72,6 +77,11 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
     @Override
     public TextView getReceivables() {
         return receivables;
+    }
+
+    @Override
+    public TitleLayout getTitleLayout() {
+        return titleLayout;
     }
 
 }
