@@ -15,6 +15,7 @@ import jh.zkj.com.yf.Fragment.My.MyFragment;
 import jh.zkj.com.yf.Fragment.PriceList.PriceListFragment;
 import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
 import jh.zkj.com.yf.Mview.MainViewPager;
+import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/9/17.
@@ -44,22 +45,28 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
     @Override
     public void selectHome() {
-        activity.setHomePageTvColor(0xFFFF9500);
-        activity.setPriceListColor(0xff999999);
-        activity.setOpenBillColor(0xff999999);
-        activity.setRetailListColor(0xff999999);
-        activity.setMyColor(0xff999999);
+        activity.setHomePageTvColor(0xFF4fa3fb);
+        activity.setPriceListColor(0xff333333);
+        activity.setRetailListColor(0xff333333);
+        activity.setMyColor(0xff333333);
+        activity.setHomePageIvBg(R.mipmap.home_select);
+        activity.setPriceListBg(R.mipmap.quotation);
+        activity.setRetailListBg(R.mipmap.retail);
+        activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(0);
 
     }
 
     @Override
     public void selectPriceList() {
-        activity.setHomePageTvColor(0xFF999999);
-        activity.setPriceListColor(0xFFFF9500);
-        activity.setOpenBillColor(0xff999999);
-        activity.setRetailListColor(0xff999999);
-        activity.setMyColor(0xff999999);
+        activity.setHomePageTvColor(0xFF333333);
+        activity.setPriceListColor(0xFF4fa3fb);
+        activity.setRetailListColor(0xff333333);
+        activity.setMyColor(0xff333333);
+        activity.setHomePageIvBg(R.mipmap.home);
+        activity.setPriceListBg(R.mipmap.quotation_select);
+        activity.setRetailListBg(R.mipmap.retail);
+        activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(1);
     }
 
@@ -70,21 +77,27 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
     @Override
     public void selectRetailList() {
-        activity.setHomePageTvColor(0xFF999999);
-        activity.setPriceListColor(0xff999999);
-        activity.setOpenBillColor(0xff999999);
-        activity.setRetailListColor(0xFFFF9500);
-        activity.setMyColor(0xff999999);
+        activity.setHomePageTvColor(0xFF333333);
+        activity.setPriceListColor(0xff333333);
+        activity.setRetailListColor(0xFF4fa3fb);
+        activity.setMyColor(0xff333333);
+        activity.setHomePageIvBg(R.mipmap.home);
+        activity.setPriceListBg(R.mipmap.quotation);
+        activity.setRetailListBg(R.mipmap.retail_select);
+        activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(3);
     }
 
     @Override
     public void selectMy() {
-        activity.setHomePageTvColor(0xFF999999);
-        activity.setPriceListColor(0xff999999);
-        activity.setOpenBillColor(0xff999999);
-        activity.setRetailListColor(0xff999999);
-        activity.setMyColor(0xFFFF9500);
+        activity.setHomePageTvColor(0xFF333333);
+        activity.setPriceListColor(0xff333333);
+        activity.setRetailListColor(0xff333333);
+        activity.setMyColor(0xFF4fa3fb);
+        activity.setHomePageIvBg(R.mipmap.home);
+        activity.setPriceListBg(R.mipmap.quotation);
+        activity.setRetailListBg(R.mipmap.retail);
+        activity.setMyBg(R.mipmap.my_select);
         activity.getViewPager().setCurrentItem(4);
     }
 

@@ -110,10 +110,6 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         return mainActivityPriceListText;
     }
 
-    @Override
-    public TextView getOpenBillTv() {
-        return mainActivityOpenBillText;
-    }
 
     @Override
     public TextView getRetailListTv() {
@@ -134,27 +130,23 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
 
     @Override
     public void setHomePageIvBg(int resource) {
-
+        mainActivityHomePage.setBackgroundResource(resource);
     }
 
     @Override
     public void setPriceListBg(int resource) {
-
+        mainActivityPriceList.setBackgroundResource(resource);
     }
 
-    @Override
-    public void setOpenBillBg(int resource) {
-
-    }
 
     @Override
     public void setRetailListBg(int resource) {
-
+        mainActivityRetailList.setBackgroundResource(resource);
     }
 
     @Override
     public void setMyBg(int resource) {
-
+        mainActivityMy.setBackgroundResource(resource);
     }
 
     @Override
@@ -167,10 +159,6 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         mainActivityPriceListText.setTextColor(color);
     }
 
-    @Override
-    public void setOpenBillColor(int color) {
-        mainActivityOpenBillText.setTextColor(color);
-    }
 
     @Override
     public void setRetailListColor(int color) {
