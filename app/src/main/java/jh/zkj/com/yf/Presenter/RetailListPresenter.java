@@ -1,6 +1,7 @@
 package jh.zkj.com.yf.Presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
+import jh.zkj.com.yf.Activity.OrderDetailsActivity;
 import jh.zkj.com.yf.Contract.Retail.RetailListContract;
 import jh.zkj.com.yf.Fragment.Retail.RetailListFragment;
 import jh.zkj.com.yf.R;
@@ -110,7 +112,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            RetailListBean item = getItem(position);
+            final RetailListBean item = getItem(position);
             holder.order.setText(item.getOrder());
             int color;
             if("1".equals(item.getOrderStatus())){
@@ -129,6 +131,17 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             holder.orderTitle.setText(item.getOrderTitle());
             holder.date.setText(item.getDate());
             holder.money.setText(item.getMoney());
+
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, OrderDetailsActivity.class);
+                    intent.putExtra("order_status", item.getOrderStatus());
+                    fragment.startActivity(intent);
+                }
+            });
+
         }
 
         @Override
@@ -146,8 +159,10 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             public TextView orderTitle;
             public TextView date;
             public TextView money;
+            public View itemView;
             public ViewHolder(View itemView) {
                 super(itemView);
+                this.itemView = itemView;
                 order = itemView.findViewById(R.id.retail_list_order);
                 orderStatus = itemView.findViewById(R.id.retail_list_order_status);
                 name = itemView.findViewById(R.id.retail_list_name);

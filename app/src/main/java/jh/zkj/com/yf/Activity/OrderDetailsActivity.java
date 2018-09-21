@@ -3,12 +3,15 @@ package jh.zkj.com.yf.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jh.zkj.com.yf.Contract.Retail.OrderDetailsContract;
+import jh.zkj.com.yf.Presenter.Retail.OrderDetailsPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -17,19 +20,38 @@ import jh.zkj.com.yf.R;
  * use零售订单
  */
 public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsContract.IRetailOrderView{
+    //客户姓名
     @BindView(R.id.order_detail_user_name)
     TextView userName;
+    //手机号码
     @BindView(R.id.order_detail_phone)
     TextView userPhone;
+    //列表
     @BindView(R.id.order_detail_recycler)
     RecyclerView recyclerView;
+    //去收款
+    @BindView(R.id.order_detail_receivables)
+    TextView receivables;
+    //汇总金额
+//    @BindView(R.id.order_detail_total_amount)
+//    TextView totalAmount;
+    private OrderDetailsPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
         ButterKnife.bind(this);
+        presenter = new OrderDetailsPresenter(this);
+    }
 
+    @OnClick({R.id.order_detail_receivables})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.order_detail_receivables://去收款
+                presenter.toReceivables();
+                break;
+        }
     }
 
     @Override
@@ -46,4 +68,10 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
     public RecyclerView getRecyclerView() {
         return recyclerView;
     }
+
+    @Override
+    public TextView getReceivables() {
+        return receivables;
+    }
+
 }

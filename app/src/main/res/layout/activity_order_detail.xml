@@ -59,7 +59,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/retail_submit_layout"
+        app:layout_constraintBottom_toTopOf="@id/order_detail_receivables"
         app:layout_constraintTop_toBottomOf="@id/order_detail_number_layout">
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,9 +102,7 @@
                     android:id="@+id/order_detail_user_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toRightOf="@id/order_detail_user_name"
-                    android:hint="请输入姓名"
-                    android:background="@null"
+                    app:layout_constraintLeft_toRightOf="@id/order_detail_user_name_text"
                     android:textSize="@dimen/sp_14"
                     android:layout_marginLeft="@dimen/dp_38"
                     android:textColor="@color/c_333333"
@@ -112,8 +110,8 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:ellipsize="end"
+                    android:text="wdefer"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             </android.support.constraint.ConstraintLayout>
@@ -148,9 +146,7 @@
                     android:id="@+id/order_detail_phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toRightOf="@id/order_detail_phone"
-                    android:hint="请输入手机号码"
-                    android:background="@null"
+                    app:layout_constraintLeft_toRightOf="@id/order_detail_phone_text"
                     android:textSize="@dimen/sp_14"
                     android:layout_marginLeft="@dimen/dp_38"
                     android:textColor="@color/c_333333"
@@ -159,6 +155,7 @@
                     android:lines="1"
                     android:ellipsize="end"
                     android:inputType="phone"
+                    android:text="156xxxxxxxx"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -168,10 +165,19 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/order_detail_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
+    <TextView
+        android:id="@+id/order_detail_receivables"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:text="去收款"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/c_6fb1fc"
+        android:gravity="center"/>
 
 </android.support.constraint.ConstraintLayout>
