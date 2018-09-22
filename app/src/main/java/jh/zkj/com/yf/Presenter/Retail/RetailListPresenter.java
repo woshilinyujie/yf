@@ -15,7 +15,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import java.util.ArrayList;
 import java.util.Random;
 
-import jh.zkj.com.yf.Activity.OrderDetailsActivity;
+import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
 import jh.zkj.com.yf.Contract.Retail.RetailListContract;
 import jh.zkj.com.yf.Fragment.Retail.RetailListFragment;
 import jh.zkj.com.yf.R;

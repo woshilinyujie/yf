@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Presenter.Retail;
+package jh.zkj.com.yf.Presenter.Order;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jh.zkj.com.yf.Activity.OrderDetailsActivity;
-import jh.zkj.com.yf.Activity.RetailOrderActivity;
+import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
+import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Bean.OrderBean;
-import jh.zkj.com.yf.Contract.Retail.RetailOrderContract;
+import jh.zkj.com.yf.Contract.Order.RetailOrderContract;
 import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;

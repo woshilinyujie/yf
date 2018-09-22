@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Presenter.Retail;
+package jh.zkj.com.yf.Presenter.Order;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -15,11 +14,11 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jh.zkj.com.yf.Activity.OrderDetailsActivity;
-import jh.zkj.com.yf.Activity.RetailReceivableActivity;
+import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
+import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
 import jh.zkj.com.yf.Bean.OrderBean;
 import jh.zkj.com.yf.BuildConfig;
-import jh.zkj.com.yf.Contract.Retail.OrderDetailsContract;
+import jh.zkj.com.yf.Contract.Order.OrderDetailsContract;
 import jh.zkj.com.yf.R;
 
 /**
