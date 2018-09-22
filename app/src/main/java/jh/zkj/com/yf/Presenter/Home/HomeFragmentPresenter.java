@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.RetailOrderActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Contract.Home.HomeContract;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
@@ -69,6 +70,17 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
         homeFragment.getHomeFragmentSwitchText().setDelayMillis(3000);
         homeFragment.getHomeFragmentSwitchText().setData(tipData);
         homeFragment.getHomeFragmentSwitchText().start();
+    }
+
+    @Override
+    public void toRetailOrder() {
+        Intent intent = new Intent(activity, RetailOrderActivity.class);
+        activity.startActivity(intent);
+    }
+
+    @Override
+    public void toRetail() {
+
     }
 
 

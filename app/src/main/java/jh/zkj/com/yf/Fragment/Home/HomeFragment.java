@@ -39,7 +39,7 @@ public class HomeFragment extends MBaseFragment {
     @BindView(R.id.home_fragment_msg)
     ImageView homeFragmentMsg;
     @BindView(R.id.home_fragment_search)
-    EditText homeFragmentSearch;
+    TextView homeFragmentSearch;
     @BindView(R.id.home_fragment_common_menu_more)
     TextView homeFragmentCommonMenuMore;
     @BindView(R.id.home_fragment_common_menu_one)
@@ -121,6 +121,7 @@ public class HomeFragment extends MBaseFragment {
             case R.id.home_fragment_common_menu_more://常用更多
                 break;
             case R.id.home_fragment_common_menu_one://常用1
+                presenter.toRetailOrder();
                 break;
             case R.id.home_fragment_common_menu_two://常用2
                 break;
@@ -146,7 +147,7 @@ public class HomeFragment extends MBaseFragment {
         return homeFragmentMsg;
     }
 
-    public EditText getHomeFragmentSearch() {
+    public TextView getHomeFragmentSearch() {
         return homeFragmentSearch;
     }
 

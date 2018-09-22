@@ -1,16 +1,24 @@
 package jh.zkj.com.yf.Presenter.Retail;
 
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Activity.OrderDetailsActivity;
+import jh.zkj.com.yf.Activity.RetailReceivableActivity;
+import jh.zkj.com.yf.Bean.OrderBean;
+import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Retail.OrderDetailsContract;
 import jh.zkj.com.yf.R;
 
@@ -26,10 +34,15 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     private TextView userPhone;
     private RecyclerView recyclerView;
     private OrderDetailsAdapter adapter;
+    private ArrayList<OrderBean> beans = new ArrayList<>();
+    DecimalFormat dFormat = new DecimalFormat("#.00");
+    private TextView receivables;
+
 
     public OrderDetailsPresenter(OrderDetailsActivity activity) {
         this.activity = activity;
         initView();
+        initData();
         initAdapter();
     }
 
@@ -38,6 +51,8 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         recyclerView.setLayoutManager(layoutManager);
         adapter = new OrderDetailsAdapter();
         recyclerView.setAdapter(adapter);
+
+        initFalseData();
     }
 
 
@@ -45,22 +60,77 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         userName = activity.getUserName();
         userPhone = activity.getUserPhone();
         recyclerView = activity.getRecyclerView();
+        receivables = activity.getReceivables();
 
-        initFalseData();
+        activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
+
+        activity.getTitleLayout().getRigthText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    private void initData() {
+        String orderStatus = activity.getIntent().getStringExtra("order_status");
+        if("0".equals(orderStatus)){
+            receivables.setVisibility(View.GONE);
+        }else{
+            receivables.setVisibility(View.VISIBLE);
+        }
+        //嵌套scrollview需要禁止滑动
+        recyclerView.setNestedScrollingEnabled(false);
     }
 
     private void initFalseData() {
+        double random = Math.random();
+        int num = (int)(random * 10);
 
+        if(BuildConfig.DEBUG){
+            Log.e("wdefer" , "num == " + num);
+        }
+
+        for (int i = 0 ; i < num; i++){
+            OrderBean bean = new OrderBean();
+            bean.setCommodityNumber(String.valueOf((int)(random * 100000000)));
+            bean.setName("你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好");
+
+            bean.setNum((long)((Math.random() + 0.1) * 10));
+            double price = (Math.random() * 1000);
+            Double aDouble = Double.valueOf(dFormat.format(price));
+            bean.setPrice(String.valueOf(aDouble));
+
+            double totalPrice = aDouble * bean.getNum();
+            bean.setTotalPrice(String.valueOf(dFormat.format(totalPrice)));
+
+            bean.setPs("");
+//            bean.setPosition(position);
+            beans.add(bean);
+        }
+        adapter.notifyData(beans);
+
+    }
+
+    @Override
+    public void toReceivables() {
+        Intent intent = new Intent(activity, RetailReceivableActivity.class);
+        activity.startActivity(intent);
     }
 
     /**
      * 使用：
      */
     class OrderDetailsAdapter extends RecyclerView.Adapter<OrderDetailsAdapter.ViewHolder> {
-        private ArrayList<Object> mArr = new ArrayList<>();
+        private ArrayList<OrderBean> mArr = new ArrayList<>();
 
         //后期传入刷新
-        public void notifyData(ArrayList<Object> arr) {
+        public void notifyData(ArrayList<OrderBean> arr) {
             mArr.clear();
             mArr.addAll(arr);
             notifyDataSetChanged();
@@ -72,7 +142,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
             return new ViewHolder(view);
         }
 
-        public Object getItem(int position) {
+        public OrderBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
@@ -86,6 +156,26 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
+            OrderBean item = getItem(position);
+            holder.commodityPhone.setText(item.getCommodityNumber());
+            holder.name.setText(item.getName());
+            holder.price.setText(item.getPrice());
+            holder.commodityNum.setText(String.valueOf(item.getNum()));
+            holder.totalPrice.setText(item.getTotalPrice());
+            holder.ps.setText(item.getPs());
+
+            if (position == mArr.size() - 1){
+                holder.totalAmountLayout.setVisibility(View.VISIBLE);
+                double total = 0;
+                for (int i = 0; i < mArr.size(); i++){
+                    total += Double.parseDouble(mArr.get(i).getTotalPrice());
+                }
+                Double dTotal = Double.valueOf(dFormat.format(total));
+                holder.totalAmount.setText(String.valueOf(dTotal));
+            }else{
+                holder.totalAmountLayout.setVisibility(View.GONE);
+            }
+
 
         }
 
@@ -117,6 +207,11 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
             TextView ps;
             @BindView(R.id.order_details_ps_tv)
             TextView tvPs;
+            //汇总金额
+            @BindView(R.id.order_detail_total_amount_layout)
+            ConstraintLayout totalAmountLayout;
+            @BindView(R.id.order_detail_total_amount)
+            TextView totalAmount;
 
             public ViewHolder(View itemView) {
                 super(itemView);

@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Contract.Retail.RetailListContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
-import jh.zkj.com.yf.Presenter.RetailListPresenter;
+import jh.zkj.com.yf.Presenter.Retail.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -24,6 +26,8 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
 
     @BindView(R.id.retail_list_recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.retail_list_refresh)
+    TwinklingRefreshLayout refresh;
     private RetailListPresenter presenter;
 
     public static RetailListFragment newInstance() {
@@ -43,6 +47,11 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    @Override
+    public TwinklingRefreshLayout getTwinklingRefreshLayout() {
+        return refresh;
     }
 
     @Override

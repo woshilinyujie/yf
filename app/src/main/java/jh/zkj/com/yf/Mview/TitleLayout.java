@@ -168,4 +168,13 @@ public class TitleLayout extends RelativeLayout {
         titleCenterText.setText(title);
     }
 
+    //返回左iv
+    public ImageView getLetfImage(){
+        return titleLetfImage;
+    }
+    //返回又tv
+    public TextView getRigthText(){
+        return titleRightText;
+    }
+
 }

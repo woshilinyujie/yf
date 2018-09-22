@@ -1,15 +1,21 @@
-package jh.zkj.com.yf.Presenter;
+package jh.zkj.com.yf.Presenter.Retail;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.Random;
 
+import jh.zkj.com.yf.Activity.OrderDetailsActivity;
 import jh.zkj.com.yf.Contract.Retail.RetailListContract;
 import jh.zkj.com.yf.Fragment.Retail.RetailListFragment;
 import jh.zkj.com.yf.R;
@@ -26,6 +32,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
     private RecyclerView recyclerView;
     private RetailListAdapter adapter;
     private ArrayList<RetailListBean> beans;
+    private TwinklingRefreshLayout twinklingRefreshLayout;
 
     public RetailListPresenter(RetailListFragment fragment){
         this.fragment = fragment;
@@ -35,7 +42,33 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
     private void initPresenter() {
         context = fragment.getContext();
         recyclerView = fragment.getRecyclerView();
+        twinklingRefreshLayout = fragment.getTwinklingRefreshLayout();
         initAdapter();
+
+
+        twinklingRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishRefreshing();
+                        initFalseData(true, 10);
+                    }
+                },2000);
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishLoadmore();
+                        initFalseData(false, 20);
+                    }
+                },2000);
+            }
+        });
     }
 
     private void initAdapter() {
@@ -46,14 +79,14 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
         beans = new ArrayList<>();
 
         //造假数据
-        initFalseData(true);
+        initFalseData(true, 10);
     }
 
-    private void initFalseData(boolean clear) {
+    private void initFalseData(boolean clear, int number) {
         if(clear)
             beans.clear();
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < number; i++){
             RetailListBean bean = new RetailListBean();
             double random = Math.random();
             bean.setOrder("订单编号：" + (int)(random * 100000000));
@@ -110,7 +143,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            RetailListBean item = getItem(position);
+            final RetailListBean item = getItem(position);
             holder.order.setText(item.getOrder());
             int color;
             if("1".equals(item.getOrderStatus())){
@@ -129,6 +162,17 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             holder.orderTitle.setText(item.getOrderTitle());
             holder.date.setText(item.getDate());
             holder.money.setText(item.getMoney());
+
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, OrderDetailsActivity.class);
+                    intent.putExtra("order_status", item.getOrderStatus());
+                    fragment.startActivity(intent);
+                }
+            });
+
         }
 
         @Override
@@ -146,8 +190,10 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             public TextView orderTitle;
             public TextView date;
             public TextView money;
+            public View itemView;
             public ViewHolder(View itemView) {
                 super(itemView);
+                this.itemView = itemView;
                 order = itemView.findViewById(R.id.retail_list_order);
                 orderStatus = itemView.findViewById(R.id.retail_list_order_status);
                 name = itemView.findViewById(R.id.retail_list_name);

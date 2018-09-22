@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Presenter.Retail;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +14,12 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.Activity.OrderDetailsActivity;
 import jh.zkj.com.yf.Activity.RetailOrderActivity;
+import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Bean.OrderBean;
 import jh.zkj.com.yf.Contract.Retail.RetailOrderContract;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 //import jh.zkj.com.yf.Fragment.Retail.RetailOrderFragment;
@@ -35,6 +39,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     private EditText userPhone;
     private RetailOrderAdapter adapter;
     private ArrayList<OrderBean> beans = new ArrayList<>();
+    private TitleLayout titleLayout;
     //    private RetailOrderFragment fragment;
 
     public RetailOrderPresenter(RetailOrderActivity activity) {
@@ -50,9 +55,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         recyclerView.setAdapter(adapter);
         //嵌套scrollview需要禁止滑动
         recyclerView.setNestedScrollingEnabled(false);
-//        recyclerView.setHasFixedSize(true);
-//        //解决数据加载完成后, 没有停留在顶部的问题
-//        recyclerView.setFocusable(false);
 
         changeFalseData(TYPE_ITEM_ADD, 0);
     }
@@ -82,6 +84,17 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         recyclerView = activity.getRecyclerView();
         userName = activity.getUserName();
         userPhone = activity.getUserPhone();
+    }
+
+    @Override
+    public void activityFinish() {
+        activity.finish();
+    }
+
+    @Override
+    public void startOrderDetail() {
+        Intent intent = new Intent(activity, OrderDetailsActivity.class);
+        activity.startActivity(intent);
     }
 
 //    @Override
@@ -182,6 +195,14 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                 }
             });
 
+            holder.scan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, ScanActivity.class);
+                    activity.startActivity(intent);
+                }
+            });
+
 
             holder.newCommodity.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -232,6 +253,9 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             //新增商品
             @BindView(R.id.retail_order_new_commodity)
             ConstraintLayout newCommodity;
+            //扫描
+            @BindView(R.id.retail_order_price_scan)
+            ImageView scan;
 
             public ViewHolder(View itemView) {
                 super(itemView);

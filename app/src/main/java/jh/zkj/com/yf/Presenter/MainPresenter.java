@@ -88,7 +88,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setPriceListBg(R.mipmap.quotation);
         activity.setRetailListBg(R.mipmap.retail_select);
         activity.setMyBg(R.mipmap.my);
-        activity.getViewPager().setCurrentItem(3);
+        activity.getViewPager().setCurrentItem(2);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setPriceListBg(R.mipmap.quotation);
         activity.setRetailListBg(R.mipmap.retail);
         activity.setMyBg(R.mipmap.my_select);
-        activity.getViewPager().setCurrentItem(4);
+        activity.getViewPager().setCurrentItem(3);
     }
 
 
