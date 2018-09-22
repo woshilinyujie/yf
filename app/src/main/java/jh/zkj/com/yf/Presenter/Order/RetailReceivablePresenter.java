@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Presenter.Retail;
+package jh.zkj.com.yf.Presenter.Order;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +14,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jh.zkj.com.yf.Activity.RetailReceivableActivity;
-import jh.zkj.com.yf.Bean.OrderBean;
-import jh.zkj.com.yf.Contract.Retail.RetailReceivableContract;
+import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
+import jh.zkj.com.yf.Contract.Order.RetailReceivableContract;
 import jh.zkj.com.yf.Mutils.PopupUtils;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;

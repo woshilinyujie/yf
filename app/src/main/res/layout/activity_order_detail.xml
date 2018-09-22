@@ -47,16 +47,7 @@
             android:textColor="@color/c_333333"
             android:textSize="@dimen/sp_12"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/order_detail_block"
-            android:layout_marginLeft="@dimen/dp_6"
-            android:text="订单编号：123455567"
-            android:textColor="@color/c_333333"
-            android:textSize="@dimen/sp_12"/>
+
 
         <TextView
             android:layout_width="wrap_content"

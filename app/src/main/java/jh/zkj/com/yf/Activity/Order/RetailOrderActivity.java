@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Activity;
+package jh.zkj.com.yf.Activity.Order;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,15 +11,16 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jh.zkj.com.yf.Contract.Retail.RetailOrderContract;
+import jh.zkj.com.yf.Activity.MBaseActivity;
+import jh.zkj.com.yf.Contract.Order.RetailOrderContract;
 import jh.zkj.com.yf.Mview.TitleLayout;
-import jh.zkj.com.yf.Presenter.Retail.RetailOrderPresenter;
+import jh.zkj.com.yf.Presenter.Order.RetailOrderPresenter;
 import jh.zkj.com.yf.R;
 
 /**
  * Created by wdefer
  * on 2018.9.19
- * use 零售下单
+ * use 下单
  */
 
 public class RetailOrderActivity extends MBaseActivity implements RetailOrderContract.IRetailOrderView {
