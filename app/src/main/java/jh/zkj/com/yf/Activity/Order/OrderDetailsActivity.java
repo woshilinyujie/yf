@@ -58,29 +58,34 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
         }
     }
 
-    @Override
     public TextView getUserName() {
         return userName;
     }
 
-    @Override
     public TextView getUserPhone() {
         return userPhone;
     }
 
-    @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
     }
 
-    @Override
     public TextView getReceivables() {
         return receivables;
     }
 
-    @Override
     public TitleLayout getTitleLayout() {
         return titleLayout;
+    }
+
+    @Override
+    public void setReceivablesVisibility(int visibility) {
+        receivables.setVisibility(visibility);
+    }
+
+    @Override
+    public void setNestedScrollingEnabled(boolean b) {
+        recyclerView.setNestedScrollingEnabled(b);
     }
 
 }

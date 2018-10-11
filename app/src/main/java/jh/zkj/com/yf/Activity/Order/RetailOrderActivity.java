@@ -70,27 +70,23 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
                 presenter.startOrderDetail();
                 break;
             case R.id.retail_order_success:
-                presenter.activityFinish();
+                presenter.startOrderSubmitActivity();
                 break;
         }
     }
 
-    @Override
     public EditText getUserName() {
         return name;
     }
 
-    @Override
     public EditText getUserPhone() {
         return phone;
     }
 
-    @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
     }
 
-    @Override
     public TitleLayout getTitleLayout() {
         return titleLayout;
     }

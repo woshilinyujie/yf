@@ -22,28 +22,40 @@ import jh.zkj.com.yf.R;
  */
 public class RetailReceivableActivity extends MBaseActivity implements RetailReceivableContract.IRetailOrderView {
 
+    //main
     @BindView(R.id.retail_receivable_main)
     ConstraintLayout main;
+    //占位
     @BindView(R.id.retail_list_space)
     View space;
+    //订单编号
     @BindView(R.id.retail_list_order)
     TextView order;
+    //是否收款
     @BindView(R.id.retail_list_order_status)
     TextView orderStatus;
+    //客户姓名
     @BindView(R.id.retail_list_name)
     TextView name;
+    //手机
     @BindView(R.id.retail_list_phone)
     TextView phone;
+    //数量
     @BindView(R.id.retail_list_number)
     TextView number;
+    //产品信息
     @BindView(R.id.retail_list_order_title)
     TextView orderTitle;
+    //时间
     @BindView(R.id.retail_list_date)
     TextView date;
+    //金额
     @BindView(R.id.retail_list_money)
     TextView money;
+    //RecyclerView
     @BindView(R.id.retail_receivable_recycler)
     RecyclerView recyclerView;
+    //title
     @BindView(R.id.retail_receivable_title)
     TitleLayout titleLayout;
     private RetailReceivablePresenter presenter;
@@ -56,62 +68,50 @@ public class RetailReceivableActivity extends MBaseActivity implements RetailRec
         presenter = new RetailReceivablePresenter(this);
     }
 
-    @Override
     public ConstraintLayout getMainLayout() {
         return main;
     }
 
-    @Override
     public View getSpace() {
         return space;
     }
 
-    @Override
     public TextView getOrder() {
         return order;
     }
 
-    @Override
     public TextView getOrderStatus() {
         return orderStatus;
     }
 
-    @Override
     public TextView getName() {
         return name;
     }
 
-    @Override
     public TextView getPhone() {
         return phone;
     }
 
-    @Override
     public TextView getNumber() {
         return number;
     }
 
-    @Override
     public TextView getOrderTitle() {
         return orderTitle;
     }
 
-    @Override
     public TextView getDate() {
         return date;
     }
 
-    @Override
     public TextView getMoney() {
         return money;
     }
 
-    @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
     }
 
-    @Override
     public TitleLayout getTitleLayout() {
         return titleLayout;
     }

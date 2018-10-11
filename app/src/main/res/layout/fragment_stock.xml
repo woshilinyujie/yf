@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout
+        android:id="@+id/stock_sliding_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36"
+        app:tl_indicator_color="@color/c_6fb1fc"
+        app:tl_indicator_height="1.5dp"
+        app:tl_indicator_width_equal_title="true"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/c_6fb1fc"
+        app:tl_textUnselectColor="@color/c_333333"
+        app:tl_textsize="16sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_height="1dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/retail_search_layout"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/stock_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/stock_sliding_tab"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

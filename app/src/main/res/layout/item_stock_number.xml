@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/select_commodity_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_14"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/retail_list_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="111234555683422"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/c_4fa3fb"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/dp_9"/>
+
+        <TextView
+            android:id="@+id/retail_list_order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总仓"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/c_a6a6a6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/dp_9"/>
+
+        <View
+            android:id="@+id/retail_list_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/c_f6f7fb"
+            app:layout_constraintTop_toBottomOf="@id/retail_list_order"
+            android:layout_marginTop="@dimen/dp_9"/>
+
+        <TextView
+            android:id="@+id/retail_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apple iPhone 6s 128G灰"
+            app:layout_constraintTop_toTopOf="@id/retail_list_line"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/dp_14"
+            android:textColor="@color/c_333333"/>
+
+        <TextView
+            android:id="@+id/retail_list_order_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下单"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_10"
+            android:textColor="@color/c_4fa3fb"
+            android:textStyle="bold"
+            android:paddingBottom="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingLeft="@dimen/dp_18"
+            android:paddingRight="@dimen/dp_18"
+            android:background="@drawable/shape_stroke_4fa3fb_radius_30"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/retail_list_line"/>
+
+        <LinearLayout
+            android:id="@+id/retail_list_money_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintTop_toBottomOf="@id/retail_list_name">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/retail_list_order_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="采购价：5780.00"
+                    android:textSize="@dimen/dp_12"
+                    android:textColor="@color/c_a6a6a6"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/retail_list_order_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="成本价：5780.00"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:textSize="@dimen/dp_12"
+                    android:textColor="@color/c_a6a6a6"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="1dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintTop_toBottomOf="@id/retail_list_money_layout">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/retail_list_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总库龄：50"
+                    android:textColor="@color/c_a6a6a6"
+                    android:textSize="@dimen/dp_12"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/retail_list_date1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前库龄：20"
+                    android:textColor="@color/c_a6a6a6"
+                    android:textSize="@dimen/dp_12"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+                <TextView
+                    android:id="@+id/retail_list_date2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="超库龄天数：10"
+                    android:textColor="@color/c_a6a6a6"
+                    android:textSize="@dimen/dp_12"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/retail_list_space"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/c_f6f7fb"
+        app:layout_constraintTop_toBottomOf="@id/select_commodity_layout"/>
+
+</android.support.constraint.ConstraintLayout>

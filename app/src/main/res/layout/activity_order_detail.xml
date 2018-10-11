@@ -14,6 +14,7 @@
         app:leftImageHeightSize="@dimen/dp_20"
         app:leftMargin="@dimen/dp_16"
         app:centerText="零售订单"
+        app:centerTextSize="@dimen/sp_16"
         app:rightText="编辑"
         app:rightTextColor="@color/c_666666"
         app:rightTextSize="@dimen/sp_14"
