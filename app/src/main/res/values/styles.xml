@@ -22,4 +22,9 @@
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 
+    <!--数据分析选择器-->
+    <style name="select_Popup">
+        <item name="android:windowEnterAnimation">@anim/select_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/select_pop_out</item>
+    </style>
 </resources>

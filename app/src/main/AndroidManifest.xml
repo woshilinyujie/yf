@@ -17,12 +17,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ScanActivity"/>
-        <activity android:name=".Activity.OrderDetailsActivity"/>
-        <activity android:name=".Activity.RetailReceivableActivity"/>
-        <activity android:name=".Activity.RetailOrderActivity"
-                  android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name=".Activity.My.PhotoActivity"></activity>
+        <activity android:name=".Activity.ScanActivity" />
+        <activity android:name=".Activity.Order.OrderDetailsActivity" />
+        <activity android:name=".Activity.Order.RetailReceivableActivity" />
+        <activity
+            android:name=".Activity.RetailOrderActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".Activity.My.PhotoActivity" />
+        <activity android:name=".Activity.My.UserNameActivity" />
+        <activity android:name=".Activity.My.PhoneActivity" />
+        <activity android:name=".Activity.My.ModifyPasswordActivity" />
+        <activity android:name=".Activity.My.EmailActivity" />
+        <activity android:name=".Activity.Home.ShopAnalyseActivity"></activity>
+        <activity android:name=".Activity.TestActivity"></activity>
     </application>
 
 </manifest>

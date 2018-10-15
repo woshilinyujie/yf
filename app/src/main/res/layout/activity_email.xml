@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="jh.zkj.com.yf.Activity.My.EmailActivity">
+    <jh.zkj.com.yf.Mview.TitleLayout
+        android:id="@+id/phone_black"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        app:leftImageBg="@mipmap/back_arrow"
+        app:leftImageWidthSize="@dimen/dp_12"
+        app:leftImageHeightSize="@dimen/dp_20"
+        app:leftMargin="@dimen/dp_16"
+        app:centerTextSize="@dimen/sp_17"
+        app:centerTextColor="@color/c_333333"
+        app:centerText="邮箱"
+        android:background="@color/white"/>
+</LinearLayout>

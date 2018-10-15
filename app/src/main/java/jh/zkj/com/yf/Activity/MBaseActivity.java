@@ -10,5 +10,4 @@ public class MBaseActivity extends AppCompatActivity {
     public MBaseActivity() {
 
     }
-
 }

@@ -11,14 +11,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.bumptech.glide.Glide;
 
 import org.devio.takephoto.app.TakePhoto;
-import org.devio.takephoto.model.TImage;
 import org.devio.takephoto.model.TResult;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +52,10 @@ public class MyFragment extends MBaseFragment {
     @BindView(R.id.my_exit)
     Button myExit;
     Unbinder unbinder;
+    @BindView(R.id.my_account_order)
+    RelativeLayout myAccountOrder;
+    @BindView(R.id.my_account_login_password)
+    RelativeLayout myAccountLoginPassword;
     private View rootView;
     private MyFragmentPreSenter presenter;
 
@@ -85,7 +85,7 @@ public class MyFragment extends MBaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.my_photo, R.id.my_account_realtve, R.id.my_phone_realtve, R.id.my_email_relative, R.id.my_exit})
+    @OnClick({R.id.my_account_order, R.id.my_account_login_password,R.id.my_photo, R.id.my_account_realtve, R.id.my_phone_realtve, R.id.my_email_relative, R.id.my_exit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_photo: //头像
@@ -98,6 +98,10 @@ public class MyFragment extends MBaseFragment {
             case R.id.my_email_relative://邮箱
                 break;
             case R.id.my_exit://退出
+                break;
+            case R.id.my_account_order://我的订单
+                break;
+            case R.id.my_account_login_password://修改登入密码
                 break;
         }
     }
@@ -123,7 +127,8 @@ public class MyFragment extends MBaseFragment {
         Glide.with(this).load(iconPath).into(myPhoto);
     }
 
-    public TakePhoto getFrameTakePhoto(){
-        return  getTakePhoto();
+    public TakePhoto getFrameTakePhoto() {
+        return getTakePhoto();
     }
+
 }

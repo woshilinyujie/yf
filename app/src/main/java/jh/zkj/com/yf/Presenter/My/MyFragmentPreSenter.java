@@ -50,7 +50,7 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
               @Override
               public void onClick(View v) {
                   popupWindow.initSelect(fragment.getFrameTakePhoto());
-                    popupWindow.Dismiss();
+                  popupWindow.Dismiss();
               }
           });
     }

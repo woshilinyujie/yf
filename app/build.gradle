@@ -41,4 +41,6 @@ dependencies {
     implementation 'pub.devrel:easypermissions:1.0.1'
     implementation 'com.github.crazycodeboy:TakePhoto:v4.1.0'
     compile 'com.github.bumptech.glide:glide:4.6.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    compile 'com.github.huangyanbin:SmartTable:2.2.0'
 }

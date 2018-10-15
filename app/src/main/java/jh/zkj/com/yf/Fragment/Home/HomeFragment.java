@@ -1,6 +1,7 @@
 package jh.zkj.com.yf.Fragment.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jh.zkj.com.yf.Activity.Home.ShopAnalyseActivity;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureViewpager;
 import jh.zkj.com.yf.Mview.SwitchText;
@@ -124,6 +126,8 @@ public class HomeFragment extends MBaseFragment {
                 presenter.toRetailOrder();
                 break;
             case R.id.home_fragment_common_menu_two://常用2
+                Intent intent=new Intent(getActivity(),ShopAnalyseActivity.class);
+                startActivity(intent);
                 break;
             case R.id.home_fragment_common_menu_three://常用3
                 break;
