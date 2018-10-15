@@ -22,6 +22,7 @@
         <activity android:name=".Activity.Order.OrderDetailsActivity" />
         <activity android:name=".Activity.Order.RetailReceivableActivity" />
         <activity
+            android:name=".Activity.Order.RetailOrderActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".Activity.My.PhotoActivity" />
         <activity android:name=".Activity.My.UserNameActivity" />
