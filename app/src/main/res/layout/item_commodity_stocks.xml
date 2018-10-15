@@ -1,56 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/commodity_stock_last_name"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="A"
-        android:background="@color/c_f6f7fb"
-        android:textSize="@dimen/sp_12"
-        android:paddingTop="@dimen/dp_4"
-        android:paddingBottom="@dimen/dp_4"
-        android:includeFontPadding="false"
-        android:paddingLeft="@dimen/dp_16"/>
-
-    <RelativeLayout
-        android:id="@+id/commodity_stock_content_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dp_15"
-        android:paddingBottom="@dimen/dp_15"
-        android:paddingLeft="@dimen/dp_16"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/commodity_stock_last_name">
+        android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/commodity_stock_last_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
-            android:text="Apple iPhone6S 128G 白色"
-            android:textColor="@color/c_333333"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_centerVertical="true"
+            android:text="A"
+            android:background="@color/c_f6f7fb"
+            android:textSize="@dimen/sp_12"
+            android:paddingTop="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_4"
             android:includeFontPadding="false"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:paddingLeft="@dimen/dp_16"/>
 
-        <ImageView
-            android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_5"
-            android:src="@mipmap/bottom_more_arrow"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_32"/>
+        <RelativeLayout
+            android:id="@+id/commodity_stock_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_15"
+            android:paddingBottom="@dimen/dp_15"
+            android:paddingLeft="@dimen/dp_16"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/commodity_stock_last_name">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/commodity_stock_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_14"
+                android:text="Apple iPhone6S 128G 白色"
+                android:textColor="@color/c_333333"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_centerVertical="true"
+                android:includeFontPadding="false"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
-        app:layout_constraintTop_toBottomOf="@id/commodity_stock_content_layout"/>
+            <ImageView
+                android:layout_width="@dimen/dp_10"
+                android:layout_height="@dimen/dp_5"
+                android:src="@mipmap/bottom_more_arrow"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_32"/>
 
-</android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/c_f6f7fb"
+            app:layout_constraintTop_toBottomOf="@id/commodity_stock_content_layout"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+</RelativeLayout>

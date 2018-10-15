@@ -50,7 +50,7 @@ public class RetailReceivableActivity extends MBaseActivity implements RetailRec
     @BindView(R.id.retail_list_date)
     TextView date;
     //金额
-    @BindView(R.id.retail_list_money)
+    @BindView(R.id.retail_list_money_bottom)
     TextView money;
     //RecyclerView
     @BindView(R.id.retail_receivable_recycler)

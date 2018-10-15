@@ -30,8 +30,11 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     TwinklingRefreshLayout refresh;
     private RetailListPresenter presenter;
 
-    public static RetailListFragment newInstance() {
+    public static RetailListFragment newInstance(String status) {
         RetailListFragment fragment = new RetailListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("status", status);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
