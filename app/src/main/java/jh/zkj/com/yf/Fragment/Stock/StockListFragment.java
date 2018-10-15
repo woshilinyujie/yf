@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Contract.Stock.StockListContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
@@ -65,6 +66,7 @@ public class StockListFragment extends MBaseFragment implements StockListContrac
     @BindView(R.id.stock_msg_layout)
     ConstraintLayout msgLayout;
     private Unbinder bind;
+    private StockListPresenter presenter;
 
     public static StockListFragment newInstance(int flag) {
         StockListFragment fragment = new StockListFragment();
@@ -81,10 +83,22 @@ public class StockListFragment extends MBaseFragment implements StockListContrac
         bind = ButterKnife.bind(this, view);
         Bundle bundle = getArguments();
         if(bundle != null){
-            StockListPresenter presenter = new StockListPresenter(this, bundle.getInt("page_type")) ;
+            presenter = new StockListPresenter(this, bundle.getInt("page_type"));
         }
 
         return view;
+    }
+
+    @OnClick({R.id.stock_clear_img})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.stock_clear_img://清空edittext
+                if(presenter != null){
+                    presenter.clearFindEt();
+                }
+                break;
+
+        }
     }
 
     @Override
@@ -127,5 +141,9 @@ public class StockListFragment extends MBaseFragment implements StockListContrac
 
     public ConstraintLayout getMsgLayout() {
         return msgLayout;
+    }
+
+    public void setFindEt(String s) {
+        find.setText(s);
     }
 }

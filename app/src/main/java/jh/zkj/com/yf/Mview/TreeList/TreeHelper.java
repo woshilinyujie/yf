@@ -134,9 +134,9 @@ public class TreeHelper {
 					continue;
 				}
 
-				if (id == -1 && pId == -1 && name == null) {
-					break;
-				}
+//				if (id == -1 && pId == -1 && name == null) {
+//					break;
+//				}
 			}
 
 			node = new Node(id, pId, name);

@@ -19,14 +19,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.ScanActivity"/>
+        <!-- 零售详情 -->
         <activity android:name=".Activity.Order.OrderDetailsActivity"/>
+        <!-- 零售收款 -->
         <activity android:name=".Activity.Order.RetailReceivableActivity"/>
+        <!-- 下单成功 -->
         <activity android:name=".Activity.Order.RetailOrderSubmitActivity"/>
+        <!-- 零售下单 -->
         <activity
             android:name=".Activity.Order.RetailOrderActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity android:name=".Activity.My.PhotoActivity"/>
+        <!--  -->
         <activity android:name=".Activity.Order.SelectCommodityActivity"/>
+        <!-- 我的库存 -->
+        <activity android:name=".Activity.My.MyRetailFindActivity"/>
     </application>
 
 </manifest>

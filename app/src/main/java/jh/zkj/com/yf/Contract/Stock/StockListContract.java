@@ -11,5 +11,6 @@ public class StockListContract {
     }
 
     public interface IStockListPresenter{
+        void clearFindEt();
     }
 }

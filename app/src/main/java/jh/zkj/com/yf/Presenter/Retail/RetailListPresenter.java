@@ -2,9 +2,11 @@ package jh.zkj.com.yf.Presenter.Retail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import java.util.ArrayList;
 import java.util.Random;
 
+import jh.zkj.com.yf.Activity.My.MyRetailFindActivity;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
 import jh.zkj.com.yf.Contract.Retail.RetailListContract;
 import jh.zkj.com.yf.Fragment.Retail.RetailListFragment;
@@ -85,6 +88,10 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
     private void initFalseData(boolean clear, int number) {
         if(clear)
             beans.clear();
+        String status = "";
+        if(fragment.getArguments() != null){
+            status = fragment.getArguments().getString("status");
+        }
 
         for(int i = 0; i < number; i++){
             RetailListBean bean = new RetailListBean();
@@ -102,6 +109,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             bean.setOrderTitle("荣耀rx1 经典旗舰版；小米xxsssssss122223");
             bean.setDate("创建日期：2017-09-12");
             bean.setMoney((int)(random * 10000) + ".0元");
+            bean.setStatus(status);
             beans.add(bean);
         }
 
@@ -125,7 +133,8 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = View.inflate(context, R.layout.item_retail_list, null);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_retail_list, parent, false);
+//            View view = View.inflate(context, R.layout.item_retail_list, null);
             return new ViewHolder(view);
         }
 
@@ -161,17 +170,41 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             holder.number.setText(item.getNumber());
             holder.orderTitle.setText(item.getOrderTitle());
             holder.date.setText(item.getDate());
-            holder.money.setText(item.getMoney());
+            holder.moneyTop.setText(item.getMoney());
+            holder.moneyBottom.setText(item.getMoney());
+
+            if("1".equals(item.getStatus())){
+                holder.moneyBottom.setVisibility(View.GONE);
+                holder.moneyTop.setVisibility(View.VISIBLE);
+                holder.receipt.setVisibility(View.VISIBLE);
+                holder.cancel.setVisibility( View.VISIBLE);
+            }else{
+                holder.moneyBottom.setVisibility(View.VISIBLE);
+                holder.moneyTop.setVisibility(View.GONE);
+                holder.receipt.setVisibility(View.GONE);
+                holder.cancel.setVisibility( View.GONE);
+            }
 
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, OrderDetailsActivity.class);
-                    intent.putExtra("order_status", item.getOrderStatus());
-                    fragment.startActivity(intent);
-                }
-            });
+            if(position == 2){
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, MyRetailFindActivity.class);
+                        fragment.startActivity(intent);
+                    }
+                });
+            }else{
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, OrderDetailsActivity.class);
+                        intent.putExtra("order_status", item.getOrderStatus());
+                        fragment.startActivity(intent);
+                    }
+                });
+            }
+
 
         }
 
@@ -189,8 +222,11 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             public TextView number;
             public TextView orderTitle;
             public TextView date;
-            public TextView money;
+            public TextView moneyTop;
+            public TextView moneyBottom;
             public View itemView;
+            public TextView receipt;
+            public TextView cancel;
             public ViewHolder(View itemView) {
                 super(itemView);
                 this.itemView = itemView;
@@ -201,7 +237,10 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
                 number = itemView.findViewById(R.id.retail_list_number);
                 orderTitle = itemView.findViewById(R.id.retail_list_order_title);
                 date = itemView.findViewById(R.id.retail_list_date);
-                money = itemView.findViewById(R.id.retail_list_money);
+                moneyTop = itemView.findViewById(R.id.retail_list_money_top);
+                moneyBottom = itemView.findViewById(R.id.retail_list_money_bottom);
+                receipt = itemView.findViewById(R.id.retail_list_receipt);
+                cancel = itemView.findViewById(R.id.retail_list_cancel);
             }
         }
     }
@@ -216,6 +255,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
         private String orderTitle;
         private String date;
         private String money;
+        private String status;
 
         public String getOrder() {
             return order;
@@ -279,6 +319,14 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
 
         public void setMoney(String money) {
             this.money = money;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
     }
 }

@@ -1,54 +1,47 @@
-package jh.zkj.com.yf.Presenter.Retail;
+package jh.zkj.com.yf.Presenter.My;
 
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
-
 import java.util.ArrayList;
 
-import jh.zkj.com.yf.Contract.Retail.RetailContract;
-import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
+import jh.zkj.com.yf.Activity.My.MyRetailFindActivity;
+import jh.zkj.com.yf.Contract.My.MyRetailFindContract;
 import jh.zkj.com.yf.Fragment.Retail.RetailListFragment;
 
 /**
  * Created by wdefer
- * on 2018/9/19
- * user
+ * 2018/10/13
+ * use
  */
-public class RetailPresenter implements RetailContract.IRetailPresenter {
-
-    private final RetailFragment fragment;
+public class MyRetailFindPresenter implements MyRetailFindContract.IMyRetailFindPresenter {
+    private final MyRetailFindActivity activity;
     private String[] titles;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private ViewPager viewPager;
 
-    public RetailPresenter(RetailFragment fragment) {
-        this.fragment = fragment;
+    public MyRetailFindPresenter(MyRetailFindActivity activity) {
+        this.activity = activity;
         initView();
         initData();
     }
 
     private void initView() {
-        viewPager = fragment.getViewPager();
+        viewPager = activity.getViewPager();
     }
 
     private void initData() {
-        titles = new String[]{"全部订单", "未收款", "已收款"};
-        RetailListFragment allRetail = RetailListFragment.newInstance("0");
+        titles = new String[]{"未收款", "已收款", "已取消"};
+        RetailListFragment allRetail = RetailListFragment.newInstance("1");
         RetailListFragment receivables = RetailListFragment.newInstance("0");
         RetailListFragment unReceivables = RetailListFragment.newInstance("0");
         fragments.add(allRetail);
         fragments.add(receivables);
         fragments.add(unReceivables);
-        if (fragment.getActivity() != null) {
+        if (activity != null) {
             viewPager.setAdapter(new FragmentPagerAdapter(
-                    fragment.getActivity().getSupportFragmentManager()) {
+                    activity.getSupportFragmentManager()) {
                 @Override
                 public Fragment getItem(int position) {
                     return fragments.get(position);
@@ -65,10 +58,8 @@ public class RetailPresenter implements RetailContract.IRetailPresenter {
                 }
             });
             //绑定 vp
-            fragment.getSlidingTab().setViewPager(fragment.getViewPager());
+            activity.getSlidingTab().setViewPager(activity.getViewPager());
         }
 
     }
-
-
 }
