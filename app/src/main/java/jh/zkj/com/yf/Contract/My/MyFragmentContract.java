@@ -1,12 +1,14 @@
 package jh.zkj.com.yf.Contract.My;
 
+import org.devio.takephoto.app.TakePhoto;
+
 /**
  * Created by linyujie on 18/9/21.
  */
 
 public class MyFragmentContract {
     public interface IMyFragmentView {
-
+        TakePhoto getFrameTakePhoto();//选择照片必要参数
     }
 
     public interface IMyFragmentPresenter {
@@ -18,7 +20,6 @@ public class MyFragmentContract {
 
         void ClickPhotoCancle();//选头像取消
 
-        void initListener();
     }
 
 }

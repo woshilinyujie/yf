@@ -17,11 +17,10 @@ import jh.zkj.com.yf.Mview.TitleLayout;
  */
 public class OrderDetailsContract {
     public interface IRetailOrderView{
-        TextView getUserName();
-        TextView getUserPhone();
-        RecyclerView getRecyclerView();
-        TextView getReceivables();
-        TitleLayout getTitleLayout();
+        //去收款隐藏显示
+        void setReceivablesVisibility(int visibility);
+        //scrollview滑动开关
+        void setNestedScrollingEnabled(boolean b);
     }
 
     public interface IRetailOrderPresenter{

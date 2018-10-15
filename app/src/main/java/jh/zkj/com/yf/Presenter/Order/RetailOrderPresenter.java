@@ -16,6 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
+import jh.zkj.com.yf.Activity.Order.RetailOrderSubmitActivity;
+import jh.zkj.com.yf.Activity.Order.SelectCommodityActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Bean.OrderBean;
 import jh.zkj.com.yf.Contract.Order.RetailOrderContract;
@@ -94,6 +96,12 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     @Override
     public void startOrderDetail() {
         Intent intent = new Intent(activity, OrderDetailsActivity.class);
+        activity.startActivity(intent);
+    }
+
+    @Override
+    public void startOrderSubmitActivity() {
+        Intent intent = new Intent(activity, RetailOrderSubmitActivity.class);
         activity.startActivity(intent);
     }
 
@@ -195,6 +203,15 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                 }
             });
 
+
+            holder.select.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, SelectCommodityActivity.class);
+                    activity.startActivity(intent);
+                }
+            });
+
             holder.scan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -256,6 +273,9 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             //扫描
             @BindView(R.id.retail_order_price_scan)
             ImageView scan;
+            //选择单号
+            @BindView(R.id.retail_order_select)
+            TextView select;
 
             public ViewHolder(View itemView) {
                 super(itemView);

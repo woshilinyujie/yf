@@ -14,6 +14,7 @@
         app:leftImageHeightSize="@dimen/dp_20"
         app:leftMargin="@dimen/dp_16"
         app:centerText="零售下单"
+        app:centerTextSize="@dimen/sp_16"
         android:background="@color/white"/>
 
     <android.support.constraint.ConstraintLayout

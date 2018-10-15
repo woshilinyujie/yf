@@ -15,18 +15,6 @@ import jh.zkj.com.yf.Mview.TitleLayout;
 public class RetailReceivableContract {
     public interface IRetailOrderView{
 
-        ConstraintLayout getMainLayout();
-        View getSpace();
-        TextView getOrder();
-        TextView getOrderStatus();
-        TextView getName();
-        TextView getPhone();
-        TextView getNumber();
-        TextView getOrderTitle();
-        TextView getDate();
-        TextView getMoney();
-        RecyclerView getRecyclerView();
-        TitleLayout getTitleLayout();
     }
 
     public interface IRetailOrderPresenter{

@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jh.zkj.com.yf.Contract.My.MyFragmentContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.CircleView;
 import jh.zkj.com.yf.Presenter.My.MyFragmentPreSenter;
@@ -27,9 +28,10 @@ import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/9/19.
+ * 我的
  */
 
-public class MyFragment extends MBaseFragment {
+public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyFragmentView{
     Activity activity;
     @BindView(R.id.my_photo)
     CircleView myPhoto;
@@ -75,7 +77,6 @@ public class MyFragment extends MBaseFragment {
         rootView = View.inflate(activity, R.layout.my_fragment_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         presenter = new MyFragmentPreSenter(this);
-        presenter.initListener();
         return rootView;
     }
 
@@ -111,24 +112,23 @@ public class MyFragment extends MBaseFragment {
     }
 
     @Override
-    public void takeCancel() {
+    public void takeCancel() {//取消选择照片回调
         super.takeCancel();
     }
 
     @Override
-    public void takeFail(TResult result, String msg) {
+    public void takeFail(TResult result, String msg) {//择照片回调失败
         super.takeFail(result, msg);
     }
 
     @Override
-    public void takeSuccess(TResult result) {
+    public void takeSuccess(TResult result) {//选择照片成功回调
         super.takeSuccess(result);
-        String iconPath = result.getImage().getOriginalPath();
+        String iconPath = result.getImage().getOriginalPath();//照片存储地址
         Glide.with(this).load(iconPath).into(myPhoto);
     }
 
-    public TakePhoto getFrameTakePhoto() {
-        return getTakePhoto();
+    public TakePhoto getFrameTakePhoto(){//选择照片必要参数
+        return  getTakePhoto();
     }
-
 }

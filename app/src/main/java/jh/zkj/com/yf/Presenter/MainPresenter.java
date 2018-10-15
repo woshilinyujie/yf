@@ -14,8 +14,8 @@ import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
-import jh.zkj.com.yf.Fragment.PriceList.PriceListFragment;
 import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
+import jh.zkj.com.yf.Fragment.Stock.StockFragment;
 import jh.zkj.com.yf.Mview.MainViewPager;
 import jh.zkj.com.yf.R;
 
@@ -35,7 +35,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
     public void initPager(MainViewPager pager) {
         fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance());
-        fragments.add(PriceListFragment.newInstance());
+//        fragments.add(PriceListFragment.newInstance());
+        fragments.add(StockFragment.newInstance());
         fragments.add(RetailFragment.newInstance());
         fragments.add(MyFragment.newInstance());
         //预加载3页，缓存

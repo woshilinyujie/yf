@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="jh.zkj.com.yf">
+          package="jh.zkj.com.yf">
 
     <application
         android:name=".Appliction.MAppliction"
@@ -10,18 +10,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MainActivity">
+        <activity android:name=".Activity.MainActivity"
+                  android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".Activity.ScanActivity" />
         <activity android:name=".Activity.Order.OrderDetailsActivity" />
         <activity android:name=".Activity.Order.RetailReceivableActivity" />
         <activity
-            android:name=".Activity.RetailOrderActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".Activity.My.PhotoActivity" />
         <activity android:name=".Activity.My.UserNameActivity" />
@@ -29,7 +29,6 @@
         <activity android:name=".Activity.My.ModifyPasswordActivity" />
         <activity android:name=".Activity.My.EmailActivity" />
         <activity android:name=".Activity.Home.ShopAnalyseActivity"></activity>
-        <activity android:name=".Activity.TestActivity"></activity>
     </application>
 
 </manifest>

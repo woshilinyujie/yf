@@ -65,7 +65,4 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
          });
     }
 
-    @Override
-    public void initListener() {
-    }
 }

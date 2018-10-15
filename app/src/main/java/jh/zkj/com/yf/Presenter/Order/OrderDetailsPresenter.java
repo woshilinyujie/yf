@@ -79,12 +79,12 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     private void initData() {
         String orderStatus = activity.getIntent().getStringExtra("order_status");
         if("0".equals(orderStatus)){
-            receivables.setVisibility(View.GONE);
+            activity.setReceivablesVisibility(View.GONE);
         }else{
-            receivables.setVisibility(View.VISIBLE);
+            activity.setReceivablesVisibility(View.VISIBLE);
         }
         //嵌套scrollview需要禁止滑动
-        recyclerView.setNestedScrollingEnabled(false);
+        activity.setNestedScrollingEnabled(false);
     }
 
     private void initFalseData() {

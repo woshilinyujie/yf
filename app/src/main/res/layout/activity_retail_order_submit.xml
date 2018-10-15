@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/order_submit_success_img"
+            android:layout_width="@dimen/dp_143"
+            android:layout_height="@dimen/dp_134"
+            android:src="@mipmap/order_success_img"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/dp_50"/>
+
+        <TextView
+            android:id="@+id/order_submit_success_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单提交成功！"
+            android:textColor="@color/c_030303"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_submit_success_img"
+            android:layout_marginTop="@dimen/dp_34"/>
+
+        <TextView
+            android:id="@+id/order_submit_again"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:text="再开一单"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_radius_4_6fb1fc"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_64"
+            app:layout_constraintTop_toBottomOf="@id/order_submit_success_text"/>
+
+        <TextView
+            android:id="@+id/order_submit_details"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:text="查看详情"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/c_6fb1fc"
+            android:background="@drawable/shape_stroke_6fb1fc_radius_4"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_16"
+            app:layout_constraintTop_toBottomOf="@id/order_submit_again"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

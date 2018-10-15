@@ -15,19 +15,12 @@ import jh.zkj.com.yf.Mview.TitleLayout;
 public class RetailOrderContract {
 
     public interface IRetailOrderView{
-        //获取fragment显示的layout
-        public FrameLayout getFragmentLayout();
-        public EditText getUserName();
-        public EditText getUserPhone();
-        public RecyclerView getRecyclerView();
-        public TitleLayout getTitleLayout();
-//        public TextView getReceivable();
-//        public TextView getSuccess();
 
     }
 
     public interface IRetailOrderPresenter{
         void activityFinish();
         void startOrderDetail();
+        void startOrderSubmitActivity();
     }
 }
