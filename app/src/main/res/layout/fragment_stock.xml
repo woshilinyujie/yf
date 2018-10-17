@@ -19,8 +19,7 @@
         app:tl_textsize="16sp"
         app:tl_underline_color="@color/white"
         app:tl_underline_height="1dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/retail_search_layout"/>
+        android:background="@color/white"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/stock_viewpager"

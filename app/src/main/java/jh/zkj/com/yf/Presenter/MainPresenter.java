@@ -15,7 +15,7 @@ import jh.zkj.com.yf.Fragment.Analyse.AnalyseFragment;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
-import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
+//import jh.zkj.com.yf.Fragment.Retail.RetailFragment;
 import jh.zkj.com.yf.Fragment.Stock.StockFragment;
 import jh.zkj.com.yf.Mview.MainViewPager;
 import jh.zkj.com.yf.R;
@@ -54,8 +54,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setRetailListColor(0xff333333);
         activity.setMyColor(0xff333333);
         activity.setHomePageIvBg(R.mipmap.home_select);
-        activity.setPriceListBg(R.mipmap.quotation);
-        activity.setRetailListBg(R.mipmap.analyse);
+        activity.setPriceListBg(R.mipmap.stock_gray_icon);
+        activity.setRetailListBg(R.mipmap.retail);
         activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(0);
 
@@ -87,8 +87,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setRetailListColor(0xFF4fa3fb);
         activity.setMyColor(0xff333333);
         activity.setHomePageIvBg(R.mipmap.home);
-        activity.setPriceListBg(R.mipmap.quotation);
-        activity.setRetailListBg(R.mipmap.analyse_select);
+        activity.setPriceListBg(R.mipmap.stock_gray_icon);
+        activity.setRetailListBg(R.mipmap.retail_select);
         activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(2);
     }
@@ -100,8 +100,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
         activity.setRetailListColor(0xff333333);
         activity.setMyColor(0xFF4fa3fb);
         activity.setHomePageIvBg(R.mipmap.home);
-        activity.setPriceListBg(R.mipmap.quotation);
-        activity.setRetailListBg(R.mipmap.analyse);
+        activity.setPriceListBg(R.mipmap.stock_gray_icon);
+        activity.setRetailListBg(R.mipmap.retail);
         activity.setMyBg(R.mipmap.my_select);
         activity.getViewPager().setCurrentItem(3);
     }

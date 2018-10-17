@@ -112,6 +112,7 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
             case R.id.my_exit://退出
                 break;
             case R.id.my_account_order://我的订单
+                presenter.startMyOrderActivity();
                 break;
             case R.id.my_account_login_password://修改登入密码
                 Intent intent3=new Intent(getActivity(), ModifyPasswordActivity.class);

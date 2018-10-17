@@ -8,10 +8,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Activity.MBaseActivity;
-import jh.zkj.com.yf.Contract.My.MyFragmentContract;
-import jh.zkj.com.yf.Contract.My.MyRetailFindContract;
+import jh.zkj.com.yf.Contract.My.MyOrderContract;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
-import jh.zkj.com.yf.Presenter.My.MyRetailFindPresenter;
+import jh.zkj.com.yf.Presenter.My.MyOrderPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -19,21 +18,21 @@ import jh.zkj.com.yf.R;
  * 2018/10/13
  * use  我的订单查询
  */
-public class MyRetailFindActivity extends MBaseActivity implements MyRetailFindContract.IMyRetailFindView{
+public class MyOrderActivity extends MBaseActivity implements MyOrderContract.IMyRetailFindView{
 
-    @BindView(R.id.retail_sliding_tab)
+    @BindView(R.id.my_order_sliding_tab)
     SlidingTabLayout slidingTab;
-    @BindView(R.id.retail_viewpager)
+    @BindView(R.id.my_order_viewpager)
     ViewPager viewPager;
-    @BindView(R.id.home_fragment_search)
+    @BindView(R.id.my_order_search)
     TextView search;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_retail);
+        setContentView(R.layout.activity_my_order);
         ButterKnife.bind(this);
-        MyRetailFindPresenter presenter = new MyRetailFindPresenter(this);
+        MyOrderPresenter presenter = new MyOrderPresenter(this);
     }
 
     public ViewPager getViewPager() {

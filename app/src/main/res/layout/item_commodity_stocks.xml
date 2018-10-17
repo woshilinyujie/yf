@@ -44,9 +44,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
+                android:id="@+id/commodity_stock_arrow"
                 android:layout_width="@dimen/dp_10"
                 android:layout_height="@dimen/dp_5"
-                android:src="@mipmap/bottom_more_arrow"
+                android:src="@mipmap/bottom_arrow"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_32"/>

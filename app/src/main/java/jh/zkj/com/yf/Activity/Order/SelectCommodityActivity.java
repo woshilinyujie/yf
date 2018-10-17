@@ -9,7 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Contract.Order.SelectCommodityContract;
 import jh.zkj.com.yf.Mview.TitleLayout;
-import jh.zkj.com.yf.Presenter.Retail.SelectCommodityPresenter;
+import jh.zkj.com.yf.Presenter.Order.SelectCommodityPresenter;
 import jh.zkj.com.yf.R;
 
 public class SelectCommodityActivity extends AppCompatActivity implements SelectCommodityContract.ISelectCommodityView {

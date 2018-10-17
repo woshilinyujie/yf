@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Contract.Retail;
+package jh.zkj.com.yf.Contract.My;
 
 import android.support.v7.widget.RecyclerView;
 

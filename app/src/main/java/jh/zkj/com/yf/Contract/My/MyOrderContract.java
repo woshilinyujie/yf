@@ -5,7 +5,7 @@ package jh.zkj.com.yf.Contract.My;
  * 2018/10/13
  * use
  */
-public class MyRetailFindContract {
+public class MyOrderContract {
 
     public interface IMyRetailFindView {
     }

@@ -1,8 +1,7 @@
-package jh.zkj.com.yf.Presenter.Retail;
+package jh.zkj.com.yf.Presenter.My;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +14,11 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-import jh.zkj.com.yf.Activity.My.MyRetailFindActivity;
+import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
-import jh.zkj.com.yf.Contract.Retail.RetailListContract;
-import jh.zkj.com.yf.Fragment.Retail.RetailListFragment;
+import jh.zkj.com.yf.Contract.My.RetailListContract;
+import jh.zkj.com.yf.Fragment.My.RetailListFragment;
 import jh.zkj.com.yf.R;
 
 /**
@@ -190,7 +188,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(context, MyRetailFindActivity.class);
+                        Intent intent = new Intent(context, MyOrderActivity.class);
                         fragment.startActivity(intent);
                     }
                 });
