@@ -294,8 +294,7 @@
                     android:textColor="@color/c_333333"
                     android:gravity="center"
                     android:paddingTop="@dimen/dp_18"
-                    android:paddingBottom="@dimen/dp_18"
-                    android:background="@color/white"/>
+                    android:paddingBottom="@dimen/dp_18"/>
 
                 <TextView
                     android:id="@+id/stock_filter_confirm"

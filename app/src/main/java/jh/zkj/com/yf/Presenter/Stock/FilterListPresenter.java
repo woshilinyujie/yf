@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
 import jh.zkj.com.yf.Contract.Stock.StockContract;
 import jh.zkj.com.yf.R;
@@ -34,6 +35,14 @@ public class FilterListPresenter implements StockContract.IStockPresenter {
 
     private void initPresenter() {
         initAdapter();
+        activity.setTitle(activity.getIntent().getStringExtra("title"));
+
+        activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
     }
 
     private void initAdapter() {
@@ -41,6 +50,19 @@ public class FilterListPresenter implements StockContract.IStockPresenter {
         recycler.setLayoutManager(layoutManager);
         adapter = new FilterListAdapter();
         recycler.setAdapter(adapter);
+
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add(new Object());
+        arr.add(new Object());
+        arr.add(new Object());
+        arr.add(new Object());
+        arr.add(new Object());
+        arr.add(new Object());
+        arr.add(new Object());
+        arr.add(new Object());
+        arr.add(new Object());
+
+        adapter.notifyData(arr);
     }
 
 
@@ -48,11 +70,6 @@ public class FilterListPresenter implements StockContract.IStockPresenter {
      * 使用：
      */
     class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.ViewHolder> {
-
-        @BindView(R.id.filter_list_msg)
-        TextView mFilterListMsg;
-        @BindView(R.id.filter_list_img)
-        ImageView mFilterListImg;
         private ArrayList<Object> mArr = new ArrayList<>();
 
         //后期传入刷新
@@ -83,6 +100,13 @@ public class FilterListPresenter implements StockContract.IStockPresenter {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
 
+            if(position == 2){
+                holder.img.setVisibility(View.VISIBLE);
+                holder.msg.setTextColor(0xff6fb1fc);
+            }else{
+                holder.img.setVisibility(View.GONE);
+                holder.msg.setTextColor(0xff333333);
+            }
         }
 
         @Override
@@ -91,9 +115,13 @@ public class FilterListPresenter implements StockContract.IStockPresenter {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            //留一条方便ctrl+D  找到后可删
+            @BindView(R.id.filter_list_msg)
+            TextView msg;
+            @BindView(R.id.filter_list_img)
+            ImageView img;
             public ViewHolder(View itemView) {
                 super(itemView);
+                ButterKnife.bind(this, itemView);
             }
         }
     }

@@ -30,6 +30,8 @@
             android:name=".Activity.Order.RetailOrderActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity android:name=".Activity.My.PhotoActivity"/>
+        <!-- 库存 -》筛选 -->
+        <activity android:name=".Activity.Stock.FilterListActivity"/>
         <!--  -->
         <activity android:name=".Activity.Order.SelectCommodityActivity"/>
         <!-- 我的库存 -->

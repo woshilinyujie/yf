@@ -14,13 +14,14 @@
         app:leftImageWidthSize="@dimen/dp_12"
         app:leftImageHeightSize="@dimen/dp_20"
         app:leftMargin="@dimen/dp_16"
-        app:centerText=""
+        app:centerText=" "
         app:centerTextSize="@dimen/sp_16"
         android:background="@color/white"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/filter_list_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@color/white"/>
 
 </LinearLayout>

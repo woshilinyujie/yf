@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Presenter.Stock;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -9,6 +10,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
 import jh.zkj.com.yf.Adapter.StockListAdapter;
 import jh.zkj.com.yf.Adapter.StockRecyclerAdapter;
 import jh.zkj.com.yf.Bean.TreeListBean;
@@ -77,27 +79,37 @@ public class StockListPresenter implements StockListContract.IStockListPresenter
                 switch (position){
                     //公司
                     case StockFilterPopup.CLICK_TYPE_COMPANY:{
-
+                        Intent intent = new Intent(activity, FilterListActivity.class);
+                        intent.putExtra("title", "公司");
+                        activity.startActivity(intent);
                         break;
                     }
                     //仓库
                     case StockFilterPopup.CLICK_TYPE_WAREHOUSE:{
-
+                        Intent intent = new Intent(activity, FilterListActivity.class);
+                        intent.putExtra("title", "仓库");
+                        activity.startActivity(intent);
                         break;
                     }
                     //商品分类
                     case StockFilterPopup.CLICK_TYPE_CLASSIFICATION:{
-
+                        Intent intent = new Intent(activity, FilterListActivity.class);
+                        intent.putExtra("title", "商品分类");
+                        activity.startActivity(intent);
                         break;
                     }
                     //品牌
                     case StockFilterPopup.CLICK_TYPE_BRAND:{
-
+                        Intent intent = new Intent(activity, FilterListActivity.class);
+                        intent.putExtra("title", "品牌");
+                        activity.startActivity(intent);
                         break;
                     }
                     //型号
                     case StockFilterPopup.CLICK_TYPE_MODEL:{
-
+                        Intent intent = new Intent(activity, FilterListActivity.class);
+                        intent.putExtra("title", "型号");
+                        activity.startActivity(intent);
                         break;
                     }
                     //重置
