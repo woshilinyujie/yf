@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Activity.Home;
+package jh.zkj.com.yf.Activity.Analyse;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -12,20 +12,26 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
-import jh.zkj.com.yf.Contract.My.ShopAnalyseContract;
+import jh.zkj.com.yf.Contract.Analyse.ShopAnalyseContract;
+import jh.zkj.com.yf.Mview.CantScrollViewPager;
 import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
-import jh.zkj.com.yf.Presenter.My.ShopAnalysePresent;
+import jh.zkj.com.yf.Presenter.Analyse.ShopAnalysePresenter;
 import jh.zkj.com.yf.R;
+
+/**
+ * Create lyj
+ * 门店经营分析
+ */
 
 public class ShopAnalyseActivity extends MBaseActivity implements ShopAnalyseContract.ShopAnalyseView {
 
     @BindView(R.id.shop_analyse_tab)
     SlidingTabLayout shopAnalyseTab;
     @BindView(R.id.shop_analyse_viewpager)
-    ViewPager viewpager;
-    @BindView(R.id.phone_black)
-    TitleLayout phoneBlack;
+    CantScrollViewPager viewpager;
+    @BindView(R.id.analyse_title)
+    TitleLayout analyseTitle;
     @BindView(R.id.shop_analyse_select_shop)
     TextView shopAnalyseSelectShop;
     @BindView(R.id.shop_analyse_select_trigonometry1)
@@ -40,14 +46,14 @@ public class ShopAnalyseActivity extends MBaseActivity implements ShopAnalyseCon
     RelativeLayout shopAnalyseSelectDataRl;
     @BindView(R.id.shop_analyse_select_data_ll)
     LinearLayout shopAnalyseSelectDataLl;
-    private ShopAnalysePresent shopAnalysePresent;
+    private ShopAnalysePresenter shopAnalysePresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_analyse);
         ButterKnife.bind(this);
-        shopAnalysePresent = new ShopAnalysePresent(this);
+        shopAnalysePresent = new ShopAnalysePresenter(this);
         shopAnalysePresent.initViewpager();
     }
 
@@ -60,10 +66,10 @@ public class ShopAnalyseActivity extends MBaseActivity implements ShopAnalyseCon
     }
 
 
-    @OnClick({R.id.phone_black, R.id.shop_analyse_select_shop, R.id.shop_analyse_select_data_ll})
+    @OnClick({R.id.analyse_title, R.id.shop_analyse_select_shop, R.id.shop_analyse_select_data_ll})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.phone_black:
+            case R.id.analyse_title:
                 finish();
                 break;
             case R.id.shop_analyse_select_shop://门店选择
@@ -87,6 +93,11 @@ public class ShopAnalyseActivity extends MBaseActivity implements ShopAnalyseCon
 
     public void setShopAnalyseSelectDate2(String date2) {
         shopAnalyseSelectData2.setText(date2);
+    }
+
+    @Override
+    public void setTitle(String title) {
+        analyseTitle.setTitle(title);
     }
 
     public TextView getShopAnalyseSelectShop() {

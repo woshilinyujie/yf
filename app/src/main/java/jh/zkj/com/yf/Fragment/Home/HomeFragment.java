@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import jh.zkj.com.yf.Activity.Home.ShopAnalyseActivity;
+import jh.zkj.com.yf.Activity.Analyse.ShopAnalyseActivity;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureViewpager;
 import jh.zkj.com.yf.Mview.SwitchText;

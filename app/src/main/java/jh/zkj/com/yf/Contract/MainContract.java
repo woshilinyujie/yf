@@ -43,7 +43,7 @@ public class MainContract {
         //点击开单
         void selectOpenBill();
         //点击零售
-        void selectRetailList();
+        void selectAnalyseList();
         //点击我的
         void selectMy();
     }

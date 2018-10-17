@@ -1,6 +1,7 @@
-package jh.zkj.com.yf.Presenter.My;
+package jh.zkj.com.yf.Presenter.Analyse;
 
 import android.graphics.Color;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -33,8 +34,9 @@ import java.util.Map;
 import java.util.Set;
 
 import jh.zkj.com.yf.Bean.TestBean;
-import jh.zkj.com.yf.Contract.My.ShopAnalyseSalseFragmentContract;
-import jh.zkj.com.yf.Fragment.Home.ShopAnalyseSalseFragment;
+import jh.zkj.com.yf.Contract.Analyse.ShopAnalyseMoneyFragmentContract;
+import jh.zkj.com.yf.Fragment.Analyse.ShopAnalyseSalseMoneyFragment;
+import jh.zkj.com.yf.Mutils.DpUtils;
 import jh.zkj.com.yf.Mview.MyMarkerView;
 import jh.zkj.com.yf.R;
 
@@ -42,8 +44,9 @@ import jh.zkj.com.yf.R;
  * Created by linyujie on 18/10/11.
  */
 
-public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragmentContract.ShopAnalyseSalseFragmentpresent {
-    ShopAnalyseSalseFragment fragment;
+public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyFragmentContract.ShopAnalyseMoneyFragmentPresent {
+    private final FragmentActivity context;
+    ShopAnalyseSalseMoneyFragment fragment;
     private LineChart mLineChart;
     public static final int[] PIE_COLORS = {
             Color.rgb(181, 194, 202), Color.rgb(129, 216, 200), Color.rgb(241, 214, 145),
@@ -57,8 +60,9 @@ public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragment
     private List<TestBean> list;
 
 
-    public ShopAnalyseSalseFragmentPresent(ShopAnalyseSalseFragment fragment) {
+    public ShopAnalyseSalseMoneyFragmentPresenter(ShopAnalyseSalseMoneyFragment fragment) {
         this.fragment = fragment;
+        context =fragment.getActivity();
         initChart();
         initPieChar();
         initTable();
@@ -81,12 +85,12 @@ public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragment
         list.add(bean);
         list.add(bean1);
         list.add(bean2);
-        ShopAnalyseSalseFragmentAdapter adapter = new ShopAnalyseSalseFragmentAdapter();
-        fragment.getSalesTableList().setAdapter(adapter);
+        ShopAnalyseSalseMoneyFragmentAdapter adapter = new ShopAnalyseSalseMoneyFragmentAdapter();
+        fragment.getSalesMoneyTableList().setAdapter(adapter);
     }
 
     private void initPieChar() {
-        PieChart pieChart = fragment.getSalesPieChart();
+        PieChart pieChart = fragment.getSalesMoneyPieChart();
         //模拟数据
         HashMap dataMap = new HashMap();
         dataMap.put("A", "300");
@@ -98,7 +102,7 @@ public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragment
 
     @Override
     public void initChart() {
-        mLineChart = fragment.getSalesChart();
+        mLineChart = fragment.getSalesMoneyChart();
         LineData mLineData = getLineData(7, 100);
         showChart(mLineChart, mLineData, Color.rgb(114, 188, 223));
     }
@@ -117,7 +121,7 @@ public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragment
         //用y轴的集合来设置参数
         lineDataSet.setLineWidth(1); // 线宽
         lineDataSet.setCircleSize(3.5f);// 显示的圆形大小
-        lineDataSet.setCircleColorHole(Color.parseColor("#657ff6"));
+        lineDataSet.setCircleHoleColor(Color.parseColor("#657ff6"));
         lineDataSet.setColor(Color.parseColor("#657ff6"));// 显示颜色
         lineDataSet.setCircleColor(Color.parseColor("#657ff6"));// 圆形的颜色
         lineDataSet.setHighLightColor(Color.parseColor("#d9d9d9")); // 高亮的线的颜色
@@ -182,7 +186,10 @@ public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragment
     public void setPieChart(PieChart pieChart, Map<String, Float> pieValues, String title, boolean showLegend) {
         pieChart.setUsePercentValues(true);//设置使用百分比（后续有详细介绍）
         pieChart.getDescription().setEnabled(false);//设置描述
-        pieChart.setExtraOffsets(0, -20, 60, 15); //设置边距
+        pieChart.setExtraOffsets(0,
+                0,
+                DpUtils.dip2px(context,20),
+                15); //设置边距
         pieChart.setDragDecelerationFrictionCoef(0.95f);//设置摩擦系数（值越小摩擦系数越大）
         pieChart.setRotationEnabled(false);//是否可以旋转
         pieChart.setHighlightPerTapEnabled(false);//点击是否放大
@@ -204,12 +211,13 @@ public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragment
         pieChart.setEntryLabelTextSize(0);
         //图例设置
         Legend legend = pieChart.getLegend();
-        legend.setXOffset(30);
+        legend.setXOffset(DpUtils.dip2px(fragment.getActivity(),55));
         legend.setYOffset(38);
         legend.setFormSize(15);
+        legend.setTextSize(15);
         legend.setYEntrySpace(25);//legend间距
         legend.setEnabled(true);//是否显示图例
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);//图例相对于图表横向的位置
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);//图例相对于图表横向的位置
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);//图例相对于图表纵向的位置
         legend.setOrientation(Legend.LegendOrientation.VERTICAL);//图例显示的方向
         legend.setDrawInside(false);
@@ -229,7 +237,10 @@ public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragment
         Iterator it = set.iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
-            entries.add(new PieEntry(Float.valueOf(entry.getValue().toString()), entry.getKey().toString()));
+            entries.add(new PieEntry(Float.valueOf(entry.getValue().toString()), "5000，50%/s"+"华为荣耀/s"+
+                    DpUtils.dip2px(fragment.getActivity(),18)+"/s"+
+                    DpUtils.dip2px(fragment.getActivity(),2)
+                    ,entry.getKey().toString()));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
@@ -253,7 +264,7 @@ public class ShopAnalyseSalseFragmentPresent implements ShopAnalyseSalseFragment
     }
 
 
-    class ShopAnalyseSalseFragmentAdapter extends BaseAdapter {
+    class ShopAnalyseSalseMoneyFragmentAdapter extends BaseAdapter {
 
         @Override
         public int getItemViewType(int position) {

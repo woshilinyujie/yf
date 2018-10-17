@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Fragment.Home;
+package jh.zkj.com.yf.Fragment.Analyse;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -16,27 +15,28 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureListView;
-import jh.zkj.com.yf.Presenter.My.ShopAnalyseSalseFragmentPresent;
+import jh.zkj.com.yf.Presenter.Analyse.ShopAnalyseSalseMoneyFragmentPresenter;
 import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/10/11.
+ * 门店经营分析   销售额
  */
 
-public class ShopAnalyseSalseFragment extends MBaseFragment {
+public class ShopAnalyseSalseMoneyFragment extends MBaseFragment {
 
-    @BindView(R.id.sales_chart)
-    LineChart salesChart;
+    @BindView(R.id.sales_money_chart)
+    LineChart salesMoneyChart;
+    @BindView(R.id.sales_money_pie_chart)
+    PieChart salesMoneyPieChart;
+    @BindView(R.id.sales_money_table_list)
+    MeasureListView salesMoneyTableList;
     Unbinder unbinder;
-    @BindView(R.id.sales_pie_chart)
-    PieChart salesPieChart;
-    @BindView(R.id.sales_table_list)
-    MeasureListView salesTableList;
     private View rootView;
-    private ShopAnalyseSalseFragmentPresent present;
+    private ShopAnalyseSalseMoneyFragmentPresenter shopAnalyseSalseMoneyFragmentPresent;
 
-    public static ShopAnalyseSalseFragment newInstance() {
-        ShopAnalyseSalseFragment fragment = new ShopAnalyseSalseFragment();
+    public static ShopAnalyseSalseMoneyFragment newInstance() {
+        ShopAnalyseSalseMoneyFragment fragment = new ShopAnalyseSalseMoneyFragment();
         return fragment;
     }
 
@@ -47,10 +47,9 @@ public class ShopAnalyseSalseFragment extends MBaseFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = View.inflate(getActivity(), R.layout.shop_analyse_salse_layout, null);
+        rootView = View.inflate(getActivity(), R.layout.shop_analyse_salse_money_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
-        present = new ShopAnalyseSalseFragmentPresent(this);
-
+        shopAnalyseSalseMoneyFragmentPresent = new ShopAnalyseSalseMoneyFragmentPresenter(this);
         return rootView;
     }
 
@@ -60,15 +59,15 @@ public class ShopAnalyseSalseFragment extends MBaseFragment {
         unbinder.unbind();
     }
 
-    public LineChart getSalesChart() {
-        return salesChart;
+    public LineChart getSalesMoneyChart() {
+        return salesMoneyChart;
     }
 
-    public PieChart getSalesPieChart() {
-        return salesPieChart;
+    public PieChart getSalesMoneyPieChart() {
+        return salesMoneyPieChart;
     }
 
-    public MeasureListView getSalesTableList() {
-        return salesTableList;
+    public MeasureListView getSalesMoneyTableList() {
+        return salesMoneyTableList;
     }
 }

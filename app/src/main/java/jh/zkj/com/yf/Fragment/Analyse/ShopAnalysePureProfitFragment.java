@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Fragment.Home;
+package jh.zkj.com.yf.Fragment.Analyse;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,14 +12,15 @@ import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/10/11.
+ * 门店经营分析净利润
  */
 
-public class ShopAnalyseSalseMoneyFragment extends MBaseFragment {
+public class ShopAnalysePureProfitFragment extends MBaseFragment {
 
     private View rootView;
 
-    public static ShopAnalyseSalseMoneyFragment newInstance() {
-        ShopAnalyseSalseMoneyFragment fragment = new ShopAnalyseSalseMoneyFragment();
+    public static ShopAnalysePureProfitFragment newInstance() {
+        ShopAnalysePureProfitFragment fragment = new ShopAnalysePureProfitFragment();
         return fragment;
     }
 
@@ -30,7 +31,7 @@ public class ShopAnalyseSalseMoneyFragment extends MBaseFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView =View.inflate(getActivity(), R.layout.shop_analyse_salse_money_layout,null);
-        return rootView;
+        rootView =View.inflate(getActivity(), R.layout.shop_analyse_pure_profit_layout,null);
+        return null;
     }
 }

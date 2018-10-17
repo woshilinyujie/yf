@@ -27,7 +27,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     ImageView mainActivityPriceList;
     @BindView(R.id.main_activity_order)
     ImageView mainActivityOpenBill;
-    @BindView(R.id.main_activity_retail)
+    @BindView(R.id.main_activity_analyse)
     ImageView mainActivityRetailList;
     @BindView(R.id.main_activity_my)
     ImageView mainActivityMy;
@@ -35,7 +35,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     TextView mainActivityHomeText;
     @BindView(R.id.main_activity_price_list_text)
     TextView mainActivityPriceListText;
-    @BindView(R.id.main_activity_retail_text)
+    @BindView(R.id.main_activity_analyse_text)
     TextView mainActivityRetailListText;
     @BindView(R.id.main_activity_my_text)
     TextView mainActivityMyText;
@@ -54,7 +54,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         presenter.initPager(homeActivityViewPage);
     }
 
-    @OnClick({R.id.home_activity_home_page_linear, R.id.main_activity_home_price_list_linear, R.id.main_activity_retail_linear, R.id.main_activity_my_linear, R.id.main_activity_order})
+    @OnClick({R.id.home_activity_home_page_linear, R.id.main_activity_home_price_list_linear, R.id.main_activity_analyse_linear, R.id.main_activity_my_linear, R.id.main_activity_order})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.home_activity_home_page_linear://首页
@@ -66,8 +66,8 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
             case R.id.main_activity_order://开单
                 presenter.selectOpenBill();
                 break;
-            case R.id.main_activity_retail_linear://零售单
-                presenter.selectRetailList();
+            case R.id.main_activity_analyse_linear://分析
+                presenter.selectAnalyseList();
             break;
             case R.id.main_activity_my_linear://我的
                 presenter.selectMy();

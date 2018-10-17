@@ -38,7 +38,9 @@
         <activity android:name=".Activity.My.PhoneActivity" />
         <activity android:name=".Activity.My.ModifyPasswordActivity" />
         <activity android:name=".Activity.My.EmailActivity" />
-        <activity android:name=".Activity.Home.ShopAnalyseActivity"></activity>
+        <activity android:name=".Activity.Analyse.ShopAnalyseActivity"></activity>
+        <activity android:name=".Activity.Analyse.ShopManAnalyseActivity"></activity>
+        <activity android:name=".Activity.Analyse.SalesAnalyseActivity"></activity>
     </application>
 
 </manifest>
