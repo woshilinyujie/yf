@@ -11,6 +11,9 @@ public class StockListContract {
     }
 
     public interface IStockListPresenter{
+        //清空搜索
         void clearFindEt();
+        //显示筛选
+        void showFilterPopup();
     }
 }

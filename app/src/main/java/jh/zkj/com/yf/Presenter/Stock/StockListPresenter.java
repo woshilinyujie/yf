@@ -2,6 +2,7 @@ package jh.zkj.com.yf.Presenter.Stock;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ListView;
 
@@ -13,6 +14,7 @@ import jh.zkj.com.yf.Adapter.StockRecyclerAdapter;
 import jh.zkj.com.yf.Bean.TreeListBean;
 import jh.zkj.com.yf.Contract.Stock.StockListContract;
 import jh.zkj.com.yf.Fragment.Stock.StockListFragment;
+import jh.zkj.com.yf.Mview.StockFilterPopup;
 
 /**
  * Created by wdefer
@@ -28,6 +30,8 @@ public class StockListPresenter implements StockListContract.IStockListPresenter
     private int flag;
     private StockRecyclerAdapter recyclerAdapter;
     private ListView listView;
+    //筛选popup
+    private StockFilterPopup popup;
 
     public StockListPresenter(StockListFragment fragment, int flag){
         this.fragment = fragment;
@@ -37,6 +41,7 @@ public class StockListPresenter implements StockListContract.IStockListPresenter
     }
 
     private void initPresenter() {
+        popup = new StockFilterPopup(activity);
         recycler = new RecyclerView(activity);
         listView = new ListView(activity);
         listView.setDivider(null);
@@ -61,23 +66,70 @@ public class StockListPresenter implements StockListContract.IStockListPresenter
 
         if(flag == StockListFragment.TYPE_CHILD_WAREHOUSE_STOCKS)
             fragment.getMsgLayout().setVisibility(View.GONE);
+
+        initListener();
     }
 
+    private void initListener() {
+        popup.setListener(new StockFilterPopup.Listener() {
+            @Override
+            public void onItemClick(int position) {
+                switch (position){
+                    //公司
+                    case StockFilterPopup.CLICK_TYPE_COMPANY:{
+
+                        break;
+                    }
+                    //仓库
+                    case StockFilterPopup.CLICK_TYPE_WAREHOUSE:{
+
+                        break;
+                    }
+                    //商品分类
+                    case StockFilterPopup.CLICK_TYPE_CLASSIFICATION:{
+
+                        break;
+                    }
+                    //品牌
+                    case StockFilterPopup.CLICK_TYPE_BRAND:{
+
+                        break;
+                    }
+                    //型号
+                    case StockFilterPopup.CLICK_TYPE_MODEL:{
+
+                        break;
+                    }
+                    //重置
+                    case StockFilterPopup.CLICK_TYPE_RESET:{
+                        popup.reset();
+                        break;
+                    }
+                    //确认
+                    case StockFilterPopup.CLICK_TYPE_CONFIRM:{
+                        popup.dismiss();
+                        break;
+                    }
+
+                }
+            }
+        });
+    }
 
 
     private void initListViewAdapter() {
         ArrayList<TreeListBean> nodes = new ArrayList<>();
-        nodes.add(new TreeListBean(1, 0, "1111"));
-        nodes.add(new TreeListBean(2, 0, "2222"));
-        nodes.add(new TreeListBean(3, 0, "3333"));
-        nodes.add(new TreeListBean(4, 1, "4444"));
-        nodes.add(new TreeListBean(5, 2, "5555"));
-        nodes.add(new TreeListBean(6, 3, "6666"));
-        nodes.add(new TreeListBean(7, 3, "7777"));
-        nodes.add(new TreeListBean(8, 4, "8888"));
+        nodes.add(new TreeListBean(1, 0, "Apple iPhone6S 128G 白色"));
+        nodes.add(new TreeListBean(2, 0, "Apple iPhone6S 128G 灰色"));
+        nodes.add(new TreeListBean(3, 0, "Apple iPhone6S 128G 金"));
+        nodes.add(new TreeListBean(4, 1, "A 分仓"));
+        nodes.add(new TreeListBean(5, 2, "A 分仓"));
+        nodes.add(new TreeListBean(6, 3, "A 分仓"));
+        nodes.add(new TreeListBean(7, 3, "B 分仓"));
+        nodes.add(new TreeListBean(8, 4, "A 的子分仓"));
         try {
             StockListAdapter<TreeListBean> listAdapter = new StockListAdapter<>(listView,
-                    activity, nodes, 2, true);
+                    activity, nodes, 0, true);
             listView.setAdapter(listAdapter);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -88,7 +140,7 @@ public class StockListPresenter implements StockListContract.IStockListPresenter
     private void initRecyclerAdapter() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(layoutManager);
-        recyclerAdapter = new StockRecyclerAdapter(flag);
+        recyclerAdapter = new StockRecyclerAdapter(fragment, flag);
         recycler.setAdapter(recyclerAdapter);
 
         ArrayList<String> arr = new ArrayList<>();
@@ -111,5 +163,10 @@ public class StockListPresenter implements StockListContract.IStockListPresenter
     @Override
     public void clearFindEt() {
         fragment.setFindEt("");
+    }
+
+    @Override
+    public void showFilterPopup() {
+        popup.showAtLocation(fragment.getMain(), Gravity.CENTER, 0, 0);
     }
 }

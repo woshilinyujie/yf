@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Fragment.Retail;
+package jh.zkj.com.yf.Fragment.My;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,15 +12,15 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jh.zkj.com.yf.Contract.Retail.RetailListContract;
+import jh.zkj.com.yf.Contract.My.RetailListContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
-import jh.zkj.com.yf.Presenter.Retail.RetailListPresenter;
+import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
 /**
  * Created by wdefer
  * on 2018/9/19
- * use 零售单中的列表
+ * use 我的订单 - 列表
  */
 public class RetailListFragment extends MBaseFragment implements RetailListContract.IRetailView{
 

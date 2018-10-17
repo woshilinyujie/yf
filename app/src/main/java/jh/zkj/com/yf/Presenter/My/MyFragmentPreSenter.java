@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
+import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Contract.My.MyFragmentContract;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
 import jh.zkj.com.yf.Mview.PhotoPopupWindow;
@@ -63,6 +64,12 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
                  popupWindow.Dismiss();
              }
          });
+    }
+
+    @Override
+    public void startMyOrderActivity() {
+        Intent intent = new Intent(activity, MyOrderActivity.class);
+        fragment.startActivity(intent);
     }
 
 }

@@ -67,6 +67,7 @@ public class StockListFragment extends MBaseFragment implements StockListContrac
     ConstraintLayout msgLayout;
     private Unbinder bind;
     private StockListPresenter presenter;
+    private View mainView;
 
     public static StockListFragment newInstance(int flag) {
         StockListFragment fragment = new StockListFragment();
@@ -79,24 +80,30 @@ public class StockListFragment extends MBaseFragment implements StockListContrac
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stock_list, null);
-        bind = ButterKnife.bind(this, view);
+        mainView = inflater.inflate(R.layout.fragment_stock_list, null);
+        bind = ButterKnife.bind(this, mainView);
         Bundle bundle = getArguments();
         if(bundle != null){
             presenter = new StockListPresenter(this, bundle.getInt("page_type"));
         }
 
-        return view;
+        return mainView;
     }
 
-    @OnClick({R.id.stock_clear_img})
+    @OnClick({R.id.stock_clear_img, R.id.stock_filter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.stock_clear_img://清空edittext
+            //清空edittext
+            case R.id.stock_clear_img:{
                 if(presenter != null){
                     presenter.clearFindEt();
                 }
                 break;
+            }
+
+            case R.id.stock_filter:{
+                presenter.showFilterPopup();
+            }
 
         }
     }
@@ -137,6 +144,10 @@ public class StockListFragment extends MBaseFragment implements StockListContrac
 
     public View getSpace() {
         return space;
+    }
+
+    public View getMain() {
+        return mainView;
     }
 
     public ConstraintLayout getMsgLayout() {

@@ -1,6 +1,8 @@
 package jh.zkj.com.yf.Adapter;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Fragment.Stock.StockListFragment;
 import jh.zkj.com.yf.R;
@@ -23,6 +26,7 @@ import jh.zkj.com.yf.R;
  */
 public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int flag;
+    private final Fragment fragment;
 
     private ArrayList<String> mArr = new ArrayList<>();
 
@@ -33,7 +37,8 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
-    public StockRecyclerAdapter(int flag) {
+    public StockRecyclerAdapter(Fragment fragment, int flag) {
+        this.fragment = fragment;
         this.flag = flag;
     }
 
@@ -81,6 +86,14 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                     holder.lastName.setVisibility(View.GONE);
 
             } else if (viewholder instanceof StockNumberHolder) {
+                StockNumberHolder holder = (StockNumberHolder) viewholder;
+                holder.orderBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(fragment.getContext(), RetailOrderActivity.class);
+                        fragment.startActivity(intent);
+                    }
+                });
 
             } else if (viewholder instanceof NumberTrackHolder) {
                 NumberTrackHolder holder = (NumberTrackHolder) viewholder;
@@ -123,6 +136,10 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     //库存串号holder
     class StockNumberHolder extends RecyclerView.ViewHolder {
+        //下单
+        @BindView(R.id.stock_number_order_btn)
+        View orderBtn;
+
         public StockNumberHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

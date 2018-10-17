@@ -20,6 +20,8 @@ public class MyFragmentContract {
 
         void ClickPhotoCancle();//选头像取消
 
+        void startMyOrderActivity();//我的订单
+
     }
 
 }

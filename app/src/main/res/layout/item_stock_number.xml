@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/select_commodity_layout"
+        android:id="@+id/stock_number_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/dp_16"
@@ -16,7 +16,7 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/retail_list_order"
+            android:id="@+id/stock_number_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="111234555683422"
@@ -27,7 +27,7 @@
             android:layout_marginTop="@dimen/dp_9"/>
 
         <TextView
-            android:id="@+id/retail_list_order_status"
+            android:id="@+id/stock_number_order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="总仓"
@@ -38,25 +38,25 @@
             android:layout_marginTop="@dimen/dp_9"/>
 
         <View
-            android:id="@+id/retail_list_line"
+            android:id="@+id/stock_number_line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
             android:background="@color/c_f6f7fb"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_order"
+            app:layout_constraintTop_toBottomOf="@id/stock_number_order"
             android:layout_marginTop="@dimen/dp_9"/>
 
         <TextView
-            android:id="@+id/retail_list_name"
+            android:id="@+id/stock_number_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Apple iPhone 6s 128G灰"
-            app:layout_constraintTop_toTopOf="@id/retail_list_line"
+            app:layout_constraintTop_toTopOf="@id/stock_number_line"
             android:layout_marginTop="@dimen/dp_10"
             android:textSize="@dimen/dp_14"
             android:textColor="@color/c_333333"/>
 
         <TextView
-            android:id="@+id/retail_list_order_btn"
+            android:id="@+id/stock_number_order_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="下单"
@@ -70,21 +70,21 @@
             android:paddingRight="@dimen/dp_18"
             android:background="@drawable/shape_stroke_4fa3fb_radius_30"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/retail_list_line"/>
+            app:layout_constraintTop_toTopOf="@id/stock_number_line"/>
 
         <LinearLayout
-            android:id="@+id/retail_list_money_layout"
+            android:id="@+id/stock_number_money_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_name">
+            app:layout_constraintTop_toBottomOf="@id/stock_number_name">
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/retail_list_order_title"
+                    android:id="@+id/stock_number_order_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="采购价：5780.00"
@@ -97,7 +97,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/retail_list_order_title1"
+                    android:id="@+id/stock_number_order_title1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="成本价：5780.00"
@@ -119,14 +119,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_money_layout">
+            app:layout_constraintTop_toBottomOf="@id/stock_number_money_layout">
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/retail_list_date"
+                    android:id="@+id/stock_number_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="总库龄：50"
@@ -139,7 +139,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/retail_list_date1"
+                    android:id="@+id/stock_number_date1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="当前库龄：20"
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right">
                 <TextView
-                    android:id="@+id/retail_list_date2"
+                    android:id="@+id/stock_number_date2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="超库龄天数：10"
@@ -171,10 +171,10 @@
     </android.support.constraint.ConstraintLayout>
 
     <View
-        android:id="@+id/retail_list_space"
+        android:id="@+id/stock_number_space"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_10"
         android:background="@color/c_f6f7fb"
-        app:layout_constraintTop_toBottomOf="@id/select_commodity_layout"/>
+        app:layout_constraintTop_toBottomOf="@id/stock_number_layout"/>
 
 </android.support.constraint.ConstraintLayout>
