@@ -15,11 +15,11 @@ public class MainContract {
         ImageView getHomePageIv();
         ImageView getPriceListIv();
         ImageView getOpenBillIv();
-        ImageView getRetailListIv();
+        ImageView getAnalyseListIv();
         ImageView getMyIv();
         TextView getHomePageTv();
         TextView getPriceListTv();
-        TextView getRetailListTv();
+        TextView getAnalyseListTv();
         ViewPager getViewPager();
         TextView getMyTv();
         void setHomePageIvBg(int resource);
@@ -28,7 +28,7 @@ public class MainContract {
         void setMyBg(int resource);
         void setHomePageTvColor(int color);
         void setPriceListColor(int color);
-        void setRetailListColor(int color);
+        void setAnalyseListColor(int color);
         void setMyColor(int color);
 
 

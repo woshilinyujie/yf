@@ -28,7 +28,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     @BindView(R.id.main_activity_order)
     ImageView mainActivityOpenBill;
     @BindView(R.id.main_activity_analyse)
-    ImageView mainActivityRetailList;
+    ImageView mainActivityAnalyseList;
     @BindView(R.id.main_activity_my)
     ImageView mainActivityMy;
     @BindView(R.id.main_activity_home_text)
@@ -36,7 +36,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     @BindView(R.id.main_activity_price_list_text)
     TextView mainActivityPriceListText;
     @BindView(R.id.main_activity_analyse_text)
-    TextView mainActivityRetailListText;
+    TextView mainActivityAnalyseListText;
     @BindView(R.id.main_activity_my_text)
     TextView mainActivityMyText;
     @BindView(R.id.main_activity_order_text)
@@ -91,8 +91,8 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     }
 
     @Override
-    public ImageView getRetailListIv() {
-        return mainActivityRetailList;
+    public ImageView getAnalyseListIv() {
+        return mainActivityAnalyseList;
     }
 
     @Override
@@ -112,8 +112,8 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
 
 
     @Override
-    public TextView getRetailListTv() {
-        return mainActivityRetailListText;
+    public TextView getAnalyseListTv() {
+        return mainActivityAnalyseListText;
     }
 
     @Override
@@ -140,7 +140,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
 
     @Override
     public void setRetailListBg(int resource) {
-        mainActivityRetailList.setBackgroundResource(resource);
+        mainActivityAnalyseList.setBackgroundResource(resource);
     }
 
     @Override
@@ -160,8 +160,8 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
 
 
     @Override
-    public void setRetailListColor(int color) {
-        mainActivityRetailListText.setTextColor(color);
+    public void setAnalyseListColor(int color) {
+        mainActivityAnalyseListText.setTextColor(color);
     }
 
     @Override
