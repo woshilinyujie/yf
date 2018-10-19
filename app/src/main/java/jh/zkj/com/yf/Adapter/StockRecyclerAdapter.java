@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
+import jh.zkj.com.yf.Activity.Stock.ChildWarehouseActivity;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Fragment.Stock.StockListFragment;
 import jh.zkj.com.yf.R;
@@ -112,6 +113,16 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                     holder.titleLayout.setVisibility(View.VISIBLE);
                 else
                     holder.titleLayout.setVisibility(View.GONE);
+
+
+
+                holder.viewLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(fragment.getActivity(), ChildWarehouseActivity.class);
+                        fragment.startActivity(intent);
+                    }
+                });
             }
         }
 
@@ -184,9 +195,11 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         //顶布局
         @BindView(R.id.child_warehouse_title_layout)
         ConstraintLayout titleLayout;
+        View viewLayout;
         public ChildWarehouseHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            viewLayout = itemView;
         }
     }
 }

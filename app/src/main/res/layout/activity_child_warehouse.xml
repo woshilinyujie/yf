@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <jh.zkj.com.yf.Mview.TitleLayout
+        android:id="@+id/child_warehouse_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        app:leftImageBg="@mipmap/back_arrow"
+        app:leftImageWidthSize="@dimen/dp_12"
+        app:leftImageHeightSize="@dimen/dp_20"
+        app:leftMargin="@dimen/dp_16"
+        app:centerText="分仓库存"
+        app:centerTextSize="@dimen/sp_16"
+        android:background="@color/white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/c_737c87"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_17"
+        android:paddingBottom="@dimen/dp_14"
+        android:paddingLeft="@dimen/dp_16">
+
+        <TextView
+            android:id="@+id/child_warehouse_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="仓库：VIVIO长兴专卖店"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:includeFontPadding="false"/>
+
+        <TextView
+            android:id="@+id/child_warehouse_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总数量：31"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:includeFontPadding="false"
+            android:layout_marginTop="@dimen/dp_12"/>
+
+        <TextView
+            android:id="@+id/child_warehouse_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总金额：¥102750.00"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:includeFontPadding="false"
+            android:layout_marginTop="@dimen/dp_12"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/child_warehouse_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:text="查询日期：2018-10-11"
+        android:textSize="@dimen/sp_10"
+        android:textColor="@color/c_a6a6a6"
+        android:gravity="center"
+        android:includeFontPadding="false"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/c_e6f0fc"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_9"
+        android:paddingTop="@dimen/dp_9"
+        android:paddingLeft="@dimen/dp_10">
+
+        <TextView
+            android:id="@+id/child_warehouse_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="平均成本价"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/c_666666"
+            android:includeFontPadding="false"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/child_warehouse_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数量"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/c_666666"
+            android:includeFontPadding="false"
+            android:layout_marginRight="@dimen/dp_110"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="商品分类"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/c_666666"
+            android:includeFontPadding="false"
+            android:layout_marginRight="@dimen/dp_35"
+            app:layout_constraintRight_toLeftOf="@id/child_warehouse_number_text"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/child_warehouse_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/c_f6f7fb"/>
+
+</LinearLayout>
