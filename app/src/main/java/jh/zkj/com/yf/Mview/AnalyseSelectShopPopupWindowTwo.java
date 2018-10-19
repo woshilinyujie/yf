@@ -30,7 +30,7 @@ import jh.zkj.com.yf.R;
  * 数据分析店铺选择
  */
 
-public class AnalyseSelectShopPopupWindow extends PopupWindow {
+public class AnalyseSelectShopPopupWindowTwo extends PopupWindow {
 
     private final View view;
     Context context;
@@ -52,7 +52,7 @@ public class AnalyseSelectShopPopupWindow extends PopupWindow {
     private AnalyseSelectShopPopupWindowAdapter adapter;
     SelectShopListener selectShopListener;
 
-    public AnalyseSelectShopPopupWindow(final Context context) {
+    public AnalyseSelectShopPopupWindowTwo(final Context context) {
         super(context);
         this.context = context;
         view = View.inflate(context, R.layout.shop_select_shop_layout, null);

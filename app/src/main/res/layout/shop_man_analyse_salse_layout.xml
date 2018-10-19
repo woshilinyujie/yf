@@ -55,7 +55,7 @@
 
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/sales_chart"
+                android:id="@+id/shop_man_sales_chart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_200"
                 android:layout_gravity="center_horizontal">
@@ -103,8 +103,7 @@
 
 
             <com.github.mikephil.charting.charts.PieChart
-
-                android:id="@+id/sales_pie_chart"
+                android:id="@+id/shop_man_sales_pie_chart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_280"
                 android:layout_gravity="center"
@@ -160,15 +159,13 @@
                 android:dividerHeight="@dimen/dp_0"
                 android:divider="@color/c_f6f7fb"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:id="@+id/sales_table_list"
+                android:id="@+id/shop_man_sales_table_list"
                 android:layout_marginRight="@dimen/dp_26"
                 android:layout_marginLeft="@dimen/dp_26"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
-        
-
 
 
     </LinearLayout>

@@ -1,6 +1,7 @@
 package jh.zkj.com.yf.Fragment.My;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jh.zkj.com.yf.Activity.My.EmailActivity;
+import jh.zkj.com.yf.Activity.My.ModifyPasswordActivity;
+import jh.zkj.com.yf.Activity.My.PhoneActivity;
+import jh.zkj.com.yf.Activity.My.UserNameActivity;
 import jh.zkj.com.yf.Contract.My.MyFragmentContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.CircleView;
@@ -93,10 +98,16 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
                 presenter.ClickPhoto();
                 break;
             case R.id.my_account_realtve://账户名
+                Intent intent=new Intent(getActivity(), UserNameActivity.class);
+                startActivity(intent);
                 break;
             case R.id.my_phone_realtve://手机
+                Intent intent1=new Intent(getActivity(), PhoneActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.my_email_relative://邮箱
+                Intent intent2=new Intent(getActivity(), EmailActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.my_exit://退出
                 break;
@@ -104,6 +115,8 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
                 presenter.startMyOrderActivity();
                 break;
             case R.id.my_account_login_password://修改登入密码
+                Intent intent3=new Intent(getActivity(), ModifyPasswordActivity.class);
+                startActivity(intent3);
                 break;
         }
     }

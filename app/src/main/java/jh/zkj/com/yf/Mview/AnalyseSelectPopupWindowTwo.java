@@ -29,7 +29,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jh.zkj.com.yf.Listener.SelectShopDateOneListener;
+import jh.zkj.com.yf.Listener.SelectShopDateTwoListener;
 import jh.zkj.com.yf.Mutils.DateUtil;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
@@ -39,7 +39,7 @@ import jh.zkj.com.yf.R;
  * 数据分析店铺和和时间选择
  */
 
-public class AnalyseSelectPopupWindow extends PopupWindow {
+public class AnalyseSelectPopupWindowTwo extends PopupWindow {
 
     private final View view;
     Context context;
@@ -53,12 +53,6 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     TextView shopSelectBegin;
     @BindView(R.id.shop_select_end)
     TextView shopSelectEnd;
-    @BindView(R.id.shop_select_classified)
-    TextView shopSelectClassified;
-    @BindView(R.id.shop_select_brand)
-    TextView shopSelectBrand;
-    @BindView(R.id.shop_select_model)
-    TextView shopSelectModel;
     @BindView(R.id.shop_select_replace)
     Button shopSelectReplace;
     @BindView(R.id.shop_select_sure)
@@ -68,7 +62,7 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     DataSelect dataSelect;
     DataSelect dataSelect1;
     DataSelect dataSelect2;
-    SelectShopDateOneListener selectShopDateListener;
+    SelectShopDateTwoListener selectShopDateListener;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,10 +74,10 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     };
     private TimePickerView pvTime;
 
-    public AnalyseSelectPopupWindow(final Context context) {
+    public AnalyseSelectPopupWindowTwo(final Context context) {
         super(context);
         this.context = context;
-        view = View.inflate(context, R.layout.shop_select_layout, null);
+        view = View.inflate(context, R.layout.shop_select_layout_two, null);
         setContentView(view);
         ButterKnife.bind(this, view);
         //设置宽与高
@@ -173,7 +167,7 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     }
 
 
-    @OnClick({R.id.shop_select_today, R.id.shop_select_week, R.id.shop_select_month, R.id.shop_select_begin, R.id.shop_select_end, R.id.shop_select_classified, R.id.shop_select_brand, R.id.shop_select_model, R.id.shop_select_replace, R.id.shop_select_sure, R.id.shop_select_bg})
+    @OnClick({R.id.shop_select_today, R.id.shop_select_week, R.id.shop_select_month, R.id.shop_select_begin, R.id.shop_select_end,  R.id.shop_select_replace, R.id.shop_select_sure, R.id.shop_select_bg})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.shop_select_today://今日
@@ -237,20 +231,13 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
                 pvTime.show(shopSelectEnd);
                 dataSelect2 = dataSelect1;
                 break;
-            case R.id.shop_select_classified://商品分类
-                break;
-            case R.id.shop_select_brand://商品品牌
-                break;
-            case R.id.shop_select_model://商品型号
-                break;
+
             case R.id.shop_select_replace://重置
                 break;
             case R.id.shop_select_sure://确定
-                if (true) {
-                    if (selectShopDateListener != null) {
-                        selectShopDateListener.SelectShopDate(shopSelectBegin.getText().toString(), shopSelectEnd.getText().toString()
-                                , shopSelectClassified.getText().toString(), shopSelectBrand.getText().toString(), shopSelectModel.getText().toString());
-                    }
+                if (selectShopDateListener != null) {
+                    selectShopDateListener.SelectShopDate(shopSelectBegin.getText().toString(),
+                            shopSelectEnd.getText().toString());
                     dismiss();
                 }
                 break;
@@ -270,21 +257,6 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
         view.setBackgroundResource(R.drawable.shape_radius_4_f6f7fb);
     }
 
-    public boolean judge() {
-        if (shopSelectClassified.getText().equals("请选择")) {
-            MToast.makeText(context, "请选择商品分类", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (shopSelectBrand.getText().equals("请选择")) {
-            MToast.makeText(context, "请选择商品品牌", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (shopSelectModel.getText().equals("请选择")) {
-            MToast.makeText(context, "请选择商品型号", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
 
     interface DataSelect {
         public void DataSelectSuccess(Date date);
@@ -292,7 +264,7 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
 
     }
 
-    public void setSelectDateListener(SelectShopDateOneListener selectShopDateListener) {
+    public void setSelectDateListener(SelectShopDateTwoListener selectShopDateListener) {
         this.selectShopDateListener = selectShopDateListener;
     }
 

@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Contract.My;
+package jh.zkj.com.yf.Contract.Analyse;
 
 import android.view.View;
 
@@ -11,8 +11,9 @@ public class ShopAnalyseContract {
         void setShopAnalyseSelectShop(String shopName);//设置店铺
         void setShopAnalyseSelectDate1(String Date1);//设置开始日期
         void setShopAnalyseSelectDate2(String Date2);//设置结束日期
+        void setTitle(String title);
     }
-    public  interface ShopAnalysePresenter{
+    public  interface ShopAnalysePresent{
         void initViewpager();
         void selectShop(View view);//店铺选择
         void selectData(View view);//时间选择

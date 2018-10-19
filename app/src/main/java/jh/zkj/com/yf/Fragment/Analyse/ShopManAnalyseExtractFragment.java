@@ -1,4 +1,4 @@
-package jh.zkj.com.yf.Fragment.Home;
+package jh.zkj.com.yf.Fragment.Analyse;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,18 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import jh.zkj.com.yf.Fragment.MBaseFragment;
-import jh.zkj.com.yf.R;
 
 /**
- * Created by linyujie on 18/10/11.
+ * Created by linyujie on 18/10/16.
+ * 店员业绩分析 提成
  */
 
-public class ShopAnalysePureProfitFragment extends MBaseFragment {
-
-    private View rootView;
-
-    public static ShopAnalysePureProfitFragment newInstance() {
-        ShopAnalysePureProfitFragment fragment = new ShopAnalysePureProfitFragment();
+public class ShopManAnalyseExtractFragment extends MBaseFragment {
+    public static ShopManAnalyseExtractFragment newInstance() {
+        ShopManAnalyseExtractFragment fragment = new ShopManAnalyseExtractFragment();
         return fragment;
     }
 
@@ -30,7 +27,7 @@ public class ShopAnalysePureProfitFragment extends MBaseFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView =View.inflate(getActivity(), R.layout.shop_analyse_pure_profit_layout,null);
-        return rootView;
+
+        return null;
     }
 }

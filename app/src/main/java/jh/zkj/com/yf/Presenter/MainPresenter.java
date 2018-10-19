@@ -11,6 +11,7 @@ import java.util.List;
 import jh.zkj.com.yf.Activity.MainActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Contract.MainContract;
+import jh.zkj.com.yf.Fragment.Analyse.AnalyseFragment;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
@@ -37,7 +38,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         fragments.add(HomeFragment.newInstance());
 //        fragments.add(PriceListFragment.newInstance());
         fragments.add(StockFragment.newInstance());
-//        fragments.add(RetailFragment.newInstance());
+        fragments.add(AnalyseFragment.newInstance());
         fragments.add(MyFragment.newInstance());
         //预加载3页，缓存
         pager.setOffscreenPageLimit(3);
@@ -50,11 +51,11 @@ public class MainPresenter implements MainContract.IMainPresenter {
     public void selectHome() {
         activity.setHomePageTvColor(0xFF4fa3fb);
         activity.setPriceListColor(0xff333333);
-        activity.setRetailListColor(0xff333333);
+        activity.setAnalyseListColor(0xff333333);
         activity.setMyColor(0xff333333);
         activity.setHomePageIvBg(R.mipmap.home_select);
         activity.setPriceListBg(R.mipmap.stock_gray_icon);
-        activity.setRetailListBg(R.mipmap.retail);
+        activity.setRetailListBg(R.mipmap.analyse);
         activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(0);
 
@@ -64,11 +65,11 @@ public class MainPresenter implements MainContract.IMainPresenter {
     public void selectPriceList() {
         activity.setHomePageTvColor(0xFF333333);
         activity.setPriceListColor(0xFF4fa3fb);
-        activity.setRetailListColor(0xff333333);
+        activity.setAnalyseListColor(0xff333333);
         activity.setMyColor(0xff333333);
         activity.setHomePageIvBg(R.mipmap.home);
-        activity.setPriceListBg(R.mipmap.quotation_select);
-        activity.setRetailListBg(R.mipmap.retail);
+        activity.setPriceListBg(R.mipmap.stock_blue_icon);
+        activity.setRetailListBg(R.mipmap.analyse);
         activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(1);
     }
@@ -80,14 +81,14 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void selectRetailList() {
+    public void selectAnalyseList() {
         activity.setHomePageTvColor(0xFF333333);
         activity.setPriceListColor(0xff333333);
-        activity.setRetailListColor(0xFF4fa3fb);
+        activity.setAnalyseListColor(0xFF4fa3fb);
         activity.setMyColor(0xff333333);
         activity.setHomePageIvBg(R.mipmap.home);
         activity.setPriceListBg(R.mipmap.stock_gray_icon);
-        activity.setRetailListBg(R.mipmap.retail_select);
+        activity.setRetailListBg(R.mipmap.analyse_select);
         activity.setMyBg(R.mipmap.my);
         activity.getViewPager().setCurrentItem(2);
     }
@@ -96,11 +97,11 @@ public class MainPresenter implements MainContract.IMainPresenter {
     public void selectMy() {
         activity.setHomePageTvColor(0xFF333333);
         activity.setPriceListColor(0xff333333);
-        activity.setRetailListColor(0xff333333);
+        activity.setAnalyseListColor(0xff333333);
         activity.setMyColor(0xFF4fa3fb);
         activity.setHomePageIvBg(R.mipmap.home);
         activity.setPriceListBg(R.mipmap.stock_gray_icon);
-        activity.setRetailListBg(R.mipmap.retail);
+        activity.setRetailListBg(R.mipmap.analyse);
         activity.setMyBg(R.mipmap.my_select);
         activity.getViewPager().setCurrentItem(3);
     }

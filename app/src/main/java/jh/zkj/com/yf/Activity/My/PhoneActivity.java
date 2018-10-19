@@ -22,7 +22,7 @@ public class PhoneActivity extends MBaseActivity {
     @BindView(R.id.phone_input_phone)
     EditText phoneInputPhone;
     @BindView(R.id.phone_send_code)
-    Button phoneSendCode;
+    TextView phoneSendCode;
     @BindView(R.id.phone_input_code)
     EditText phoneInputCode;
     @BindView(R.id.phone_save)
