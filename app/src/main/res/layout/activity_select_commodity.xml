@@ -7,22 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Order.SelectCommodityActivity">
 
-    <jh.zkj.com.yf.Mview.TitleLayout
+    <include
         android:id="@+id/select_commodity_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44"
-        app:leftImageBg="@mipmap/back_arrow"
-        app:leftImageWidthSize="@dimen/dp_12"
-        app:leftImageHeightSize="@dimen/dp_20"
-        app:leftMargin="@dimen/dp_16"
-        app:centerText="订单详情"
-        app:centerTextSize="@dimen/sp_16"
-        app:rightText="编辑"
-        app:rightTextColor="@color/c_666666"
-        app:rightTextSize="@dimen/sp_14"
-        app:rightMargin="@dimen/dp_16"
-        android:background="@color/white"/>
-
+        android:layout_height="wrap_content"
+        layout="@layout/view_search_title"/>
 
     <TextView
         android:id="@+id/select_commodity_store_name"
@@ -36,13 +25,149 @@
         android:paddingBottom="@dimen/dp_7"
         app:layout_constraintTop_toBottomOf="@id/select_commodity_title"/>
 
+    <RelativeLayout
+        android:id="@+id/select_commodity_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:text="选好了"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            android:background="@color/c_6fb1fc"
+            android:paddingRight="@dimen/dp_49"
+            android:paddingLeft="@dimen/dp_49"
+            android:layout_alignParentRight="true"/>
+
+
+        <LinearLayout
+            android:id="@+id/select_commodity_num_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_82">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数量合计:"
+                android:includeFontPadding="false"
+                android:textColor="@color/c_333333"
+                android:textSize="@dimen/sp_14"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:includeFontPadding="false"
+                android:textColor="@color/c_ff6600"
+                android:textSize="@dimen/sp_20"
+                android:layout_marginLeft="@dimen/dp_6"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/select_commodity_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/select_commodity_store_name"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/select_commodity_bottom_layout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@color/c_f6f7fb"/>
+
+
+    <RelativeLayout
+        android:id="@+id/commodity_car_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#66000000"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/select_commodity_bottom_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/dp_200"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:id="@+id/commodity_car_title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dp_13"
+                android:paddingTop="@dimen/dp_13"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="已选商品"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/c_a6a6a6"/>
+
+                <TextView
+                    android:id="@+id/commodity_car_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="清空"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/c_6fb1fc"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/commodity_car_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingLeft="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10">
+
+            <ImageView
+                android:id="@+id/select_commodity_car"
+                android:layout_width="@dimen/dp_52"
+                android:layout_height="@dimen/dp_52"
+                android:src="@mipmap/shopping_cart"/>
+
+        <!-- 红点  暂且保留 -->
+            <!--<TextView-->
+                <!--android:id="@+id/select_commodity_num"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:minWidth="@dimen/dp_16"-->
+                <!--android:text=" 999 "-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:visibility="visible"-->
+                <!--android:layout_marginLeft="@dimen/dp_m_10"-->
+                <!--android:layout_marginTop="@dimen/dp_1"-->
+                <!--android:layout_toRightOf="@id/select_commodity_car"-->
+                <!--android:background="@drawable/shape_radius_10_ff001f"/>-->
+
+        </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

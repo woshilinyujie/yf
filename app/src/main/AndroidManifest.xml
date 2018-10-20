@@ -10,8 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MainActivity"
-                  android:windowSoftInputMode="stateHidden|adjustPan">
+        <activity
+            android:name=".Activity.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -29,6 +30,8 @@
         <activity
             android:name=".Activity.Order.RetailOrderActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <!-- 选择业务员 -->
+        <activity android:name=".Activity.Order.SelectSalesmanActivity"/>
         <activity android:name=".Activity.My.PhotoActivity"/>
         <!-- 库存 -》筛选 -->
         <activity android:name=".Activity.Stock.FilterListActivity"/>
@@ -36,15 +39,18 @@
         <activity android:name=".Activity.Order.SelectCommodityActivity"/>
         <!-- 我的库存 -->
         <activity android:name=".Activity.My.MyOrderActivity"/>
-        <activity android:name=".Activity.My.UserNameActivity" />
-        <activity android:name=".Activity.My.PhoneActivity" />
-        <activity android:name=".Activity.My.ModifyPasswordActivity" />
-        <activity android:name=".Activity.My.EmailActivity" />
+        <activity android:name=".Activity.My.UserNameActivity"/>
+        <activity android:name=".Activity.My.PhoneActivity"/>
+        <activity android:name=".Activity.My.ModifyPasswordActivity"/>
+        <activity android:name=".Activity.My.EmailActivity"/>
         <!-- 分仓库存选择仓库 -->
         <activity android:name=".Activity.Stock.ChildWarehouseActivity"/>
-        <activity android:name=".Activity.Analyse.ShopAnalyseActivity"></activity>
-        <activity android:name=".Activity.Analyse.ShopManAnalyseActivity"></activity>
-        <activity android:name=".Activity.Analyse.SalesAnalyseActivity"></activity>
+        <activity android:name=".Activity.Analyse.ShopAnalyseActivity"/>
+        <activity android:name=".Activity.Analyse.ShopManAnalyseActivity"/>
+        <activity android:name=".Activity.Analyse.SalesAnalyseActivity"/>
+        <!-- 选择客户 -->
+        <activity android:name=".Activity.Order.SelectClientActivity">
+        </activity>
     </application>
 
 </manifest>

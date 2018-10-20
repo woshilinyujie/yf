@@ -19,6 +19,7 @@
             android:id="@+id/retail_list_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:includeFontPadding="false"
             android:text="111234555683422"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/c_4fa3fb"
@@ -30,6 +31,7 @@
             android:id="@+id/retail_list_order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:includeFontPadding="false"
             android:text="总仓"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/c_a6a6a6"
@@ -49,105 +51,98 @@
             android:id="@+id/retail_list_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:includeFontPadding="false"
             android:text="Apple iPhone 6s 128G灰"
             app:layout_constraintTop_toTopOf="@id/retail_list_line"
             android:layout_marginTop="@dimen/dp_10"
             android:textSize="@dimen/dp_14"
             android:textColor="@color/c_333333"/>
 
-        <LinearLayout
-            android:id="@+id/retail_list_money_layout"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/retail_list_order_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="零售价：6700"
+            android:textSize="@dimen/dp_12"
             android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_name">
+            android:textColor="@color/c_a6a6a6"
+                app:layout_constraintTop_toBottomOf="@id/retail_list_name"/>
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/retail_list_order_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="采购价：5780.00"
-                    android:textSize="@dimen/dp_12"
-                    android:textColor="@color/c_a6a6a6"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/retail_list_order_title1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="成本价：5780.00"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:textSize="@dimen/dp_12"
-                    android:textColor="@color/c_a6a6a6"/>
-            </RelativeLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="1dp"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_money_layout">
+            app:layout_constraintTop_toBottomOf="@id/retail_list_order_title">
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/retail_list_date"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/retail_list_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="总库龄：50"
-                    android:textColor="@color/c_a6a6a6"
-                    android:textSize="@dimen/dp_12"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/retail_list_date1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="当前库龄：20"
-                    android:textColor="@color/c_a6a6a6"
-                    android:textSize="@dimen/dp_12"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:gravity="right">
-                <TextView
-                    android:id="@+id/retail_list_date2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="超库龄天数：10"
-                    android:textColor="@color/c_a6a6a6"
-                    android:textSize="@dimen/dp_12"
-                    app:layout_constraintRight_toRightOf="parent"/>
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text="总库龄：50"
+                android:textColor="@color/c_a6a6a6"
+                android:textSize="@dimen/dp_12"/>
 
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/retail_list_date1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text="当前库龄：20"
+                android:textColor="@color/c_a6a6a6"
+                android:textSize="@dimen/dp_12"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                android:id="@+id/retail_list_date2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text="超库龄天数：10"
+                android:textColor="@color/c_a6a6a6"
+                android:textSize="@dimen/dp_12"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/retail_list_line">
+            
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:background="@mipmap/circle_less"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text=""
+                android:textColor="@color/c_333333"
+                android:textSize="@dimen/sp_14"/>
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:background="@mipmap/circle_add_blue"/>
 
         </LinearLayout>
 
