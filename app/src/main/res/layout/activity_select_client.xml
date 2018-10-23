@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="@color/c_f6f7fb"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/select_client_recycler"
         android:layout_width="match_parent"

@@ -11,6 +11,11 @@ import jh.zkj.com.yf.Contract.Order.SelectClientContract;
 import jh.zkj.com.yf.Presenter.Order.SelectClientPresenter;
 import jh.zkj.com.yf.R;
 
+/**
+ * Created by wdefer
+ * 2018/10/20
+ * use 选择客户
+ */
 public class SelectClientActivity extends MBaseActivity implements SelectClientContract.ISelectClientView {
 
     @BindView(R.id.select_client_recycler)

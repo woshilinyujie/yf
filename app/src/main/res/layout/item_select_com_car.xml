@@ -71,8 +71,15 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/com_car_bottom_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="@color/c_f6f7fb"/>
+
+    <View
+        android:id="@+id/com_car_space"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_20"
+        android:visibility="gone"/>
 
 </LinearLayout>

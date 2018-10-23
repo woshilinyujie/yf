@@ -2,6 +2,7 @@ package jh.zkj.com.yf.Activity;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jh.zkj.com.yf.API.HttpConstant;
+import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Mview.MainViewPager;
 import jh.zkj.com.yf.Presenter.MainPresenter;
@@ -52,6 +55,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         ButterKnife.bind(this);
         presenter = new MainPresenter(this);
         presenter.initPager(homeActivityViewPage);
+
     }
 
     @OnClick({R.id.home_activity_home_page_linear, R.id.main_activity_home_price_list_linear, R.id.main_activity_analyse_linear, R.id.main_activity_my_linear, R.id.main_activity_order})

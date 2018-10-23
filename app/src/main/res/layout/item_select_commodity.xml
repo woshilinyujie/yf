@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 有串号 -->
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,7 +17,7 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/retail_list_order"
+            android:id="@+id/select_commodity_order_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
@@ -28,7 +29,7 @@
             android:layout_marginTop="@dimen/dp_9"/>
 
         <TextView
-            android:id="@+id/retail_list_order_status"
+            android:id="@+id/select_commodity_warehouse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
@@ -40,26 +41,26 @@
             android:layout_marginTop="@dimen/dp_9"/>
 
         <View
-            android:id="@+id/retail_list_line"
+            android:id="@+id/select_commodity_line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
             android:background="@color/c_f6f7fb"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_order"
+            app:layout_constraintTop_toBottomOf="@id/select_commodity_order_num"
             android:layout_marginTop="@dimen/dp_9"/>
 
         <TextView
-            android:id="@+id/retail_list_name"
+            android:id="@+id/select_commodity_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:text="Apple iPhone 6s 128G灰"
-            app:layout_constraintTop_toTopOf="@id/retail_list_line"
+            app:layout_constraintTop_toTopOf="@id/select_commodity_line"
             android:layout_marginTop="@dimen/dp_10"
             android:textSize="@dimen/dp_14"
             android:textColor="@color/c_333333"/>
 
         <TextView
-            android:id="@+id/retail_list_order_title"
+            android:id="@+id/select_commodity_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
@@ -67,18 +68,19 @@
             android:textSize="@dimen/dp_12"
             android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/c_a6a6a6"
-                app:layout_constraintTop_toBottomOf="@id/retail_list_name"/>
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/select_commodity_content"/>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_order_title">
+            android:layout_marginTop="@dimen/dp_18"
+            app:layout_constraintTop_toBottomOf="@id/select_commodity_price">
 
             <TextView
-                android:id="@+id/retail_list_date"
+                android:id="@+id/select_commodity_total_age"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -88,7 +90,7 @@
                 android:textSize="@dimen/dp_12"/>
 
             <TextView
-                android:id="@+id/retail_list_date1"
+                android:id="@+id/select_commodity_age"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -100,7 +102,7 @@
                 app:layout_constraintRight_toRightOf="parent"/>
 
             <TextView
-                android:id="@+id/retail_list_date2"
+                android:id="@+id/select_commodity_beyond_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -121,25 +123,29 @@
             android:gravity="center_vertical"
             android:layout_marginTop="@dimen/dp_10"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_line">
+            app:layout_constraintTop_toBottomOf="@id/select_commodity_line">
             
             <ImageView
+                android:id="@+id/select_commodity_less"
                 android:layout_width="@dimen/dp_22"
                 android:layout_height="@dimen/dp_22"
                 android:background="@mipmap/circle_less"
                 android:visibility="gone"/>
 
             <TextView
+                android:id="@+id/select_commodity_count"
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:includeFontPadding="false"
-                android:text=""
+                android:text="1"
                 android:textColor="@color/c_333333"
-                android:textSize="@dimen/sp_14"/>
+                android:textSize="@dimen/sp_14"
+                android:visibility="gone"/>
 
             <ImageView
+                android:id="@+id/select_commodity_add"
                 android:layout_width="@dimen/dp_22"
                 android:layout_height="@dimen/dp_22"
                 android:background="@mipmap/circle_add_blue"/>
@@ -149,7 +155,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <View
-        android:id="@+id/retail_list_space"
+        android:id="@+id/select_commodity_space"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_10"
         android:background="@color/c_f6f7fb"

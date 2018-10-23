@@ -74,17 +74,22 @@
         </LinearLayout>
     </RelativeLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/select_commodity_recycler"
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/retail_list_refresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/select_commodity_store_name"
         app:layout_constraintBottom_toTopOf="@id/select_commodity_bottom_layout"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/c_f6f7fb"/>
+        app:layout_constraintRight_toRightOf="parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/select_commodity_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/c_f6f7fb"/>
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/commodity_car_layout"
@@ -130,6 +135,11 @@
                     android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/c_f6f7fb"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/commodity_car_recycler"

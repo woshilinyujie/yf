@@ -52,7 +52,8 @@ public class SelectCommodityActivity extends AppCompatActivity implements Select
     }
 
     @OnClick({R.id.select_commodity_car, R.id.commodity_car_layout
-            , R.id.commodity_car_title_layout/*这个点击事件不用管*/})
+            , R.id.commodity_car_title_layout/*这个点击事件不用管*/
+            , R.id.search_left_img_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.select_commodity_car: {
@@ -61,6 +62,10 @@ public class SelectCommodityActivity extends AppCompatActivity implements Select
             }
             case R.id.commodity_car_layout: {
                 setComCarVisibility(View.GONE);
+                break;
+            }
+            case R.id.search_left_img_layout: {
+                finish();
                 break;
             }
         }

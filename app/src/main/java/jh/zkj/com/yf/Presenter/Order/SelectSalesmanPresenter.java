@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.SelectSalesmanActivity;
+import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.SelectSalesmanContract;
 import jh.zkj.com.yf.R;
 
@@ -29,6 +32,8 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     private SelectSalesmanActivity activity;
     private RecyclerView recycler;
     private SelectSalesmanAdapter adapter;
+    private OrderAPI api;
+    private Object salesmanList;
 
     public SelectSalesmanPresenter(SelectSalesmanActivity activity) {
         this.activity = activity;
@@ -36,6 +41,8 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     }
 
     private void initPresenter() {
+        api = new OrderAPI();
+        getSalesmanList();
         initAdapter();
     }
 
@@ -58,6 +65,26 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         arr.add("111111");
 
         adapter.notifyData(arr);
+    }
+
+    public void getSalesmanList() {
+        api.getArticleMsg("1", "00001", new OrderAPI.IResultMsg() {
+            @Override
+            public void Result(String json) {
+                if(BuildConfig.DEBUG){
+                    Log.e("wdefer" , "json == " + json);
+                }
+
+            }
+
+            @Override
+            public void Error(String json) {
+                if(BuildConfig.DEBUG){
+                    Log.e("wdefer" , "error json == " + json);
+                }
+
+            }
+        });
     }
 
 

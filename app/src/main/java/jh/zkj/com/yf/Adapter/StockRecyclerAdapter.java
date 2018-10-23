@@ -45,9 +45,6 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (BuildConfig.DEBUG) {
-            Log.e("wdefer", "getItemViewType(viewType) == " + getItemViewType(viewType));
-        }
 
         if (getItemViewType(viewType) == StockListFragment.TYPE_COMMODITY_STOCKS) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_commodity_stocks, parent, false);

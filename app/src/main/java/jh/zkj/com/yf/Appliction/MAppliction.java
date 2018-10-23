@@ -10,6 +10,9 @@ import com.tencent.smtt.sdk.QbSdk;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import jh.zkj.com.yf.API.APIConstant;
+import jh.zkj.com.yf.API.HttpConstant;
+import jh.zkj.com.yf.BuildConfig;
 import okhttp3.OkHttpClient;
 
 /**
@@ -38,6 +41,13 @@ public class MAppliction extends Application {
         builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         //全局的连接超时时间
         builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
+
+
+        if (BuildConfig.DEBUG) {
+            APIConstant.API = APIConstant.HTTP_OFF_LINE;
+        } else {
+            APIConstant.API = APIConstant.HTTP_ON_LINE;
+        }
     }
 
     //x5web 初始化

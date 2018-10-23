@@ -5,13 +5,19 @@
     android:layout_height="@dimen/dp_44"
     android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/search_left_img"
-        android:layout_width="@dimen/dp_12"
-        android:layout_height="@dimen/dp_20"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/dp_16"
-        android:src="@mipmap/back_arrow"/>
+    <RelativeLayout
+        android:id="@+id/search_left_img_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+        <ImageView
+            android:id="@+id/search_left_img"
+            android:layout_width="@dimen/dp_12"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:src="@mipmap/back_arrow"/>
+    </RelativeLayout>
+
 
     <ImageView
         android:id="@+id/search_scan"
@@ -31,7 +37,7 @@
         android:layout_marginRight="@dimen/dp_18"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_8"
-        android:layout_toRightOf="@id/search_left_img"
+        android:layout_toRightOf="@id/search_left_img_layout"
         android:layout_toLeftOf="@id/search_scan"
         android:focusable="true"
         android:focusableInTouchMode="true">
@@ -48,6 +54,7 @@
             android:id="@+id/search_edit"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_32"
+            android:includeFontPadding="false"
             android:layout_marginLeft="@dimen/dp_4"
             android:layout_marginRight="@dimen/dp_12"
             android:background="@drawable/shape_radius_30_f2f2f2"
