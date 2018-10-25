@@ -72,7 +72,6 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
                 break;
             case R.id.main_activity_analyse_linear://分析
                 presenter.selectAnalyseList();
-            int a=0;
             break;
             case R.id.main_activity_my_linear://我的
                 presenter.selectMy();

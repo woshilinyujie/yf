@@ -37,4 +37,10 @@
         android:layout_height="wrap_content" />
 
 
+<View
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/shape_change_color_fafafa"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_4"/>
+
 </RelativeLayout>
