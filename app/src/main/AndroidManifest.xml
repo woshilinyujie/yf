@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="jh.zkj.com.yf">
+    package="jh.zkj.com.yf">
 
     <application
         android:name=".Appliction.MAppliction"
@@ -14,45 +14,47 @@
             android:name=".Activity.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ScanActivity"/>
+        <activity android:name=".Activity.ScanActivity" />
         <!-- 零售详情 -->
-        <activity android:name=".Activity.Order.OrderDetailsActivity"/>
+        <activity android:name=".Activity.Order.OrderDetailsActivity" />
         <!-- 零售收款 -->
-        <activity android:name=".Activity.Order.RetailReceivableActivity"/>
+        <activity android:name=".Activity.Order.RetailReceivableActivity" />
         <!-- 下单成功 -->
-        <activity android:name=".Activity.Order.RetailOrderSubmitActivity"/>
+        <activity android:name=".Activity.Order.RetailOrderSubmitActivity" />
         <!-- 零售下单 -->
         <activity
             android:name=".Activity.Order.RetailOrderActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <!-- 选择业务员 -->
-        <activity android:name=".Activity.Order.SelectSalesmanActivity"/>
-        <activity android:name=".Activity.My.PhotoActivity"/>
+        <activity android:name=".Activity.Order.SelectSalesmanActivity" />
+        <activity android:name=".Activity.My.PhotoActivity" />
         <!-- 库存 -》筛选 -->
-        <activity android:name=".Activity.Stock.FilterListActivity"/>
+        <activity android:name=".Activity.Stock.FilterListActivity" />
         <!--  -->
-        <activity android:name=".Activity.Order.SelectCommodityActivity"/>
+        <activity android:name=".Activity.Order.SelectCommodityActivity" />
         <!-- 我的库存 -->
-        <activity android:name=".Activity.My.MyOrderActivity"/>
-        <activity android:name=".Activity.My.UserNameActivity"/>
-        <activity android:name=".Activity.My.PhoneActivity"/>
-        <activity android:name=".Activity.My.ModifyPasswordActivity"/>
-        <activity android:name=".Activity.My.EmailActivity"/>
+        <activity android:name=".Activity.My.MyOrderActivity" />
+        <activity android:name=".Activity.My.UserNameActivity" />
+        <activity android:name=".Activity.My.PhoneActivity" />
+        <activity android:name=".Activity.My.ModifyPasswordActivity" />
+        <activity android:name=".Activity.My.EmailActivity" />
         <!-- 分仓库存选择仓库 -->
-        <activity android:name=".Activity.Stock.ChildWarehouseActivity"/>
-        <activity android:name=".Activity.Analyse.ShopAnalyseActivity"/>
-        <activity android:name=".Activity.Analyse.ShopManAnalyseActivity"/>
-        <activity android:name=".Activity.Analyse.SalesAnalyseActivity"/>
+        <activity android:name=".Activity.Stock.ChildWarehouseActivity" />
+        <activity android:name=".Activity.Analyse.ShopAnalyseActivity" />
+        <activity android:name=".Activity.Analyse.ShopManAnalyseActivity" />
+        <activity android:name=".Activity.Analyse.SalesAnalyseActivity" />
         <!-- 选择客户 -->
-        <activity android:name=".Activity.Order.SelectClientActivity">
-        </activity>
-        <activity android:name=".Activity.Order.OrderScanActivity">
-        </activity>
+        <activity android:name=".Activity.Order.SelectClientActivity"/>
+        <!-- 订单页二维码扫描 -->
+        <activity android:name=".Activity.Order.OrderScanActivity"/>
+        <activity android:name=".Activity.My.LoginActivity" />
+        <activity android:name=".Activity.My.ForgetPassWordActivity" />
+        <activity android:name=".Activity.My.BindPhoneActivity"></activity>
     </application>
 
 </manifest>
