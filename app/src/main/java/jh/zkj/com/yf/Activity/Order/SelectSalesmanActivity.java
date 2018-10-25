@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,6 +34,9 @@ public class SelectSalesmanActivity extends MBaseActivity implements SelectSales
     //recycler
     @BindView(R.id.select_salesman_recycler)
     RecyclerView recycler;
+    //recycler
+    @BindView(R.id.select_salesman_refresh)
+    TwinklingRefreshLayout refresh;
     private SelectSalesmanPresenter presenter;
 
     @Override
@@ -46,7 +51,7 @@ public class SelectSalesmanActivity extends MBaseActivity implements SelectSales
     public void onViewClicked(View v){
         switch (v.getId()){
             case R.id.search_left_img:
-                finish();
+                presenter.finishActivity();
                 break;
         }
     }
@@ -55,5 +60,11 @@ public class SelectSalesmanActivity extends MBaseActivity implements SelectSales
         return recycler;
     }
 
+    public TwinklingRefreshLayout getRefresh() {
+        return refresh;
+    }
 
+    public EditText getSearch() {
+        return search;
+    }
 }

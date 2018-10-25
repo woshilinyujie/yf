@@ -10,5 +10,7 @@ public class SelectSalesmanContract {
     }
 
     public interface ISelectSalesmanPresenter{
+        //关闭页面 回传业务员数据
+        void finishActivity();
     }
 }

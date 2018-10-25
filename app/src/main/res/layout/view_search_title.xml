@@ -63,7 +63,9 @@
             android:textColor="@color/c_a6a6a6"
             android:textSize="@dimen/sp_12"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/search_img"/>
+            android:layout_toRightOf="@id/search_img"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"/>
 
     </RelativeLayout>
 

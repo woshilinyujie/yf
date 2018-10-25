@@ -6,8 +6,13 @@
 	<dimen name="dp_m_20">-40.0000dp</dimen>
 	<dimen name="dp_m_12">-24.0000dp</dimen>
 	<dimen name="dp_m_10">-20.0000dp</dimen>
+	<dimen name="dp_m_9">-18.0000dp</dimen>
 	<dimen name="dp_m_8">-16.0000dp</dimen>
+	<dimen name="dp_m_7">-14.0000dp</dimen>
+	<dimen name="dp_m_6">-12.0000dp</dimen>
 	<dimen name="dp_m_5">-10.0000dp</dimen>
+	<dimen name="dp_m_4">-8.0000dp</dimen>
+	<dimen name="dp_m_3">-6.0000dp</dimen>
 	<dimen name="dp_m_2">-4.0000dp</dimen>
 	<dimen name="dp_m_1">-2.0000dp</dimen>
 	<dimen name="dp_0">0.0000dp</dimen>

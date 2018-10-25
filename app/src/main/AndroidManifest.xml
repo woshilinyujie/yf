@@ -51,6 +51,8 @@
         <!-- 选择客户 -->
         <activity android:name=".Activity.Order.SelectClientActivity">
         </activity>
+        <activity android:name=".Activity.Order.OrderScanActivity">
+        </activity>
     </application>
 
 </manifest>

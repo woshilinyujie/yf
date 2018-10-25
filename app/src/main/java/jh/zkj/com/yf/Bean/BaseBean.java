@@ -1,12 +1,14 @@
 package jh.zkj.com.yf.Bean;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created by wdefer
  * 2018/10/23
  * use
  */
-public class BaseBean<T> {
-
+public class BaseBean<T> implements Serializable{
     private T data;
     private String msg;
     private int code;

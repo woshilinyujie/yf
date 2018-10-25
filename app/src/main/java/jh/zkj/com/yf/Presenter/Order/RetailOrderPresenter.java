@@ -1,6 +1,8 @@
 package jh.zkj.com.yf.Presenter.Order;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderSubmitActivity;
@@ -22,7 +26,11 @@ import jh.zkj.com.yf.Activity.Order.SelectClientActivity;
 import jh.zkj.com.yf.Activity.Order.SelectCommodityActivity;
 import jh.zkj.com.yf.Activity.Order.SelectSalesmanActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
+import jh.zkj.com.yf.Bean.ClientInfoBean;
+import jh.zkj.com.yf.Bean.CommodityInfoBean;
 import jh.zkj.com.yf.Bean.OrderBean;
+import jh.zkj.com.yf.Bean.RetailOrderBean;
+import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.Contract.Order.RetailOrderContract;
 import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Mview.Toast.MToast;
@@ -34,23 +42,34 @@ import jh.zkj.com.yf.R;
  * on 2018.9.19
  */
 public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPresenter {
+    //选择业务员request
+    public static final int REQUEST_SALESMAN = 1;
+    //选择业务员request
+    public static final int REQUEST_CLIENT = 2;
+    //选择商品
+    public static final int REQUEST_SELECT_COMMODITY = 3;
+
     private final boolean TYPE_ITEM_ADD = true;
     private final boolean TYPE_ITEM_REDUCE = false;
 
 
-    private final RetailOrderActivity activity;
+    private RetailOrderActivity activity;
     private RecyclerView recyclerView;
-    private EditText userName;
-    private EditText userPhone;
     private RetailOrderAdapter adapter;
     private ArrayList<OrderBean> beans = new ArrayList<>();
     private TitleLayout titleLayout;
+    private RetailOrderBean orderBean;
     //    private RetailOrderFragment fragment;
 
     public RetailOrderPresenter(RetailOrderActivity activity) {
         this.activity = activity;
         initView();
+        initData();
         initAdapter();
+    }
+
+    private void initData() {
+        orderBean = new RetailOrderBean();
     }
 
     private void initAdapter() {
@@ -86,8 +105,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
     private void initView() {
         recyclerView = activity.getRecyclerView();
-        userName = activity.getUserName();
-        userPhone = activity.getUserPhone();
     }
 
     @Override
@@ -107,27 +124,70 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         activity.startActivity(intent);
     }
 
+    //选择商品
     @Override
     public void startSelectCommodityActivity() {
         Intent intent = new Intent(activity, SelectCommodityActivity.class);
         activity.startActivity(intent);
     }
 
+    //选择业务员
     @Override
     public void startSelectSalesmanActivity() {
         Intent intent = new Intent(activity, SelectSalesmanActivity.class);
-        activity.startActivity(intent);
+        intent.putExtra(OrderConfig.TYPE_STRING_SALESMAN_LIST, orderBean.getSalesmanList());
+        activity.startActivityForResult(intent, REQUEST_SALESMAN);
     }
 
+    //选择客户
     @Override
     public void startSelectClientActivity() {
         Intent intent = new Intent(activity, SelectClientActivity.class);
-        activity.startActivity(intent);
+        intent.putExtra(OrderConfig.TYPE_STRING_CLIENT_LIST, orderBean.getClient());
+        activity.startActivityForResult(intent, REQUEST_CLIENT);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_SALESMAN){
+            if(resultCode == Activity.RESULT_OK){
+                if(data != null){
+                    //业务员信息
+                    ArrayList<SalesmanBean> salesmanList =
+                            (ArrayList<SalesmanBean>) data.getSerializableExtra(OrderConfig.TYPE_STRING_SALESMAN_LIST);
+                    orderBean.clearSalesmanList();
+                    orderBean.addAllSalesmanList(salesmanList);
 
+                    StringBuffer sb = new StringBuffer();
+                    for (SalesmanBean bean : salesmanList){
+                        sb.append(bean.getName());
+                        sb.append("、");
+                    }
+
+                    if(sb.length() > 0){
+                        String salesmanName = sb.substring(0, sb.length() - 1);
+                        activity.setSalesman(salesmanName);
+                    }
+                }
+            }
+        }else if (requestCode == REQUEST_CLIENT){
+            if(resultCode == Activity.RESULT_OK){
+                if(data != null){
+                    orderBean.setClient((ClientInfoBean) data.getSerializableExtra(OrderConfig.TYPE_STRING_CLIENT_LIST));
+                    activity.setClientinfo(orderBean.getClient().getName(), orderBean.getClient().getMobilePhone());
+                }
+            }else if(resultCode == OrderConfig.RESULT_CLIENT_LIST_CLEAR){
+                orderBean.setClient(null);
+                activity.setClientinfo("", "");
+            }
+        }else if(requestCode == REQUEST_SELECT_COMMODITY){
+            if(resultCode == Activity.RESULT_OK){
+                if(data != null){
+                    orderBean.addComList((ArrayList<CommodityInfoBean>) data.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_SCAN));
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 
     /**
@@ -138,9 +198,11 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
         //后期传入刷新
         public void notifyData(ArrayList<OrderBean> arr) {
-            mArr.clear();
-            mArr.addAll(arr);
-            notifyDataSetChanged();
+            if(arr != null){
+                mArr.clear();
+                mArr.addAll(arr);
+                notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -183,8 +245,9 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     if (item.getNum() > 1) {
                         item.setNum(item.getNum() - 1);
                         notifyDataSetChanged();
-                    } else
+                    } else{
                         item.setNum(1);
+                    }
                 }
             });
 

@@ -1,22 +1,38 @@
 package jh.zkj.com.yf.Presenter.Order;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.OrderAPI;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
+import jh.zkj.com.yf.Activity.Order.OrderScanActivity;
 import jh.zkj.com.yf.Activity.Order.SelectCommodityActivity;
+import jh.zkj.com.yf.Activity.ScanActivity;
+import jh.zkj.com.yf.Bean.BaseBean;
+import jh.zkj.com.yf.Bean.CommodityBean;
+import jh.zkj.com.yf.Bean.CommodityInfoBean;
+import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.SelectCommodityContract;
 import jh.zkj.com.yf.R;
 
@@ -26,21 +42,30 @@ import jh.zkj.com.yf.R;
  * use 选择商品
  */
 public class SelectCommodityPresenter implements SelectCommodityContract.ISelectCommodityPresenter {
+    //选择业务员request
+    public static final int REQUEST_SCAN = 1;
 
     private SelectCommodityActivity activity;
     private SelectAdapter adapter;
     private RecyclerView recycler;
-    private RecyclerView carRecycler;
-    private CarAdapter carAdapter;
+    private OrderAPI api;
+
+    private ArrayList<CommodityInfoBean> commodityList = new ArrayList<>();
+//    private ArrayList<CommodityInfoBean> serialList = new ArrayList<>();
 
     public SelectCommodityPresenter(SelectCommodityActivity activity) {
         this.activity = activity;
         initPresenter();
+        initListener();
     }
 
     private void initPresenter() {
-        initListener();
+        recycler = activity.getRecycler();
+
+        api = new OrderAPI();
         initAdapter();
+
+        getCommodityList("", 0, 20);
     }
 
     private void initAdapter() {
@@ -50,79 +75,40 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
         recycler.setLayoutManager(layoutManager);
         adapter = new SelectAdapter();
         recycler.setAdapter(adapter);
-        ArrayList<String> arr = new ArrayList<>();
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        arr.add("1");
-        adapter.notifyData(arr);
-
-        //初始化购物车
-        LinearLayoutManager carLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
-        carRecycler.setLayoutManager(carLayoutManager);
-        carAdapter = new CarAdapter();
-        carRecycler.setAdapter(carAdapter);
-
-        ArrayList<Object> list = new ArrayList<>();
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        carAdapter.notifyData(list);
-
     }
 
     private void initListener() {
-        recycler = activity.getRecycler();
-        carRecycler = activity.getCarRecycler();
     }
 
     @Override
-    public void showComCar() {
-        if (activity.getComCarLayout().getVisibility() == View.GONE) {
-            activity.setComCarVisibility(View.VISIBLE);
-        } else {
-            activity.setComCarVisibility(View.GONE);
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_SCAN){
+            if(resultCode == Activity.RESULT_OK){
+                if(data != null){
+                    commodityList.add((CommodityInfoBean) data.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_SCAN));
+                    activity.setResult(Activity.RESULT_OK, data);
+                    activity.finish();
+                }
+            }
         }
     }
-
 
     /**
      * 使用：商品列表adapter
      */
     class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder> {
-        private ArrayList<String> mArr = new ArrayList<>();
+        private ArrayList<CommodityInfoBean> mArr = new ArrayList<>();
 
-        Bitmap addBlue;
-        Bitmap addGray;
+        Bitmap add;
+        Bitmap scan;
         public SelectAdapter(){
             Resources res= activity.getResources();
-            addBlue = BitmapFactory.decodeResource(res, R.mipmap.circle_add_blue);
-            addGray = BitmapFactory.decodeResource(res, R.mipmap.circle_add_gray);
+            add = BitmapFactory.decodeResource(res, R.mipmap.circle_add_blue);
+            scan = BitmapFactory.decodeResource(res, R.mipmap.scan_blue);
         }
 
         //后期传入刷新
-        public void notifyData(ArrayList<String> arr) {
+        public void notifyData(ArrayList<CommodityInfoBean> arr) {
             mArr.clear();
             mArr.addAll(arr);
             notifyDataSetChanged();
@@ -135,7 +121,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
             return new ViewHolder(view);
         }
 
-        public Object getItem(int position) {
+        public CommodityInfoBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
@@ -148,33 +134,75 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, int position) {
 
-            holder.orderNum.setText("12306");
-            holder.warehouse.setText("总仓");
-            holder.content.setText("Apple iPhone 6s 128G玫瑰金");
-            holder.totalAge.setText("总库龄：50");
-            holder.age.setText("当前库龄：20");
-            holder.beyondTime.setText(Html.fromHtml("超库龄天数：<font color='#ff6600'>10</font>"));
+            final CommodityInfoBean item = getItem(position);
+            if(item != null){
+                holder.stockNum.setText("库存：");
+                holder.content.setText(item.getFullName());
 
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    holder.less.setVisibility(View.VISIBLE);
-                    holder.count.setVisibility(View.VISIBLE);
-                    holder.add.setImageBitmap(addGray);
-                    holder.add.setEnabled(false);
+                if(TextUtils.isEmpty(item.getSerialNo())){
+                    //无串号  加减
+                    holder.warehouse.setText(item.getWarehouseName());
+                    holder.addOrScan.setImageBitmap(add);
+                    holder.count.setText(String.valueOf(item.getCount()));
+                    if(item.getCount() > 0){
+                        holder.less.setVisibility(View.VISIBLE);
+                        holder.count.setVisibility(View.VISIBLE);
+                    }else{
+                        holder.less.setVisibility(View.GONE);
+                        holder.count.setVisibility(View.GONE);
+                    }
+
+                    holder.addOrScan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            item.addCount();
+                            for (CommodityInfoBean bean : commodityList){
+                                //该商品已经存在了  那就不用管它了  已确认绝对不会为空
+                                if(item.getUuid().equals(bean.getUuid()) &&
+                                        item.getWarehouseUuid().equals(bean.getWarehouseUuid())){
+                                    notifyDataSetChanged();
+                                    return;
+                                }
+                            }
+                            commodityList.add(item);
+                            notifyDataSetChanged();
+                        }
+                    });
+
+                    holder.less.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            item.lessCount();
+                            //该商品已经存在  并且被删光了  需要移除
+                            if(item.getCount() == 0){
+                                for (int i = 0 ; i < commodityList.size(); i++){
+                                    //已确认绝对不会为空
+                                    if(item.getUuid().equals(commodityList.get(i).getUuid()) &&
+                                            item.getWarehouseUuid().equals(commodityList.get(i).getWarehouseUuid())){
+                                        commodityList.remove(i);
+                                        notifyDataSetChanged();
+                                        return;
+                                    }
+                                }
+                            }
+                            notifyDataSetChanged();
+                        }
+                    });
+                }else{
+                    //有串号  扫码
+                    holder.warehouse.setText("");
+                    holder.addOrScan.setImageBitmap(scan);
+                    holder.addOrScan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(activity, OrderScanActivity.class);
+                            activity.startActivityForResult(intent, REQUEST_SCAN);
+                        }
+                    });
                 }
-            });
-            holder.less.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    holder.less.setVisibility(View.GONE);
-                    holder.count.setVisibility(View.GONE);
-                    holder.add.setImageBitmap(addBlue);
-                    holder.add.setEnabled(true);
-                }
-            });
+            }
         }
 
         @Override
@@ -184,8 +212,8 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
         class ViewHolder extends RecyclerView.ViewHolder {
             //单号
-            @BindView(R.id.select_commodity_order_num)
-            TextView orderNum;
+            @BindView(R.id.select_commodity_stock_num)
+            TextView stockNum;
             //仓库
             @BindView(R.id.select_commodity_warehouse)
             TextView warehouse;
@@ -204,12 +232,12 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
             // -
             @BindView(R.id.select_commodity_less)
             ImageView less;
-            //数量  有单号的商品只会是1 和隐藏
+            //数量
             @BindView(R.id.select_commodity_count)
             TextView count;
-            // +
-            @BindView(R.id.select_commodity_add)
-            ImageView add;
+            // + 或 扫码
+            @BindView(R.id.select_commodity_add_scan)
+            ImageView addOrScan;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -218,64 +246,28 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
         }
     }
 
+    //****************************************************************************************************************
+    //获取商品列表
+    private void getCommodityList(String keyWord, int page, int size){
+        api.getSearchCommodity(keyWord, page, size, new OrderAPI.IResultMsg() {
+            @Override
+            public void Result(String json) {
+                if(BuildConfig.DEBUG){
+                    Log.d("wdefer" , "json == " + json);
+                }
 
-    /**
-     * 使用：购物车adapter
-     */
-    class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
+                BaseBean<CommodityBean> comInfoBean = JSON.parseObject(json,
+                        new TypeReference<BaseBean<CommodityBean>>() {});
 
-        private ArrayList<Object> mArr = new ArrayList<>();
-
-        //后期传入刷新
-        public void notifyData(ArrayList<Object> arr) {
-            mArr.clear();
-            mArr.addAll(arr);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_com_car, parent, false);
-            return new ViewHolder(view);
-        }
-
-        public Object getItem(int position) {
-            if (mArr != null && mArr.size() > position) {
-                return mArr.get(position);
+                adapter.notifyData(comInfoBean.getData().getRecords());
             }
-            return null;
-        }
 
-        @Override
-        public int getItemViewType(int position) {
-            return super.getItemViewType(position);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            if(position == mArr.size() - 1){
-                holder.space.setVisibility(View.VISIBLE);
-                holder.bottomLine.setVisibility(View.GONE);
-            }else{
-                holder.space.setVisibility(View.GONE);
-                holder.bottomLine.setVisibility(View.VISIBLE);
+            @Override
+            public void Error(String json) {
+                if(BuildConfig.DEBUG){
+                    Log.e("wdefer" , "error json == " + json);
+                }
             }
-        }
-
-        @Override
-        public int getItemCount() {
-            return mArr == null ? 0 : mArr.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            @BindView(R.id.com_car_space)
-            View space;
-            @BindView(R.id.com_car_bottom_line)
-            View bottomLine;
-            public ViewHolder(View itemView) {
-                super(itemView);
-                ButterKnife.bind(this, itemView);
-            }
-        }
+        });
     }
 }

@@ -27,6 +27,9 @@ import jh.zkj.com.yf.R;
 
 public class RetailOrderActivity extends MBaseActivity implements RetailOrderContract.IRetailOrderView {
 
+    //业务员名
+    @BindView(R.id.retail_user_salesman)
+    TextView salesman;
     //客户信命
     @BindView(R.id.retail_client_name)
     EditText name;
@@ -90,16 +93,25 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
         }
     }
 
-    public EditText getUserName() {
+    public EditText getClientName() {
         return name;
     }
 
-    public EditText getUserPhone() {
+    public EditText getClientPhone() {
         return phone;
+    }
+
+    public void setClientinfo(String name, String phone){
+        this.name.setText(name);
+        this.phone.setText(phone);
     }
 
     public RecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    public void setSalesman(String s) {
+        salesman.setText(s);
     }
 
     @Override
