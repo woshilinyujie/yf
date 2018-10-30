@@ -29,6 +29,7 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     @BindView(R.id.retail_list_refresh)
     TwinklingRefreshLayout refresh;
     private RetailListPresenter presenter;
+    private String state;
 
     public static RetailListFragment newInstance(String status) {
         RetailListFragment fragment = new RetailListFragment();
@@ -36,6 +37,12 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
         bundle.putString("status", status);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        state=getArguments().getString("status");
     }
 
     @Nullable
@@ -60,5 +67,9 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     @Override
     public void setListAdapter(RecyclerView.Adapter adapter) {
         recyclerView.setAdapter(adapter);
+    }
+
+    public String getState(){
+        return state;
     }
 }

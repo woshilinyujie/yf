@@ -20,5 +20,6 @@ public class RetailListContract {
     }
 
     public interface IRetailPresenter{
+        public  void initData();
     }
 }

@@ -25,6 +25,7 @@
 
 
         <EditText
+            android:textCursorDrawable="@null"
             android:id="@+id/login_phone_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
             android:background="@null"
             android:hint="手机号"
             android:inputType="number"
-            android:maxEms="11"
+            android:maxLength="11"
             android:textColor="@color/c_333333"
             android:textColorHint="@color/c_d9d9d9"
             android:textSize="@dimen/sp_14"
@@ -82,6 +83,8 @@
 
 
         <EditText
+            android:textCursorDrawable="@null"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:id="@+id/login_pass_word_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +95,7 @@
             android:background="@null"
             android:hint="登录密码"
             android:inputType="number"
-            android:maxEms="11"
+            android:maxLength="20"
             android:textColor="@color/c_333333"
             android:textColorHint="@color/c_d9d9d9"
             android:textSize="@dimen/sp_14"
@@ -200,12 +203,12 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:layout_centerHorizontal="true"
             android:id="@+id/login_wechart_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/dp_28"
-            android:layout_marginLeft="@dimen/dp_106"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -223,6 +226,30 @@
                 android:textSize="@dimen/sp_10" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_marginLeft="@dimen/dp_67"
+            android:id="@+id/login_company_code_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_28"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:background="@mipmap/company" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:text="公司代码"
+                android:textColor="@color/c_a6a6a6"
+                android:textSize="@dimen/sp_10" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/login_zhifubao_ll"
@@ -231,7 +258,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/dp_28"
-            android:layout_marginRight="@dimen/dp_106"
+            android:layout_marginRight="@dimen/dp_67"
             android:gravity="center"
             android:orientation="vertical">
 

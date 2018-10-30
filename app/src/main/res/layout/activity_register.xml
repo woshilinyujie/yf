@@ -50,7 +50,9 @@
             android:background="@color/c_f2f2f2" />
 
         <EditText
-            android:maxEms="11"
+            android:id="@+id/register_phone_et"
+            android:textCursorDrawable="@null"
+            android:maxLength="11"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,6 +80,9 @@
 
 
         <EditText
+            android:id="@+id/register_code_et"
+            android:textCursorDrawable="@null"
+            android:maxLength="8"
             android:inputType="number"
             android:layout_marginRight="@dimen/dp_120"
             android:layout_width="match_parent"
@@ -90,6 +95,8 @@
             android:textSize="@dimen/sp_14" />
 
         <TextView
+            android:id="@+id/register_send_code"
+            android:gravity="center_vertical"
             android:text="获取验证码"
             android:layout_marginRight="@dimen/dp_30"
             android:layout_alignParentRight="true"
@@ -97,7 +104,7 @@
             android:textSize="@dimen/sp_14"
             android:textColor="@color/c_6fb1fc"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/dp_50" />
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
@@ -111,6 +118,10 @@
 
 
         <EditText
+            android:id="@+id/register_password_one_et"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:maxLength="20"
+            android:textCursorDrawable="@null"
             android:inputType="textPassword"
             android:layout_marginRight="@dimen/dp_30"
             android:layout_width="match_parent"
@@ -134,6 +145,10 @@
 
 
         <EditText
+            android:id="@+id/register_password_two_et"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:maxLength="20"
+            android:textCursorDrawable="@null"
             android:inputType="textPassword"
             android:layout_marginRight="@dimen/dp_30"
             android:layout_width="match_parent"
@@ -152,6 +167,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/register_next"
         android:layout_marginTop="@dimen/dp_30"
         android:textColor="@color/white"
         android:gravity="center"
@@ -170,10 +186,14 @@
         android:layout_marginTop="@dimen/dp_50"
         android:orientation="horizontal">
 
-        <ImageView
-            android:background="@mipmap/login_select"
+        <CheckBox
+            android:checked="true"
+            android:button="@null"
+            android:background="@drawable/check_box_background_selector_terms"
+            android:id="@+id/register_checkbox_iv"
             android:layout_width="@dimen/dp_12"
-            android:layout_height="@dimen/dp_12" />
+            android:layout_height="@dimen/dp_12"
+             />
 
         <TextView
             android:layout_marginLeft="@dimen/dp_4"
@@ -183,6 +203,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/register_negotiate"
             android:layout_marginLeft="@dimen/dp_4"
             android:text="《骏杭ERP用户注册协议》"
             android:textSize="@dimen/sp_12"

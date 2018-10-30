@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import jh.zkj.com.yf.Activity.Analyse.ShopAnalyseActivity;
+import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureViewpager;
 import jh.zkj.com.yf.Mview.SwitchText;
@@ -126,7 +126,7 @@ public class HomeFragment extends MBaseFragment {
                 presenter.toRetailOrder();
                 break;
             case R.id.home_fragment_common_menu_two://常用2
-                Intent intent=new Intent(getActivity(),ShopAnalyseActivity.class);
+                Intent intent=new Intent(getActivity(),PersonalFileActivity.class);
                 startActivity(intent);
                 break;
             case R.id.home_fragment_common_menu_three://常用3

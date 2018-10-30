@@ -46,9 +46,9 @@ public class RetailReceivableActivity extends MBaseActivity implements RetailRec
     //产品信息
     @BindView(R.id.retail_list_order_title)
     TextView orderTitle;
-    //时间
-    @BindView(R.id.retail_list_date)
-    TextView date;
+    //收款人
+    @BindView(R.id.retail_list_user_name)
+    TextView userName;
     //金额
     @BindView(R.id.retail_list_money_bottom)
     TextView money;
@@ -100,8 +100,8 @@ public class RetailReceivableActivity extends MBaseActivity implements RetailRec
         return orderTitle;
     }
 
-    public TextView getDate() {
-        return date;
+    public TextView getUserName() {
+        return userName;
     }
 
     public TextView getMoney() {

@@ -1,6 +1,8 @@
 package jh.zkj.com.yf.API;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -16,8 +18,11 @@ import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.ClientInfoBean;
 import jh.zkj.com.yf.Bean.CommodityBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
+import jh.zkj.com.yf.Bean.OrderListBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.BuildConfig;
+import jh.zkj.com.yf.Mutils.GsonUtils;
+import jh.zkj.com.yf.Mview.Toast.EToast;
 
 /**
  * Created by linyujie on 18/10/23.
@@ -191,6 +196,40 @@ public class OrderAPI {
                         iResultMsg.Error(response.body());
                     }
                 });
+    }
+
+    /**
+     * 我的订单
+     * type  1.未收款 2.以收款 3.已取消
+     */
+    public void getMyOrderList(Context context, String type, String keywords, int pageNum, int pageSize, final IResultMsg<OrderListBean> iResultMsg){
+//        try{
+            OkGo.<String>get(API+HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
+                    .params("access_token", TOKEN)
+                    .params("type",type)
+                    .params("pageNum", pageNum)
+                    .params("pageSize", pageSize)
+                    .params("keywords", keywords)
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onSuccess(Response<String> response) {
+                            OrderListBean bean = GsonUtils.GsonToBean(response.body(), OrderListBean.class);
+                            if(APIConstant.REQUEST_SUCCESS.equals(bean.getCode())){
+                                iResultMsg.Result(bean);
+                            }else{
+
+                            }
+                        }
+                        @Override
+                        public void onError(Response<String> response) {
+                            super.onError(response);
+                            iResultMsg.Error(response.body());
+                        }
+                    });
+//        }catch (Exception e){
+//            EToast.makeText(context,"信息解析错误"+e.toString(),Toast.LENGTH_SHORT).show();
+//        }
+
     }
 
 
