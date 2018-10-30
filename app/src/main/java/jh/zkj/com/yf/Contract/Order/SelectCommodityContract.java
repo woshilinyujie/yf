@@ -16,5 +16,7 @@ public class SelectCommodityContract {
 
     public interface ISelectCommodityPresenter{
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
+        //选好了按钮
+        void successGoBack();
     }
 }

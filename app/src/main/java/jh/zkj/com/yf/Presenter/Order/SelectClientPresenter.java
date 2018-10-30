@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.APIConstant;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.SelectClientActivity;
@@ -179,21 +180,15 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
         }
         loadingDialog.showLoading();
 
-        api.getClientInfo("", 0, 20, new OrderAPI.IResultMsg() {
+        api.getClientInfo("", 0, 20, new OrderAPI.IResultMsg<ArrayList<ClientInfoBean>>() {
             @Override
-            public void Result(String json) {
-                if (BuildConfig.DEBUG) {
-                    Log.e("wdefer", "json == " + json);
-                }
+            public void Result(ArrayList<ClientInfoBean> beans) {
 
                 if(loadingDialog.isShowing()){
                     loadingDialog.dismissLoading();
                 }
 
-                BaseBean<ArrayList<ClientInfoBean>> client = JSON.parseObject(json,
-                        new TypeReference<BaseBean<ArrayList<ClientInfoBean>>>() {});
-
-                clientList = client.getData();
+                clientList = beans;
 
                 if(clientInfoBean != null){
                     for(ClientInfoBean bean : clientList){

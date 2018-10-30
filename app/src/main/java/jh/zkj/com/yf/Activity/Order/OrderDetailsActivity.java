@@ -2,8 +2,10 @@ package jh.zkj.com.yf.Activity.Order;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -20,16 +22,14 @@ import jh.zkj.com.yf.R;
  * on 2018/9/20
  * use零售订单
  */
-public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsContract.IRetailOrderView{
-    //客户姓名
-    @BindView(R.id.order_detail_user_name)
-    TextView userName;
-    //手机号码
-    @BindView(R.id.order_detail_phone)
-    TextView userPhone;
-    //列表
-    @BindView(R.id.order_detail_recycler)
-    RecyclerView recyclerView;
+public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsContract.IRetailOrderView {
+
+    //商品信息列表
+    @BindView(R.id.order_detail_com_info_recycler)
+    RecyclerView infoRecycler;
+    //订单信息列表
+    @BindView(R.id.order_detail_com_recycler)
+    RecyclerView recycler;
     //去收款
     @BindView(R.id.order_detail_receivables)
     TextView receivables;
@@ -58,16 +58,12 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
         }
     }
 
-    public TextView getUserName() {
-        return userName;
+    public RecyclerView getInfoRecycler() {
+        return infoRecycler;
     }
 
-    public TextView getUserPhone() {
-        return userPhone;
-    }
-
-    public RecyclerView getRecyclerView() {
-        return recyclerView;
+    public RecyclerView getRecycler() {
+        return recycler;
     }
 
     public TextView getReceivables() {
@@ -85,7 +81,7 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
 
     @Override
     public void setNestedScrollingEnabled(boolean b) {
-        recyclerView.setNestedScrollingEnabled(b);
+        infoRecycler.setNestedScrollingEnabled(b);
     }
 
 }

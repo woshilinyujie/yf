@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+import com.lzy.okgo.model.HttpHeaders;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.util.concurrent.TimeUnit;
@@ -28,6 +29,11 @@ public class MAppliction extends Application {
     }
 
     public void initOkGo() {
+        //添加公共头
+        HttpHeaders headers = new HttpHeaders();
+        headers.put("device", "android");
+        OkGo.getInstance().addCommonHeaders(headers);
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度

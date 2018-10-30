@@ -59,11 +59,10 @@ public class OrderScanActivity extends AppCompatActivity implements OrderScanCon
         super.onDestroy();
     }
 
-//    @Override
-//    public void setScanText(String s) {
-//        scanText.setText("扫描码为: "+s);
+    public void setScanText(String s) {
+        scanText.setText("扫描码为: "+s);
 //        scanZbarview.startSpotDelay(1000);
-//    }
+    }
 
     @Override
     public void setSpotDelay(int delay) {

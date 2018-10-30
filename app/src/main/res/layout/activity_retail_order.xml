@@ -18,44 +18,108 @@
         app:centerTextSize="@dimen/sp_16"
         android:background="@color/white"/>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/retail_submit_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
         android:background="#ffffff">
 
-        <TextView
-            android:id="@+id/retail_order_receivable"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_44"
-            android:text="确认并收款"
-            android:includeFontPadding="false"
-            android:gravity="center"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintWidth_percent="0.5"
-            android:background="@color/c_6fb1fc"/>
+        <RelativeLayout
+            android:id="@+id/retail_order_total_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16"
+            android:background="@color/c_fffbd9"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dp_6"
+                android:paddingTop="@dimen/dp_6">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总数量："
+                    android:includeFontPadding="false"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="@color/c_333333"/>
+                <TextView
+                    android:id="@+id/retail_order_total_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    android:includeFontPadding="false"
+                    android:textSize="@dimen/sp_16"
+                    android:textColor="@color/c_ff6600"/>
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/retail_order_success"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_44"
-            android:text="确认订单"
-            android:includeFontPadding="false"
-            android:gravity="center"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/white"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintWidth_percent="0.5"
-            android:background="@color/c_666fb1fc"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dp_6"
+                android:paddingTop="@dimen/dp_6"
+                android:layout_alignParentRight="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="汇总金额："
+                    android:includeFontPadding="false"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="@color/c_333333"/>
+                <TextView
+                    android:id="@+id/retail_order_total_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7576.00"
+                    android:includeFontPadding="false"
+                    android:textSize="@dimen/sp_16"
+                    android:textColor="@color/c_ff6600"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="元"
+                    android:includeFontPadding="false"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="@color/c_ff6600"/>
+            </LinearLayout>
+        </RelativeLayout>
 
-    </android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/retail_order_receivable"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dp_44"
+                android:text="确认并收款"
+                android:includeFontPadding="false"
+                android:gravity="center"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/white"
+                android:background="@color/c_6fb1fc"/>
+
+            <TextView
+                android:id="@+id/retail_order_success"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dp_44"
+                android:text="确认订单"
+                android:includeFontPadding="false"
+                android:gravity="center"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/white"
+                android:background="@color/c_666fb1fc"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <!--解决嵌套recycler后 recycler中item长度变化数量变化造成的显示不全问题 -->
     <android.support.v4.widget.NestedScrollView
@@ -192,34 +256,29 @@
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/c_a6a6a6"
                     android:paddingLeft="@dimen/dp_16"
+                    android:paddingTop="@dimen/dp_6"
+                    android:paddingBottom="@dimen/dp_6"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <TextView
-                    android:id="@+id/retail_client_select"
+                <RelativeLayout
+                    android:id="@+id/retail_order_select_client"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="选择"
-                    android:includeFontPadding="false"
-                    android:textSize="@dimen/sp_12"
-                    android:textColor="@color/c_6fb1fc"
-                    android:paddingBottom="@dimen/dp_6"
-                    android:paddingTop="@dimen/dp_6"
+                    android:paddingTop="@dimen/dp_5"
                     android:paddingRight="@dimen/dp_16"
-                    app:layout_constraintRight_toRightOf="parent"/>
+                    android:paddingLeft="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent">
 
-                <TextView
-                    android:id="@+id/retail_client_clear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="清空"
-                    android:includeFontPadding="false"
-                    android:textSize="@dimen/sp_12"
-                    android:textColor="@color/c_6fb1fc"
-                    android:paddingBottom="@dimen/dp_6"
-                    android:paddingTop="@dimen/dp_6"
-                    android:paddingRight="@dimen/dp_16"
-                    app:layout_constraintRight_toLeftOf="@id/retail_client_select"/>
+                    <ImageView
+                        android:layout_width="@dimen/dp_6"
+                        android:layout_height="@dimen/dp_12"
+                        android:src="@mipmap/right_more_arrow"/>
+
+                </RelativeLayout>
 
             </android.support.constraint.ConstraintLayout>
 

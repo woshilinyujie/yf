@@ -12,7 +12,7 @@ public class RetailOrderBean {
     private ArrayList<SalesmanBean> salesmanList = new ArrayList<>();
 
     //客户
-    private ClientInfoBean client;
+    private ClientInfoBean client = new ClientInfoBean();
 
     //商品数据
     private ArrayList<CommodityInfoBean> comList = new ArrayList<>();

@@ -33,6 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
+            android:id="@+id/select_commodity_success"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:includeFontPadding="false"
@@ -63,6 +64,7 @@
                 android:textSize="@dimen/sp_14"/>
 
             <TextView
+                android:id="@+id/select_commodity_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3"

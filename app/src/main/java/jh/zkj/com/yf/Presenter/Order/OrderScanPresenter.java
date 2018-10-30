@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
+import jh.zkj.com.yf.API.APIConstant;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderScanActivity;
@@ -40,7 +41,9 @@ public class OrderScanPresenter implements QRCodeView.Delegate{
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-//        activity.setScanText(result);
+        if(BuildConfig.DEBUG){
+            activity.setScanText(result);
+        }
         getCommodityList(result, 0, 0);
     }
 
@@ -62,17 +65,9 @@ public class OrderScanPresenter implements QRCodeView.Delegate{
     //****************************************************************************************************************
     //获取商品列表
     private void getCommodityList(String keyWord, int page, int size){
-        api.getSearchCommodity(keyWord, page, size, new OrderAPI.IResultMsg() {
+        api.getSearchCommodity(keyWord, page, size, new OrderAPI.IResultMsg<CommodityBean>() {
             @Override
-            public void Result(String json) {
-                if(BuildConfig.DEBUG){
-                    Log.d("wdefer" , "json == " + json);
-                }
-
-                BaseBean<CommodityBean> comInfoBean = JSON.parseObject(json,
-                        new TypeReference<BaseBean<CommodityBean>>() {});
-
-                CommodityBean data = comInfoBean.getData();
+            public void Result(CommodityBean data) {
                 if(data != null && data.getRecords() != null && data.getRecords().size() > 0){
 
                     Intent intent = new Intent();

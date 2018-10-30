@@ -2,6 +2,8 @@ package jh.zkj.com.yf.API;
 
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -10,6 +12,10 @@ import com.lzy.okgo.model.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+import jh.zkj.com.yf.Bean.BaseBean;
+import jh.zkj.com.yf.Bean.ClientInfoBean;
+import jh.zkj.com.yf.Bean.CommodityBean;
+import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.BuildConfig;
 
@@ -19,20 +25,27 @@ import jh.zkj.com.yf.BuildConfig;
 
 public class OrderAPI {
     public final String API = APIConstant.API;
-    public final String TOKEN = "43e42efe-6593-4ea6-8a04-d67e64cd435c";
+    public final String TOKEN = "bearer 38c71baf-96d0-4f27-b4f8-e356aa53244f";
 
     /**
      * 获取业务员信息
      */
-    public void getSalesmanInfo(String soClerkFlag, String currentCompany, final IResultMsg iResultMsg) {
+    public void getSalesmanInfo(String soClerkFlag, String currentCompany, final IResultMsg<ArrayList<SalesmanBean>> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_USER)
-                .params("access_token", TOKEN)
+                .headers("Authorization", TOKEN)
                 .params("soClerkFlag", soClerkFlag)
                 .params("currentCompany", currentCompany)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        iResultMsg.Result(response.body());
+                        BaseBean<ArrayList<SalesmanBean>> arrayListBaseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<SalesmanBean>>>(){});
+
+                        if(APIConstant.REQUEST_SUCCESS.equals(arrayListBaseBean.getCode())){
+                            iResultMsg.Result(arrayListBaseBean.getData());
+                        }else{
+
+                        }
                     }
 
                     @Override
@@ -47,19 +60,27 @@ public class OrderAPI {
     /**
      * 搜索商品
      */
-    public void getSearchCommodity(String keyWord, int pageNum, int pageSize, final IResultMsg iResultMsg) {
+    public void getSearchCommodity(String keyWord, int pageNum, int pageSize, final IResultMsg<CommodityBean> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_PRODUCT_KEYWORDS)
-                .params("access_token", TOKEN)
+                .headers("Authorization", TOKEN)
                 .params("keyWord", keyWord)
                 .params("pageNum", pageNum)
                 .params("pageSize", pageSize)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+
                         if(BuildConfig.DEBUG){
-                            Log.d("wdefer" , "搜索商品 -->");
+                            Log.d("wdefer" , "json == " + response.body());
                         }
-                        iResultMsg.Result(response.body());
+                        BaseBean<CommodityBean> comInfoBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<CommodityBean>>() {});
+
+                        if(APIConstant.REQUEST_SUCCESS.equals(comInfoBean.getCode())){
+                            iResultMsg.Result(comInfoBean.getData());
+                        }else{
+
+                        }
                     }
                     @Override
                     public void onError(Response<String> response) {
@@ -75,9 +96,9 @@ public class OrderAPI {
     /**
      * 获取会员的接口
      */
-    public void getClientInfo(String keyWord, int pageNum, int pageSize, final IResultMsg iResultMsg) {
+    public void getClientInfo(String keyWord, int pageNum, int pageSize, final IResultMsg<ArrayList<ClientInfoBean>> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_MEMBER_INFO)
-                .params("access_token", TOKEN)
+                .headers("Authorization", TOKEN)
                 .params("keyWord", keyWord)
                 .params("pageNum", pageNum)
                 .params("pageSize", pageSize)
@@ -87,7 +108,82 @@ public class OrderAPI {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        iResultMsg.Result(response.body());
+
+                        if (BuildConfig.DEBUG) {
+                            Log.e("wdefer", "json == " + response.body());
+                        }
+
+                        BaseBean<ArrayList<ClientInfoBean>> client = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<ClientInfoBean>>>() {});
+
+                        if(APIConstant.REQUEST_SUCCESS.equals(client.getCode())){
+                            iResultMsg.Result(client.getData());
+                        }else{
+
+                        }
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        iResultMsg.Error(response.body());
+                    }
+                });
+    }
+
+    /**
+     * 生成订单
+     */
+    public void getCreateOrder(String json, final IResultMsg<String> iResultMsg) {
+        OkGo.<String>post(API + HttpConstant.HTTP_BASIC_SO_APP)
+                .headers("Authorization", TOKEN)
+                .upJson(json)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                        if(BuildConfig.DEBUG){
+                            Log.d("okgo request json" , response.body());
+                        }
+
+                        BaseBean<String> orderNum = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<String>>() {});
+
+                        if(APIConstant.REQUEST_SUCCESS.equals(orderNum.getCode())){
+                            iResultMsg.Result(orderNum.getData());
+                        }else{
+
+                        }
+
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        iResultMsg.Error(response.body());
+                    }
+                });
+    }
+
+    /**
+     * 查询订单详情
+     */
+    public void getQueryOrder(String orderId, final IResultMsg<OrderDetailsBean> iResultMsg) {
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_SO_APP + orderId)
+                .headers("Authorization", TOKEN)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if(BuildConfig.DEBUG){
+                            Log.d("okgo request json" , response.body());
+                        }
+
+                        BaseBean<OrderDetailsBean> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<OrderDetailsBean>>() {});
+
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+
+                        }
                     }
                     @Override
                     public void onError(Response<String> response) {
@@ -98,8 +194,8 @@ public class OrderAPI {
     }
 
 
-    public interface IResultMsg {
-        void Result(String json);
+    public interface IResultMsg<T> {
+        void Result(T bean);
         void Error(String json);
     }
 }

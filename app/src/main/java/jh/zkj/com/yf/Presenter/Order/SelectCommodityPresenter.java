@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.APIConstant;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderScanActivity;
@@ -61,7 +62,9 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
     private void initPresenter() {
         recycler = activity.getRecycler();
-
+        if(activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY) != null){
+            commodityList = (ArrayList<CommodityInfoBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY);
+        }
         api = new OrderAPI();
         initAdapter();
 
@@ -81,6 +84,14 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     }
 
     @Override
+    public void successGoBack() {
+        Intent intent = new Intent();
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY, commodityList);
+        activity.setResult(Activity.RESULT_OK, intent);
+        activity.finish();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_SCAN){
             if(resultCode == Activity.RESULT_OK){
@@ -91,6 +102,15 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                 }
             }
         }
+    }
+
+    public void setTotalCount(){
+        int count = 0;
+        for (CommodityInfoBean bean : commodityList){
+            count += bean.getCount();
+        }
+        activity.setComCount(String.valueOf(count));
+
     }
 
     /**
@@ -109,9 +129,11 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
         //后期传入刷新
         public void notifyData(ArrayList<CommodityInfoBean> arr) {
-            mArr.clear();
-            mArr.addAll(arr);
-            notifyDataSetChanged();
+            if(arr != null){
+                mArr.clear();
+                mArr.addAll(arr);
+                notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -160,13 +182,17 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                             item.addCount();
                             for (CommodityInfoBean bean : commodityList){
                                 //该商品已经存在了  那就不用管它了  已确认绝对不会为空
-                                if(item.getUuid().equals(bean.getUuid()) &&
-                                        item.getWarehouseUuid().equals(bean.getWarehouseUuid())){
-                                    notifyDataSetChanged();
-                                    return;
+                                if(!TextUtils.isEmpty(item.getUuid()) && !TextUtils.isEmpty(item.getWarehouseUuid())){
+                                    if(item.getUuid().equals(bean.getUuid()) &&
+                                            item.getWarehouseUuid().equals(bean.getWarehouseUuid())){
+                                        setTotalCount();
+                                        notifyDataSetChanged();
+                                        return;
+                                    }
                                 }
                             }
                             commodityList.add(item);
+                            setTotalCount();
                             notifyDataSetChanged();
                         }
                     });
@@ -176,21 +202,28 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                         public void onClick(View view) {
                             item.lessCount();
                             //该商品已经存在  并且被删光了  需要移除
-                            if(item.getCount() == 0){
-                                for (int i = 0 ; i < commodityList.size(); i++){
-                                    //已确认绝对不会为空
+
+                            for (int i = 0 ; i < commodityList.size(); i++){
+                                //已确认绝对不会为空
+                                if(!TextUtils.isEmpty(item.getUuid()) && !TextUtils.isEmpty(item.getWarehouseUuid())){
                                     if(item.getUuid().equals(commodityList.get(i).getUuid()) &&
                                             item.getWarehouseUuid().equals(commodityList.get(i).getWarehouseUuid())){
-                                        commodityList.remove(i);
+                                        if(item.getCount() == 0){
+                                            commodityList.remove(i);
+                                        }
+                                        setTotalCount();
                                         notifyDataSetChanged();
                                         return;
                                     }
                                 }
                             }
+                            setTotalCount();
                             notifyDataSetChanged();
                         }
                     });
                 }else{
+                    holder.less.setVisibility(View.GONE);
+                    holder.count.setVisibility(View.GONE);
                     //有串号  扫码
                     holder.warehouse.setText("");
                     holder.addOrScan.setImageBitmap(scan);
@@ -249,17 +282,26 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     //****************************************************************************************************************
     //获取商品列表
     private void getCommodityList(String keyWord, int page, int size){
-        api.getSearchCommodity(keyWord, page, size, new OrderAPI.IResultMsg() {
+        api.getSearchCommodity(keyWord, page, size, new OrderAPI.IResultMsg<CommodityBean>() {
             @Override
-            public void Result(String json) {
-                if(BuildConfig.DEBUG){
-                    Log.d("wdefer" , "json == " + json);
+            public void Result(CommodityBean bean) {
+
+                if(bean != null){
+                    ArrayList<CommodityInfoBean> records = bean.getRecords();
+                    for (CommodityInfoBean infoBean : commodityList){
+                        for (CommodityInfoBean record : records){
+                            if(TextUtils.isEmpty(infoBean.getSerialNo())){
+                                if(infoBean.getUuid().equals(record.getUuid())
+                                        && infoBean.getWarehouseUuid().equals(record.getWarehouseUuid())){
+                                    record.setCount(infoBean.getCount());
+                                    record.setPrice(infoBean.getPrice());
+                                }
+                            }
+                        }
+                    }
+                    setTotalCount();
+                    adapter.notifyData(records);
                 }
-
-                BaseBean<CommodityBean> comInfoBean = JSON.parseObject(json,
-                        new TypeReference<BaseBean<CommodityBean>>() {});
-
-                adapter.notifyData(comInfoBean.getData().getRecords());
             }
 
             @Override
