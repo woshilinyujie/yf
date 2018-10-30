@@ -13,6 +13,7 @@
         android:background="@color/c_f6f7fb"/>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/dp_16"
@@ -108,13 +109,13 @@
             android:includeFontPadding="false"/>
 
         <TextView
-            android:id="@+id/retail_list_date"
+            android:id="@+id/retail_list_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_6"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="创建日期：2017-09-12"
+            android:text="收款人"
             android:textColor="@color/c_a6a6a6"
             android:textSize="@dimen/dp_12"
             android:includeFontPadding="false"
@@ -127,11 +128,11 @@
             android:layout_marginTop="@dimen/dp_6"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="创建日期：2017-09-12"
+            android:text="收款时间："
             android:textColor="@color/c_a6a6a6"
             android:textSize="@dimen/dp_12"
             android:includeFontPadding="false"
-            app:layout_constraintTop_toBottomOf="@id/retail_list_date"/>
+            app:layout_constraintTop_toBottomOf="@id/retail_list_user_name"/>
 
         <TextView
             android:id="@+id/retail_list_money_bottom"
@@ -191,7 +192,27 @@
             android:visibility="gone"
             android:background="@drawable/shape_radius_30_stroke_333333"/>
 
+
+        <TextView
+            app:layout_constraintTop_toBottomOf="parent"
+            android:gravity="center"
+            android:text="没有更多了"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/c_333333"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50" />
     </android.support.constraint.ConstraintLayout>
 
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/retail_list_no_more"
+        app:layout_constraintTop_toBottomOf="@id/cl"
+        android:gravity="center"
+        android:text="没有更多了"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/c_333333"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50" />
 
 </android.support.constraint.ConstraintLayout>

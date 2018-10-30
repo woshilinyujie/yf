@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Presenter.My;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,11 +15,15 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
+import jh.zkj.com.yf.Bean.OrderListBean;
 import jh.zkj.com.yf.Contract.My.RetailListContract;
 import jh.zkj.com.yf.Fragment.My.RetailListFragment;
+import jh.zkj.com.yf.Mutils.GsonUtils;
 import jh.zkj.com.yf.R;
 
 /**
@@ -26,16 +31,58 @@ import jh.zkj.com.yf.R;
  * on 2018/9/19
  * use
  */
-public class RetailListPresenter implements RetailListContract.IRetailPresenter{
+public class RetailListPresenter implements RetailListContract.IRetailPresenter {
 
     private final RetailListFragment fragment;
     private Context context;
     private RecyclerView recyclerView;
     private RetailListAdapter adapter;
-    private ArrayList<RetailListBean> beans;
     private TwinklingRefreshLayout twinklingRefreshLayout;
+    private OrderAPI orderAPI;
+    private int pageNum = 1;
+    private OrderListBean orderListBean;
+    private List<OrderListBean.DataBean.RecordsBean> dateList;
+    private int total;//总数量
+    private int pageSize = 10;
+    private int flag = 1;//加载更多0，下拉刷新1
+    private boolean  more=false;//是否显示更多
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0://加载更多
+                    twinklingRefreshLayout.finishLoadmore();
+                    List<OrderListBean.DataBean.RecordsBean> records = orderListBean.getData().getRecords();
+                    if (records.size() > 0) {
+                        dateList.addAll(records);
+                        sendEmptyMessageDelayed(2,500);
+                    } else {
+                        //没有跟多数据
+                        twinklingRefreshLayout.setEnableLoadmore(false);
+                        more=true;
+                        adapter.notifyDataSetChanged();
+                    }
+                    break;
 
-    public RetailListPresenter(RetailListFragment fragment){
+                case 1://下拉刷新
+                    twinklingRefreshLayout.finishRefreshing();
+                    dateList.clear();
+                    more=false;
+                    List<OrderListBean.DataBean.RecordsBean> records1 = orderListBean.getData().getRecords();
+                    if (records1.size() > 0) {
+                        dateList.addAll(records1);
+                    }
+                   sendEmptyMessageDelayed(2,500);
+                    break;
+                case 2:
+                    adapter.notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
+    private OrderAPI.IResultMsg iResultMsg;
+
+    public RetailListPresenter(RetailListFragment fragment) {
         this.fragment = fragment;
         initPresenter();
     }
@@ -44,30 +91,28 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
         context = fragment.getContext();
         recyclerView = fragment.getRecyclerView();
         twinklingRefreshLayout = fragment.getTwinklingRefreshLayout();
+        orderAPI = new OrderAPI();
+        dateList = new ArrayList<>();
         initAdapter();
+        initData();
 
 
         twinklingRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.finishRefreshing();
-                        initFalseData(true, 10);
-                    }
-                },2000);
+                //下拉刷新
+                refreshLayout.setEnableLoadmore(true);
+                pageNum = 1;
+                flag = 1;
+                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getState(), "", pageNum, pageSize, iResultMsg);
             }
 
             @Override
             public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.finishLoadmore();
-                        initFalseData(false, 20);
-                    }
-                },2000);
+                //加载更多数据
+                pageNum++;
+                flag = 0;
+                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getState(), "", pageNum, pageSize, iResultMsg);
             }
         });
     }
@@ -76,59 +121,44 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RetailListAdapter();
+
+
         fragment.setListAdapter(adapter);
-        beans = new ArrayList<>();
 
         //造假数据
-        initFalseData(true, 10);
     }
 
-    private void initFalseData(boolean clear, int number) {
-        if(clear)
-            beans.clear();
-        String status = "";
-        if(fragment.getArguments() != null){
-            status = fragment.getArguments().getString("status");
-        }
 
-        for(int i = 0; i < number; i++){
-            RetailListBean bean = new RetailListBean();
-            double random = Math.random();
-            bean.setOrder("订单编号：" + (int)(random * 100000000));
+    @Override
+    public void initData() {
+        iResultMsg = new OrderAPI.IResultMsg() {
+            @Override
+            public void Result(String json) {
+                orderListBean = GsonUtils.GsonToBean(json, OrderListBean.class);
+                if (orderListBean.getCode() == 0) {
+                    handler.sendEmptyMessage(flag);
+                } else {
 
-            if(i % 2 == 0)
-                bean.setOrderStatus("0");
-            else
-                bean.setOrderStatus("1");
+                }
+            }
 
-            bean.setName("张三");
-            bean.setPhone("156" + (int)(random *100000000) );
-            bean.setNumber("共" + (int)(random * 7) +"件");
-            bean.setOrderTitle("荣耀rx1 经典旗舰版；小米xxsssssss122223");
-            bean.setDate("创建日期：2017-09-12");
-            bean.setMoney((int)(random * 10000) + ".0元");
-            bean.setStatus(status);
-            beans.add(bean);
-        }
-
-        adapter.notifyData(beans);
+            @Override
+            public void Error(String json) {
+                if (flag == 0) {
+                    twinklingRefreshLayout.finishRefreshing();
+                } else {
+                    twinklingRefreshLayout.finishLoadmore();
+                }
+            }
+        };
+        orderAPI.getMyOrderList(fragment.getActivity(), fragment.getState(), "", pageNum, 10, iResultMsg);
     }
 
 
     /**
      * 使用：
      */
-    class RetailListAdapter extends RecyclerView.Adapter<RetailListAdapter.ViewHolder>{
-
-        private ArrayList<RetailListBean> mArr = new ArrayList<>();
-
-        //后期传入刷新
-        public void notifyData(ArrayList<RetailListBean> arr) {
-            mArr.clear();
-            mArr.addAll(arr);
-            notifyDataSetChanged();
-        }
-
+    class RetailListAdapter extends RecyclerView.Adapter<RetailListAdapter.ViewHolder> {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_retail_list, parent, false);
@@ -136,9 +166,9 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             return new ViewHolder(view);
         }
 
-        public RetailListBean getItem(int position){
-            if(mArr != null && mArr.size() > position){
-                return mArr.get(position);
+        public OrderListBean.DataBean.RecordsBean getItem(int position) {
+            if (dateList != null && dateList.size() > position) {
+                return dateList.get(position);
             }
             return null;
         }
@@ -150,41 +180,48 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            final RetailListBean item = getItem(position);
-            holder.order.setText(item.getOrder());
+            final OrderListBean.DataBean.RecordsBean item = getItem(position);
+            holder.order.setText(item.getBillNo());
             int color;
-            if("1".equals(item.getOrderStatus())){
+            if ("1".equals(fragment.getState())) {
                 color = context.getResources().getColor(R.color.c_6fb1fc);
                 holder.orderStatus.setText("未收款");
-            }
-            else{
+            } else if ("2".equals(fragment.getState())) {
                 color = context.getResources().getColor(R.color.c_ff6600);
                 holder.orderStatus.setText("已收款");
+            } else {
+                color = context.getResources().getColor(R.color.c_a6a6a6);
+                holder.orderStatus.setText("取消");
             }
 
             holder.orderStatus.setTextColor(color);
-            holder.name.setText(item.getName());
-            holder.phone.setText(item.getPhone());
-            holder.number.setText(item.getNumber());
-            holder.orderTitle.setText(item.getOrderTitle());
-            holder.date.setText(item.getDate());
-            holder.moneyTop.setText(item.getMoney());
-            holder.moneyBottom.setText(item.getMoney());
+            holder.name.setText(item.getName() + "");
+            holder.phone.setText(item.getMobilePhone() + "");
+            int size = 0;
+            for (OrderListBean.DataBean.RecordsBean.BizSoDetailBean bean : item.getBizSoDetail()) {
+                size = (int) (size + bean.getQty());
+            }
+            holder.number.setText(size + "");
+            holder.orderTitle.setText(item.getBizSoDetail().get(0).getSkuFullName() + "");
+            holder.date.setText(item.getBizDate() + "");
+            holder.userName.setText(item.getCreateUserName() + "");
+            holder.moneyTop.setText(item.getPrice() + "");
+            holder.moneyBottom.setText(item.getPrice() + "");
 
-            if("1".equals(item.getStatus())){
+            if ("1".equals(fragment.getState())) {
                 holder.moneyBottom.setVisibility(View.GONE);
                 holder.moneyTop.setVisibility(View.VISIBLE);
                 holder.receipt.setVisibility(View.VISIBLE);
-                holder.cancel.setVisibility( View.VISIBLE);
-            }else{
+                holder.cancel.setVisibility(View.VISIBLE);
+            } else {
                 holder.moneyBottom.setVisibility(View.VISIBLE);
                 holder.moneyTop.setVisibility(View.GONE);
                 holder.receipt.setVisibility(View.GONE);
-                holder.cancel.setVisibility( View.GONE);
+                holder.cancel.setVisibility(View.GONE);
             }
 
 
-            if(position == 2){
+            if (position == 2) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -192,15 +229,21 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
                         fragment.startActivity(intent);
                     }
                 });
-            }else{
+            } else {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, OrderDetailsActivity.class);
-                        intent.putExtra("order_status", item.getOrderStatus());
+//                        intent.putExtra("order_status", item.getOrderStatus());
                         fragment.startActivity(intent);
                     }
                 });
+            }
+
+            if(more && position==dateList.size()-1){
+                holder.noMore.setVisibility(View.VISIBLE);
+            }else {
+                holder.noMore.setVisibility(View.GONE);
             }
 
 
@@ -208,10 +251,10 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
 
         @Override
         public int getItemCount() {
-            return mArr == null ? 0 : mArr.size();
+            return dateList == null ? 0 : dateList.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder{
+        class ViewHolder extends RecyclerView.ViewHolder {
             //留一条方便ctrl+D  找到后可删
             public TextView order;
             public TextView orderStatus;
@@ -224,7 +267,11 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
             public TextView moneyBottom;
             public View itemView;
             public TextView receipt;
+            public TextView userName;
             public TextView cancel;
+            public TextView noMore;
+
+
             public ViewHolder(View itemView) {
                 super(itemView);
                 this.itemView = itemView;
@@ -234,97 +281,15 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter{
                 phone = itemView.findViewById(R.id.retail_list_phone);
                 number = itemView.findViewById(R.id.retail_list_number);
                 orderTitle = itemView.findViewById(R.id.retail_list_order_title);
-                date = itemView.findViewById(R.id.retail_list_date);
+                userName = itemView.findViewById(R.id.retail_list_user_name);
+                date = itemView.findViewById(R.id.retail_list_date1);
                 moneyTop = itemView.findViewById(R.id.retail_list_money_top);
                 moneyBottom = itemView.findViewById(R.id.retail_list_money_bottom);
                 receipt = itemView.findViewById(R.id.retail_list_receipt);
                 cancel = itemView.findViewById(R.id.retail_list_cancel);
+                noMore = itemView.findViewById(R.id.retail_list_no_more);
             }
         }
     }
 
-    //假数据用bean
-    class RetailListBean{
-        private String order;
-        private String orderStatus;
-        private String name;
-        private String phone;
-        private String number;
-        private String orderTitle;
-        private String date;
-        private String money;
-        private String status;
-
-        public String getOrder() {
-            return order;
-        }
-
-        public void setOrder(String order) {
-            this.order = order;
-        }
-
-        public String getOrderStatus() {
-            return orderStatus;
-        }
-
-        public void setOrderStatus(String orderStatus) {
-            this.orderStatus = orderStatus;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getNumber() {
-            return number;
-        }
-
-        public void setNumber(String number) {
-            this.number = number;
-        }
-
-        public String getOrderTitle() {
-            return orderTitle;
-        }
-
-        public void setOrderTitle(String orderTitle) {
-            this.orderTitle = orderTitle;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getMoney() {
-            return money;
-        }
-
-        public void setMoney(String money) {
-            this.money = money;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-    }
 }

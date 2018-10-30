@@ -34,8 +34,8 @@ public class MyOrderPresenter implements MyOrderContract.IMyRetailFindPresenter 
     private void initData() {
         titles = new String[]{"未收款", "已收款", "已取消"};
         RetailListFragment allRetail = RetailListFragment.newInstance("1");
-        RetailListFragment receivables = RetailListFragment.newInstance("0");
-        RetailListFragment unReceivables = RetailListFragment.newInstance("0");
+        RetailListFragment receivables = RetailListFragment.newInstance("2");
+        RetailListFragment unReceivables = RetailListFragment.newInstance("3");
         fragments.add(allRetail);
         fragments.add(receivables);
         fragments.add(unReceivables);

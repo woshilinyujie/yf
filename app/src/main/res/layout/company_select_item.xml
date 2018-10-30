@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_56">
+    <ImageView
+        android:id="@+id/select_company_item_iv"
+        android:visibility="gone"
+        android:background="@mipmap/clock"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_centerVertical="true"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_16" />
+    <LinearLayout
+        android:layout_marginLeft="@dimen/dp_70"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56">
+        <ImageView
+            android:background="@mipmap/company_white"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20" />
+        <TextView
+            android:id="@+id/select_company_item_company"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxEms="15"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="杭州骏杭智能科技有限公司"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

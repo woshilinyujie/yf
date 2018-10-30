@@ -43,6 +43,10 @@
         <activity android:name=".Activity.My.PhoneActivity" />
         <activity android:name=".Activity.My.ModifyPasswordActivity" />
         <activity android:name=".Activity.My.EmailActivity" />
+        <activity android:name=".Activity.My.SelectCompanyActivity" />
+        <activity android:name=".Activity.My.RegisterActivity" />
+        <activity android:name=".Activity.My.PersonalFileActivity" />
+
         <!-- 分仓库存选择仓库 -->
         <activity android:name=".Activity.Stock.ChildWarehouseActivity" />
         <activity android:name=".Activity.Analyse.ShopAnalyseActivity" />

@@ -47,4 +47,9 @@
         <!-- 设置背景模糊的透明度-->
         <!--<item name="android:backgroundDimAmount">0.3</item>-->
     </style>
+
+    <!--阅读同意条款-->
+    <style name="CheckBox_terms" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_box_background_selector_terms</item>
+    </style>
 </resources>
