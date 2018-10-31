@@ -2,9 +2,10 @@ package jh.zkj.com.yf.Bean;
 
 
 
+import com.contrarywind.interfaces.IPickerViewData;
+
 import java.util.List;
 
-import jh.zkj.com.yf.Listener.IPickerViewData;
 
 /**
  * TODO<json数据源>
@@ -13,7 +14,7 @@ import jh.zkj.com.yf.Listener.IPickerViewData;
  * @date: 2017/3/16 15:36
  */
 
-public class AddressBean implements IPickerViewData {
+   public class JsonBean implements IPickerViewData {
 
 
     /**

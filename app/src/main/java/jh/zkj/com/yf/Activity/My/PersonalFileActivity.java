@@ -59,6 +59,7 @@ public class PersonalFileActivity extends MBaseActivity {
                 personalFilePresenter.selectSexWomanMan();
                 break;
             case R.id.personal_file_address://选地址
+                personalFilePresenter.initJsonDate();
                 break;
             case R.id.personal_file_id_front://身份证前
                 break;

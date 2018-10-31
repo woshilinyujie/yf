@@ -104,8 +104,8 @@ public class OrderAPI {
      * 我的订单
      * type  1.未收款 2.以收款 3.已取消
      */
-    public void getMyOrderList(Context context, String type, String keywords, int pageNum, int pageSize, final IResultMsg iResultMsg){
-//        try{
+    public void getMyOrderList(Context context, String type, String keywords, int pageNum, int pageSize, final int flag, final IResultMsgOne iResultMsg){
+        try{
             OkGo.<String>get(API+HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
                     .params("access_token", TOKEN)
                     .params("type",type)
@@ -115,17 +115,17 @@ public class OrderAPI {
                     .execute(new StringCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
-                            iResultMsg.Result(response.body());
+                            iResultMsg.Result(response.body(),flag);
                         }
                         @Override
                         public void onError(Response<String> response) {
                             super.onError(response);
-                            iResultMsg.Error(response.body());
+                            iResultMsg.Error(response.body(),flag);
                         }
                     });
-//        }catch (Exception e){
-//            EToast.makeText(context,"信息解析错误"+e.toString(),Toast.LENGTH_SHORT).show();
-//        }
+        }catch (Exception e){
+            EToast.makeText(context,"信息解析错误"+e.toString(),Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -133,5 +133,9 @@ public class OrderAPI {
     public interface IResultMsg {
         void Result(String json);
         void Error(String json);
+    }
+    public interface IResultMsgOne {
+        void Result(String json,int flag);
+        void Error(String json,int flag);
     }
 }

@@ -14,5 +14,6 @@ public class PersonalFileActivityContract {
         void selectSexWomanMan();
         void selectAddress();
         void initJsonDate();
+        void showPickerView();// 弹出选择器
     }
 }
