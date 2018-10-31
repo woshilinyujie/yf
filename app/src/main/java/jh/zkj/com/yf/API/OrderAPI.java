@@ -204,28 +204,28 @@ public class OrderAPI {
      */
     public void getMyOrderList(Context context, String type, String keywords, int pageNum, int pageSize, final IResultMsg<OrderListBean> iResultMsg){
 //        try{
-            OkGo.<String>get(API+HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
-                    .params("access_token", TOKEN)
-                    .params("type",type)
-                    .params("pageNum", pageNum)
-                    .params("pageSize", pageSize)
-                    .params("keywords", keywords)
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onSuccess(Response<String> response) {
-                            OrderListBean bean = GsonUtils.GsonToBean(response.body(), OrderListBean.class);
-                            if(APIConstant.REQUEST_SUCCESS.equals(bean.getCode())){
-                                iResultMsg.Result(bean);
-                            }else{
+        OkGo.<String>get(API+HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
+                .headers("Authorization", TOKEN)
+                .params("type",type)
+                .params("pageNum", pageNum)
+                .params("pageSize", pageSize)
+                .params("keywords", keywords)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        OrderListBean bean = GsonUtils.GsonToBean(response.body(), OrderListBean.class);
+                        if(APIConstant.REQUEST_SUCCESS.equals(bean.getCode())){
+                            iResultMsg.Result(bean);
+                        }else{
 
-                            }
                         }
-                        @Override
-                        public void onError(Response<String> response) {
-                            super.onError(response);
-                            iResultMsg.Error(response.body());
-                        }
-                    });
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        iResultMsg.Error(response.body());
+                    }
+                });
 //        }catch (Exception e){
 //            EToast.makeText(context,"信息解析错误"+e.toString(),Toast.LENGTH_SHORT).show();
 //        }

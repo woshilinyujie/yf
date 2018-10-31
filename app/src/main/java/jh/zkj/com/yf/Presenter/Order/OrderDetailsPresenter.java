@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     DecimalFormat dFormat = new DecimalFormat("#.00");
     private TextView receivables;
     private OrderAPI api;
-    private int status;
+    private String status;
 
 
     public OrderDetailsPresenter(OrderDetailsActivity activity) {
@@ -64,14 +65,6 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         activity.getInfoRecycler().setAdapter(infoAdapter);
 
         ArrayList<OrderBean> arr = new ArrayList<>();
-        arr.add(new OrderBean());
-        arr.add(new OrderBean());
-        arr.add(new OrderBean());
-        arr.add(new OrderBean());
-        arr.add(new OrderBean());
-        arr.add(new OrderBean());
-        arr.add(new OrderBean());
-        arr.add(new OrderBean());
         arr.add(new OrderBean());
         infoAdapter.notifyData(arr);
 
@@ -99,12 +92,17 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     private void initData() {
         api = new OrderAPI();
         Intent intent = activity.getIntent();
-        String orderStatus = intent.getStringExtra("order_status");
+        status = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
         String orderNum = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER);
-        if ("0".equals(orderStatus)) {
-            activity.setReceivablesVisibility(View.GONE);
-        } else {
+        if (OrderConfig.STATUS_UN_SUCCESS.equals(status)) {
+            activity.setStatusText("未收款");
             activity.setReceivablesVisibility(View.VISIBLE);
+        } else if(OrderConfig.STATUS_SUCCESS.equals(status)){
+            activity.setStatusText("已收款");
+            activity.setReceivablesVisibility(View.GONE);
+        }else {
+            activity.setStatusText("已取消");
+            activity.setReceivablesVisibility(View.GONE);
         }
         //嵌套scrollview需要禁止滑动
         activity.setNestedScrollingEnabled(false);
@@ -293,7 +291,6 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
             public void Result(OrderDetailsBean bean) {
                 if (bean != null) {
                     ArrayList<ComDetailBean> detailList = createDetailList(bean, status);
-
                     detailAdapter.notifyData(detailList);
                 }
             }
@@ -301,14 +298,14 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
             @Override
             public void Error(String json) {
-                if (BuildConfig.DEBUG) {
+                if (BuildConfig.DEBUG && !TextUtils.isEmpty(json)) {
                     Log.e("okgo request json", json);
                 }
             }
         });
     }
 
-    private ArrayList<ComDetailBean> createDetailList(OrderDetailsBean bean, int status) {
+    private ArrayList<ComDetailBean> createDetailList(OrderDetailsBean bean, String status) {
 
         ArrayList<ComDetailBean> comDetails = new ArrayList<>();
         comDetails.add(new ComDetailBean("订单编号", bean.getBillNo()));
@@ -317,14 +314,15 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         comDetails.add(new ComDetailBean("下单人", "null"));
         comDetails.add(new ComDetailBean("下单时间", bean.getBizDate()));
         comDetails.add(new ComDetailBean("业务员", bean.getName()));
-        if (status == OrderConfig.STATUS_UNSUCCESS) {
+
+        if (OrderConfig.STATUS_UN_SUCCESS.equals(status)) {
             comDetails.add(new ComDetailBean("备注", bean.getRemark()));
-        } else if (status == OrderConfig.STATUS_SUCCESS) {
+        } else if (OrderConfig.STATUS_SUCCESS.equals(status)) {
             comDetails.add(new ComDetailBean("收款人", "null"));
             comDetails.add(new ComDetailBean("收款详情", "null"));
             comDetails.add(new ComDetailBean("收款时间", "null"));
             comDetails.add(new ComDetailBean("备注", bean.getRemark()));
-        } else if (status == OrderConfig.STATUS_CANCEL) {
+        } else if (OrderConfig.STATUS_CANCEL.equals(status)) {
             comDetails.add(new ComDetailBean("备注", bean.getRemark()));
             comDetails.add(new ComDetailBean("取消人", "null"));
             comDetails.add(new ComDetailBean("取消时间", "null"));

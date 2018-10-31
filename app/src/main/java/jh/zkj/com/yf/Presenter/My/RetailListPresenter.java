@@ -19,6 +19,7 @@ import java.util.List;
 
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
 import jh.zkj.com.yf.Bean.OrderListBean;
 import jh.zkj.com.yf.Contract.My.RetailListContract;
@@ -104,7 +105,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 refreshLayout.setEnableLoadmore(true);
                 pageNum = 1;
                 flag = 1;
-                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getState(), "", pageNum, pageSize, iResultMsg);
+                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, iResultMsg);
             }
 
             @Override
@@ -112,7 +113,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 //加载更多数据
                 pageNum++;
                 flag = 0;
-                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getState(), "", pageNum, pageSize, iResultMsg);
+                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, iResultMsg);
             }
         });
     }
@@ -147,7 +148,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 }
             }
         };
-        orderAPI.getMyOrderList(fragment.getActivity(), fragment.getState(), "", pageNum, 10, iResultMsg);
+        orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, 10, iResultMsg);
     }
 
 
@@ -158,7 +159,6 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_retail_list, parent, false);
-//            View view = View.inflate(context, R.layout.item_retail_list, null);
             return new ViewHolder(view);
         }
 
@@ -179,10 +179,10 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
             final OrderListBean.DataBean.RecordsBean item = getItem(position);
             holder.order.setText(item.getBillNo());
             int color;
-            if ("1".equals(fragment.getState())) {
+            if (OrderConfig.STATUS_UN_SUCCESS.equals(fragment.getStatus())) {
                 color = context.getResources().getColor(R.color.c_6fb1fc);
                 holder.orderStatus.setText("未收款");
-            } else if ("2".equals(fragment.getState())) {
+            } else if (OrderConfig.STATUS_SUCCESS.equals(fragment.getStatus())) {
                 color = context.getResources().getColor(R.color.c_ff6600);
                 holder.orderStatus.setText("已收款");
             } else {
@@ -204,7 +204,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
             holder.moneyTop.setText(item.getPrice() + "");
             holder.moneyBottom.setText(item.getPrice() + "");
 
-            if ("1".equals(fragment.getState())) {
+            if (OrderConfig.STATUS_UN_SUCCESS.equals(fragment.getStatus())) {
                 holder.moneyBottom.setVisibility(View.GONE);
                 holder.moneyTop.setVisibility(View.VISIBLE);
                 holder.receipt.setVisibility(View.VISIBLE);
@@ -216,25 +216,15 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 holder.cancel.setVisibility(View.GONE);
             }
 
-
-            if (position == 2) {
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, MyOrderActivity.class);
-                        fragment.startActivity(intent);
-                    }
-                });
-            } else {
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, OrderDetailsActivity.class);
-//                        intent.putExtra("order_status", item.getOrderStatus());
-                        fragment.startActivity(intent);
-                    }
-                });
-            }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, OrderDetailsActivity.class);
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, item.getStatusFlag());
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, item.getBillNo());
+                    fragment.startActivity(intent);
+                }
+            });
 
             if(more && position==dateList.size()-1){
                 holder.noMore.setVisibility(View.VISIBLE);

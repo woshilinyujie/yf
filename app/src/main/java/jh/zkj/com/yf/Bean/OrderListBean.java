@@ -8,13 +8,6 @@ import java.util.List;
 
 public class OrderListBean {
 
-
-    /**
-     * data : {"records":[{"uuid":"1eb5cd60d80411e88443b31e0e24ca6d","bizType":"SO","bizDate":"2018-10-08","billNo":"SO00440","ascriptionCompanyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","statusFlag":1,"remark":"11","companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","mobilePhone":"15395617328","identNo":"342421199112055578","identType":"身份证","name":"可是","tel":"0564-2411591","sex":0,"birthday":"2018-10-23","cardNo":"1","skuUuid":"2d09b2e9e469468d90fac08aa6fe5444","serialNo":"","batchNo":"SO00440","qty":1,"price":1,"skuCode":"000019","skuFullName":"4534","skuMnemonicCode":"646436456","clerk01Uuid":"4020b84e4a41413bb2642206941311a5","clerk02Uuid":"2","clerk03Uuid":"1","bizSoDetail":[{"bizSoUuid":"1eb5cd60d80411e88443b31e0e24ca6d","skuUuid":"2d09b2e9e469468d90fac08aa6fe5444","serialNo":"","batchNo":"SO00440","qty":1,"price":1,"skuCode":"000019","skuFullName":"4534","skuMnemonicCode":"646436456"},{"bizSoUuid":"1eb5cd60d80411e88443b31e0e24ca6d","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00440","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":"4020b84e4a41413bb2642206941311a5","clerk02Uuid":"2","clerk03Uuid":"1","clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":"4020b84e4a41413bb2642206941311a5","clerk02Uuid":"","clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}],"auditUserUuid":"2","auditTime":"2018-10-17 09:28:30","unauditUserUuid":"2","unauditTime":"2018-10-17 09:28:30","printUserUuid":"2","printTime":"2018-10-17 09:28:30","memberUuid":"1001000","serialInfoUuid":"019fa02bf5b545e9ad90bc0f9d99c8cf","rate":10,"num":1,"soOutBillNo":"SS00355","soOutCreateTime":"2018-10-23 15:13:01","soOutCreateUserUuid":"1","soOutCreateUserName":"吴"},{"uuid":"45cc0460d80311e88823fb557c502bc3","bizType":"SO","bizDate":"2018-10-15","billNo":"SO00437","ascriptionCompanyUuid":"c1c587708dae46a69155cff8b167873f","statusFlag":1,"companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","mobilePhone":"15395617228","identNo":"3424211991120551218","identType":"身份证","name":"李四","tel":"0564-2411591","sex":0,"birthday":"2018-10-08","cardNo":"1","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00437","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","bizSoDetail":[{"bizSoUuid":"45cc0460d80311e88823fb557c502bc3","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00437","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":null,"clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"6c8cc860d80211e8bd8c1bfd3eaa9685","bizType":"SO","bizDate":"2018-10-22","billNo":"SO00435","ascriptionCompanyUuid":"c1c587708dae46a69155cff8b167873f","statusFlag":1,"companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","mobilePhone":"15395617228","identNo":"3424211991120551218","identType":"身份证","name":"李四","tel":"0564-2411591","sex":0,"birthday":"2018-10-22","cardNo":"123456","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00435","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","bizSoDetail":[{"bizSoUuid":"6c8cc860d80211e8bd8c1bfd3eaa9685","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00435","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":null,"clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"7361f060d80311e88823fb557c502bc3","bizType":"SO","bizDate":"2018-10-15","billNo":"SO00438","ascriptionCompanyUuid":"c1c587708dae46a69155cff8b167873f","statusFlag":1,"remark":"sss","companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","mobilePhone":"15395617228","identNo":"3424211991120551218","identType":"身份证","name":"李四","tel":"0564-2411591","sex":0,"birthday":"2018-10-08","cardNo":"1","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00438","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","bizSoDetail":[{"bizSoUuid":"7361f060d80311e88823fb557c502bc3","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00438","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":null,"clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"b0c67453-1d41-48da-98b1-c12258986e67","bizType":"SO","bizDate":"2018-10-23","billNo":"SO00323","ascriptionCompanyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","statusFlag":1,"remark":"测试","auditUserUuid":"2","auditTime":"2018-10-17 09:28:30","unauditUserUuid":"2","unauditTime":"2018-10-17 09:28:30","companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","printUserUuid":"2","printTime":"2018-10-17 09:28:30","memberUuid":"1001000","mobilePhone":"15196852478","identNo":"339005199501286711","identType":"1","name":"cao","tel":"82668951","sex":1,"birthday":"1995-01-28","cardNo":"123","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","serialInfoUuid":"019fa02bf5b545e9ad90bc0f9d99c8cf","batchNo":"SO00145","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","num":1,"clerk01Uuid":"2","clerk02Uuid":"","bizSoDetail":[{"bizSoUuid":"b0c67453-1d41-48da-98b1-c12258986e67","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00145","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"},{"bizSoUuid":"b0c67453-1d41-48da-98b1-c12258986e67","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00145","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"},{"bizSoUuid":"b0c67453-1d41-48da-98b1-c12258986e67","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00145","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"2","clerk02Uuid":"","clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"3","clerk02Uuid":"","clerk03Uuid":"","clerk04Uuid":"","clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"3","clerk02Uuid":"","clerk03Uuid":"","clerk04Uuid":"","clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"e4a012f8-e161-4b85-ad44-4d8e94c94679","bizType":"SO","bizDate":"2018-10-17","billNo":"SO00144","ascriptionCompanyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","statusFlag":1,"remark":"测试","auditUserUuid":"2","auditTime":"2018-10-17 09:28:30","unauditUserUuid":"2","unauditTime":"2018-10-17 09:28:30","companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","printUserUuid":"2","printTime":"2018-10-17 09:28:30","memberUuid":"1001000","mobilePhone":"15196852478","identNo":"339005199501286711","identType":"1","name":"cao","tel":"82668951","sex":1,"birthday":"1995-01-28","cardNo":"123","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","serialInfoUuid":"019fa02bf5b545e9ad90bc0f9d99c8cf","batchNo":"SO00101","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","num":1,"clerk01Uuid":"1","soOutBillNo":"SS00355","soOutCreateTime":"2018-10-23 15:13:01","soOutCreateUserUuid":"1","soOutCreateUserName":"吴","bizSoDetail":[{"bizSoUuid":"e4a012f8-e161-4b85-ad44-4d8e94c94679","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00101","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"},{"bizSoUuid":"e4a012f8-e161-4b85-ad44-4d8e94c94679","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00135","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"1","clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"2","clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]}],"total":6,"size":10,"current":1,"pages":1}
-     * msg : success
-     * code : 0
-     */
-
     private DataBean data;
     private String msg;
     private String code;
@@ -44,13 +37,6 @@ public class OrderListBean {
     }
 
     public static class DataBean {
-        /**
-         * records : [{"uuid":"1eb5cd60d80411e88443b31e0e24ca6d","bizType":"SO","bizDate":"2018-10-08","billNo":"SO00440","ascriptionCompanyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","statusFlag":1,"remark":"11","companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","mobilePhone":"15395617328","identNo":"342421199112055578","identType":"身份证","name":"可是","tel":"0564-2411591","sex":0,"birthday":"2018-10-23","cardNo":"1","skuUuid":"2d09b2e9e469468d90fac08aa6fe5444","serialNo":"","batchNo":"SO00440","qty":1,"price":1,"skuCode":"000019","skuFullName":"4534","skuMnemonicCode":"646436456","clerk01Uuid":"4020b84e4a41413bb2642206941311a5","clerk02Uuid":"2","clerk03Uuid":"1","bizSoDetail":[{"bizSoUuid":"1eb5cd60d80411e88443b31e0e24ca6d","skuUuid":"2d09b2e9e469468d90fac08aa6fe5444","serialNo":"","batchNo":"SO00440","qty":1,"price":1,"skuCode":"000019","skuFullName":"4534","skuMnemonicCode":"646436456"},{"bizSoUuid":"1eb5cd60d80411e88443b31e0e24ca6d","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00440","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":"4020b84e4a41413bb2642206941311a5","clerk02Uuid":"2","clerk03Uuid":"1","clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":"4020b84e4a41413bb2642206941311a5","clerk02Uuid":"","clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"45cc0460d80311e88823fb557c502bc3","bizType":"SO","bizDate":"2018-10-15","billNo":"SO00437","ascriptionCompanyUuid":"c1c587708dae46a69155cff8b167873f","statusFlag":1,"companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","mobilePhone":"15395617228","identNo":"3424211991120551218","identType":"身份证","name":"李四","tel":"0564-2411591","sex":0,"birthday":"2018-10-08","cardNo":"1","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00437","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","bizSoDetail":[{"bizSoUuid":"45cc0460d80311e88823fb557c502bc3","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00437","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":null,"clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"6c8cc860d80211e8bd8c1bfd3eaa9685","bizType":"SO","bizDate":"2018-10-22","billNo":"SO00435","ascriptionCompanyUuid":"c1c587708dae46a69155cff8b167873f","statusFlag":1,"companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","mobilePhone":"15395617228","identNo":"3424211991120551218","identType":"身份证","name":"李四","tel":"0564-2411591","sex":0,"birthday":"2018-10-22","cardNo":"123456","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00435","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","bizSoDetail":[{"bizSoUuid":"6c8cc860d80211e8bd8c1bfd3eaa9685","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00435","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":null,"clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"7361f060d80311e88823fb557c502bc3","bizType":"SO","bizDate":"2018-10-15","billNo":"SO00438","ascriptionCompanyUuid":"c1c587708dae46a69155cff8b167873f","statusFlag":1,"remark":"sss","companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","mobilePhone":"15395617228","identNo":"3424211991120551218","identType":"身份证","name":"李四","tel":"0564-2411591","sex":0,"birthday":"2018-10-08","cardNo":"1","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00438","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","bizSoDetail":[{"bizSoUuid":"7361f060d80311e88823fb557c502bc3","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00438","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":null,"clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"b0c67453-1d41-48da-98b1-c12258986e67","bizType":"SO","bizDate":"2018-10-23","billNo":"SO00323","ascriptionCompanyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","statusFlag":1,"remark":"测试","auditUserUuid":"2","auditTime":"2018-10-17 09:28:30","unauditUserUuid":"2","unauditTime":"2018-10-17 09:28:30","companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","printUserUuid":"2","printTime":"2018-10-17 09:28:30","memberUuid":"1001000","mobilePhone":"15196852478","identNo":"339005199501286711","identType":"1","name":"cao","tel":"82668951","sex":1,"birthday":"1995-01-28","cardNo":"123","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","serialInfoUuid":"019fa02bf5b545e9ad90bc0f9d99c8cf","batchNo":"SO00145","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","num":1,"clerk01Uuid":"2","clerk02Uuid":"","bizSoDetail":[{"bizSoUuid":"b0c67453-1d41-48da-98b1-c12258986e67","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00145","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"},{"bizSoUuid":"b0c67453-1d41-48da-98b1-c12258986e67","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00145","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"},{"bizSoUuid":"b0c67453-1d41-48da-98b1-c12258986e67","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00145","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"2","clerk02Uuid":"","clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"3","clerk02Uuid":"","clerk03Uuid":"","clerk04Uuid":"","clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"3","clerk02Uuid":"","clerk03Uuid":"","clerk04Uuid":"","clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]},{"uuid":"e4a012f8-e161-4b85-ad44-4d8e94c94679","bizType":"SO","bizDate":"2018-10-17","billNo":"SO00144","ascriptionCompanyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","statusFlag":1,"remark":"测试","auditUserUuid":"2","auditTime":"2018-10-17 09:28:30","unauditUserUuid":"2","unauditTime":"2018-10-17 09:28:30","companyUuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22","createUserName":"吴","updateUserName":"吴","topCompanyCode":"00001","printUserUuid":"2","printTime":"2018-10-17 09:28:30","memberUuid":"1001000","mobilePhone":"15196852478","identNo":"339005199501286711","identType":"1","name":"cao","tel":"82668951","sex":1,"birthday":"1995-01-28","cardNo":"123","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","serialInfoUuid":"019fa02bf5b545e9ad90bc0f9d99c8cf","batchNo":"SO00101","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757","num":1,"clerk01Uuid":"1","soOutBillNo":"SS00355","soOutCreateTime":"2018-10-23 15:13:01","soOutCreateUserUuid":"1","soOutCreateUserName":"吴","bizSoDetail":[{"bizSoUuid":"e4a012f8-e161-4b85-ad44-4d8e94c94679","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00101","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"},{"bizSoUuid":"e4a012f8-e161-4b85-ad44-4d8e94c94679","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"3333333333","batchNo":"SO00135","qty":10,"price":10,"rate":10,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}],"bizSoClerk":[{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"1","clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":1,"clerk01Uuid":"2","clerk02Uuid":null,"clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]}]
-         * total : 6
-         * size : 10
-         * current : 1
-         * pages : 1
-         */
 
         private int total;
         private int size;
@@ -99,61 +85,13 @@ public class OrderListBean {
         }
 
         public static class RecordsBean {
-            /**
-             * uuid : 1eb5cd60d80411e88443b31e0e24ca6d
-             * bizType : SO
-             * bizDate : 2018-10-08
-             * billNo : SO00440
-             * ascriptionCompanyUuid : 1426d062-1b36-4faf-a414-a04f1c8f2c22
-             * statusFlag : 1
-             * remark : 11
-             * companyUuid : 1426d062-1b36-4faf-a414-a04f1c8f2c22
-             * createUserName : 吴
-             * updateUserName : 吴
-             * topCompanyCode : 00001
-             * mobilePhone : 15395617328
-             * identNo : 342421199112055578
-             * identType : 身份证
-             * name : 可是
-             * tel : 0564-2411591
-             * sex : 0
-             * birthday : 2018-10-23
-             * cardNo : 1
-             * skuUuid : 2d09b2e9e469468d90fac08aa6fe5444
-             * serialNo :
-             * batchNo : SO00440
-             * qty : 1.0
-             * price : 1.0
-             * skuCode : 000019
-             * skuFullName : 4534
-             * skuMnemonicCode : 646436456
-             * clerk01Uuid : 4020b84e4a41413bb2642206941311a5
-             * clerk02Uuid : 2
-             * clerk03Uuid : 1
-             * bizSoDetail : [{"bizSoUuid":"1eb5cd60d80411e88443b31e0e24ca6d","skuUuid":"2d09b2e9e469468d90fac08aa6fe5444","serialNo":"","batchNo":"SO00440","qty":1,"price":1,"skuCode":"000019","skuFullName":"4534","skuMnemonicCode":"646436456"},{"bizSoUuid":"1eb5cd60d80411e88443b31e0e24ca6d","skuUuid":"0993350991e547ca88c554b51ba648f2","serialNo":"","batchNo":"SO00440","qty":1,"price":1,"skuCode":"000001","skuFullName":"666","skuMnemonicCode":"658757"}]
-             * bizSoClerk : [{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":"4020b84e4a41413bb2642206941311a5","clerk02Uuid":"2","clerk03Uuid":"1","clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null},{"topCompanyCode":null,"createTime":null,"createUserUuid":null,"updateTime":null,"updateUserUuid":null,"sysRemark":null,"validFlag":null,"version":null,"uuid":null,"bizSoDetailUuid":null,"bizType":null,"bizTypeClassify":null,"num":null,"clerk01Uuid":"4020b84e4a41413bb2642206941311a5","clerk02Uuid":"","clerk03Uuid":null,"clerk04Uuid":null,"clerk05Uuid":null,"clerk06Uuid":null,"clerk07Uuid":null,"clerk08Uuid":null,"clerk09Uuid":null,"clerk10Uuid":null,"remark":null,"companyUuid":null,"id":null}]
-             * auditUserUuid : 2
-             * auditTime : 2018-10-17 09:28:30
-             * unauditUserUuid : 2
-             * unauditTime : 2018-10-17 09:28:30
-             * printUserUuid : 2
-             * printTime : 2018-10-17 09:28:30
-             * memberUuid : 1001000
-             * serialInfoUuid : 019fa02bf5b545e9ad90bc0f9d99c8cf
-             * rate : 10.0
-             * num : 1
-             * soOutBillNo : SS00355
-             * soOutCreateTime : 2018-10-23 15:13:01
-             * soOutCreateUserUuid : 1
-             * soOutCreateUserName : 吴
-             */
 
             private String uuid;
             private String bizType;
             private String bizDate;
             private String billNo;
             private String ascriptionCompanyUuid;
-            private int statusFlag;
+            private String statusFlag;
             private String remark;
             private String companyUuid;
             private String createUserName;
@@ -235,11 +173,11 @@ public class OrderListBean {
                 this.ascriptionCompanyUuid = ascriptionCompanyUuid;
             }
 
-            public int getStatusFlag() {
+            public String getStatusFlag() {
                 return statusFlag;
             }
 
-            public void setStatusFlag(int statusFlag) {
+            public void setStatusFlag(String statusFlag) {
                 this.statusFlag = statusFlag;
             }
 
@@ -564,17 +502,6 @@ public class OrderListBean {
             }
 
             public static class BizSoDetailBean {
-                /**
-                 * bizSoUuid : 1eb5cd60d80411e88443b31e0e24ca6d
-                 * skuUuid : 2d09b2e9e469468d90fac08aa6fe5444
-                 * serialNo :
-                 * batchNo : SO00440
-                 * qty : 1.0
-                 * price : 1.0
-                 * skuCode : 000019
-                 * skuFullName : 4534
-                 * skuMnemonicCode : 646436456
-                 */
 
                 private String bizSoUuid;
                 private String skuUuid;
@@ -660,34 +587,6 @@ public class OrderListBean {
             }
 
             public static class BizSoClerkBean {
-                /**
-                 * topCompanyCode : null
-                 * createTime : null
-                 * createUserUuid : null
-                 * updateTime : null
-                 * updateUserUuid : null
-                 * sysRemark : null
-                 * validFlag : null
-                 * version : null
-                 * uuid : null
-                 * bizSoDetailUuid : null
-                 * bizType : null
-                 * bizTypeClassify : null
-                 * num : null
-                 * clerk01Uuid : 4020b84e4a41413bb2642206941311a5
-                 * clerk02Uuid : 2
-                 * clerk03Uuid : 1
-                 * clerk04Uuid : null
-                 * clerk05Uuid : null
-                 * clerk06Uuid : null
-                 * clerk07Uuid : null
-                 * clerk08Uuid : null
-                 * clerk09Uuid : null
-                 * clerk10Uuid : null
-                 * remark : null
-                 * companyUuid : null
-                 * id : null
-                 */
 
                 private Object topCompanyCode;
                 private Object createTime;
