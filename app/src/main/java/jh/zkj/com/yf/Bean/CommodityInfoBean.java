@@ -1,6 +1,11 @@
 package jh.zkj.com.yf.Bean;
 
+import android.util.Log;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
+
+import jh.zkj.com.yf.BuildConfig;
 
 /**
  * Created by wdefer
@@ -37,6 +42,8 @@ public class CommodityInfoBean implements Serializable{
     private String qty;
     //本地使用  无串号商品记录数量
     private int count;
+    //单价
+    private BigDecimal price = new BigDecimal("-1");
 
     public String getName() {
         return name;
@@ -137,5 +144,17 @@ public class CommodityInfoBean implements Serializable{
 
     public int getCount() {
         return count;
+    }
+
+    public void setCount(int count){
+        this.count = count;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

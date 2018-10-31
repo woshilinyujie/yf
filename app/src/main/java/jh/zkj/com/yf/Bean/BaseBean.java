@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class BaseBean<T> implements Serializable{
     private T data;
     private String msg;
-    private int code;
+    private String code;
 
     public T getData() {
         return data;
@@ -29,11 +29,11 @@ public class BaseBean<T> implements Serializable{
         this.msg = msg;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 }

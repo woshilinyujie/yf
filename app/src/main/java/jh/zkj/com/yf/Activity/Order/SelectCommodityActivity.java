@@ -29,8 +29,8 @@ public class SelectCommodityActivity extends AppCompatActivity implements Select
     @BindView(R.id.select_commodity_title)
     RelativeLayout title;
     //已选商品总数量
-    @BindView(R.id.select_commodity_num_layout)
-    LinearLayout numLayout;
+    @BindView(R.id.select_commodity_count)
+    TextView comCount;
     private SelectCommodityPresenter presenter;
 
     @Override
@@ -41,11 +41,15 @@ public class SelectCommodityActivity extends AppCompatActivity implements Select
         presenter = new SelectCommodityPresenter(this);
     }
 
-    @OnClick({R.id.search_left_img_layout})
+    @OnClick({R.id.search_left_img_layout, R.id.select_commodity_success})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.search_left_img_layout: {
                 finish();
+                break;
+            }
+            case R.id.select_commodity_success: {
+                presenter.successGoBack();
                 break;
             }
         }
@@ -57,6 +61,10 @@ public class SelectCommodityActivity extends AppCompatActivity implements Select
 
     public RelativeLayout getTitleLayout() {
         return title;
+    }
+
+    public void setComCount(String s) {
+        comCount.setText(s);
     }
 
     @Override

@@ -128,16 +128,11 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
 
     @Override
     public void initData() {
-
-        iResultMsg = new OrderAPI.IResultMsgOne() {
+        iResultMsg = new OrderAPI.IResultMsgOne<OrderListBean>() {
             @Override
-            public void Result(String json,int flag) {
-                orderListBean = GsonUtils.GsonToBean(json, OrderListBean.class);
-                if (orderListBean.getCode() == 0) {
-                    handler.sendEmptyMessage(flag);
-                } else {
-
-                }
+            public void Result(OrderListBean bean,int flag) {
+                orderListBean = bean;
+                handler.sendEmptyMessage(flag);
             }
 
             @Override

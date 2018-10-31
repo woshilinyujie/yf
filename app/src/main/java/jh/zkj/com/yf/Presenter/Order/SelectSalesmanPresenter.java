@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.APIConstant;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.SelectSalesmanActivity;
@@ -217,12 +218,12 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         }
         loadingDialog.showLoading();
 
-        api.getSalesmanInfo("1", "00001", new OrderAPI.IResultMsg() {
+        api.getSalesmanInfo("1", "00001", new OrderAPI.IResultMsg<ArrayList<SalesmanBean>>() {
 
             @Override
-            public void Result(String json) {
+            public void Result(ArrayList<SalesmanBean> beans) {
                 if (BuildConfig.DEBUG) {
-                    Log.e("wdefer", "json == " + json);
+                    Log.e("wdefer", "json == " + beans);
                 }
 
                 if(loadingDialog.isShowing()){
@@ -232,9 +233,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
                 activity.getRefresh().finishRefreshing();
                 activity.getRefresh().finishLoadmore();
 
-                BaseBean<ArrayList<SalesmanBean>> arrayListBaseBean = JSON.parseObject(json,
-                        new TypeReference<BaseBean<ArrayList<SalesmanBean>>>(){});
-                salesmanList = arrayListBaseBean.getData();
+                salesmanList = beans;
 
                 //查看有无已选
                 for (SalesmanBean selectBean :  selectSalesmans){

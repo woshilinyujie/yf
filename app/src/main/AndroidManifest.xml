@@ -28,8 +28,7 @@
         <activity android:name=".Activity.Order.RetailOrderSubmitActivity" />
         <!-- 零售下单 -->
         <activity
-            android:name=".Activity.Order.RetailOrderActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:name=".Activity.Order.RetailOrderActivity"/>
         <!-- 选择业务员 -->
         <activity android:name=".Activity.Order.SelectSalesmanActivity" />
         <activity android:name=".Activity.My.PhotoActivity" />

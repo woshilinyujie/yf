@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -51,6 +52,18 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
     //添加商品
     @BindView(R.id.retail_order_add_commodity)
     LinearLayout addCommodity;
+    //备注
+    @BindView(R.id.retail_order_remarks)
+    EditText remark;
+    //总数
+    @BindView(R.id.retail_order_total_count)
+    TextView totalCount;
+    //总金额
+    @BindView(R.id.retail_order_total_money)
+    TextView totalMoney;
+    //总金额layout
+    @BindView(R.id.retail_order_total_layout)
+    RelativeLayout totalLayout;
     //    @BindView(R.id.main_activity_home_page)
 //    FrameLayout fragmentLayout;
     private RetailOrderPresenter presenter;
@@ -66,7 +79,7 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
 
     @OnClick({R.id.retail_order_title, R.id.retail_order_receivable, R.id.retail_order_success
             , R.id.retail_order_add_commodity, R.id.retail_user_salesman_add_layout
-            , R.id.retail_client_select, R.id.retail_client_clear})
+            , R.id.retail_order_select_client})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.retail_order_title:
@@ -84,11 +97,8 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
             case R.id.retail_user_salesman_add_layout:
                 presenter.startSelectSalesmanActivity();
                 break;
-            case R.id.retail_client_select:
+            case R.id.retail_order_select_client:
                 presenter.startSelectClientActivity();
-                break;
-            case R.id.retail_client_clear:
-//                presenter.startSelectSalesmanActivity();
                 break;
         }
     }
@@ -101,6 +111,18 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
         return phone;
     }
 
+    public void setTotalCount(String s) {
+        totalCount.setText(s);
+    }
+
+    public void setTotalMoney(String s) {
+        totalMoney.setText(s);
+    }
+
+    public void setTotalMoneyLayout(int visibility) {
+        totalLayout.setVisibility(visibility);
+    }
+
     public void setClientinfo(String name, String phone){
         this.name.setText(name);
         this.phone.setText(phone);
@@ -108,6 +130,10 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
 
     public RecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    public EditText getRemark() {
+        return remark;
     }
 
     public void setSalesman(String s) {

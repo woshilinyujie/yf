@@ -12,6 +12,8 @@ public class HttpConstant {
     public static String HTTP_BASIC_PRODUCT_KEYWORDS = "erp/basic/product/keywords";
     //获取会员的接口
     public static String HTTP_BASIC_MEMBER_INFO = "erp/basic/member/info";
+    //生成订单  (如果后面加上订单号 则变为查询订单)
+    public static String HTTP_BASIC_SO_APP = "erp/biz/so/app";
     //获取订单列表接口
     public static String HTTP_BASIC_GET_ORDER_LIST = "erp/biz/so/app/type";
 }
