@@ -45,7 +45,6 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
     private List<OrderListBean.DataBean.RecordsBean> dateList;
     private int total;//总数量
     private int pageSize = 10;
-    private int flag = 1;//加载更多0，下拉刷新1
     private boolean  more=false;//是否显示更多
     private Handler handler = new Handler() {
         @Override
@@ -81,7 +80,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
             }
         }
     };
-    private OrderAPI.IResultMsg iResultMsg;
+    private OrderAPI.IResultMsgOne iResultMsg;
 
     public RetailListPresenter(RetailListFragment fragment) {
         this.fragment = fragment;
@@ -104,16 +103,14 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 //下拉刷新
                 refreshLayout.setEnableLoadmore(true);
                 pageNum = 1;
-                flag = 1;
-                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, iResultMsg);
+                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, 1,iResultMsg);
             }
 
             @Override
             public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
                 //加载更多数据
                 pageNum++;
-                flag = 0;
-                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, iResultMsg);
+                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, 0,iResultMsg);
             }
         });
     }
@@ -132,15 +129,15 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
 
     @Override
     public void initData() {
-        iResultMsg = new OrderAPI.IResultMsg<OrderListBean>() {
+        iResultMsg = new OrderAPI.IResultMsgOne<OrderListBean>() {
             @Override
-            public void Result(OrderListBean bean) {
+            public void Result(OrderListBean bean,int flag) {
                 orderListBean = bean;
                 handler.sendEmptyMessage(flag);
             }
 
             @Override
-            public void Error(String json) {
+            public void Error(String json,int flag) {
                 if (flag == 0) {
                     twinklingRefreshLayout.finishRefreshing();
                 } else {
@@ -148,7 +145,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 }
             }
         };
-        orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, 10, iResultMsg);
+        orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, 10, 0,iResultMsg);
     }
 
 

@@ -115,6 +115,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     @Override
     public void toReceivables() {
         Intent intent = new Intent(activity, RetailReceivableActivity.class);
+        
         activity.startActivity(intent);
     }
 
