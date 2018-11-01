@@ -1,23 +1,30 @@
 package jh.zkj.com.yf.Presenter.Order;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.APIConstant;
+import jh.zkj.com.yf.API.OrderAPI;
+import jh.zkj.com.yf.Activity.Order.HarvestModeActivity;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
+import jh.zkj.com.yf.Bean.HarvestModeBean;
+import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Contract.Order.RetailReceivableContract;
-import jh.zkj.com.yf.Mutils.PopupUtils;
-import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -27,37 +34,61 @@ import jh.zkj.com.yf.R;
  */
 public class RetailReceivablePresenter implements RetailReceivableContract.IRetailOrderPresenter {
 
+    private final int TYPE_HARVEST_MODE = 1;
+
     private final RetailReceivableActivity activity;
     private RecyclerView recyclerView;
     private RetailReceivableAdapter adapter;
-    private ArrayList<FalseBean> beans = new ArrayList<>();
 
-    private double totalMoney = 2128.00;
-    private PopupWindow popup;
+    private String remakeText = "";
+
+    private String status;
+    private ArrayList<HarvestModeBean> modeList = new ArrayList<>();
+    private OrderDetailsBean orderBean;
+    private String total;
 
     public RetailReceivablePresenter(RetailReceivableActivity activity) {
         this.activity = activity;
         initView();
-        initAdapter();
-        changeFalseData(true, 2128.00, 0);
+        initData();
+        initListener();
     }
 
-    private void changeFalseData(boolean isAdd, double money,int position) {
-        if(isAdd){
-            FalseBean bean = new FalseBean();
-            bean.setMoney(money);
-            bean.setPs("");
-            bean.setType("");
-            beans.add(bean);
-        }else{
-            if (beans.size() > position)
-                beans.remove(position);
-            else
-                MToast.makeText(activity, "删除错误", 0).show();
+    private void initListener() {
+        activity.getTitleLayout().getRigthText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                getReceivableSuccess();
+            }
+        });
+    }
+
+    private void initData() {
+        orderBean = (OrderDetailsBean) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_BEAN);
+        status = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
+        total = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL);
+
+        if(orderBean != null){
+            activity.setOrder(orderBean.getBillNo());
+            if(OrderConfig.STATUS_UN_SUCCESS.equals(status)){
+                activity.setOrderStatus("未收款");
+            }else if (OrderConfig.STATUS_SUCCESS.equals(status)){
+                activity.setOrderStatus("已收款");
+            }else if (OrderConfig.STATUS_CANCEL.equals(status)){
+                activity.setOrderStatus("已取消");
+            }
+            activity.setName(orderBean.getName());
+            activity.setPhone(orderBean.getMobilePhone());
+            if(orderBean.getDetailDTOList() != null && orderBean.getDetailDTOList().size() > 0){
+                activity.setNumber("共" + orderBean.getDetailDTOList().size() + "件");
+                activity.setOrderTitle(orderBean.getDetailDTOList().get(0).getSkuFullName());
+            }
+            activity.setUserName(orderBean.getCreateUserName());
+            activity.setMoney(total);
+            activity.setDate(orderBean.getBizDate());
         }
 
-        adapter.notifyData(beans);
-
+        initAdapter();
     }
 
     private void initAdapter() {
@@ -69,54 +100,6 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
 
     private void initView() {
         recyclerView = activity.getRecyclerView();
-        activity.getSpace().setVisibility(View.GONE);
-
-        popup = PopupUtils.getDefaultPopup();
-        View view = View.inflate(activity, R.layout.popup_receivable_type, null);
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popup.dismiss();
-            }
-        });
-        view.findViewById(R.id.receivable_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popup.dismiss();
-            }
-        });
-        view.findViewById(R.id.item_1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.setReceivableType("支付宝");
-                popup.dismiss();
-            }
-        });
-        view.findViewById(R.id.item_2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.setReceivableType("微信");
-                popup.dismiss();
-            }
-        });
-        view.findViewById(R.id.item_3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.setReceivableType("银行卡");
-                popup.dismiss();
-            }
-        });
-        view.findViewById(R.id.item_4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.setReceivableType("零钱");
-                popup.dismiss();
-            }
-        });
-
-        popup.setContentView(view);
-
         activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,15 +108,65 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         });
     }
 
+    @Override
+    public void harvestMode() {
+        Intent intent = new Intent(activity, HarvestModeActivity.class);
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_BEAN, orderBean);
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_HARVEST_MODE, modeList);
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, total);
+        activity.startActivityForResult(intent, TYPE_HARVEST_MODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == TYPE_HARVEST_MODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    modeList = (ArrayList<HarvestModeBean>) data.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_HARVEST_MODE);
+                    if(modeList != null && modeList.size() > 0){
+                        int size = modeList.size();
+                        for (int i = 0 ; i < size; i++){
+                            for (int j = 0 ; j < modeList.size(); j++){
+                                if(Double.valueOf(modeList.get(j).getMoney()) == 0){
+                                    modeList.remove(j);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(modeList.size() > 0){
+                           activity.setHarvestMode("修改收款方式");
+                        }
+                        adapter.notifyData(modeList);
+                    }
+                }
+            }
+        }
+    }
+
+//    public void getReceivableSuccess() {
+//        OrderAPI api = new OrderAPI();
+//        api.getReceivableSuccess(orderBean, new OrderAPI.IResultMsg<ArrayList<HarvestModeBean>>() {
+//            @Override
+//            public void Result(ArrayList<HarvestModeBean> bean) {
+//
+//            }
+//
+//            @Override
+//            public void Error(String json) {
+//
+//            }
+//        });
+//    }
+
     /**
      * 使用：
      */
     class RetailReceivableAdapter extends RecyclerView.Adapter<RetailReceivableAdapter.ViewHolder> {
-        private int selectPosition = 0;
-        private ArrayList<FalseBean> mArr = new ArrayList<>();
+        private ArrayList<HarvestModeBean> mArr = new ArrayList<>();
 
         //后期传入刷新
-        public void notifyData(ArrayList<FalseBean> arr) {
+        public void notifyData(ArrayList<HarvestModeBean> arr) {
             mArr.clear();
             mArr.addAll(arr);
             notifyDataSetChanged();
@@ -145,16 +178,11 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
             return new ViewHolder(view);
         }
 
-        public FalseBean getItem(int position) {
+        public HarvestModeBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
             return null;
-        }
-
-        public void setReceivableType(String s){
-            mArr.get(selectPosition).setType(s);
-            notifyDataSetChanged();
         }
 
         @Override
@@ -164,64 +192,30 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            final FalseBean item = getItem(position);
-            if(item == null)
-                return;
-            holder.type.setText(item.getType());
-            holder.money.setText(String.valueOf(item.getMoney()));
-            holder.ps.setText(item.getPs());
+            final HarvestModeBean item = getItem(position);
+            if (item != null){
+                holder.mode.setText("收款方式" + (position + 1));
+                holder.modeText.setText(item.getCashierTypeName());
+                holder.money.setText(item.getMoney());
+                if(position == mArr.size() - 1){
+                    holder.remakeLayout.setVisibility(View.VISIBLE);
+                }else{
+                    holder.remakeLayout.setVisibility(View.GONE);
+                }
 
-            if(position == mArr.size() - 1)
-                holder.newCommodity.setVisibility(View.VISIBLE);
-            else
-                holder.newCommodity.setVisibility(View.GONE);
+                holder.remake.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
-
-            if (position == 0)
-                holder.clear.setText("清空");
-            else
-                holder.clear.setText("删除");
-
-            holder.clear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(mArr.size() > 1){
-                        changeFalseData(false, 0,position);
-                    }else{
-                        item.clearData();
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        remakeText = s.toString();
                     }
 
-                    notifyDataSetChanged();
-                }
-            });
-
-            holder.money.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
-                    if (!b){
-                        item.setMoney(Double.parseDouble(holder.money.getText().toString()));
-                    }
-                }
-            });
-
-            holder.newCommodity.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    double money = totalMoney;
-                    for (int i = 0 ; i < mArr.size(); i++){
-                        money -= mArr.get(i).getMoney();
-                    }
-                    changeFalseData(true, money,position + 1);
-                }
-            });
-
-            holder.type.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectPosition = position;
-                    popup.showAtLocation(activity.getMainLayout(), Gravity.CENTER,0,0);
-                }
-            });
+                    @Override
+                    public void afterTextChanged(Editable s) { }
+                });
+            }
         }
 
         @Override
@@ -230,64 +224,21 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            //收银方式
-            @BindView(R.id.retail_receivable_type)
-            TextView type;
-            //收银金额
+            @BindView(R.id.retail_receivable_mode)
+            TextView mode;
+            @BindView(R.id.retail_receivable_text)
+            TextView modeText;
             @BindView(R.id.retail_receivable_money)
-            EditText money;
-            //备注
-            @BindView(R.id.retail_receivable_ps_text)
-            TextView tvPs;
+            TextView money;
             @BindView(R.id.retail_receivable_ps)
-            EditText ps;
-            //添加收银方式
-            @BindView(R.id.retail_receivable_new_commodity)
-            ConstraintLayout newCommodity;
-            //清空
-            @BindView(R.id.retail_receivable_clear)
-            TextView clear;
+            EditText remake;
+            @BindView(R.id.retail_receivable_remake_layout)
+            ConstraintLayout remakeLayout;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
-                tvPs.setText("备注\u3000\u3000");
             }
-        }
-    }
-
-    class FalseBean{
-        private String type;
-        private double money;
-        private String ps;
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public double getMoney() {
-            return money;
-        }
-
-        public void setMoney(double money) {
-            this.money = money;
-        }
-
-        public String getPs() {
-            return ps;
-        }
-
-        public void setPs(String ps) {
-            this.ps = ps;
-        }
-
-        public void clearData(){
-            money = 0;
-            ps = "";
         }
     }
 }

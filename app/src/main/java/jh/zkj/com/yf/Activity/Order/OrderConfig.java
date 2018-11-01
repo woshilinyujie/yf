@@ -21,16 +21,23 @@ public class OrderConfig {
     public static final String TYPE_STRING_ORDER_NUMBER = "orderNumber";
     //订单详情状态
     public static final String TYPE_STRING_ORDER_DETAIL_STATUS = "orderStatus";
+    //订单详情状态
+    public static final String TYPE_STRING_ORDER_DETAIL_BEAN = "orderBean";
+    //收款方式数据
+    public static final String TYPE_STRING_ORDER_HARVEST_MODE = "harvestMode";
+    //总金额
+    public static final String TYPE_STRING_ORDER_TOTAL = "orderTotal";
 
 
     //选择客户取消客户
     public static final int RESULT_CLIENT_LIST_CLEAR = Activity.RESULT_FIRST_USER;
+
 
     //未收款
     public static final String STATUS_UN_SUCCESS = "1";
     //已收款
     public static final String STATUS_SUCCESS = "2";
     //已取消
-    public static final String STATUS_CANCEL = "0";
+    public static final String STATUS_CANCEL = "3";
 
 }

@@ -39,9 +39,12 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
     //订单状态
     @BindView(R.id.order_detail_status)
     TextView status;
+    //汇总数量
+    @BindView(R.id.order_info_details_total_total_num)
+    TextView totalNum;
     //汇总金额
-//    @BindView(R.id.order_detail_total_amount)
-//    TextView totalAmount;
+    @BindView(R.id.order_info_details_total)
+    TextView total;
     private OrderDetailsPresenter presenter;
 
     @Override
@@ -79,6 +82,14 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
 
     public void setStatusText(String s) {
         status.setText(s);
+    }
+
+    public void setTotalNumText(String s) {
+        totalNum.setText(s);
+    }
+
+    public void setTotalText(String s) {
+        total.setText(s);
     }
 
     @Override

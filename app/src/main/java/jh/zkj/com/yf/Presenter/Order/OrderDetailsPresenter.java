@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     private TextView receivables;
     private OrderAPI api;
     private String status;
+    private OrderDetailsBean orderBean;
+    private String total;
 
 
     public OrderDetailsPresenter(OrderDetailsActivity activity) {
@@ -64,9 +69,6 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         infoAdapter = new ComInfoDetailsAdapter();
         activity.getInfoRecycler().setAdapter(infoAdapter);
 
-        ArrayList<OrderBean> arr = new ArrayList<>();
-        arr.add(new OrderBean());
-        infoAdapter.notifyData(arr);
 
     }
 
@@ -94,6 +96,8 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         Intent intent = activity.getIntent();
         status = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
         String orderNum = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER);
+        total = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL);
+
         if (OrderConfig.STATUS_UN_SUCCESS.equals(status)) {
             activity.setStatusText("未收款");
             activity.setReceivablesVisibility(View.VISIBLE);
@@ -115,7 +119,9 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     @Override
     public void toReceivables() {
         Intent intent = new Intent(activity, RetailReceivableActivity.class);
-        
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_BEAN, orderBean);
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, status);
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, total);
         activity.startActivity(intent);
     }
 
@@ -158,7 +164,13 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
             ComDetailBean item = getItem(position);
             if(item != null){
                 holder.key.setText(item.getKey());
-                holder.value.setText(item.getValue());
+                if("收款详情".equals(item.getKey())){
+                    holder.value.setText("");
+                    holder.arrow.setVisibility(View.VISIBLE);
+                }else{
+                    holder.value.setText(item.getValue());
+                    holder.arrow.setVisibility(View.GONE);
+                }
             }
 
         }
@@ -173,6 +185,8 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
             TextView key;
             @BindView(R.id.order_details_value)
             TextView value;
+            @BindView(R.id.order_details_arrow)
+            ImageView arrow;
             private View view;
 
             public ViewHolder(View itemView) {
@@ -188,10 +202,10 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
      * 使用：商品信息
      */
     class ComInfoDetailsAdapter extends RecyclerView.Adapter<ComInfoDetailsAdapter.ViewHolder> {
-        private ArrayList<OrderBean> mArr = new ArrayList<>();
+        private ArrayList<OrderDetailsBean.DetailDTOListBean> mArr = new ArrayList<>();
 
         //后期传入刷新
-        public void notifyData(ArrayList<OrderBean> arr) {
+        public void notifyData(ArrayList<OrderDetailsBean.DetailDTOListBean> arr) {
             mArr.clear();
             mArr.addAll(arr);
             notifyDataSetChanged();
@@ -203,7 +217,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
             return new ViewHolder(view);
         }
 
-        public OrderBean getItem(int position) {
+        public OrderDetailsBean.DetailDTOListBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
@@ -217,27 +231,10 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-//            OrderBean item = getItem(position);
-//            holder.commodityPhone.setText(item.getCommodityNumber());
-//            holder.name.setText(item.getName());
-//            holder.price.setText(item.getPrice());
-//            holder.commodityNum.setText(String.valueOf(item.getNum()));
-//            holder.totalPrice.setText(item.getTotalPrice());
-//            holder.ps.setText(item.getPs());
-//
-//            if (position == mArr.size() - 1) {
-//                holder.totalAmountLayout.setVisibility(View.VISIBLE);
-//                double total = 0;
-//                for (int i = 0; i < mArr.size(); i++) {
-//                    total += Double.parseDouble(mArr.get(i).getTotalPrice());
-//                }
-//                Double dTotal = Double.valueOf(dFormat.format(total));
-//                holder.totalAmount.setText(String.valueOf(dTotal));
-//            } else {
-//                holder.totalAmountLayout.setVisibility(View.GONE);
-//            }
+            OrderDetailsBean.DetailDTOListBean item = getItem(position);
+            if(item != null){
 
-
+            }
         }
 
         @Override
@@ -263,22 +260,10 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
             TextView totalPrice;
             @BindView(R.id.order_info_details_total_price_tv)
             TextView tvTotalPrice;
-            //备注
-            @BindView(R.id.order_info_details_ps)
-            TextView ps;
-            @BindView(R.id.order_info_details_ps_tv)
-            TextView tvPs;
-            //汇总金额
-            @BindView(R.id.order_info_details_total_amount_layout)
-            ConstraintLayout totalAmountLayout;
-            @BindView(R.id.order_info_details_total_amount)
-            TextView totalAmount;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
-                tvTotalPrice.setText("总金额\u3000");
-                tvPs.setText("备注\u3000\u3000");
             }
         }
     }
@@ -288,11 +273,19 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     //查询详情
     public void getQueryOrder(String orderNum) {
         api.getQueryOrder("/" + orderNum, new OrderAPI.IResultMsg<OrderDetailsBean>() {
+
             @Override
             public void Result(OrderDetailsBean bean) {
                 if (bean != null) {
+                    orderBean = bean;
                     ArrayList<ComDetailBean> detailList = createDetailList(bean, status);
                     detailAdapter.notifyData(detailList);
+
+                    if(orderBean.getDetailDTOList() != null){
+                        activity.setTotalNumText("" + orderBean.getDetailDTOList().size());
+                        activity.setTotalText(total + " 元");
+                        infoAdapter.notifyData(orderBean.getDetailDTOList());
+                    }
                 }
             }
 
@@ -310,24 +303,24 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
         ArrayList<ComDetailBean> comDetails = new ArrayList<>();
         comDetails.add(new ComDetailBean("订单编号", bean.getBillNo()));
-        comDetails.add(new ComDetailBean("客户姓名", bean.getCreateUserName()));
+        comDetails.add(new ComDetailBean("客户姓名", bean.getName()));
         comDetails.add(new ComDetailBean("手机号码", bean.getMobilePhone()));
-        comDetails.add(new ComDetailBean("下单人", "null"));
+        comDetails.add(new ComDetailBean("下单人", bean.getCreateUserName()));
         comDetails.add(new ComDetailBean("下单时间", bean.getBizDate()));
-        comDetails.add(new ComDetailBean("业务员", bean.getName()));
+        comDetails.add(new ComDetailBean("业务员", bean.getClerkName()));
 
         if (OrderConfig.STATUS_UN_SUCCESS.equals(status)) {
             comDetails.add(new ComDetailBean("备注", bean.getRemark()));
         } else if (OrderConfig.STATUS_SUCCESS.equals(status)) {
-            comDetails.add(new ComDetailBean("收款人", "null"));
-            comDetails.add(new ComDetailBean("收款详情", "null"));
-            comDetails.add(new ComDetailBean("收款时间", "null"));
+            comDetails.add(new ComDetailBean("收款人", bean.getCashierName()));
+            comDetails.add(new ComDetailBean("收款详情", ""));
+            comDetails.add(new ComDetailBean("收款时间", bean.getCashierTime()));
             comDetails.add(new ComDetailBean("备注", bean.getRemark()));
         } else if (OrderConfig.STATUS_CANCEL.equals(status)) {
             comDetails.add(new ComDetailBean("备注", bean.getRemark()));
-            comDetails.add(new ComDetailBean("取消人", "null"));
-            comDetails.add(new ComDetailBean("取消时间", "null"));
-            comDetails.add(new ComDetailBean("取消原因", "null"));
+            comDetails.add(new ComDetailBean("取消人", bean.getUpdateUserName()));
+            comDetails.add(new ComDetailBean("取消时间", bean.getUpdateTime()));
+            comDetails.add(new ComDetailBean("取消原因", bean.getReason()));
         }
 
         return comDetails;

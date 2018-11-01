@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_50"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dp_7"
+        android:paddingTop="@dimen/dp_7"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <RelativeLayout
+            android:id="@+id/harvest_mode_icon_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_17">
+
+            <ImageView
+                android:id="@+id/harvest_mode_cash_icon"
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_16"
+                android:src="@mipmap/cash"
+                android:scaleType="fitXY"/>
+
+            <ImageView
+                android:id="@+id/harvest_mode_icon"
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:src="@mipmap/zhifubao"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/harvest_mode_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textColor="@color/c_333333"
+            android:textSize="@dimen/sp_14"
+            android:minEms="4"
+            android:maxEms="4"
+            android:text="现金"
+            android:layout_toRightOf="@id/harvest_mode_icon_layout"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/harvest_mode_select"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:src="@mipmap/select_blue"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_marginRight="@dimen/dp_14"
+            android:layout_centerVertical="true"/>
+
+        <EditText
+            android:id="@+id/harvest_mode_money_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_solid_ffffff_stroke_d9d9d9_radius_2"
+            android:layout_toRightOf="@id/harvest_mode_text"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_toLeftOf="@id/harvest_mode_select"
+            android:layout_marginRight="@dimen/dp_26"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/c_666666"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:inputType="numberDecimal"
+            android:enabled="false"
+            android:lines="1"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/c_f6f7fb"/>
+
+</RelativeLayout>

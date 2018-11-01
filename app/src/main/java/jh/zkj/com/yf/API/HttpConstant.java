@@ -16,4 +16,10 @@ public class HttpConstant {
     public static String HTTP_BASIC_SO_APP = "erp/biz/so/app";
     //获取订单列表接口
     public static String HTTP_BASIC_GET_ORDER_LIST = "erp/biz/so/app/type";
+    //获取收款方式
+    public static String HTTP_BASIC_GET_CASHIER_TYPE_COMPANY = "erp/basic/cashierType/company";
+    //确认收款
+    public static String HTTP_BIZ_SO_OUT_APP = "erp/biz/soOut/app";
+    //取消订单
+    public static String HTTP_BIZ_SO_CANCEL_ORDER = "erp/biz/so/app";
 }

@@ -25,6 +25,7 @@ import jh.zkj.com.yf.Bean.OrderListBean;
 import jh.zkj.com.yf.Contract.My.RetailListContract;
 import jh.zkj.com.yf.Fragment.My.RetailListFragment;
 import jh.zkj.com.yf.Mutils.GsonUtils;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -194,12 +195,12 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
             for (OrderListBean.DataBean.RecordsBean.BizSoDetailBean bean : item.getBizSoDetail()) {
                 size = (int) (size + bean.getQty());
             }
-            holder.number.setText(size + "");
+            holder.number.setText("共" + size + "件");
             holder.orderTitle.setText(item.getBizSoDetail().get(0).getSkuFullName() + "");
             holder.date.setText(item.getBizDate() + "");
             holder.userName.setText(item.getCreateUserName() + "");
-            holder.moneyTop.setText(item.getPrice() + "");
-            holder.moneyBottom.setText(item.getPrice() + "");
+            holder.moneyTop.setText(item.getPrice() + "元");
+            holder.moneyBottom.setText(item.getPrice() + "元");
 
             if (OrderConfig.STATUS_UN_SUCCESS.equals(fragment.getStatus())) {
                 holder.moneyBottom.setVisibility(View.GONE);
@@ -213,22 +214,30 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 holder.cancel.setVisibility(View.GONE);
             }
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, OrderDetailsActivity.class);
-                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, item.getStatusFlag());
-                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, item.getBillNo());
-                    fragment.startActivity(intent);
-                }
-            });
-
             if(more && position==dateList.size()-1){
                 holder.noMore.setVisibility(View.VISIBLE);
             }else {
                 holder.noMore.setVisibility(View.GONE);
             }
 
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, OrderDetailsActivity.class);
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, fragment.getStatus());
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, item.getBillNo());
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, String.valueOf(item.getPrice()));
+                    fragment.startActivity(intent);
+                }
+            });
+
+
+            holder.cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getCancelOrder(item.getBillNo());
+                }
+            });
 
         }
 
@@ -273,6 +282,23 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 noMore = itemView.findViewById(R.id.retail_list_no_more);
             }
         }
+    }
+
+    //*********************************************************************************
+    public void getCancelOrder(String orderId) {
+
+        orderAPI.getCancelOrder("/" + orderId, new OrderAPI.IResultMsg<String>() {
+            @Override
+            public void Result(String s) {
+                MToast.makeText(fragment.getContext(), "订单取消成功", MToast.LENGTH_LONG);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
     }
 
 }

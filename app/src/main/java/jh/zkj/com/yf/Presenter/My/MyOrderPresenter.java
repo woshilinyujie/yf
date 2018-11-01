@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import java.util.ArrayList;
 
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Contract.My.MyOrderContract;
 import jh.zkj.com.yf.Fragment.My.RetailListFragment;
 
@@ -33,9 +34,9 @@ public class MyOrderPresenter implements MyOrderContract.IMyRetailFindPresenter 
 
     private void initData() {
         titles = new String[]{"未收款", "已收款", "已取消"};
-        RetailListFragment allRetail = RetailListFragment.newInstance("1");
-        RetailListFragment receivables = RetailListFragment.newInstance("2");
-        RetailListFragment unReceivables = RetailListFragment.newInstance("3");
+        RetailListFragment allRetail = RetailListFragment.newInstance(OrderConfig.STATUS_UN_SUCCESS);
+        RetailListFragment receivables = RetailListFragment.newInstance(OrderConfig.STATUS_SUCCESS);
+        RetailListFragment unReceivables = RetailListFragment.newInstance(OrderConfig.STATUS_CANCEL);
         fragments.add(allRetail);
         fragments.add(receivables);
         fragments.add(unReceivables);
