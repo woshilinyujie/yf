@@ -12,6 +12,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Contract.My.RetailListContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
@@ -29,12 +30,12 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     @BindView(R.id.retail_list_refresh)
     TwinklingRefreshLayout refresh;
     private RetailListPresenter presenter;
-    private String state;
+    private String status;
 
     public static RetailListFragment newInstance(String status) {
         RetailListFragment fragment = new RetailListFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("status", status);
+        bundle.putString(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, status);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -42,7 +43,7 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        state=getArguments().getString("status");
+        status = getArguments().getString(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
     }
 
     @Nullable
@@ -69,7 +70,7 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
         recyclerView.setAdapter(adapter);
     }
 
-    public String getState(){
-        return state;
+    public String getStatus() {
+        return status;
     }
 }

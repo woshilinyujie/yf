@@ -17,6 +17,7 @@ import java.util.List;
 import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.ClientInfoBean;
 import jh.zkj.com.yf.Bean.CommodityBean;
+import jh.zkj.com.yf.Bean.HarvestModeBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Bean.OrderListBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
@@ -30,7 +31,7 @@ import jh.zkj.com.yf.Mview.Toast.EToast;
 
 public class OrderAPI {
     public final String API = APIConstant.API;
-    public final String TOKEN = "bearer 38c71baf-96d0-4f27-b4f8-e356aa53244f";
+    public final String TOKEN = "bearer a2e75beb-6de5-4af8-a14d-20c79b311858";
 
     /**
      * 获取业务员信息
@@ -44,11 +45,12 @@ public class OrderAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
                         BaseBean<ArrayList<SalesmanBean>> arrayListBaseBean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<ArrayList<SalesmanBean>>>(){});
+                                new TypeReference<BaseBean<ArrayList<SalesmanBean>>>() {
+                                });
 
-                        if(APIConstant.REQUEST_SUCCESS.equals(arrayListBaseBean.getCode())){
+                        if (APIConstant.REQUEST_SUCCESS.equals(arrayListBaseBean.getCode())) {
                             iResultMsg.Result(arrayListBaseBean.getData());
-                        }else{
+                        } else {
 
                         }
                     }
@@ -75,23 +77,25 @@ public class OrderAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
 
-                        if(BuildConfig.DEBUG){
-                            Log.d("wdefer" , "json == " + response.body());
+                        if (BuildConfig.DEBUG) {
+                            Log.d("wdefer", "json == " + response.body());
                         }
                         BaseBean<CommodityBean> comInfoBean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<CommodityBean>>() {});
+                                new TypeReference<BaseBean<CommodityBean>>() {
+                                });
 
-                        if(APIConstant.REQUEST_SUCCESS.equals(comInfoBean.getCode())){
+                        if (APIConstant.REQUEST_SUCCESS.equals(comInfoBean.getCode())) {
                             iResultMsg.Result(comInfoBean.getData());
-                        }else{
+                        } else {
 
                         }
                     }
+
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(BuildConfig.DEBUG){
-                            Log.d("wdefer" , "搜索商品 -->");
+                        if (BuildConfig.DEBUG) {
+                            Log.d("wdefer", "搜索商品 -->");
                         }
                         iResultMsg.Error(response.body());
                     }
@@ -119,14 +123,16 @@ public class OrderAPI {
                         }
 
                         BaseBean<ArrayList<ClientInfoBean>> client = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<ArrayList<ClientInfoBean>>>() {});
+                                new TypeReference<BaseBean<ArrayList<ClientInfoBean>>>() {
+                                });
 
-                        if(APIConstant.REQUEST_SUCCESS.equals(client.getCode())){
+                        if (APIConstant.REQUEST_SUCCESS.equals(client.getCode())) {
                             iResultMsg.Result(client.getData());
-                        }else{
+                        } else {
 
                         }
                     }
+
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
@@ -146,20 +152,22 @@ public class OrderAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
 
-                        if(BuildConfig.DEBUG){
-                            Log.d("okgo request json" , response.body());
+                        if (BuildConfig.DEBUG) {
+                            Log.d("okgo request json", response.body());
                         }
 
                         BaseBean<String> orderNum = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<String>>() {});
+                                new TypeReference<BaseBean<String>>() {
+                                });
 
-                        if(APIConstant.REQUEST_SUCCESS.equals(orderNum.getCode())){
+                        if (APIConstant.REQUEST_SUCCESS.equals(orderNum.getCode())) {
                             iResultMsg.Result(orderNum.getData());
-                        }else{
+                        } else {
 
                         }
 
                     }
+
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
@@ -177,19 +185,20 @@ public class OrderAPI {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        if(BuildConfig.DEBUG){
-                            Log.d("okgo request json" , response.body());
+                        if (BuildConfig.DEBUG) {
+                            Log.d("okgo request json", response.body());
                         }
 
                         BaseBean<OrderDetailsBean> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<OrderDetailsBean>>() {});
 
-                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                        if (APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())) {
                             iResultMsg.Result(baseBean.getData());
-                        }else{
+                        } else {
 
                         }
                     }
+
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
@@ -202,39 +211,126 @@ public class OrderAPI {
      * 我的订单
      * type  1.未收款 2.以收款 3.已取消
      */
-    public void getMyOrderList(Context context, String type, String keywords, int pageNum, int pageSize, final int flag, final IResultMsgOne<OrderListBean> iResultMsg){
-            OkGo.<String>get(API+HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
-                    .params("access_token", TOKEN)
-                    .params("type",type)
-                    .params("pageNum", pageNum)
-                    .params("pageSize", pageSize)
-                    .params("keywords", keywords)
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onSuccess(Response<String> response) {
-                            OrderListBean bean = GsonUtils.GsonToBean(response.body(), OrderListBean.class);
-                            if(APIConstant.REQUEST_SUCCESS.equals(bean.getCode())){
-                                iResultMsg.Result(bean,flag);
-                            }else{
 
-                            }
+    public void getMyOrderList(Context context, String type, String keywords, int pageNum, int pageSize, final int flag, final IResultMsgOne<OrderListBean> iResultMsg) {
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
+                .headers("Authorization", TOKEN)
+                .params("type", type)
+                .params("pageNum", pageNum)
+                .params("pageSize", pageSize)
+                .params("keywords", keywords)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        OrderListBean bean = GsonUtils.GsonToBean(response.body(), OrderListBean.class);
+                        if (APIConstant.REQUEST_SUCCESS.equals(bean.getCode())) {
+                            iResultMsg.Result(bean, flag);
+                        } else {
+
                         }
-                        @Override
-                        public void onError(Response<String> response) {
-                            super.onError(response);
-                            iResultMsg.Error(response.body(),flag);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        iResultMsg.Error(response.body(), flag);
+                    }
+                });
+
+    }
+
+    /**
+     * 获取收款方式：
+     */
+    public void getCashierType(String orderId, final IResultMsg<ArrayList<HarvestModeBean>> iResultMsg) {
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_GET_CASHIER_TYPE_COMPANY + orderId)
+                .headers("Authorization", TOKEN)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        BaseBean<ArrayList<HarvestModeBean>> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<HarvestModeBean>>>() {});
+                        if (APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())) {
+                            iResultMsg.Result(baseBean.getData());
+                        } else {
+
                         }
-                    });
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        iResultMsg.Error(response.body());
+                    }
+                });
+
+    }
+
+    /**
+     * 确认收款
+     */
+    public void getReceivableSuccess(String json, final IResultMsg<ArrayList<HarvestModeBean>> iResultMsg) {
+        OkGo.<String>post(API + HttpConstant.HTTP_BIZ_SO_OUT_APP)
+                .headers("Authorization", TOKEN)
+                .upJson(json)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        BaseBean<ArrayList<HarvestModeBean>> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<HarvestModeBean>>>() {});
+                        if (APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())) {
+                            iResultMsg.Result(baseBean.getData());
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        iResultMsg.Error(response.body());
+                    }
+                });
+
+    }
+
+    /**
+     * 取消订单
+     */
+    public void getCancelOrder(String orderId, final IResultMsg<String> iResultMsg) {
+        OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SO_CANCEL_ORDER + orderId)
+                .headers("Authorization", TOKEN)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        BaseBean<String> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<String>>() {});
+                        if (APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())) {
+                            iResultMsg.Result(baseBean.getData());
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        iResultMsg.Error(response.body());
+                    }
+                });
 
     }
 
 
     public interface IResultMsg<T> {
         void Result(T bean);
+
         void Error(String json);
     }
+
     public interface IResultMsgOne<T> {
-        void Result(T bean,int flag);
-        void Error(String json,int flag);
+        void Result(T bean, int flag);
+
+        void Error(String json, int flag);
     }
 }
