@@ -45,6 +45,7 @@
         <activity android:name=".Activity.My.SelectCompanyActivity" />
         <activity android:name=".Activity.My.RegisterActivity" />
         <activity android:name=".Activity.My.PersonalFileActivity" />
+        <activity android:name=".Activity.My.CompanyFilesActivity" />
 
         <!-- 分仓库存选择仓库 -->
         <activity android:name=".Activity.Stock.ChildWarehouseActivity" />
@@ -58,6 +59,8 @@
         <activity android:name=".Activity.My.LoginActivity" />
         <activity android:name=".Activity.My.ForgetPassWordActivity" />
         <activity android:name=".Activity.My.BindPhoneActivity"></activity>
+
+
     </application>
 
 </manifest>

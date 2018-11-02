@@ -7,10 +7,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.lzy.okgo.OkGo;
+
+import org.devio.takephoto.app.TakePhoto;
+import org.devio.takephoto.model.TResult;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jh.zkj.com.yf.Activity.MBaseActivity;
+import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract;
+import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract.PersonalFileActivityView;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Presenter.My.PersonalFilePresenter;
 import jh.zkj.com.yf.R;
 
@@ -19,7 +27,7 @@ import jh.zkj.com.yf.R;
  * 个人档案
  */
 
-public class PersonalFileActivity extends MBaseActivity {
+public class PersonalFileActivity extends PhotoActivity implements PersonalFileActivityView {
 
     @BindView(R.id.personal_file_name)
     EditText personalFileName;
@@ -39,6 +47,12 @@ public class PersonalFileActivity extends MBaseActivity {
     ImageView personalFileIdFront;
     @BindView(R.id.personal_file_id_back)
     ImageView personalFileIdBack;
+    @BindView(R.id.personal_file_title)
+    TitleLayout personalFileTitle;
+    @BindView(R.id.personal_file_id_front_x)
+    ImageView personalFileIdFrontX;
+    @BindView(R.id.personal_file_id_back_x)
+    ImageView personalFileIdBackX;
     private PersonalFilePresenter personalFilePresenter;
 
     @Override
@@ -49,7 +63,7 @@ public class PersonalFileActivity extends MBaseActivity {
         personalFilePresenter = new PersonalFilePresenter(this);
     }
 
-    @OnClick({R.id.personal_file_sex_man, R.id.personal_file_sex_woman, R.id.personal_file_address, R.id.personal_file_id_front, R.id.personal_file_id_back})
+    @OnClick({R.id.personal_file_id_back_x,R.id.personal_file_id_front_x,R.id.personal_file_sex_man, R.id.personal_file_sex_woman, R.id.personal_file_address, R.id.personal_file_id_front, R.id.personal_file_id_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.personal_file_sex_man://选男
@@ -59,13 +73,51 @@ public class PersonalFileActivity extends MBaseActivity {
                 personalFilePresenter.selectSexWomanMan();
                 break;
             case R.id.personal_file_address://选地址
-                personalFilePresenter.initJsonDate();
+                personalFilePresenter.selectAddress();
                 break;
             case R.id.personal_file_id_front://身份证前
+                personalFilePresenter.ClickPhoto(personalFileIdFront);
                 break;
             case R.id.personal_file_id_back://身份证后
+                personalFilePresenter.ClickPhoto(personalFileIdBack);
+                break;
+            case R.id.personal_file_id_front_x://身份证前删除
+                personalFilePresenter.clickFrontX();
+                personalFileIdFrontX.setVisibility(View.GONE);
+
+                break;
+            case R.id.personal_file_id_back_x://身份证后删除
+                personalFilePresenter.clickBackX();
+                personalFileIdBackX.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    public void setAddress(String s) {
+        personalFileAddress.setText(s);
+    }
+
+    @Override
+    public void setFrontIdBg(int resource) {
+        Glide.with(this).load(resource).into(personalFileIdFront);
+    }
+    public void setFrontIdBg(String  resource) {
+        Glide.with(this).load(resource).into(personalFileIdFront);
+        personalFileIdFrontX.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setBackIdBg(int resource) {
+        Glide.with(this).load(resource).into(personalFileIdBack);
+    }
+    public void setBackIdBg(String resource) {
+        Glide.with(this).load(resource).into(personalFileIdBack);
+        personalFileIdBackX.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setAddressTextColor(int color) {
+        personalFileAddress.setTextColor(color);
     }
 
     public EditText getPersonalFileName() {
@@ -102,5 +154,50 @@ public class PersonalFileActivity extends MBaseActivity {
 
     public ImageView getPersonalFileIdBack() {
         return personalFileIdBack;
+    }
+
+    @Override
+    public void takeCancel() {//取消选择照片回调
+        super.takeCancel();
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {//择照片回调失败
+        super.takeFail(result, msg);
+    }
+
+    public TitleLayout getPersonalFileTitle() {
+        return personalFileTitle;
+    }
+
+    public ImageView getPersonalFileIdFrontX() {
+        return personalFileIdFrontX;
+    }
+
+    public ImageView getPersonalFileIdBackX() {
+        return personalFileIdBackX;
+    }
+
+    @Override
+    public void takeSuccess(TResult result, View view) {//选择照片成功回调
+        super.takeSuccess(result, view);
+        String iconPath = result.getImage().getOriginalPath();//照片存储地址
+        //访问网络
+        if (personalFileIdFront == view) {
+            personalFilePresenter.CalibrateIdCard("F",iconPath);
+        } else {
+            personalFilePresenter.CalibrateIdCard("R",iconPath);
+        }
+    }
+
+    public TakePhoto getFrameTakePhoto() {//选择照片必要参数
+        return getTakePhoto();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelTag(this);
     }
 }

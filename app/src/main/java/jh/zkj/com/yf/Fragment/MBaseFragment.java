@@ -9,6 +9,7 @@ import android.view.View;
 
 import org.devio.takephoto.app.TakePhotoFragment;
 
+
 /**
  * Created by linyujie on 18/9/19.
  */

@@ -39,9 +39,9 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.android.support:design:28.0.0-rc02'
     implementation 'pub.devrel:easypermissions:1.0.1'
-    implementation 'com.github.crazycodeboy:TakePhoto:v4.1.0'
     compile 'com.github.bumptech.glide:glide:4.6.1'
     compile 'com.github.huangyanbin:SmartTable:2.2.0'
     implementation project(':MPChartLib')
     implementation 'com.alibaba:fastjson:1.2.51'
+    compile project(path: ':takephoto_library')
 }
