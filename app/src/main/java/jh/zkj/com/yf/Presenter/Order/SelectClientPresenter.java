@@ -9,14 +9,18 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -48,22 +52,74 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     private OrderAPI api;
     private LoadingDialog loadingDialog;
 
+    //客户信息list
     private ArrayList<ClientInfoBean> clientList = new ArrayList<>();
     private ClientInfoBean clientInfoBean;
+    //页码
+    private int pageNum = 1;
+    //每次拉取数据数量
+    private int pageSize = 10;
+    private TwinklingRefreshLayout refreshLayout;
+
+    private boolean isMore = true;//是否还有更多
+
+    //设置已选客户
+    private void setSelectBean() {
+        if (clientInfoBean != null) {
+            for (ClientInfoBean bean : clientList) {
+                if (bean.getUuid().equals(clientInfoBean.getUuid())) {
+                    bean.setSelect(true);
+                    break;
+                }
+            }
+        }
+    }
 
     public SelectClientPresenter(SelectClientActivity activity) {
         this.activity = activity;
 
-        initPresenter();
+        initData();
+        initListener();
     }
 
-    private void initPresenter() {
+    private void initListener() {
+        activity.getSearch().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                //回车键
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    pageNum = 1;
+                    getClientInfo(activity.getSearch().getText().toString(), pageNum, pageSize, refreshMsg);
+                }
+                return true;
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                refreshLayout.setEnableLoadmore(true);
+                pageNum = 1;
+                getClientInfo(activity.getSearch().getText().toString(), pageNum, pageSize, refreshMsg);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                pageNum ++;
+                getClientInfo(activity.getSearch().getText().toString(), pageNum, pageSize, loadMoreMsg);
+            }
+        });
+    }
+
+    private void initData() {
+        refreshLayout = activity.getRefreshLayout();
         api = new OrderAPI();
 
         clientInfoBean = (ClientInfoBean) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_CLIENT_LIST);
 
         initAdapter();
-        getClientInfo();
+        pageNum = 1;
+        getClientInfo("", pageNum, pageSize, refreshMsg);
     }
 
     private void initAdapter() {
@@ -120,9 +176,9 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             final ClientInfoBean item = getItem(position);
 
-            if(item.isSelect()){
+            if (item.isSelect()) {
                 holder.selectImg.setImageBitmap(select);
-            }else{
+            } else {
                 holder.selectImg.setImageBitmap(unSelect);
             }
             holder.name.setText(item.getName());
@@ -130,13 +186,23 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
             holder.certificates.setText(item.getIdentType() + "：" + item.getIdentNo());
             holder.vipNum.setText("会员号：" + item.getCardNo());
 
+            if (isMore){
+                holder.noMore.setVisibility(View.GONE);
+            }else{
+                if(position == mArr.size() - 1){
+                    holder.noMore.setVisibility(View.VISIBLE);
+                }else{
+                    holder.noMore.setVisibility(View.GONE);
+                }
+            }
+
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(item.isSelect()){
+                    if (item.isSelect()) {
                         activity.setResult(OrderConfig.RESULT_CLIENT_LIST_CLEAR);
                         activity.finish();
-                    }else{
+                    } else {
                         Intent intent = new Intent();
                         intent.putExtra(OrderConfig.TYPE_STRING_CLIENT_LIST, item);
                         activity.setResult(Activity.RESULT_OK, intent);
@@ -162,6 +228,8 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
             TextView certificates;
             @BindView(R.id.select_client_vip)
             TextView vipNum;
+            @BindView(R.id.select_client_no_more)
+            TextView noMore;
             View view;
 
             public ViewHolder(View itemView) {
@@ -173,45 +241,82 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     }
 
 
-    //*********************************************************************************************
-    private void getClientInfo() {
+    //**********************************************************************************************
+    //下拉刷新时使用
+    private OrderAPI.IResultMsg<ArrayList<ClientInfoBean>> refreshMsg = new OrderAPI.IResultMsg<ArrayList<ClientInfoBean>>() {
+        @Override
+        public void Result(ArrayList<ClientInfoBean> beans) {
+
+            if (loadingDialog.isShowing()) {
+                loadingDialog.dismissLoading();
+            }
+
+            refreshLayout.finishRefreshing();
+            clientList = beans;
+
+            setSelectBean();
+            isMore = true;
+            adapter.notifyData(clientList);
+        }
+
+        @Override
+        public void Error(String json) {
+            if (BuildConfig.DEBUG) {
+                Log.e("wdefer", "error json == " + json);
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismissLoading();
+                }
+            }
+        }
+    };
+
+    //加载更多时使用
+    private OrderAPI.IResultMsg<ArrayList<ClientInfoBean>> loadMoreMsg = new OrderAPI.IResultMsg<ArrayList<ClientInfoBean>>() {
+        @Override
+        public void Result(ArrayList<ClientInfoBean> beans) {
+
+            if (loadingDialog.isShowing()) {
+                loadingDialog.dismissLoading();
+            }
+
+            refreshLayout.finishLoadmore();
+
+            if (beans != null && beans.size() > 0) {
+                if (clientList != null) {
+                    clientList.addAll(beans);
+                }
+                isMore = true;
+            } else {
+
+                isMore = false;
+            }
+
+
+            setSelectBean();
+
+            adapter.notifyData(clientList);
+        }
+
+        @Override
+        public void Error(String json) {
+            if (loadingDialog.isShowing()) {
+                loadingDialog.dismissLoading();
+            }
+            if (BuildConfig.DEBUG) {
+                Log.e("wdefer", "error json == " + json);
+
+            }
+        }
+    };
+
+
+    private void getClientInfo(String wordKey, int pageNum, int pageSize, OrderAPI.IResultMsg<ArrayList<ClientInfoBean>> resultMsg) {
         if (loadingDialog == null) {
             loadingDialog = new LoadingDialog(activity);
         }
         loadingDialog.showLoading();
 
-        api.getClientInfo("", 0, 20, new OrderAPI.IResultMsg<ArrayList<ClientInfoBean>>() {
-            @Override
-            public void Result(ArrayList<ClientInfoBean> beans) {
-
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
-
-                clientList = beans;
-
-                if(clientInfoBean != null){
-                    for(ClientInfoBean bean : clientList){
-                        if(bean.getUuid().equals(clientInfoBean.getUuid())){
-                            bean.setSelect(true);
-                            break;
-                        }
-                    }
-                }
-
-                adapter.notifyData(clientList);
-            }
-
-            @Override
-            public void Error(String json) {
-                if (BuildConfig.DEBUG) {
-                    Log.e("wdefer", "error json == " + json);
-                    if(loadingDialog.isShowing()){
-                        loadingDialog.dismissLoading();
-                    }
-                }
-            }
-        });
+        api.getClientInfo(wordKey, pageNum, pageSize, resultMsg);
 
     }
 }

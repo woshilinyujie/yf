@@ -56,6 +56,12 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     private ArrayList<SalesmanBean> selectSalesmans = new ArrayList<>();
     private LoadingDialog loadingDialog;
 
+    //页码
+    private int pageNum = 1;
+    //每次拉取数据数量
+    private int pageSize = 10;
+    private boolean isMore = true;//是否还有更多
+
     public SelectSalesmanPresenter(SelectSalesmanActivity activity) {
         this.activity = activity;
         initPresenter();
@@ -66,13 +72,15 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         activity.getRefresh().setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                getSalesmanList();
+                pageNum = 1;
+                getSalesmanList("", pageNum, pageSize, refreshMsg);
             }
 
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-
+                pageNum++;
+                getSalesmanList("", pageNum, pageSize, loadMoreMsg);
             }
         });
 
@@ -80,7 +88,8 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                    getSalesmanList();
+                    pageNum = 0;
+                    getSalesmanList(activity.getSearch().getText().toString(), pageNum, pageSize, refreshMsg);
                     return true;
                 }
                 return false;
@@ -96,7 +105,8 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         }
 
         initAdapter();
-        getSalesmanList();
+        pageNum = 1;
+        getSalesmanList("", pageNum, pageSize, refreshMsg);
     }
 
     private void initAdapter() {
@@ -169,6 +179,16 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
                 holder.selectImg.setImageBitmap(unSelect);
             }
 
+            if (isMore){
+                holder.noMore.setVisibility(View.GONE);
+            }else{
+                if(position == mArr.size() - 1){
+                    holder.noMore.setVisibility(View.VISIBLE);
+                }else{
+                    holder.noMore.setVisibility(View.GONE);
+                }
+            }
+
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -199,6 +219,8 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
             ImageView selectImg;
             @BindView(R.id.select_salesman_name)
             TextView name;
+            @BindView(R.id.select_salesman_no_more)
+            TextView noMore;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -210,34 +232,62 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
 
 
     //************************************************************************************************
+    //下拉刷新时使用
+    private OrderAPI.IResultMsg<ArrayList<SalesmanBean>> refreshMsg = new OrderAPI.IResultMsg<ArrayList<SalesmanBean>>() {
+        @Override
+        public void Result(ArrayList<SalesmanBean> beans) {
 
-    public void getSalesmanList() {
+            if (loadingDialog.isShowing()) {
+                loadingDialog.dismissLoading();
+            }
 
-        if(loadingDialog == null){
-            loadingDialog = new LoadingDialog(activity);
+            activity.getRefresh().finishRefreshing();
+
+            isMore = true;
+            salesmanList = beans;
+            //查看有无已选
+            for (SalesmanBean selectBean :  selectSalesmans){
+                for (SalesmanBean bean : salesmanList){
+                    if(selectBean.getUuid().equals(bean.getUuid())){
+                        bean.setSelect(true);
+                        break;
+                    }
+                }
+            }
+
+            adapter.notifyData(salesmanList);
         }
-        loadingDialog.showLoading();
 
-        api.getSalesmanInfo("1", "00001", new OrderAPI.IResultMsg<ArrayList<SalesmanBean>>() {
+        @Override
+        public void Error(String json) {
+            activity.getRefresh().finishRefreshing();
 
-            @Override
-            public void Result(ArrayList<SalesmanBean> beans) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            if (BuildConfig.DEBUG) {
                 if (BuildConfig.DEBUG) {
-                    Log.e("wdefer", "json == " + beans);
+                    Log.e("wdefer", "error json == " + json);
                 }
+            }
+        }
+    };
 
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
+    //加载更多时使用
+    private OrderAPI.IResultMsg<ArrayList<SalesmanBean>> loadMoreMsg = new OrderAPI.IResultMsg<ArrayList<SalesmanBean>>() {
+        @Override
+        public void Result(ArrayList<SalesmanBean> beans) {
 
-                activity.getRefresh().finishRefreshing();
-                activity.getRefresh().finishLoadmore();
+            if (loadingDialog.isShowing()) {
+                loadingDialog.dismissLoading();
+            }
 
-                salesmanList = beans;
-
+            activity.getRefresh().finishLoadmore();
+            if(beans != null && beans.size() > 0){
+                isMore = true;
                 //查看有无已选
                 for (SalesmanBean selectBean :  selectSalesmans){
-                    for (SalesmanBean bean : salesmanList){
+                    for (SalesmanBean bean : beans){
                         if(selectBean.getUuid().equals(bean.getUuid())){
                             bean.setSelect(true);
                             break;
@@ -245,19 +295,35 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
                     }
                 }
 
-                adapter.notifyData(salesmanList);
+                salesmanList.addAll(beans);
+            }else{
+                isMore = false;
             }
 
-            @Override
-            public void Error(String json) {
+            adapter.notifyData(salesmanList);
+        }
+
+        @Override
+        public void Error(String json) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            activity.getRefresh().finishLoadmore();
+            if (BuildConfig.DEBUG) {
                 if (BuildConfig.DEBUG) {
                     Log.e("wdefer", "error json == " + json);
                 }
-
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
             }
-        });
+        }
+    };
+
+    public void getSalesmanList(String key, int pageNum, int pageSize, OrderAPI.IResultMsg<ArrayList<SalesmanBean>> msg) {
+
+        if(loadingDialog == null){
+            loadingDialog = new LoadingDialog(activity);
+        }
+        loadingDialog.showLoading();
+
+        api.getSalesmanInfo(key, pageNum, pageSize, msg);
     }
 }

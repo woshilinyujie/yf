@@ -1,8 +1,12 @@
 package jh.zkj.com.yf.Activity.Order;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +24,10 @@ public class SelectClientActivity extends MBaseActivity implements SelectClientC
 
     @BindView(R.id.select_client_recycler)
     RecyclerView recycler;
+    @BindView(R.id.select_client_refresh)
+    TwinklingRefreshLayout refresh;
+    @BindView(R.id.search_edit)
+    EditText search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +40,13 @@ public class SelectClientActivity extends MBaseActivity implements SelectClientC
 
     public RecyclerView getRecycler() {
         return recycler;
+    }
+
+    public EditText getSearch(){
+        return search;
+    }
+
+    public TwinklingRefreshLayout getRefreshLayout(){
+        return refresh;
     }
 }

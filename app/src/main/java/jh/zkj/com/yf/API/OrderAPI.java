@@ -31,16 +31,17 @@ import jh.zkj.com.yf.Mview.Toast.EToast;
 
 public class OrderAPI {
     public final String API = APIConstant.API;
-    public final String TOKEN = "bearer a2e75beb-6de5-4af8-a14d-20c79b311858";
+    public final String TOKEN = "bearer 1b57bd2a-6925-40a8-9163-86a3fc75bf04";
 
     /**
      * 获取业务员信息
      */
-    public void getSalesmanInfo(String soClerkFlag, String currentCompany, final IResultMsg<ArrayList<SalesmanBean>> iResultMsg) {
+    public void getSalesmanInfo(String keyWord, int pageNum, int pageSize, final IResultMsg<ArrayList<SalesmanBean>> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_USER)
                 .headers("Authorization", TOKEN)
-                .params("soClerkFlag", soClerkFlag)
-                .params("currentCompany", currentCompany)
+                .params("keyWord", keyWord)
+                .params("pageNum", pageNum)
+                .params("pageSize", pageSize)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -212,7 +213,7 @@ public class OrderAPI {
      * type  1.未收款 2.以收款 3.已取消
      */
 
-    public void getMyOrderList(Context context, String type, String keywords, int pageNum, int pageSize, final int flag, final IResultMsgOne<OrderListBean> iResultMsg) {
+    public void getMyOrderList(String type, String keywords, int pageNum, int pageSize, final int flag, final IResultMsgOne<OrderListBean> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
                 .headers("Authorization", TOKEN)
                 .params("type", type)
@@ -269,15 +270,15 @@ public class OrderAPI {
     /**
      * 确认收款
      */
-    public void getReceivableSuccess(String json, final IResultMsg<ArrayList<HarvestModeBean>> iResultMsg) {
+    public void getReceivableSuccess(String json, final IResultMsg<String> iResultMsg) {
         OkGo.<String>post(API + HttpConstant.HTTP_BIZ_SO_OUT_APP)
                 .headers("Authorization", TOKEN)
                 .upJson(json)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        BaseBean<ArrayList<HarvestModeBean>> baseBean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<ArrayList<HarvestModeBean>>>() {});
+                        BaseBean<String> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<String>>() {});
                         if (APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())) {
                             iResultMsg.Result(baseBean.getData());
                         } else {

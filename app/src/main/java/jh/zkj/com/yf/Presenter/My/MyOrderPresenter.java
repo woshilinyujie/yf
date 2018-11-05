@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Presenter.My;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -21,11 +22,42 @@ public class MyOrderPresenter implements MyOrderContract.IMyRetailFindPresenter 
     private String[] titles;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private ViewPager viewPager;
+    private int position;
 
     public MyOrderPresenter(MyOrderActivity activity) {
         this.activity = activity;
         initView();
         initData();
+        initListener();
+    }
+
+    private void initListener() {
+        activity.getSearch().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position < fragments.size()){
+                    ((RetailListFragment) fragments.get(position))
+                            .clickSearch(activity.getSearch().getText().toString());
+                }
+            }
+        });
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                position = i;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     private void initView() {

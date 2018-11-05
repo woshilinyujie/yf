@@ -1,7 +1,9 @@
 package jh.zkj.com.yf.Presenter.Order;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +30,7 @@ import jh.zkj.com.yf.Bean.OrderBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.OrderDetailsContract;
+import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.R;
 
 /**
@@ -37,16 +40,20 @@ import jh.zkj.com.yf.R;
  */
 public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderPresenter {
 
+    private final int REQUEST_HARVEST_MODE = 1;
+
     private final OrderDetailsActivity activity;
     private ComInfoDetailsAdapter infoAdapter;
     private DetailsAdapter detailAdapter;
-    private ArrayList<OrderBean> beans = new ArrayList<>();
-    DecimalFormat dFormat = new DecimalFormat("#.00");
-    private TextView receivables;
     private OrderAPI api;
+    //收款状态
     private String status;
     private OrderDetailsBean orderBean;
+    //总金额
     private String total;
+    //单号
+    private String orderNum;
+    private LoadingDialog loadingDialog;
 
 
     public OrderDetailsPresenter(OrderDetailsActivity activity) {
@@ -74,7 +81,6 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
 
     private void initView() {
-        receivables = activity.getReceivables();
 
         activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +101,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         api = new OrderAPI();
         Intent intent = activity.getIntent();
         status = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
-        String orderNum = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER);
+        orderNum = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER);
         total = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL);
 
         if (OrderConfig.STATUS_UN_SUCCESS.equals(status)) {
@@ -122,9 +128,22 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_BEAN, orderBean);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, status);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, total);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, REQUEST_HARVEST_MODE);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_HARVEST_MODE){
+            if(resultCode == Activity.RESULT_OK){
+                //刷新页面
+                getQueryOrder(orderNum);
+                status = OrderConfig.STATUS_SUCCESS;
+                activity.setStatusText("已收款");
+                activity.setReceivablesVisibility(View.GONE);
+                activity.setResult(Activity.RESULT_OK);
+            }
+        }
+    }
 
     /**
      * 使用：详情顶部列表
@@ -272,10 +291,19 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     //******************************************************************************************
     //查询详情
     public void getQueryOrder(String orderNum) {
+
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(activity);
+        }
+        loadingDialog.showLoading();
+
         api.getQueryOrder("/" + orderNum, new OrderAPI.IResultMsg<OrderDetailsBean>() {
 
             @Override
             public void Result(OrderDetailsBean bean) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
                 if (bean != null) {
                     orderBean = bean;
                     ArrayList<ComDetailBean> detailList = createDetailList(bean, status);
@@ -292,6 +320,9 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
             @Override
             public void Error(String json) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
                 if (BuildConfig.DEBUG && !TextUtils.isEmpty(json)) {
                     Log.e("okgo request json", json);
                 }

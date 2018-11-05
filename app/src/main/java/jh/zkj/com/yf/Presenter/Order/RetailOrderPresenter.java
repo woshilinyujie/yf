@@ -28,8 +28,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jh.zkj.com.yf.API.APIConstant;
-import jh.zkj.com.yf.API.HttpConstant;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
@@ -38,18 +36,15 @@ import jh.zkj.com.yf.Activity.Order.RetailOrderSubmitActivity;
 import jh.zkj.com.yf.Activity.Order.SelectClientActivity;
 import jh.zkj.com.yf.Activity.Order.SelectCommodityActivity;
 import jh.zkj.com.yf.Activity.Order.SelectSalesmanActivity;
-import jh.zkj.com.yf.Activity.ScanActivity;
-import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.ClientInfoBean;
 import jh.zkj.com.yf.Bean.CommodityInfoBean;
 import jh.zkj.com.yf.Bean.CreateOrderBean;
-import jh.zkj.com.yf.Bean.OrderBean;
 import jh.zkj.com.yf.Bean.RetailOrderBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.RetailOrderContract;
 import jh.zkj.com.yf.Mutils.BigDecimalUtils;
-import jh.zkj.com.yf.Mview.TitleLayout;
+import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 //import jh.zkj.com.yf.Fragment.Retail.RetailOrderFragment;
@@ -65,19 +60,20 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     public static final int REQUEST_CLIENT = 2;
     //选择商品
     public static final int REQUEST_SELECT_COMMODITY = 3;
+    //提交订单
+    public static final int REQUEST_SELECT_SUBMIT = 4;
+    //提交并收款
+    public static final int REQUEST_SELECT_RECEIVABLES = 5;
 
-    private final boolean TYPE_ITEM_ADD = true;
-    private final boolean TYPE_ITEM_REDUCE = false;
 
 
     private RetailOrderActivity activity;
     private RecyclerView recyclerView;
     private RetailOrderAdapter adapter;
-    private ArrayList<OrderBean> beans = new ArrayList<>();
-    private TitleLayout titleLayout;
+    //下单bean  用于记录各种数据 下单时候可以一口气传过去
     private RetailOrderBean orderBean;
     private OrderAPI api;
-    //    private RetailOrderFragment fragment;
+    private LoadingDialog loadingDialog;
 
     public RetailOrderPresenter(RetailOrderActivity activity) {
         this.activity = activity;
@@ -99,7 +95,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         //嵌套scrollview需要禁止滑动
         recyclerView.setNestedScrollingEnabled(false);
 
-//        changeFalseData(TYPE_ITEM_ADD, 0);
     }
 
 
@@ -112,16 +107,16 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         activity.finish();
     }
 
+    //提交并付款
     @Override
     public void startOrderDetail() {
-        Intent intent = new Intent(activity, OrderDetailsActivity.class);
-        activity.startActivity(intent);
+        getCreateOrder(true);
     }
 
+    //提交订单
     @Override
     public void startOrderSubmitActivity() {
-
-        getCreateOrder();
+        getCreateOrder(false);
     }
 
     //选择商品
@@ -172,6 +167,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                 }
             }
         }else if (requestCode == REQUEST_CLIENT){
+            //客户信息
             if(resultCode == Activity.RESULT_OK){
                 if(data != null){
                     orderBean.setClient((ClientInfoBean) data.getSerializableExtra(OrderConfig.TYPE_STRING_CLIENT_LIST));
@@ -182,6 +178,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                 activity.setClientinfo("", "");
             }
         }else if(requestCode == REQUEST_SELECT_COMMODITY){
+            //商品列表
             if(resultCode == Activity.RESULT_OK){
                 if(data != null){
                     orderBean.addComList((ArrayList<CommodityInfoBean>) data.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY));
@@ -189,6 +186,23 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     adapter.notifyDataSetChanged();
                     setTotalLayout();
                 }
+            }
+        }else if(requestCode == REQUEST_SELECT_SUBMIT){
+            //再开一单
+            if(resultCode == Activity.RESULT_OK){
+                orderBean = new RetailOrderBean();
+                activity.setSalesman("");
+                orderBean.setClient(null);
+                activity.setClientinfo("", "");
+                adapter.notifyData(orderBean.getComList());
+                setTotalLayout();
+            }else if(resultCode == Activity.RESULT_CANCELED){
+                activity.finish();
+            }
+        }else if(requestCode == REQUEST_SELECT_RECEIVABLES){
+            //提交并收款
+            if(resultCode == Activity.RESULT_OK){
+                activity.fileList();
             }
         }
     }
@@ -461,7 +475,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
 
     //******************************************************************************************
-    public void getCreateOrder() {
+    public void getCreateOrder(boolean isDetail) {
         CreateOrderBean createOrderBean = new CreateOrderBean();
 
         ArrayList<SalesmanBean> salesmanList = orderBean.getSalesmanList();
@@ -502,20 +516,61 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             }
         }
 
-        api.getCreateOrder(JSON.toJSONString(createOrderBean), new OrderAPI.IResultMsg<String>() {
-            @Override
-            public void Result(String json) {
-                Intent intent = new Intent(activity, RetailOrderSubmitActivity.class);
-                intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, json);
-                activity.startActivity(intent);
-            }
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(activity);
+        }
+        loadingDialog.showLoading();
 
-            @Override
-            public void Error(String json) {
-                if(BuildConfig.DEBUG){
-                    Log.e("okgo request json" , json);
-                }
-            }
-        });
+
+        if(isDetail){
+            api.getCreateOrder(JSON.toJSONString(createOrderBean), toDetailMsg);
+        }else{
+            api.getCreateOrder(JSON.toJSONString(createOrderBean), toSubmitMsg);
+        }
+
     }
+
+    OrderAPI.IResultMsg<String> toSubmitMsg = new OrderAPI.IResultMsg<String>() {
+        @Override
+        public void Result(String json) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            Intent intent = new Intent(activity, RetailOrderSubmitActivity.class);
+            intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, json);
+            activity.startActivityForResult(intent, REQUEST_SELECT_SUBMIT);
+        }
+
+        @Override
+        public void Error(String json) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            if(BuildConfig.DEBUG){
+                Log.e("okgo request json" , json);
+            }
+        }
+    };
+
+    OrderAPI.IResultMsg<String> toDetailMsg = new OrderAPI.IResultMsg<String>() {
+        @Override
+        public void Result(String json) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            Intent intent = new Intent(activity, OrderDetailsActivity.class);
+            intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, json);
+            activity.startActivityForResult(intent, REQUEST_SELECT_RECEIVABLES);
+        }
+
+        @Override
+        public void Error(String json) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            if(BuildConfig.DEBUG){
+                Log.e("okgo request json" , json);
+            }
+        }
+    };
 }

@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Activity.My;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -25,7 +26,7 @@ public class MyOrderActivity extends MBaseActivity implements MyOrderContract.IM
     @BindView(R.id.my_order_viewpager)
     ViewPager viewPager;
     @BindView(R.id.my_order_search)
-    TextView search;
+    EditText search;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MyOrderActivity extends MBaseActivity implements MyOrderContract.IM
         return slidingTab;
     }
 
-    public TextView getSearch() {
+    public EditText getSearch() {
         return search;
     }
 }

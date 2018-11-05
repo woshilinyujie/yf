@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Presenter.My;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -34,6 +35,8 @@ import jh.zkj.com.yf.R;
  * use
  */
 public class RetailListPresenter implements RetailListContract.IRetailPresenter {
+
+    private final int REQUEST_ORDER_DETAILS = 1;
 
     private final RetailListFragment fragment;
     private Context context;
@@ -104,14 +107,14 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 //下拉刷新
                 refreshLayout.setEnableLoadmore(true);
                 pageNum = 1;
-                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, 1,iResultMsg);
+                orderAPI.getMyOrderList(fragment.getStatus(), "", pageNum, pageSize, 1,iResultMsg);
             }
 
             @Override
             public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
                 //加载更多数据
                 pageNum++;
-                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, 0,iResultMsg);
+                orderAPI.getMyOrderList(fragment.getStatus(), "", pageNum, pageSize, 0,iResultMsg);
             }
         });
     }
@@ -146,9 +149,22 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 }
             }
         };
-        orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, 10, 0,iResultMsg);
+        orderAPI.getMyOrderList(fragment.getStatus(), "", pageNum, 10, 0,iResultMsg);
     }
 
+    public void clickSearch(String keyWord){
+        pageNum = 1;
+        orderAPI.getMyOrderList(fragment.getStatus(), keyWord, pageNum, 10, 0,iResultMsg);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_ORDER_DETAILS){
+            if(resultCode == Activity.RESULT_OK){
+                orderAPI.getMyOrderList(fragment.getStatus(), "", pageNum, 10, 0,iResultMsg);
+            }
+        }
+    }
 
     /**
      * 使用：
@@ -227,7 +243,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                     intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, fragment.getStatus());
                     intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, item.getBillNo());
                     intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, String.valueOf(item.getPrice()));
-                    fragment.startActivity(intent);
+                    fragment.startActivityForResult(intent, REQUEST_ORDER_DETAILS);
                 }
             });
 

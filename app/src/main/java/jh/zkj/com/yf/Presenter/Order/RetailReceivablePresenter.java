@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -25,6 +27,8 @@ import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
 import jh.zkj.com.yf.Bean.HarvestModeBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Contract.Order.RetailReceivableContract;
+import jh.zkj.com.yf.Mview.LoadingDialog;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -41,11 +45,16 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
     private RetailReceivableAdapter adapter;
 
     private String remakeText = "";
-
+    //收款状态
     private String status;
+    //收款方式bean
     private ArrayList<HarvestModeBean> modeList = new ArrayList<>();
+    //订单详情bean
     private OrderDetailsBean orderBean;
+    //总金额
     private String total;
+    private OrderAPI api;
+    private LoadingDialog loadingDialog;
 
     public RetailReceivablePresenter(RetailReceivableActivity activity) {
         this.activity = activity;
@@ -58,7 +67,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         activity.getTitleLayout().getRigthText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getReceivableSuccess();
+                getReceivableSuccess();
             }
         });
     }
@@ -89,6 +98,8 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         }
 
         initAdapter();
+
+        api = new OrderAPI();
     }
 
     private void initAdapter() {
@@ -127,7 +138,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
                         int size = modeList.size();
                         for (int i = 0 ; i < size; i++){
                             for (int j = 0 ; j < modeList.size(); j++){
-                                if(Double.valueOf(modeList.get(j).getMoney()) == 0){
+                                if(Double.valueOf(modeList.get(j).getAmount()) == 0){
                                     modeList.remove(j);
                                     break;
                                 }
@@ -138,26 +149,46 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
                            activity.setHarvestMode("修改收款方式");
                         }
                         adapter.notifyData(modeList);
+                        if(orderBean != null){
+                            orderBean.setNewCashierList(modeList);
+                        }
                     }
                 }
             }
         }
     }
 
-//    public void getReceivableSuccess() {
-//        OrderAPI api = new OrderAPI();
-//        api.getReceivableSuccess(orderBean, new OrderAPI.IResultMsg<ArrayList<HarvestModeBean>>() {
-//            @Override
-//            public void Result(ArrayList<HarvestModeBean> bean) {
-//
-//            }
-//
-//            @Override
-//            public void Error(String json) {
-//
-//            }
-//        });
-//    }
+    //提交订单
+    public void getReceivableSuccess() {
+        if(orderBean.getNewCashierList() == null || orderBean.getNewCashierList().size() > 0){
+            MToast.makeText(activity, "请选择收款方式", MToast.LENGTH_SHORT).show();
+            return;
+        }
+
+        orderBean.setRemark(remakeText);
+        String json = JSON.toJSONString(orderBean);
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(activity);
+        }
+        loadingDialog.showLoading();
+        api.getReceivableSuccess(json, new OrderAPI.IResultMsg<String>() {
+            @Override
+            public void Result(String bean) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
+                activity.setResult(Activity.RESULT_OK);
+                activity.finish();
+            }
+
+            @Override
+            public void Error(String json) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
+            }
+        });
+    }
 
     /**
      * 使用：
@@ -196,7 +227,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
             if (item != null){
                 holder.mode.setText("收款方式" + (position + 1));
                 holder.modeText.setText(item.getCashierTypeName());
-                holder.money.setText(item.getMoney());
+                holder.money.setText(item.getAmount());
                 if(position == mArr.size() - 1){
                     holder.remakeLayout.setVisibility(View.VISIBLE);
                 }else{
