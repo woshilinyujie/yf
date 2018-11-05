@@ -34,7 +34,7 @@ public class PhotoActivity extends TakePhotoActivity {
     }
 
     public void onClick(View view) {
-        customHelper.onClick(view, getTakePhoto());
+        customHelper.onClick(view, getTakePhoto(),null);
     }
 
     @Override
@@ -48,10 +48,12 @@ public class PhotoActivity extends TakePhotoActivity {
     }
 
     @Override
-    public void takeSuccess(TResult result) {
-        super.takeSuccess(result);
+    public void takeSuccess(TResult result,View view) {
+        super.takeSuccess(result,view);
         showImg(result.getImages());
     }
+
+
 
     private void showImg(ArrayList<TImage> images) {
 //        Intent intent = new Intent(this, ResultActivity.class);

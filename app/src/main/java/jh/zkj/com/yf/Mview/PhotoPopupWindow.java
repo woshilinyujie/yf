@@ -142,15 +142,15 @@ public class PhotoPopupWindow extends PopupWindow {
         return imageUri;
     }
 
-    public void initTakePhoto(TakePhoto takePhoto) {
+    public void initTakePhoto(TakePhoto takePhoto,View view) {
         Uri imageUri = init(takePhoto);
-        takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+        takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions(),view);
     }
 
 
-    public void initSelect(TakePhoto takePhoto){
+    public void initSelect(TakePhoto takePhoto,View view){
         init();
-        takePhoto.onPickMultiple(1);
+        takePhoto.onPickMultiple(1,view);
     }
     private void configCompress(TakePhoto takePhoto) {
 

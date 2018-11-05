@@ -54,7 +54,7 @@ public class CustomHelper {
 
     }
 
-    public void onClick(View view, TakePhoto takePhoto) {
+    public void onClick(View view, TakePhoto takePhoto,View selectView) {
         File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
@@ -68,32 +68,32 @@ public class CustomHelper {
                 int limit = Integer.parseInt(etLimit.getText().toString());
                 if (limit > 1) {
                     if (rgCrop.getCheckedRadioButtonId() == R.id.rbCropYes) {
-                        takePhoto.onPickMultipleWithCrop(limit, getCropOptions());
+                        takePhoto.onPickMultipleWithCrop(limit, getCropOptions(),selectView);
                     } else {
-                        takePhoto.onPickMultiple(limit);
+                        takePhoto.onPickMultiple(limit,selectView);
                     }
                     return;
                 }
                 if (rgFrom.getCheckedRadioButtonId() == R.id.rbFile) {
                     if (rgCrop.getCheckedRadioButtonId() == R.id.rbCropYes) {
-                        takePhoto.onPickFromDocumentsWithCrop(imageUri, getCropOptions());
+                        takePhoto.onPickFromDocumentsWithCrop(imageUri, getCropOptions(),selectView);
                     } else {
-                        takePhoto.onPickFromDocuments();
+                        takePhoto.onPickFromDocuments(selectView);
                     }
                     return;
                 } else {
                     if (rgCrop.getCheckedRadioButtonId() == R.id.rbCropYes) {
-                        takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
+                        takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions(),selectView);
                     } else {
-                        takePhoto.onPickFromGallery();
+                        takePhoto.onPickFromGallery(selectView);
                     }
                 }
                 break;
             case R.id.btnPickByTake:
                 if (rgCrop.getCheckedRadioButtonId() == R.id.rbCropYes) {
-                    takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                    takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions(),selectView);
                 } else {
-                    takePhoto.onPickFromCapture(imageUri);
+                    takePhoto.onPickFromCapture(imageUri,selectView);
                 }
                 break;
             default:

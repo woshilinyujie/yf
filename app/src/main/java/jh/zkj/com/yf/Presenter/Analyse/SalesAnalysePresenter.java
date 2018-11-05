@@ -14,8 +14,10 @@ import jh.zkj.com.yf.Fragment.Analyse.SalesAnalyseProfitFragment;
 import jh.zkj.com.yf.Fragment.Analyse.SalesAnalyseSalseFragment;
 import jh.zkj.com.yf.Fragment.Analyse.SalesAnalyseSalseMoneyFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Listener.SelectShopDateOneListener;
 import jh.zkj.com.yf.Listener.SelectShopDateTwoListener;
 import jh.zkj.com.yf.Listener.SelectShopListener;
+import jh.zkj.com.yf.Mview.AnalyseSelectPopupWindow;
 import jh.zkj.com.yf.Mview.AnalyseSelectPopupWindowTwo;
 import jh.zkj.com.yf.Mview.AnalyseSelectShopPopupWindowTwo;
 
@@ -25,7 +27,7 @@ import jh.zkj.com.yf.Mview.AnalyseSelectShopPopupWindowTwo;
 
 public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalysePresent {
     private SalesAnalyseActivity activity;
-    private AnalyseSelectPopupWindowTwo popupWindow;
+    private AnalyseSelectPopupWindow popupWindow;
     private ArrayList<MBaseFragment> fragments;
     private AnalyseSelectShopPopupWindowTwo shopPopupWindow;
 
@@ -62,7 +64,7 @@ public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalyseP
     @Override
     public void selectData(View view) {
         if (popupWindow == null) {
-            popupWindow = new AnalyseSelectPopupWindowTwo(activity);
+            popupWindow = new AnalyseSelectPopupWindow(activity);
         }
         popupWindow.showPopup(view);
     }
@@ -72,14 +74,18 @@ public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalyseP
      * 日期选择器选择结果数据回调接口
      * param1 开始日期
      * param2 结束日期
+     * param3 商品分类
+     * param4 品牌
+     * param5 型号
      */
     @Override
     public void setInfoListener() {
-        popupWindow.setSelectDateListener(new SelectShopDateTwoListener() {
+        popupWindow.setSelectDateListener(new SelectShopDateOneListener() {
             @Override
-            public void SelectShopDate(String date1, String date2) {
+            public void SelectShopDate(String date1, String date2, String classify, String brand, String modle) {
                 activity.setShopAnalyseSelectDate1(date1);
                 activity.setShopAnalyseSelectDate2(date2);
+
             }
         });
     }

@@ -14,6 +14,7 @@ import jh.zkj.com.yf.Fragment.Analyse.ShopManAnalyseExtractFragment;
 import jh.zkj.com.yf.Fragment.Analyse.ShopManAnalyseSalseFragment;
 import jh.zkj.com.yf.Fragment.Analyse.ShopManAnalyseSalseMoneyFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Listener.SelectShopDateOneListener;
 import jh.zkj.com.yf.Listener.SelectShopDateTwoListener;
 import jh.zkj.com.yf.Listener.SelectShopListener;
 import jh.zkj.com.yf.Mview.AnalyseSelectPopupWindow;
@@ -27,9 +28,9 @@ import jh.zkj.com.yf.Mview.AnalyseSelectShopPopupWindowTwo;
 
 public class ShopManAnalysePresenter implements ShopManAnalyseContract.ShopManAnalysePresent {
     private ShopManAnalyseActivity activity;
-    private AnalyseSelectPopupWindowTwo popupWindow;
+    private AnalyseSelectPopupWindow popupWindow;
     private ArrayList<MBaseFragment> fragments;
-    private AnalyseSelectShopPopupWindowTwo shopPopupWindow;
+    private AnalyseSelectShopPopupWindow shopPopupWindow;
 
     public ShopManAnalysePresenter(ShopManAnalyseActivity activity) {
         this.activity = activity;
@@ -56,7 +57,7 @@ public class ShopManAnalysePresenter implements ShopManAnalyseContract.ShopManAn
     @Override
     public void selectShop(View view) {
         if (shopPopupWindow == null) {
-            shopPopupWindow = new AnalyseSelectShopPopupWindowTwo(activity);
+            shopPopupWindow = new AnalyseSelectShopPopupWindow(activity);
         }
         shopPopupWindow.showPopup(view);
     }
@@ -64,7 +65,7 @@ public class ShopManAnalysePresenter implements ShopManAnalyseContract.ShopManAn
     @Override
     public void selectData(View view) {
         if (popupWindow == null) {
-            popupWindow = new AnalyseSelectPopupWindowTwo(activity);
+            popupWindow = new AnalyseSelectPopupWindow(activity);
         }
         popupWindow.showPopup(view);
     }
@@ -80,9 +81,9 @@ public class ShopManAnalysePresenter implements ShopManAnalyseContract.ShopManAn
      */
     @Override
     public void setInfoListener() {
-        popupWindow.setSelectDateListener(new SelectShopDateTwoListener() {
+        popupWindow.setSelectDateListener(new SelectShopDateOneListener() {
             @Override
-            public void SelectShopDate(String date1, String date2) {
+            public void SelectShopDate(String date1, String date2, String classify, String brand, String modle) {
                 activity.setShopAnalyseSelectDate1(date1);
                 activity.setShopAnalyseSelectDate2(date2);
             }

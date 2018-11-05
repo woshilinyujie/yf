@@ -136,8 +136,8 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
     }
 
     @Override
-    public void takeSuccess(TResult result) {//选择照片成功回调
-        super.takeSuccess(result);
+    public void takeSuccess(TResult result,View view) {//选择照片成功回调
+        super.takeSuccess(result,view);
         String iconPath = result.getImage().getOriginalPath();//照片存储地址
         Glide.with(this).load(iconPath).into(myPhoto);
     }

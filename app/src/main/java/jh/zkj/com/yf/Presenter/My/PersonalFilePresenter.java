@@ -16,10 +16,14 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
+import jh.zkj.com.yf.Bean.CalibrateIdCardBean;
 import jh.zkj.com.yf.Bean.JsonBean;
 import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract;
 import jh.zkj.com.yf.Mutils.GetJsonDataUtil;
+import jh.zkj.com.yf.Mview.PhotoPopupWindow;
+import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/10/30.
@@ -40,10 +44,48 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
             }
         }
     };
+    private PhotoPopupWindow popupWindow;
+    private MyAPI myAPI;
+    private MyAPI.IResultMsgTwo<CalibrateIdCardBean> calibrateIResultMsg;
 
     public PersonalFilePresenter(PersonalFileActivity activity) {
         this.activity = activity;
+        initData();
+        initListener();
     }
+
+    @Override
+    public void initData() {
+        myAPI = new MyAPI();
+        //身份证校验网络回调  flag 0=view1    flag1=view2
+        calibrateIResultMsg = new MyAPI.IResultMsgTwo<CalibrateIdCardBean>() {
+            @Override
+            public void Result(CalibrateIdCardBean bean, int flag, String path) {
+                if (flag == 0) {
+                    activity.setFrontIdBg(path);
+                } else {
+                    activity.setBackIdBg(path);
+                }
+            }
+
+            @Override
+            public void Error(String json, int flag) {
+
+            }
+        };
+    }
+
+    @Override
+    public void initListener() {
+        //点击保存
+        activity.getPersonalFileTitle().getRigthText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
 
     @Override
     public void selectSexMan() {
@@ -57,11 +99,6 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
         activity.getPersonalFileSexWoman().setChecked(true);
     }
 
-    @Override
-    public void selectAddress() {
-
-    }
-
     public void showPickerView() {// 弹出选择器
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(activity, new OnOptionsSelectListener() {
@@ -71,6 +108,8 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
                 String tx = options1Items.get(options1).getPickerViewText() +
                         options2Items.get(options1).get(options2) +
                         options3Items.get(options1).get(options2).get(options3);
+                activity.setAddress(tx);
+                activity.setAddressTextColor(Color.parseColor("#333333"));
 
             }
         })
@@ -81,15 +120,23 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
                 .setContentTextSize(20)
                 .build();
 
-        /*pvOptions.setPicker(options1Items);//一级选择器
-        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
     }
 
+    @Override
+    public void selectIdFront() {
+
+    }
 
     @Override
-    public void initJsonDate() {
+    public void selectIdBack() {
+
+    }
+
+
+    @Override
+    public void selectAddress() {
 
         /**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
@@ -166,8 +213,62 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
     }
 
 
+    @Override
+    public void ClickPhoto(View view) {
+        if (popupWindow == null)
+            popupWindow = new PhotoPopupWindow(activity);
+        popupWindow.showPopup();
+        ClickTakePhoto(view);
+        ClickPhotoSelect(view);
+        ClickPhotoCancle();
+    }
 
 
+    @Override
+    public void ClickTakePhoto(final View view) {
+        popupWindow.getTake().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.initTakePhoto(activity.getFrameTakePhoto(), view);
+                popupWindow.Dismiss();
+            }
+        });
+    }
 
+    @Override
+    public void ClickPhotoSelect(final View view) {
+        popupWindow.getSelect().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.initSelect(activity.getFrameTakePhoto(), view);
+                popupWindow.Dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void ClickPhotoCancle() {
+        popupWindow.getCancel().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.Dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void clickFrontX() {
+        activity.setFrontIdBg(R.mipmap.id_front);
+    }
+
+    @Override
+    public void clickBackX() {
+        activity.setBackIdBg(R.mipmap.id_back);
+    }
+
+    @Override
+    public void CalibrateIdCard(String fileCategory, String path) {
+        myAPI.CalibrateIdCard(activity,fileCategory, path, calibrateIResultMsg);
+    }
 
 }

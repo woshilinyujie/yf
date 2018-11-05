@@ -39,7 +39,7 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
           popupWindow.getTake().setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                    popupWindow.initTakePhoto(fragment.getFrameTakePhoto());
+                    popupWindow.initTakePhoto(fragment.getFrameTakePhoto(),null);
                     popupWindow.Dismiss();
               }
           });
@@ -50,7 +50,7 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
           popupWindow.getSelect().setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                  popupWindow.initSelect(fragment.getFrameTakePhoto());
+                  popupWindow.initSelect(fragment.getFrameTakePhoto(),null);
                   popupWindow.Dismiss();
               }
           });
