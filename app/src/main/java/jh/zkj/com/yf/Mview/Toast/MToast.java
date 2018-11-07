@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -27,6 +29,9 @@ public class MToast {
                 mToast = EToast.makeText(context, message, duration);
             } else {
                 mToast = android.widget.Toast.makeText(context, message, duration);
+                Toast t = (Toast) this.mToast;
+                t.setGravity(Gravity.CENTER, 0, 0);
+
             }
         }catch (Exception e){
             e.printStackTrace();

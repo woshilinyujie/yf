@@ -16,5 +16,6 @@ public class RegisterActivityContract  {
         void initDate();
         void sendCode();//发送验证码
         void Next();//下一步
+
     }
 }

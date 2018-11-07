@@ -34,15 +34,31 @@ public class ShopAnalyseSalseFragment extends MBaseFragment {
     MeasureListView salesTableList;
     private View rootView;
     private ShopAnalyseSalseFragmentPresenter present;
+    private String endData;
+    private String startData;
+    private String conpanyCode;
+    private String shopName;
 
-    public static ShopAnalyseSalseFragment newInstance() {
+    public static ShopAnalyseSalseFragment newInstance(String shopName,String startData,String endData,String conpanyCode) {
         ShopAnalyseSalseFragment fragment = new ShopAnalyseSalseFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("endData",endData);
+        bundle.putString("startData",startData);
+        bundle.putString("conpanyCode",conpanyCode);
+        bundle.putString("shopName",shopName);
+        fragment.setArguments(bundle);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        endData = getArguments().getString("endData");
+        startData = getArguments().getString("startData");
+        conpanyCode = getArguments().getString("conpanyCode");
+        shopName = getArguments().getString("shopName");
+
     }
 
     @Override
@@ -50,7 +66,7 @@ public class ShopAnalyseSalseFragment extends MBaseFragment {
         rootView = View.inflate(getActivity(), R.layout.shop_analyse_salse_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         present = new ShopAnalyseSalseFragmentPresenter(this);
-
+        present.getLinCharData(shopName,conpanyCode,startData,endData,"","","","");
         return rootView;
     }
 
@@ -70,5 +86,9 @@ public class ShopAnalyseSalseFragment extends MBaseFragment {
 
     public MeasureListView getSalesTableList() {
         return salesTableList;
+    }
+
+    public ShopAnalyseSalseFragmentPresenter getPresent() {
+        return present;
     }
 }

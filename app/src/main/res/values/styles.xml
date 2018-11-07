@@ -40,12 +40,10 @@
         <item name="android:windowFrame">@null</item>
         <!-- 是否浮现在activity之上 -->
         <item name="android:windowIsFloating">true</item>
-        <!--activity不变暗-->
-        <item name="android:backgroundDimEnabled">false</item>
         <!-- 是否背景模糊 -->
-        <!--<item name="android:backgroundDimEnabled">true</item>-->
+        <item name="android:backgroundDimEnabled">true</item>
         <!-- 设置背景模糊的透明度-->
-        <!--<item name="android:backgroundDimAmount">0.3</item>-->
+        <item name="android:backgroundDimAmount">0.3</item>
     </style>
 
     <!--阅读同意条款-->

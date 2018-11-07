@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -12,6 +13,7 @@ import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.CompanyFilesActivityContract;
 import jh.zkj.com.yf.Mview.TitleLayout;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.CompanyFilesActivityPresenter;
 import jh.zkj.com.yf.R;
 
@@ -111,5 +113,10 @@ public class CompanyFilesActivity extends MBaseActivity implements CompanyFilesA
     @Override
     public void setAddressTextColor(int color) {
         companyAddress.setTextColor(color);
+    }
+
+    @Override
+    public void showToast(String msg) {
+        MToast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 }

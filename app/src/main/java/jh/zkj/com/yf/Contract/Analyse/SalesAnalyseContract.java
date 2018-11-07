@@ -2,6 +2,8 @@ package jh.zkj.com.yf.Contract.Analyse;
 
 import android.view.View;
 
+import jh.zkj.com.yf.Bean.ShopNameBean;
+
 /**
  * Created by linyujie on 18/10/16.
  */
@@ -14,10 +16,12 @@ public class SalesAnalyseContract {
         void setTitle(String title);
     }
     public  interface SalesAnalysePresent{
+        void initDate(ShopNameBean bean);
         void initViewpager();
         void selectShop(View view);//店铺选择
         void selectData(View view);//时间选择
         void setInfoListener();//选择的时间和商品信息监听
         void setShopNameListener();//选择的店铺监听
+        void getshopName();
     }
 }

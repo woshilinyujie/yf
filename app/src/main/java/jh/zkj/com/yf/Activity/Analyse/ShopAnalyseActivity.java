@@ -46,7 +46,7 @@ public class ShopAnalyseActivity extends MBaseActivity implements ShopAnalyseCon
     RelativeLayout shopAnalyseSelectDataRl;
     @BindView(R.id.shop_analyse_select_data_ll)
     LinearLayout shopAnalyseSelectDataLl;
-    private ShopAnalysePresenter shopAnalysePresent;
+    public ShopAnalysePresenter shopAnalysePresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,6 @@ public class ShopAnalyseActivity extends MBaseActivity implements ShopAnalyseCon
         setContentView(R.layout.activity_shop_analyse);
         ButterKnife.bind(this);
         shopAnalysePresent = new ShopAnalysePresenter(this);
-        shopAnalysePresent.initViewpager();
     }
 
     public SlidingTabLayout getShopAnalyseTab() {

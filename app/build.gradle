@@ -44,4 +44,5 @@ dependencies {
     implementation project(':MPChartLib')
     implementation 'com.alibaba:fastjson:1.2.51'
     compile project(path: ':takephoto_library')
+    implementation files('libs/sun.misc.base64decoder 2.jar')
 }

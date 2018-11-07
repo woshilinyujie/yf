@@ -19,7 +19,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Activity.My.CompanyFilesActivity;
+import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
+import jh.zkj.com.yf.Activity.My.RegisterActivity;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureViewpager;
 import jh.zkj.com.yf.Mview.SwitchText;
@@ -127,7 +129,7 @@ public class HomeFragment extends MBaseFragment {
                 presenter.toRetailOrder();
                 break;
             case R.id.home_fragment_common_menu_two://常用2
-                Intent intent=new Intent(getActivity(),CompanyFilesActivity.class);
+                Intent intent=new Intent(getActivity(),RegisterActivity.class);
                 startActivity(intent);
                 break;
             case R.id.home_fragment_common_menu_three://常用3

@@ -33,15 +33,26 @@ public class ShopManAnalyseSalseMoneyFragment extends MBaseFragment {
     private View rootView;
     private Unbinder unbinder;
     private ShopManAnalyseSalseMoneyPresenter present;
+    private String endData;
+    private String startData;
+    private String conpanyCode;
 
-    public static ShopManAnalyseSalseMoneyFragment newInstance() {
+    public static ShopManAnalyseSalseMoneyFragment newInstance(String startData,String endData,String conpanyCode) {
         ShopManAnalyseSalseMoneyFragment fragment = new ShopManAnalyseSalseMoneyFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("endData",endData);
+        bundle.putString("startData",startData);
+        bundle.putString("conpanyCode",conpanyCode);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        endData = getArguments().getString("endData");
+        startData = getArguments().getString("startData");
+        conpanyCode = getArguments().getString("conpanyCode");
     }
 
     @Override

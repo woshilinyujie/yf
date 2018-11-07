@@ -8,16 +8,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.lzy.okgo.OkGo;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.LoginActivityContract;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.LoginActivityPresenter;
 import jh.zkj.com.yf.R;
 
 /**
+ * lyj
  * 登录
  */
 
@@ -51,6 +60,7 @@ public class LoginActivity extends MBaseActivity implements LoginActivityContrac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         loginActivityPresenter = new LoginActivityPresenter(this);
     }
@@ -65,9 +75,7 @@ public class LoginActivity extends MBaseActivity implements LoginActivityContrac
                 setPassWord("");
                 break;
             case R.id.login_enter://登录
-                Intent intent=new Intent(this,SelectCompanyActivity.class);
-                intent.putExtra("phone",loginPhoneEt.getText().toString());
-                startActivity(intent);
+                loginActivityPresenter.loginCRM();
                 break;
             case R.id.login_forget_password://忘记密码
                 break;
@@ -98,6 +106,11 @@ public class LoginActivity extends MBaseActivity implements LoginActivityContrac
         loginEnter.setBackgroundResource(resoues);
     }
 
+    @Override
+    public void showToast(String msg) {
+        MToast.makeText(this,msg, Toast.LENGTH_SHORT).show();
+    }
+
     public Button getLoginEnter() {
         return loginEnter;
     }
@@ -108,5 +121,19 @@ public class LoginActivity extends MBaseActivity implements LoginActivityContrac
 
     public EditText getLoginPassWordEt() {
         return loginPassWordEt;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelTag(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBus(String s){
+        if(s.equals("LoginFinish")){
+            finish();
+        }
     }
 }

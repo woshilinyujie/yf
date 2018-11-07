@@ -82,7 +82,7 @@
         <EditText
             android:id="@+id/register_code_et"
             android:textCursorDrawable="@null"
-            android:maxLength="8"
+            android:maxLength="6"
             android:inputType="number"
             android:layout_marginRight="@dimen/dp_120"
             android:layout_width="match_parent"

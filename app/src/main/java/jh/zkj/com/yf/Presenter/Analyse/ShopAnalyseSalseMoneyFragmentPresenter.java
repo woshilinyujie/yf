@@ -103,7 +103,7 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
     @Override
     public void initChart() {
         mLineChart = fragment.getSalesMoneyChart();
-        LineData mLineData = getLineData(7, 100);
+        LineData mLineData = getLineData(30, 100);
         showChart(mLineChart, mLineData, Color.rgb(114, 188, 223));
     }
 
@@ -141,18 +141,18 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
         xl.setDrawGridLines(false);
         xl.setDrawAxisLine(false);
         xl.setTextColor(Color.parseColor("#a6a6a6"));
-        final String[] valueArry = {"10.1", "10.2", "10.3", "10.4", "10.5","10.6", "10.7"};
-        final Map<Integer, String> xMap = new HashMap<>();
-        for (int i = 0; i < yValues.size(); i++) {
-            xMap.put((int) yValues.get(i).getX(), valueArry[i]);
-        }
-
-        xl.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return xMap.get((int)value);
-            }
-        });
+//        final String[] valueArry = {"10.1", "10.2", "10.3", "10.4", "10.5","10.6", "10.7"};
+//        final Map<Integer, String> xMap = new HashMap<>();
+//        for (int i = 0; i < yValues.size(); i++) {
+//            xMap.put((int) yValues.get(i).getX(), valueArry[i]);
+//        }
+//
+//        xl.setValueFormatter(new IAxisValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//                return xMap.get((int)value);
+//            }
+//        });
         MyMarkerView mv = new MyMarkerView(fragment.getActivity(),
                 R.layout.custom_marker_view);
         mv.setChartView(mLineChart); // For bounds control
@@ -160,7 +160,6 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
         Description description = new Description();
         description.setText("");
         mLineChart.setDescription(description);
-
         return lineData;
     }
 
@@ -178,7 +177,7 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
         mLegend.setForm(Legend.LegendForm.CIRCLE);// 样式
         mLegend.setFormSize(0);// 字体
         mLegend.setTextColor(Color.WHITE);// 颜色
-//        mLineChart.getViewPortHandler().getMatrixTouch().postScale(9.8f, 1f);//默认缩放
+        mLineChart.getViewPortHandler().getMatrixTouch().postScale(9.8f, 1f);//默认缩放
         lineChart.setGridBackgroundColor(Color.parseColor("#f6f7fb"));
     }
 
