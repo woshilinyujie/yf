@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class RetailOrderBean {
     //业务员
-    private ArrayList<SalesmanBean> salesmanList = new ArrayList<>();
+    private ArrayList<SalesmanBean.RecordsBean> salesmanList = new ArrayList<>();
 
     //客户
     private ClientInfoBean client = new ClientInfoBean();
@@ -17,7 +17,7 @@ public class RetailOrderBean {
     //商品数据
     private ArrayList<CommodityInfoBean> comList = new ArrayList<>();
 
-    public ArrayList<SalesmanBean> getSalesmanList() {
+    public ArrayList<SalesmanBean.RecordsBean> getSalesmanList() {
         return salesmanList;
     }
 
@@ -25,7 +25,7 @@ public class RetailOrderBean {
         salesmanList.clear();
     }
 
-    public void addAllSalesmanList(ArrayList<SalesmanBean> salesmanList) {
+    public void addAllSalesmanList(ArrayList<SalesmanBean.RecordsBean> salesmanList) {
         this.salesmanList.addAll(salesmanList);
     }
 

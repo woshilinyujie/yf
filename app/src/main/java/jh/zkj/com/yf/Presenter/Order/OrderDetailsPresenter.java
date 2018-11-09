@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -25,11 +26,13 @@ import butterknife.ButterKnife;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
+import jh.zkj.com.yf.Activity.Order.ReceivableDetailActivity;
 import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
 import jh.zkj.com.yf.Bean.OrderBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.OrderDetailsContract;
+import jh.zkj.com.yf.Mutils.BigDecimalUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.R;
 
@@ -186,6 +189,14 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
                 if("收款详情".equals(item.getKey())){
                     holder.value.setText("");
                     holder.arrow.setVisibility(View.VISIBLE);
+                    holder.view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(activity, ReceivableDetailActivity.class);
+                            intent.putExtra(OrderConfig.TYPE_STRING_BILL_UUID, orderBean.getBizSoOutUuid());
+                            activity.startActivity(intent);
+                        }
+                    });
                 }else{
                     holder.value.setText(item.getValue());
                     holder.arrow.setVisibility(View.GONE);
@@ -252,7 +263,17 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         public void onBindViewHolder(ViewHolder holder, int position) {
             OrderDetailsBean.DetailDTOListBean item = getItem(position);
             if(item != null){
+                holder.name.setText(item.getSkuFullName());
 
+                BigDecimal price = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2);
+
+                holder.price.setText(BigDecimalUtils.formatToNumber(price));
+
+                holder.commodityNum.setText(String.valueOf(item.getNum()));
+
+                BigDecimal totalPrice = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2).multiply(new BigDecimal(item.getNum()));
+
+                holder.totalPrice.setText(BigDecimalUtils.formatToNumber(totalPrice));
             }
         }
 
@@ -310,7 +331,11 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
                     detailAdapter.notifyData(detailList);
 
                     if(orderBean.getDetailDTOList() != null){
-                        activity.setTotalNumText("" + orderBean.getDetailDTOList().size());
+                        int count = 0;
+                        for(OrderDetailsBean.DetailDTOListBean DTObean : orderBean.getDetailDTOList()){
+                            count += DTObean.getNum();
+                        }
+                        activity.setTotalNumText("" + count);
                         activity.setTotalText(total + " 元");
                         infoAdapter.notifyData(orderBean.getDetailDTOList());
                     }

@@ -62,6 +62,9 @@
             app:layout_constraintTop_toTopOf="@id/retail_list_line"
             android:layout_marginTop="@dimen/dp_10"
             android:textSize="@dimen/dp_14"
+            android:maxWidth="@dimen/dp_200"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:includeFontPadding="false"
             android:textColor="@color/c_333333"/>
 
@@ -76,7 +79,7 @@
             android:textSize="@dimen/dp_12"
             android:textColor="@color/c_333333"
             android:includeFontPadding="false"
-            android:layout_marginLeft="@dimen/dp_36"/>
+            android:layout_marginLeft="@dimen/dp_8"/>
 
         <TextView
             android:id="@+id/retail_list_number"

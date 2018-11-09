@@ -18,8 +18,10 @@ import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.ClientInfoBean;
 import jh.zkj.com.yf.Bean.CommodityBean;
 import jh.zkj.com.yf.Bean.HarvestModeBean;
+import jh.zkj.com.yf.Bean.HomeMenuBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Bean.OrderListBean;
+import jh.zkj.com.yf.Bean.ReceivableTypeBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Mutils.GsonUtils;
@@ -31,22 +33,26 @@ import jh.zkj.com.yf.Mview.Toast.EToast;
 
 public class OrderAPI {
     public final String API = APIConstant.API;
-    public final String TOKEN = "bearer 1b57bd2a-6925-40a8-9163-86a3fc75bf04";
+//    public final String TOKEN = "bearer 292f06ac-f530-4218-a991-b1440ebc3d17";
+    public final String TOKEN = "bearer 4df6f81c-72ea-444e-a489-3e66ea06f44e";
 
     /**
      * 获取业务员信息
+     * http://localhost:3001/erp/basic/user/list?access_token=73677450-0871-4b41-8059-c0e4aea6348d&pageNum=1&pageSize=50&name=吴&soClerkFlag=1
      */
-    public void getSalesmanInfo(String keyWord, int pageNum, int pageSize, final IResultMsg<ArrayList<SalesmanBean>> iResultMsg) {
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_USER)
+
+    public void getSalesmanInfo(String name, int pageNum, int pageSize, final IResultMsg<SalesmanBean> iResultMsg) {
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_USER_LIST)
                 .headers("Authorization", TOKEN)
-                .params("keyWord", keyWord)
+                .params("name", name)
                 .params("pageNum", pageNum)
                 .params("pageSize", pageSize)
+                .params("soClerkFlag", 1)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        BaseBean<ArrayList<SalesmanBean>> arrayListBaseBean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<ArrayList<SalesmanBean>>>() {
+                        BaseBean<SalesmanBean> arrayListBaseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<SalesmanBean>>() {
                                 });
 
                         if (APIConstant.REQUEST_SUCCESS.equals(arrayListBaseBean.getCode())) {
@@ -71,7 +77,7 @@ public class OrderAPI {
     public void getSearchCommodity(String keyWord, int pageNum, int pageSize, final IResultMsg<CommodityBean> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_PRODUCT_KEYWORDS)
                 .headers("Authorization", TOKEN)
-                .params("keyWord", keyWord)
+                .params("keywords", keyWord)
                 .params("pageNum", pageNum)
                 .params("pageSize", pageSize)
                 .execute(new StringCallback() {
@@ -109,7 +115,7 @@ public class OrderAPI {
     public void getClientInfo(String keyWord, int pageNum, int pageSize, final IResultMsg<ArrayList<ClientInfoBean>> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_MEMBER_INFO)
                 .headers("Authorization", TOKEN)
-                .params("keyWord", keyWord)
+                .params("keywords", keyWord)
                 .params("pageNum", pageNum)
                 .params("pageSize", pageSize)
                 .params("identNo", "")
@@ -164,7 +170,7 @@ public class OrderAPI {
                         if (APIConstant.REQUEST_SUCCESS.equals(orderNum.getCode())) {
                             iResultMsg.Result(orderNum.getData());
                         } else {
-
+                            iResultMsg.Result(null);
                         }
 
                     }
@@ -213,13 +219,15 @@ public class OrderAPI {
      * type  1.未收款 2.以收款 3.已取消
      */
 
-    public void getMyOrderList(String type, String keywords, int pageNum, int pageSize, final int flag, final IResultMsgOne<OrderListBean> iResultMsg) {
+    public void getMyOrderList(String type, String keywords, int pageNum, int pageSize, final int flag
+            , String scope, final IResultMsgOne<OrderListBean> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
                 .headers("Authorization", TOKEN)
                 .params("type", type)
                 .params("pageNum", pageNum)
                 .params("pageSize", pageSize)
                 .params("keywords", keywords)
+                .params("scope", scope)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -298,14 +306,47 @@ public class OrderAPI {
     /**
      * 取消订单
      */
-    public void getCancelOrder(String orderId, final IResultMsg<String> iResultMsg) {
-        OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SO_CANCEL_ORDER + orderId)
+    public void getCancelOrder(String billNo, String reason, final IResultMsg<String> iResultMsg) {
+        OkGo.<String>delete(API + HttpConstant.HTTP_BIZ_SO_CANCEL_ORDER)
                 .headers("Authorization", TOKEN)
+                .isSpliceUrl(true)
+                .params("reason", reason)
+                .params("billNo", billNo)
+//                .upJson(reason)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         BaseBean<String> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<String>>() {});
+                        if (APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())) {
+                            iResultMsg.Result(baseBean.getData());
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        iResultMsg.Error(response.body());
+                    }
+                });
+
+    }
+
+
+    /**
+     * 获取收款方式详情：
+     */
+    public void getCashierTypeDetail(String uuid, String bizSoOutUuid, final IResultMsg<ArrayList<ReceivableTypeBean>> iResultMsg) {
+        OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SO_RECEIVABLE_DETAIL + uuid)
+                .headers("Authorization", TOKEN)
+                .params("bizSoOutUuid", bizSoOutUuid)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        BaseBean<ArrayList<ReceivableTypeBean>> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<ReceivableTypeBean>>>() {});
                         if (APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())) {
                             iResultMsg.Result(baseBean.getData());
                         } else {

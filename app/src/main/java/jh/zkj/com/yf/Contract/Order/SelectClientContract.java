@@ -12,6 +12,6 @@ public class SelectClientContract {
     }
 
     public interface ISelectClientPresenter{
-
+        void finishActivity();
     }
 }

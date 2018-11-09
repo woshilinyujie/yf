@@ -52,8 +52,8 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     private SelectSalesmanAdapter adapter;
     private OrderAPI api;
     private Gson gson;
-    private ArrayList<SalesmanBean> salesmanList = new ArrayList<>();
-    private ArrayList<SalesmanBean> selectSalesmans = new ArrayList<>();
+    private ArrayList<SalesmanBean.RecordsBean> salesmanList = new ArrayList<>();
+    private ArrayList<SalesmanBean.RecordsBean> selectSalesmans = new ArrayList<>();
     private LoadingDialog loadingDialog;
 
     //页码
@@ -61,6 +61,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     //每次拉取数据数量
     private int pageSize = 10;
     private boolean isMore = true;//是否还有更多
+    private String searchText = "";
 
     public SelectSalesmanPresenter(SelectSalesmanActivity activity) {
         this.activity = activity;
@@ -73,14 +74,14 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 pageNum = 1;
-                getSalesmanList("", pageNum, pageSize, refreshMsg);
+                getSalesmanList(searchText, pageNum, pageSize, refreshMsg);
             }
 
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 pageNum++;
-                getSalesmanList("", pageNum, pageSize, loadMoreMsg);
+                getSalesmanList(searchText, pageNum, pageSize, loadMoreMsg);
             }
         });
 
@@ -88,8 +89,9 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                    pageNum = 0;
-                    getSalesmanList(activity.getSearch().getText().toString(), pageNum, pageSize, refreshMsg);
+                    pageNum = 1;
+                    searchText = activity.getSearch().getText().toString();
+                    getSalesmanList(searchText, pageNum, pageSize, refreshMsg);
                     return true;
                 }
                 return false;
@@ -98,15 +100,16 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     }
 
     private void initPresenter() {
+        activity.getSearch().setHint("业务员姓名");
         api = new OrderAPI();
         gson = new Gson();
         if((ArrayList<SalesmanBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_SALESMAN_LIST) != null ){
-            selectSalesmans.addAll((ArrayList<SalesmanBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_SALESMAN_LIST));
+            selectSalesmans.addAll((ArrayList<SalesmanBean.RecordsBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_SALESMAN_LIST));
         }
 
         initAdapter();
         pageNum = 1;
-        getSalesmanList("", pageNum, pageSize, refreshMsg);
+        getSalesmanList(searchText, pageNum, pageSize, refreshMsg);
     }
 
     private void initAdapter() {
@@ -132,7 +135,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         private Bitmap select;
         private Bitmap unSelect;
 
-        private ArrayList<SalesmanBean> mArr = new ArrayList<>();
+        private ArrayList<SalesmanBean.RecordsBean> mArr = new ArrayList<>();
 
         public SelectSalesmanAdapter() {
             Resources res = activity.getResources();
@@ -142,7 +145,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         }
 
         //后期传入刷新
-        public void notifyData(ArrayList<SalesmanBean> arr) {
+        public void notifyData(ArrayList<SalesmanBean.RecordsBean> arr) {
             if(arr != null){
                 mArr.clear();
                 mArr.addAll(arr);
@@ -156,7 +159,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
             return new ViewHolder(view);
         }
 
-        public SalesmanBean getItem(int position) {
+        public SalesmanBean.RecordsBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
@@ -171,7 +174,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
 
-            final SalesmanBean item = getItem(position);
+            final SalesmanBean.RecordsBean item = getItem(position);
             holder.name.setText(item.getName());
             if(item.isSelect()){
                 holder.selectImg.setImageBitmap(select);
@@ -233,29 +236,30 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
 
     //************************************************************************************************
     //下拉刷新时使用
-    private OrderAPI.IResultMsg<ArrayList<SalesmanBean>> refreshMsg = new OrderAPI.IResultMsg<ArrayList<SalesmanBean>>() {
+    private OrderAPI.IResultMsg<SalesmanBean> refreshMsg = new OrderAPI.IResultMsg<SalesmanBean>() {
         @Override
-        public void Result(ArrayList<SalesmanBean> beans) {
+        public void Result(SalesmanBean beans) {
 
             if (loadingDialog.isShowing()) {
                 loadingDialog.dismissLoading();
             }
 
             activity.getRefresh().finishRefreshing();
-
-            isMore = true;
-            salesmanList = beans;
-            //查看有无已选
-            for (SalesmanBean selectBean :  selectSalesmans){
-                for (SalesmanBean bean : salesmanList){
-                    if(selectBean.getUuid().equals(bean.getUuid())){
-                        bean.setSelect(true);
-                        break;
+            if(beans != null){
+                isMore = true;
+                salesmanList = beans.getRecords();
+                //查看有无已选
+                for (SalesmanBean.RecordsBean selectBean :  selectSalesmans){
+                    for (SalesmanBean.RecordsBean bean : salesmanList){
+                        if(selectBean.getUuid().equals(bean.getUuid())){
+                            bean.setSelect(true);
+                            break;
+                        }
                     }
                 }
-            }
 
-            adapter.notifyData(salesmanList);
+                adapter.notifyData(salesmanList);
+            }
         }
 
         @Override
@@ -274,33 +278,36 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     };
 
     //加载更多时使用
-    private OrderAPI.IResultMsg<ArrayList<SalesmanBean>> loadMoreMsg = new OrderAPI.IResultMsg<ArrayList<SalesmanBean>>() {
+    private OrderAPI.IResultMsg<SalesmanBean> loadMoreMsg = new OrderAPI.IResultMsg<SalesmanBean>() {
         @Override
-        public void Result(ArrayList<SalesmanBean> beans) {
+        public void Result(SalesmanBean bean) {
 
             if (loadingDialog.isShowing()) {
                 loadingDialog.dismissLoading();
             }
 
             activity.getRefresh().finishLoadmore();
-            if(beans != null && beans.size() > 0){
-                isMore = true;
-                //查看有无已选
-                for (SalesmanBean selectBean :  selectSalesmans){
-                    for (SalesmanBean bean : beans){
-                        if(selectBean.getUuid().equals(bean.getUuid())){
-                            bean.setSelect(true);
-                            break;
+            if(bean != null){
+                if(bean.getRecords() != null && bean.getRecords().size() > 0){
+                    isMore = true;
+                    //查看有无已选
+                    for (SalesmanBean.RecordsBean selectBean :  selectSalesmans){
+                        for (SalesmanBean.RecordsBean record : bean.getRecords()){
+                            if(selectBean.getUuid().equals(record.getUuid())){
+                                record.setSelect(true);
+                                break;
+                            }
                         }
                     }
+
+                    salesmanList.addAll(bean.getRecords());
+                }else{
+                    isMore = false;
                 }
 
-                salesmanList.addAll(beans);
-            }else{
-                isMore = false;
+                adapter.notifyData(salesmanList);
             }
 
-            adapter.notifyData(salesmanList);
         }
 
         @Override
@@ -317,7 +324,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         }
     };
 
-    public void getSalesmanList(String key, int pageNum, int pageSize, OrderAPI.IResultMsg<ArrayList<SalesmanBean>> msg) {
+    public void getSalesmanList(String key, int pageNum, int pageSize, OrderAPI.IResultMsg<SalesmanBean> msg) {
 
         if(loadingDialog == null){
             loadingDialog = new LoadingDialog(activity);

@@ -40,7 +40,7 @@ public class CreateOrderBean {
     private String remark;
     private String uuid;
     private String ascriptionCompanyUuid;
-    private String bizDate;
+    private String bizDate = "";
     private String memberUuid;
     private String identNo;
     private String identType;
@@ -56,7 +56,8 @@ public class CreateOrderBean {
     private String printTime;
     private String unauditUserUuid;
     private String printUserUuid;
-    private List<ModDetailListBean> modDetailList = new ArrayList<>();
+    private List<DetailListBean> modDetailList = new ArrayList<>();
+    private List<DetailListBean> newDetailList = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -226,21 +227,35 @@ public class CreateOrderBean {
         this.printUserUuid = printUserUuid;
     }
 
-    public List<ModDetailListBean> getModDetailList() {
+    public List<DetailListBean> getModDetailList() {
         return modDetailList;
     }
 
-    public void setModDetailList(List<ModDetailListBean> modDetailList) {
+    public void setModDetailList(List<DetailListBean> modDetailList) {
         this.modDetailList = modDetailList;
     }
 
+    public List<DetailListBean> getNewDetailList() {
+        return newDetailList;
+    }
+
+    public void setNewDetailList(List<DetailListBean> newDetailList) {
+        this.newDetailList = newDetailList;
+    }
+
     public int createtModDeta(){
-        ModDetailListBean modDetailListBean = new ModDetailListBean();
+        DetailListBean modDetailListBean = new DetailListBean();
         modDetailList.add(modDetailListBean);
         return modDetailList.size() - 1;
     }
 
-    public class ModDetailListBean {
+    public int createtNewDeta(){
+        DetailListBean newDetailListBean = new DetailListBean();
+        newDetailList.add(newDetailListBean);
+        return newDetailList.size() - 1;
+    }
+
+    public class DetailListBean {
 
         /**
          * skuUuid : 0993350991e547ca88c554b51ba648f2

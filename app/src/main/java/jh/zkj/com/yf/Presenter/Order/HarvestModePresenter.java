@@ -201,9 +201,15 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         if(!ischange){
+
                             if(!TextUtils.isEmpty(s.toString())){
-                                //每次都要遍历集合进行计算
-                                item.setAmount(s.toString());
+                                if(".".equals(s.toString())){
+                                    item.setAmount("0");
+                                    holder.money.setText("0.");
+                                    holder.money.setSelection(2);
+                                }else{
+                                    item.setAmount(s.toString());
+                                }
                                 holder.select.setImageBitmap(blue);
                             }else{
                                 holder.select.setImageBitmap(gray);
@@ -217,7 +223,16 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
                     @Override
-                    public void afterTextChanged(Editable s) { }
+                    public void afterTextChanged(Editable edt) {
+                        if(!ischange){
+                            String temp = edt.toString();
+                            int posDot = temp.indexOf(".");
+                            if (posDot <= 0) return;
+                            if (temp.length() - posDot - 1 > 2) {
+                                edt.delete(posDot + 3, posDot + 4);
+                            }
+                        }
+                    }
                 });
             }
 

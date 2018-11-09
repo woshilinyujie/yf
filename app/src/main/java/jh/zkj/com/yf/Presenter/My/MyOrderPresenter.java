@@ -3,7 +3,12 @@ package jh.zkj.com.yf.Presenter.My;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.TextureView;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -32,13 +37,17 @@ public class MyOrderPresenter implements MyOrderContract.IMyRetailFindPresenter 
     }
 
     private void initListener() {
-        activity.getSearch().setOnClickListener(new View.OnClickListener() {
+        activity.getSearch().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                if(position < fragments.size()){
-                    ((RetailListFragment) fragments.get(position))
-                            .clickSearch(activity.getSearch().getText().toString());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    if(position < fragments.size()){
+                        ((RetailListFragment) fragments.get(position))
+                                .clickSearch(activity.getSearch().getText().toString());
+                    }
+                    return true;
                 }
+                return false;
             }
         });
 
@@ -65,10 +74,14 @@ public class MyOrderPresenter implements MyOrderContract.IMyRetailFindPresenter 
     }
 
     private void initData() {
+        String scope = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_SCOPE);
+        if(TextUtils.isEmpty(scope)){
+            return;
+        }
         titles = new String[]{"未收款", "已收款", "已取消"};
-        RetailListFragment allRetail = RetailListFragment.newInstance(OrderConfig.STATUS_UN_SUCCESS);
-        RetailListFragment receivables = RetailListFragment.newInstance(OrderConfig.STATUS_SUCCESS);
-        RetailListFragment unReceivables = RetailListFragment.newInstance(OrderConfig.STATUS_CANCEL);
+        RetailListFragment allRetail = RetailListFragment.newInstance(OrderConfig.STATUS_UN_SUCCESS, scope);
+        RetailListFragment receivables = RetailListFragment.newInstance(OrderConfig.STATUS_SUCCESS, scope);
+        RetailListFragment unReceivables = RetailListFragment.newInstance(OrderConfig.STATUS_CANCEL, scope);
         fragments.add(allRetail);
         fragments.add(receivables);
         fragments.add(unReceivables);

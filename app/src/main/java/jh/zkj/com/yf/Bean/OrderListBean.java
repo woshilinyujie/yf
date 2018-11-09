@@ -130,6 +130,9 @@ public class OrderListBean {
             private String soOutCreateTime;
             private String soOutCreateUserUuid;
             private String soOutCreateUserName;
+            private String createTime;
+            private String totalAmount;
+            private String totalQuantity;
             private List<BizSoDetailBean> bizSoDetail;
             private List<BizSoClerkBean> bizSoClerk;
 
@@ -499,6 +502,30 @@ public class OrderListBean {
 
             public void setBizSoClerk(List<BizSoClerkBean> bizSoClerk) {
                 this.bizSoClerk = bizSoClerk;
+            }
+
+            public String getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
+            }
+
+            public String getTotalAmount() {
+                return totalAmount;
+            }
+
+            public void setTotalAmount(String totalAmount) {
+                this.totalAmount = totalAmount;
+            }
+
+            public String getTotalQuantity() {
+                return totalQuantity;
+            }
+
+            public void setTotalQuantity(String totalQuantity) {
+                this.totalQuantity = totalQuantity;
             }
 
             public static class BizSoDetailBean {

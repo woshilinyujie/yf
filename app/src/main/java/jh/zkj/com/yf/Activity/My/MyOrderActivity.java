@@ -17,7 +17,7 @@ import jh.zkj.com.yf.R;
 /**
  * Created by wdefer
  * 2018/10/13
- * use  我的订单查询
+ * use  我的订单查询(后来加入了全部功能)
  */
 public class MyOrderActivity extends MBaseActivity implements MyOrderContract.IMyRetailFindView{
 

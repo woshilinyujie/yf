@@ -36,15 +36,15 @@
         <!--  -->
         <activity android:name=".Activity.Order.SelectCommodityActivity"/>
         <!-- 我的库存 -->
-        <activity android:name=".Activity.My.MyOrderActivity" />
-        <activity android:name=".Activity.My.UserNameActivity" />
-        <activity android:name=".Activity.My.PhoneActivity" />
-        <activity android:name=".Activity.My.ModifyPasswordActivity" />
-        <activity android:name=".Activity.My.EmailActivity" />
-        <activity android:name=".Activity.My.SelectCompanyActivity" />
-        <activity android:name=".Activity.My.RegisterActivity" />
-        <activity android:name=".Activity.My.PersonalFileActivity" />
-        <activity android:name=".Activity.My.CompanyFilesActivity" />
+        <activity android:name=".Activity.My.MyOrderActivity"/>
+        <activity android:name=".Activity.My.UserNameActivity"/>
+        <activity android:name=".Activity.My.PhoneActivity"/>
+        <activity android:name=".Activity.My.ModifyPasswordActivity"/>
+        <activity android:name=".Activity.My.EmailActivity"/>
+        <activity android:name=".Activity.My.SelectCompanyActivity"/>
+        <activity android:name=".Activity.My.RegisterActivity"/>
+        <activity android:name=".Activity.My.PersonalFileActivity"/>
+        <activity android:name=".Activity.My.CompanyFilesActivity"/>
 
         <!-- 分仓库存选择仓库 -->
         <activity android:name=".Activity.Stock.ChildWarehouseActivity"/>
@@ -59,6 +59,12 @@
         <activity android:name=".Activity.My.ForgetPassWordActivity"/>
         <activity android:name=".Activity.My.BindPhoneActivity"/>
         <activity android:name=".Activity.Order.HarvestModeActivity">
+        </activity>
+        <activity android:name=".Activity.Home.BasicInfoActivity">
+        </activity>
+        <activity android:name=".Activity.Home.CompanyActivity">
+        </activity>
+        <activity android:name=".Activity.Order.ReceivableDetailActivity">
         </activity>
     </application>
 

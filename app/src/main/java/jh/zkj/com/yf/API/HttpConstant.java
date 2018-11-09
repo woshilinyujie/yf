@@ -7,7 +7,7 @@ package jh.zkj.com.yf.API;
  */
 public class HttpConstant {
     //获取业务员列表
-    public static String HTTP_BASIC_DATA_USER = "erp/basic/data/user";
+    public static String HTTP_BASIC_USER_LIST = "erp/basic/user/list";
     //搜索商品
     public static String HTTP_BASIC_PRODUCT_KEYWORDS = "erp/basic/product/keywords";
     //获取会员的接口
@@ -21,5 +21,9 @@ public class HttpConstant {
     //确认收款
     public static String HTTP_BIZ_SO_OUT_APP = "erp/biz/soOut/app";
     //取消订单
-    public static String HTTP_BIZ_SO_CANCEL_ORDER = "erp/biz/so/app";
+    public static String HTTP_BIZ_SO_CANCEL_ORDER = "erp/biz/so/app/cancel";
+    //收款方式详情
+    public static String HTTP_BIZ_SO_RECEIVABLE_DETAIL = "erp/biz/soOut/app";
+    //首页上方的按钮
+    public static String HTTP_BASIC_MENU_LIST = "erp/basic/menu/list";
 }

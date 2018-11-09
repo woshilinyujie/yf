@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,29 +78,39 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         status = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
         total = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL);
 
+        initAdapter();
+        api = new OrderAPI();
         if(orderBean != null){
-            activity.setOrder(orderBean.getBillNo());
-            if(OrderConfig.STATUS_UN_SUCCESS.equals(status)){
-                activity.setOrderStatus("未收款");
-            }else if (OrderConfig.STATUS_SUCCESS.equals(status)){
-                activity.setOrderStatus("已收款");
-            }else if (OrderConfig.STATUS_CANCEL.equals(status)){
-                activity.setOrderStatus("已取消");
-            }
-            activity.setName(orderBean.getName());
-            activity.setPhone(orderBean.getMobilePhone());
-            if(orderBean.getDetailDTOList() != null && orderBean.getDetailDTOList().size() > 0){
-                activity.setNumber("共" + orderBean.getDetailDTOList().size() + "件");
-                activity.setOrderTitle(orderBean.getDetailDTOList().get(0).getSkuFullName());
-            }
-            activity.setUserName(orderBean.getCreateUserName());
-            activity.setMoney(total);
-            activity.setDate(orderBean.getBizDate());
+            setData();
+        }else{
+            String billNo = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER);
+            getQueryOrder(billNo);
         }
 
-        initAdapter();
+    }
 
-        api = new OrderAPI();
+    private void setData() {
+        activity.setOrder("订单编号：" + orderBean.getBillNo());
+        if(OrderConfig.STATUS_UN_SUCCESS.equals(status)){
+            activity.setOrderStatus("未收款");
+        }else if (OrderConfig.STATUS_SUCCESS.equals(status)){
+            activity.setOrderStatus("已收款");
+        }else if (OrderConfig.STATUS_CANCEL.equals(status)){
+            activity.setOrderStatus("已取消");
+        }
+        activity.setName(orderBean.getName());
+        activity.setPhone(orderBean.getMobilePhone());
+        if(orderBean.getDetailDTOList() != null && orderBean.getDetailDTOList().size() > 0){
+            int count = 0;
+            for(OrderDetailsBean.DetailDTOListBean DTObean : orderBean.getDetailDTOList()){
+                count += DTObean.getQty();
+            }
+            activity.setNumber("共" + count + "件");
+            activity.setOrderTitle(orderBean.getDetailDTOList().get(0).getSkuFullName());
+        }
+        activity.setUserName("下单人：" + orderBean.getCreateUserName());
+        activity.setMoney(total);
+        activity.setDate(orderBean.getBizDate());
     }
 
     private void initAdapter() {
@@ -158,37 +169,6 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         }
     }
 
-    //提交订单
-    public void getReceivableSuccess() {
-        if(orderBean.getNewCashierList() == null || orderBean.getNewCashierList().size() > 0){
-            MToast.makeText(activity, "请选择收款方式", MToast.LENGTH_SHORT).show();
-            return;
-        }
-
-        orderBean.setRemark(remakeText);
-        String json = JSON.toJSONString(orderBean);
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
-        api.getReceivableSuccess(json, new OrderAPI.IResultMsg<String>() {
-            @Override
-            public void Result(String bean) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
-                activity.setResult(Activity.RESULT_OK);
-                activity.finish();
-            }
-
-            @Override
-            public void Error(String json) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
-            }
-        });
-    }
 
     /**
      * 使用：
@@ -271,5 +251,77 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
                 ButterKnife.bind(this, itemView);
             }
         }
+    }
+
+    //**********************************************************************************************
+    //查询详情
+    public void getQueryOrder(final String orderNum) {
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(activity);
+        }
+        loadingDialog.showLoading();
+
+        api.getQueryOrder("/" + orderNum, new OrderAPI.IResultMsg<OrderDetailsBean>() {
+
+            @Override
+            public void Result(OrderDetailsBean bean) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
+                if(bean != null){
+                    orderBean = bean;
+                    setData();
+                }
+            }
+
+            @Override
+            public void Error(String json) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
+            }
+        });
+    }
+
+    //提交订单
+    public void getReceivableSuccess() {
+        if(orderBean.getNewCashierList() == null || orderBean.getNewCashierList().size() == 0){
+            MToast.makeText(activity, "请确认信息已全部正确填写 确认后将不可修改", MToast.LENGTH_SHORT).show();
+            return;
+        }
+
+        orderBean.setRemark(remakeText);
+        if(!TextUtils.isEmpty(orderBean.getUuid())){
+            orderBean.setBizSoUuid(orderBean.getUuid());
+            orderBean.setUuid(null);
+        }
+        orderBean.getMemberDTO().setCompanyUuid(orderBean.getCompanyUuid());
+        orderBean.getMemberDTO().setMemberUuid(orderBean.getMemberUuid());
+        orderBean.getMemberDTO().setName(orderBean.getName());
+        orderBean.getMemberDTO().setMobilePhone(orderBean.getMobilePhone());
+        orderBean.getMemberDTO().setSex(orderBean.getSex());
+        String json = JSON.toJSONString(orderBean);
+
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(activity);
+        }
+        loadingDialog.showLoading();
+        api.getReceivableSuccess(json, new OrderAPI.IResultMsg<String>() {
+            @Override
+            public void Result(String bean) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
+                activity.setResult(Activity.RESULT_OK);
+                activity.finish();
+            }
+
+            @Override
+            public void Error(String json) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
+            }
+        });
     }
 }

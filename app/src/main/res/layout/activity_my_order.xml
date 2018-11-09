@@ -30,6 +30,7 @@
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
+            android:imeOptions="actionSearch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

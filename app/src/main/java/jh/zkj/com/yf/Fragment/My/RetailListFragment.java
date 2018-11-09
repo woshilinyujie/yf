@@ -32,11 +32,14 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     TwinklingRefreshLayout refresh;
     private RetailListPresenter presenter;
     private String status;
+    private View mainView;
+    private String scope;
 
-    public static RetailListFragment newInstance(String status) {
+    public static RetailListFragment newInstance(String status, String scope) {
         RetailListFragment fragment = new RetailListFragment();
         Bundle bundle = new Bundle();
         bundle.putString(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, status);
+        bundle.putString(OrderConfig.TYPE_STRING_ORDER_SCOPE, scope);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -45,15 +48,16 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         status = getArguments().getString(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
+        scope = getArguments().getString(OrderConfig.TYPE_STRING_ORDER_SCOPE);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_retail_list, null);
-        ButterKnife.bind(this, view);
+        mainView = inflater.inflate(R.layout.fragment_retail_list, null);
+        ButterKnife.bind(this, mainView);
         presenter = new RetailListPresenter(this);
-        return view;
+        return mainView;
     }
 
     @Override
@@ -80,9 +84,17 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
         return status;
     }
 
+    public String getScope() {
+        return scope;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         presenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public View getMainView(){
+        return mainView;
     }
 }

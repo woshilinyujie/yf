@@ -34,6 +34,11 @@ public class RetailOrderSubmitPresenter implements RetailOrderSubmitContract.IOr
         Intent intent = new Intent(activity, OrderDetailsActivity.class);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER
                 , activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER));
+
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, OrderConfig.STATUS_UN_SUCCESS);
+
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL
+                , activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL));
         activity.startActivityForResult(intent, REQUEST_ORDER_DETAILS);
     }
 

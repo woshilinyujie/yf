@@ -62,6 +62,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     private TwinklingRefreshLayout refreshLayout;
 
     private boolean isMore = true;//是否还有更多
+    private String searchText = "";
 
     //设置已选客户
     private void setSelectBean() {
@@ -87,9 +88,10 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 //回车键
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     pageNum = 1;
-                    getClientInfo(activity.getSearch().getText().toString(), pageNum, pageSize, refreshMsg);
+                    searchText = activity.getSearch().getText().toString();
+                    getClientInfo(searchText, pageNum, pageSize, refreshMsg);
                 }
                 return true;
             }
@@ -100,18 +102,24 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 refreshLayout.setEnableLoadmore(true);
                 pageNum = 1;
-                getClientInfo(activity.getSearch().getText().toString(), pageNum, pageSize, refreshMsg);
+                getClientInfo(searchText, pageNum, pageSize, refreshMsg);
             }
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 pageNum ++;
-                getClientInfo(activity.getSearch().getText().toString(), pageNum, pageSize, loadMoreMsg);
+                getClientInfo(searchText, pageNum, pageSize, loadMoreMsg);
             }
         });
     }
 
+    @Override
+    public void finishActivity() {
+        activity.finish();
+    }
+
     private void initData() {
+        activity.getSearch().setHint("客户姓名/手机号/会员号/证件号");
         refreshLayout = activity.getRefreshLayout();
         api = new OrderAPI();
 
@@ -119,7 +127,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
 
         initAdapter();
         pageNum = 1;
-        getClientInfo("", pageNum, pageSize, refreshMsg);
+        getClientInfo(searchText, pageNum, pageSize, refreshMsg);
     }
 
     private void initAdapter() {
@@ -149,9 +157,11 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
 
         //后期传入刷新
         public void notifyData(ArrayList<ClientInfoBean> arr) {
-            mArr.clear();
-            mArr.addAll(arr);
-            notifyDataSetChanged();
+            if(arr != null){
+                mArr.clear();
+                mArr.addAll(arr);
+                notifyDataSetChanged();
+            }
         }
 
         @Override

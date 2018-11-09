@@ -63,6 +63,8 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     private ArrayList<CommodityInfoBean> commodityList = new ArrayList<>();
     private ArrayList<CommodityInfoBean> records = new ArrayList<>();
     private LoadingDialog loadingDialog;
+    private String searchText = "";
+
     //    private ArrayList<CommodityInfoBean> serialList = new ArrayList<>();
 
     public SelectCommodityPresenter(SelectCommodityActivity activity) {
@@ -81,7 +83,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
         initAdapter();
 
         pageNum = 1;
-        getCommodityList("", pageNum, pageSize, refreshMsg);
+        getCommodityList(searchText, pageNum, pageSize, refreshMsg);
     }
 
     private void initAdapter() {
@@ -96,12 +98,15 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     private void initListener() {
 
         activity.getSearch().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 //回车键
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     pageNum = 1;
-                    getCommodityList(activity.getSearch().getText().toString(), pageNum, pageSize, refreshMsg);
+                    searchText = activity.getSearch().getText().toString();
+                    getCommodityList(searchText, pageNum, pageSize, refreshMsg);
                 }
                 return true;
             }
@@ -113,14 +118,14 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 refreshLayout.setEnableLoadmore(true);
                 pageNum = 1;
-                getCommodityList("", pageNum, pageSize, refreshMsg);
+                getCommodityList(searchText, pageNum, pageSize, refreshMsg);
             }
 
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 pageNum ++;
-                getCommodityList("", pageNum, pageSize, loadMoreMsg);
+                getCommodityList(searchText, pageNum, pageSize, loadMoreMsg);
             }
         });
     }
@@ -202,7 +207,12 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
             final CommodityInfoBean item = getItem(position);
             if(item != null){
-                holder.stockNum.setText("库存：");
+                int index = item.getStockQty().indexOf(".");
+                if(index != -1){
+                    holder.stockNum.setText("库存：" + item.getStockQty().substring(0, index));
+                }else{
+                    holder.stockNum.setText("库存：" + item.getStockQty());
+                }
                 holder.content.setText(item.getFullName());
 
                 if(TextUtils.isEmpty(item.getSerialNo())){
@@ -345,7 +355,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
             }
             if(bean != null){
                 records = bean.getRecords();
-
+                refreshLayout.setEnableLoadmore(true);
                 setSelectComList(records);
                 isMore = true;
                 adapter.notifyData(records);
@@ -378,6 +388,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                         records.addAll(bean.getRecords());
                     }
                 }else{
+                    refreshLayout.setEnableLoadmore(false);
                     isMore = false;
                 }
 
