@@ -36,7 +36,9 @@ import java.util.Map;
 import java.util.Set;
 
 import jh.zkj.com.yf.API.AnalyseAPI;
+import jh.zkj.com.yf.Activity.Analyse.SalesAnalyseActivity;
 import jh.zkj.com.yf.Activity.Analyse.ShopAnalyseActivity;
+import jh.zkj.com.yf.Bean.PieDataBean;
 import jh.zkj.com.yf.Bean.TestBean;
 import jh.zkj.com.yf.Contract.Analyse.SalesAnalyseSalseFragmentContract;
 import jh.zkj.com.yf.Fragment.Analyse.SalesAnalyseSalseFragment;
@@ -52,30 +54,29 @@ import jh.zkj.com.yf.R;
  */
 
 public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFragmentContract.SalesAnalyseSalseFragmentPresent {
-    private final FragmentActivity context;
+    private final SalesAnalyseActivity context;
     SalesAnalyseSalseFragment fragment;
     private LineChart mLineChart;
     public static final int[] PIE_COLORS = {
-            Color.rgb(181, 194, 202), Color.rgb(129, 216, 200), Color.rgb(241, 214, 145),
-            Color.rgb(108, 176, 223), Color.rgb(195, 221, 155), Color.rgb(251, 215, 191),
+            Color.rgb(255, 204, 98), Color.rgb(234, 99, 48), Color.rgb(63, 189, 176),
+            Color.rgb(247, 153, 84), Color.rgb(184, 233, 134), Color.rgb(251, 215, 191),
             Color.rgb(237, 189, 189), Color.rgb(172, 217, 243)
     };
     private List<PieEntry> entries;
     private Column<Object> name;
     private Column<Object> age;
     private Column<Object> id;
-    private List<TestBean> list;
+    private List<PieDataBean.DataBean> list;
     private ClassifyPopupWindow classifyPopupWindow;
     private final AnalyseAPI analyseAPI;
+    private PieChart pieChart;
+    private String aggType="brand_uuid";
 
 
     public SalesAnalyseSalseFragmentPresenter(SalesAnalyseSalseFragment fragment) {
         this.fragment = fragment;
-        context =fragment.getActivity();
+        context = (SalesAnalyseActivity) fragment.getActivity();
         analyseAPI = new AnalyseAPI();
-        initPieChar();
-        initTable();
-        getLinData();
     }
 
     //初始化popup 并且选择后  回调选择数据
@@ -86,64 +87,78 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
         classifyPopupWindow.setClassifyListener(new ClassifySelectListener() {
             @Override
             public void onClassifySelect(String classify, String flag) {//选择分类后回调
-                MToast.makeText(fragment.getActivity(),flag, Toast.LENGTH_SHORT).show();
+                switch (flag){
+                    case "1":
+                        aggType="brand_uuid";
+                        fragment.setSalesSalesMoneySelectTvTx("品牌");
+                        break;
+                    case "2":
+                        aggType="classify_uuid";
+                        fragment.setSalesSalesMoneySelectTvTx("分类");
+                        break;
+                    case "3":
+                        aggType="sku_name";
+                        fragment.setSalesSalesMoneySelectTvTx("型号");
+                        break;
+                    case "4":
+                        aggType="sku_full_name";
+                        fragment.setSalesSalesMoneySelectTvTx("商品全称");
+                        break;
+
+                }
+                getPieCharData(context.SalesAnalysePresent.shopName,context.SalesAnalysePresent.CompanyCode,context.SalesAnalysePresent.startDate,context.SalesAnalysePresent.endDate,"","","");
             }
         });
     }
 
-    @Override
-    public void getLinData() {
-//        analyseAPI.LineDate(context,"00001",);
-    }
-
-    private void initTable() {
-        list = new ArrayList<TestBean>();
-        TestBean bean = new TestBean();
-        TestBean bean1 = new TestBean();
-        TestBean bean2 = new TestBean();
-        bean.setCompany("中科金");
-        bean1.setCompany("中科金1");
-        bean2.setCompany("中科金2");
-        bean.setId(1);
-        bean1.setId(2);
-        bean2.setId(3);
-        bean.setSales("200");
-        bean1.setSales("300");
-        bean2.setSales("400");
-        list.add(bean);
-        list.add(bean1);
-        list.add(bean2);
+    private void initTable(PieDataBean bean) {
+        list = new ArrayList<PieDataBean.DataBean>();
+        for(int x=0;x<bean.getData().size();x++){
+            list.add(bean.getData().get(x));
+        }
         SalesAnalyseSalseFragmentAdapter adapter = new SalesAnalyseSalseFragmentAdapter();
         fragment.getSalesSalesTableList().setAdapter(adapter);
     }
-
-    private void initPieChar() {
-        PieChart pieChart = fragment.getSalesSalesPieChart();
+    private void initPieChar(PieDataBean bean) {
+        pieChart = fragment.getSalesSalesPieChart();
         //模拟数据
-        HashMap dataMap = new HashMap();
-        dataMap.put("A", "300");
-        dataMap.put("B", "600");
-        dataMap.put("C", "500");
-        dataMap.put("D", "800");
-        setPieChart(pieChart, dataMap, "数据", true);
+        HashMap<String, Integer> dataMap = new HashMap<String, Integer>();
+        for(int x=0;x<bean.getData().size();x++){
+            dataMap.put(x+"",bean.getData().get(x).getTarget_data());
+        }
+        setPieChart(bean, pieChart, dataMap, "数据", true);
     }
 
+    public void getPieCharData(final String shopName, final String companyCode, final String startDate, final String endDate, final String classifyUuid, final String brandUuid, final String skuName) {
+        analyseAPI.pieDate(context, "qty", companyCode, startDate, endDate, classifyUuid, brandUuid, skuName,
+                "product",aggType, new AnalyseAPI.IResultMsg<PieDataBean>() {
+                    @Override
+                    public void Result(PieDataBean bean) {
+                        context.setShopAnalyseSelectDate1(startDate);
+                        context.setShopAnalyseSelectDate2(endDate);
+                        context.SalesAnalysePresent.setStartDate(startDate);
+                        context.SalesAnalysePresent.setEndDate(endDate);
+                        context.SalesAnalysePresent.setCompanyCode(companyCode);
+                        context.SalesAnalysePresent.setShopName(shopName);
+                        context.setShopAnalyseSelectShop(shopName);
+                        initPieChar(bean);
+                        initTable(bean);
+                        pieChart.invalidate();
+                    }
 
+                    @Override
+                    public void Error(String json) {
 
-    @Override
-    public void initListener() {
-
+                    }
+                });
     }
 
-
-
-
-    public void setPieChart(PieChart pieChart, Map<String, Float> pieValues, String title, boolean showLegend) {
+    public void setPieChart(PieDataBean bean,PieChart pieChart, Map<String, Integer> pieValues, String title, boolean showLegend) {
         pieChart.setUsePercentValues(true);//设置使用百分比（后续有详细介绍）
         pieChart.getDescription().setEnabled(false);//设置描述
         pieChart.setExtraOffsets(0,
                 0,
-                DpUtils.dip2px(context,20),
+                DpUtils.dip2px(context, 20),
                 15); //设置边距
         pieChart.setDragDecelerationFrictionCoef(0.95f);//设置摩擦系数（值越小摩擦系数越大）
         pieChart.setRotationEnabled(false);//是否可以旋转
@@ -166,37 +181,41 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
         pieChart.setEntryLabelTextSize(0);
         //图例设置
         Legend legend = pieChart.getLegend();
-        legend.setXOffset(DpUtils.dip2px(fragment.getActivity(),55));
-        legend.setYOffset(38);
-        legend.setFormSize(15);
+        legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
+        legend.setYOffset(18);
         legend.setTextSize(15);
+        legend.setFormSize(15);
+        legend.setTextColor(Color.parseColor("#a6a6a6"));
         legend.setYEntrySpace(25);//legend间距
         legend.setEnabled(true);//是否显示图例
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);//图例相对于图表横向的位置
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);//图例相对于图表纵向的位置
         legend.setOrientation(Legend.LegendOrientation.VERTICAL);//图例显示的方向
-        legend.setDrawInside(false);
         legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
+//        pieChart.animateX(1500, Easing.EasingOption.EaseInOutQuad);
         //设置饼图数据
-        setPieChartData(pieChart, pieValues);
-
-        pieChart.animateX(1500, Easing.EasingOption.EaseInOutQuad);
+        setPieChartData(bean,pieChart, pieValues);
 
     }
 
 
     //设置饼图数据
-    private void setPieChartData(PieChart pieChart, Map<String, Float> pieValues) {
-        entries = new ArrayList<PieEntry>();
-        Set set = pieValues.entrySet();
-        Iterator it = set.iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            entries.add(new PieEntry(Float.valueOf(entry.getValue().toString()), "5000，50%/s"+"华为荣耀/s"+
-                    DpUtils.dip2px(fragment.getActivity(),18)+"/s"+
-                    DpUtils.dip2px(fragment.getActivity(),2)
-                    ,entry.getKey().toString()));
+    private void setPieChartData(PieDataBean bean,PieChart pieChart, Map<String, Integer> pieValues) {
+        int count=0;
+        for(int i=0;i<bean.getData().size();i++){
+            count= (int) (count+bean.getData().get(i).getTarget_data());
         }
+        entries = new ArrayList<PieEntry>();
+        for(int x=0 ;x<pieValues.size();x++){
+            Integer integer = pieValues.get(x + "");
+            //倒数第二个/s后面的数据为上下行间距距
+            //最后一个/s后面的数据为y距
+            entries.add(new PieEntry(Float.valueOf(integer), bean.getData().get(x).getTarget_data()+"，"+(bean.getData().get(x).getTarget_data()/count)*100+"%/s" +bean.getData().get(x).getName()+ "/s" +
+                    DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
+                    DpUtils.dip2px(fragment.getActivity(), 2)
+                    , x+""));
+        }
+
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setSliceSpace(0f);//设置饼块之间的间隔
@@ -206,12 +225,13 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
         //设置数据显示方式有见图
         PieData pieData = new PieData(dataSet);
         pieData.setValueFormatter(new PercentFormatter());
-        pieData.setValueTextSize(0f);
+        pieData.setValueTextSize(0);
 
         pieChart.setData(pieData);
         pieChart.highlightValues(null);
         pieChart.invalidate();
     }
+
 
 
     class SalesAnalyseSalseFragmentAdapter extends BaseAdapter {
@@ -248,7 +268,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            TestBean bean = list.get(position);
+            PieDataBean.DataBean dataBean = list.get(position);
             TextView inspect ;
             if (getItemViewType(position) == 0) {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item3, null);
@@ -256,18 +276,18 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
                 TextView company = convertView.findViewById(R.id.shop_analyse_sales_item1_company);
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
                 inspect = convertView.findViewById(R.id.shop_analyse_sales_item3_inspect);
-                id.setText(bean.getId() + "");
-                company.setText(bean.getCompany());
-                sales.setText(bean.getSales());
+                id.setText(position+1 + "");
+                company.setText(dataBean.getName());
+                sales.setText(dataBean.getTarget_data()+"");
             } else {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item4, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
                 TextView company = convertView.findViewById(R.id.shop_analyse_sales_item1_company);
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
                 inspect = convertView.findViewById(R.id.shop_analyse_sales_item3_inspect);
-                id.setText(bean.getId() + "");
-                company.setText(bean.getCompany());
-                sales.setText(bean.getSales());
+                id.setText(position+1 + "");
+                company.setText(dataBean.getName());
+                sales.setText(dataBean.getTarget_data()+"");
             }
             inspect.setOnClickListener(new View.OnClickListener() {
                 @Override

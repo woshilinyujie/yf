@@ -21,7 +21,8 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
  */
 
 public class AnalyseAPI {
-    public final String TOKEN="73677450-0871-4b41-8059-c0e4aea6348d";
+    public final String TOKEN="987637a9-bb4b-40f7-96d4-cac9aa3166cd";
+    public final String API="http://192.168.68.12";
     private LoadingDialog dialog;
 
 
@@ -32,7 +33,7 @@ public class AnalyseAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get("http://192.168.68.200:3001/erp/basic/data/company").tag(context)
+        OkGo.<String>get(API+":3001/erp/basic/data/company").tag(context)
                .params("access_token",TOKEN)
                 .params("type","company")
                 .execute(new StringCallback() {
@@ -81,7 +82,7 @@ public class AnalyseAPI {
         if(TextUtils.isEmpty(skuName)||skuName.equals("请选择")){
             skuName="";
         }
-        OkGo.<String>get("http://192.168.68.200:7001/analysis/graph/statistics").tag(context)
+        OkGo.<String>get(API+":3001/report/analysis/graph/statistics").tag(context)
                 .params("access_token",TOKEN)
                 .params("companyCode",companyCode)
                 .params("startDate",startDate)
@@ -124,6 +125,10 @@ public class AnalyseAPI {
     public void pieDate(final Context context, String type, String companyCode, String startDate, String endDate
     , String classifyUuid , String  brandUuid, String  skuName,String searchType,
             String aggType,final IResultMsg<PieDataBean> iResultMsg){
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        if(!dialog.isShowing())
+            dialog.showLoading();
         if(TextUtils.isEmpty(classifyUuid)|| classifyUuid.equals("请选择")){
             classifyUuid="";
         }
@@ -133,7 +138,7 @@ public class AnalyseAPI {
         if(TextUtils.isEmpty(skuName)||skuName.equals("请选择")){
             skuName="";
         }
-        OkGo.<String>get("http://192.168.68.200:7001/analysis/pie/statistics").tag(context)
+        OkGo.<String>get(API+":3001/report/analysis/pie/statistics").tag(context)
                 .params("access_token",TOKEN)
                 .params("companyCode",companyCode)
                 .params("startDate",startDate)
@@ -171,7 +176,7 @@ public class AnalyseAPI {
      * 商品分类
      */
     public  void getClassify(Context context, final IResultMsg<ArticleBean> iResultMsg ){
-        OkGo.<String>get("http://192.168.68.200:3001/erp/basic/data/classify").tag(context)
+        OkGo.<String>get(API+":3001/erp/basic/data/classify").tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -186,7 +191,7 @@ public class AnalyseAPI {
      * 商品品牌
      */
     public  void getBrand(Context context, final IResultMsg<ArticleBean> iResultMsg ){
-        OkGo.<String>get("http://192.168.68.200:3001/erp/basic/data/brand").tag(context)
+        OkGo.<String>get(API+":3001/erp/basic/data/brand").tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -201,7 +206,7 @@ public class AnalyseAPI {
      * 商品型号
      */
     public  void getProduct(Context context, final IResultMsg<ArticleBean> iResultMsg ){
-        OkGo.<String>get("http://192.168.68.200:3001/erp/basic/data/product").tag(context)
+        OkGo.<String>get(API+":3001/erp/basic/data/product").tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override

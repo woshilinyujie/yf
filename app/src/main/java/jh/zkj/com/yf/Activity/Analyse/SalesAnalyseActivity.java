@@ -1,6 +1,8 @@
 package jh.zkj.com.yf.Activity.Analyse;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,7 +48,7 @@ public class SalesAnalyseActivity extends MBaseActivity implements SalesAnalyseC
     RelativeLayout shopAnalyseSelectDataRl;
     @BindView(R.id.shop_analyse_select_data_ll)
     LinearLayout shopAnalyseSelectDataLl;
-    private SalesAnalysePresenter SalesAnalysePresent;
+    public SalesAnalysePresenter SalesAnalysePresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,4 +111,6 @@ public class SalesAnalyseActivity extends MBaseActivity implements SalesAnalyseC
     public ViewPager getShopAnalyseViewpager() {
         return viewpager;
     }
+
+
 }

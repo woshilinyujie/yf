@@ -49,15 +49,15 @@ public class PieDataBean {
          * uuid : 1426d062-1b36-4faf-a414-a04f1c8f2c22
          */
 
-        private float target_data;
+        private int target_data;
         private String name;
         private String uuid;
 
-        public float getTarget_data() {
+        public int getTarget_data() {
             return target_data;
         }
 
-        public void setTarget_data(float target_data) {
+        public void setTarget_data(int target_data) {
             this.target_data = target_data;
         }
 

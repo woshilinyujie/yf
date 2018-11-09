@@ -33,17 +33,19 @@ public class ShopAnalyseSalseMoneyFragment extends MBaseFragment {
     MeasureListView salesMoneyTableList;
     Unbinder unbinder;
     private View rootView;
-    private ShopAnalyseSalseMoneyFragmentPresenter shopAnalyseSalseMoneyFragmentPresent;
+    private ShopAnalyseSalseMoneyFragmentPresenter present;
     private String endData;
     private String startData;
     private String conpanyCode;
+    private String shopName;
 
-    public static ShopAnalyseSalseMoneyFragment newInstance(String startData,String endData,String conpanyCode) {
+    public static ShopAnalyseSalseMoneyFragment newInstance(String shopName,String startData,String endData,String conpanyCode) {
         ShopAnalyseSalseMoneyFragment fragment = new ShopAnalyseSalseMoneyFragment();
-        Bundle bundle=new Bundle();
-        bundle.putString("endData",endData);
-        bundle.putString("startData",startData);
-        bundle.putString("conpanyCode",conpanyCode);
+        Bundle bundle = new Bundle();
+        bundle.putString("endData", endData);
+        bundle.putString("startData", startData);
+        bundle.putString("conpanyCode", conpanyCode);
+        bundle.putString("shopName",shopName);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -54,13 +56,15 @@ public class ShopAnalyseSalseMoneyFragment extends MBaseFragment {
         endData = getArguments().getString("endData");
         startData = getArguments().getString("startData");
         conpanyCode = getArguments().getString("conpanyCode");
+        shopName = getArguments().getString("shopName");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = View.inflate(getActivity(), R.layout.shop_analyse_salse_money_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
-        shopAnalyseSalseMoneyFragmentPresent = new ShopAnalyseSalseMoneyFragmentPresenter(this);
+        present = new ShopAnalyseSalseMoneyFragmentPresenter(this);
+        present.getLinCharData(shopName,conpanyCode,startData,endData,"","","");
         return rootView;
     }
 
@@ -80,5 +84,9 @@ public class ShopAnalyseSalseMoneyFragment extends MBaseFragment {
 
     public MeasureListView getSalesMoneyTableList() {
         return salesMoneyTableList;
+    }
+
+    public ShopAnalyseSalseMoneyFragmentPresenter getPresent() {
+        return present;
     }
 }

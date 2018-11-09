@@ -253,14 +253,14 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
     private void initPieChar(PieDataBean bean) {
         pieChart = fragment.getSalesPieChart();
         //模拟数据
-        HashMap<String, Float> dataMap = new HashMap<String, Float>();
+        HashMap<String, Integer> dataMap = new HashMap<String, Integer>();
         for(int x=0;x<bean.getData().size();x++){
             dataMap.put(x+"",bean.getData().get(x).getTarget_data());
         }
         setPieChart(bean,pieChart, dataMap, "数据", true);
     }
 
-    public void setPieChart(PieDataBean bean,PieChart pieChart, Map<String, Float> pieValues, String title, boolean showLegend) {
+    public void setPieChart(PieDataBean bean,PieChart pieChart, Map<String, Integer> pieValues, String title, boolean showLegend) {
         pieChart.setUsePercentValues(true);//设置使用百分比（后续有详细介绍）
         pieChart.getDescription().setEnabled(false);//设置描述
         pieChart.setExtraOffsets(0,
@@ -289,7 +289,7 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         //图例设置
         Legend legend = pieChart.getLegend();
         legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
-        legend.setYOffset(38);
+        legend.setYOffset(18);
         legend.setTextSize(15);
         legend.setFormSize(15);
         legend.setTextColor(Color.parseColor("#a6a6a6"));
@@ -307,33 +307,22 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
 
 
     //设置饼图数据
-    private void setPieChartData(PieDataBean bean,PieChart pieChart, Map<String, Float> pieValues) {
+    private void setPieChartData(PieDataBean bean,PieChart pieChart, Map<String, Integer> pieValues) {
         int count=0;
         for(int i=0;i<bean.getData().size();i++){
             count= (int) (count+bean.getData().get(i).getTarget_data());
         }
         entries = new ArrayList<PieEntry>();
         for(int x=0 ;x<pieValues.size();x++){
-            Float aFloat = pieValues.get(x + "");
+            Integer integer = pieValues.get(x + "");
             //倒数第二个/s后面的数据为上下行间距距
             //最后一个/s后面的数据为y距
-            entries.add(new PieEntry(Float.valueOf(aFloat), bean.getData().get(x).getTarget_data()+"，"+(bean.getData().get(x).getTarget_data()/count)*100+"%/s" +bean.getData().get(x).getName()+ "/s" +
+            entries.add(new PieEntry(Float.valueOf(integer), bean.getData().get(x).getTarget_data()+"，"+(bean.getData().get(x).getTarget_data()/count)*100+"%/s" +bean.getData().get(x).getName()+ "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 2)
                     , x+""));
         }
 
-//        Set set = pieValues.entrySet();
-//        Iterator it = set.iterator();
-//        while (it.hasNext()) {
-//            Map.Entry entry = (Map.Entry) it.next();
-//            //倒数第二个/s后面的数据为上下行间距距
-//            //最后一个/s后面的数据为y距
-//            entries.add(new PieEntry(Float.valueOf(entry.getValue().toString()), "5000，50%/s" + "华为荣耀/s" +
-//                    DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
-//                    DpUtils.dip2px(fragment.getActivity(), 2)
-//                    , entry.getKey().toString()));
-//        }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setSliceSpace(0f);//设置饼块之间的间隔

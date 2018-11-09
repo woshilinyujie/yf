@@ -60,6 +60,7 @@
         <activity android:name=".Activity.My.BindPhoneActivity"/>
         <activity android:name=".Activity.Order.HarvestModeActivity">
         </activity>
+        <activity android:name=".Activity.Analyse.ClassifiedActivity"/>
     </application>
 
 </manifest>

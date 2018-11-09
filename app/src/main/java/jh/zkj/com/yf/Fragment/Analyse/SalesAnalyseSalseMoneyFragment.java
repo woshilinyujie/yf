@@ -36,16 +36,29 @@ public class SalesAnalyseSalseMoneyFragment extends MBaseFragment {
     private View rootView;
     private Unbinder unbinder;
     private SalesAnalyseSalseMoneyFragmentPresenter present;
-    private ClassifyPopupWindow classifyPopupWindow;
+    private String endData;
+    private String startData;
+    private String conpanyCode;
+    private String shopName;
 
-    public static SalesAnalyseSalseMoneyFragment newInstance() {
+    public static SalesAnalyseSalseMoneyFragment newInstance(String shopName,String startData,String endData,String conpanyCode) {
         SalesAnalyseSalseMoneyFragment fragment = new SalesAnalyseSalseMoneyFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("endData", endData);
+        bundle.putString("startData", startData);
+        bundle.putString("conpanyCode", conpanyCode);
+        bundle.putString("shopName",shopName);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        endData = getArguments().getString("endData");
+        startData = getArguments().getString("startData");
+        conpanyCode = getArguments().getString("conpanyCode");
+        shopName = getArguments().getString("shopName");
     }
 
     @Override
@@ -53,8 +66,12 @@ public class SalesAnalyseSalseMoneyFragment extends MBaseFragment {
         rootView = View.inflate(getActivity(), R.layout.salse_analyse_salse_money_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         present = new SalesAnalyseSalseMoneyFragmentPresenter(this);
-
+        setDate();
         return rootView;
+    }
+
+    public void setDate(){
+        present.getPieCharData(shopName,conpanyCode,startData,endData,"","","");
     }
 
 
@@ -80,5 +97,13 @@ public class SalesAnalyseSalseMoneyFragment extends MBaseFragment {
 
     public void showPopup(ClassifyPopupWindow classifyPopupWindow){
         classifyPopupWindow.showPopup(salesSalesMoneySelectTv);
+    }
+
+    public SalesAnalyseSalseMoneyFragmentPresenter getPresent() {
+        return present;
+    }
+
+    public void setSalesSalesMoneySelectTvTx(String s){
+        salesSalesMoneySelectTv.setText(s);
     }
 }

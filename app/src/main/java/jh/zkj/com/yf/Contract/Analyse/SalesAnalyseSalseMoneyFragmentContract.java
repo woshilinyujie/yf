@@ -11,7 +11,6 @@ public class SalesAnalyseSalseMoneyFragmentContract {
     public  interface SalesAnalyseSalseMoneyFragmentView{
     }
     public  interface SalesAnalyseSalseMoneyFragmentPresent{
-        void initListener();
         void initPopup();
     }
 }

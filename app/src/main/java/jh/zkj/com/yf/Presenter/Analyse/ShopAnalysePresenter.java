@@ -35,13 +35,13 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
     private ShopAnalyseSalseMoneyFragment shopAnalyseSalseMoneyFragment;
     private ShopAnalyseProfitFragment shopAnalyseProfitFragment;
     private final AnalyseAPI analyseAPI;
-    private String CompanyCode;
     private String startDate;
     private String endDate;
+    private String CompanyCode;
+    private  String shopName;
     private String classify;
     private String brand;
-   private String modle;
-    private  String shopName;
+    private String modle;
 
     public ShopAnalysePresenter(ShopAnalyseActivity activity) {
         this.activity = activity;
@@ -70,7 +70,7 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
         this.CompanyCode=CompanyCode;
         fragments = new ArrayList<>();
         shopAnalyseSalseFragment = ShopAnalyseSalseFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
-        shopAnalyseSalseMoneyFragment = ShopAnalyseSalseMoneyFragment.newInstance(popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
+        shopAnalyseSalseMoneyFragment = ShopAnalyseSalseMoneyFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
         shopAnalyseProfitFragment = ShopAnalyseProfitFragment.newInstance();
         ShopAnalysePureProfitFragment shopAnalysePureProfitFragment = ShopAnalysePureProfitFragment.newInstance();
         fragments.add(shopAnalyseSalseFragment);
@@ -113,6 +113,7 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
                 @Override
                 public void SelectShopDate(String date1, String date2, String classify, String brand, String modle) {
                     shopAnalyseSalseFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle);
+                    shopAnalyseSalseMoneyFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle);
                 }
             });
         }
@@ -129,6 +130,8 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
                 @Override
                 public void SelectShop(ShopNameBean.DataBean bean) {
                     shopAnalyseSalseFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle);
+                    shopAnalyseSalseMoneyFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle);
+
                 }
             });
         }
