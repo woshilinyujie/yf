@@ -15,7 +15,9 @@ public class ShopAnalyseSalseFragmentContract {
     }
     public  interface ShopAnalyseSalseFragmentpresent{
         void getLinCharData(String shopName,String companyCode,String startDate, String endDate
-                , String classifyUuid , String  brandUuid, String  skuName,String danjuType);
+                , String classifyUuid , String  brandUuid, String  skuName);
+        void getPieCharData(String shopName,String companyCode,String startDate, String endDate
+                , String classifyUuid , String  brandUuid, String  skuName);
         void initChart(LineDataBean bean);
         LineData setLineData(LineDataBean bean,int count, float range);//线图初始化
         void showChart(int count,LineChart lineChart, LineData lineData, int color);//线图配置

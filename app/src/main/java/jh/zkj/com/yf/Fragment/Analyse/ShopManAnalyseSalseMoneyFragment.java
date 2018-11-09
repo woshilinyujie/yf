@@ -36,13 +36,15 @@ public class ShopManAnalyseSalseMoneyFragment extends MBaseFragment {
     private String endData;
     private String startData;
     private String conpanyCode;
+    private String shopName;
 
-    public static ShopManAnalyseSalseMoneyFragment newInstance(String startData,String endData,String conpanyCode) {
+    public static ShopManAnalyseSalseMoneyFragment newInstance(String shopName,String startData,String endData,String conpanyCode) {
         ShopManAnalyseSalseMoneyFragment fragment = new ShopManAnalyseSalseMoneyFragment();
         Bundle bundle=new Bundle();
-        bundle.putString("endData",endData);
-        bundle.putString("startData",startData);
-        bundle.putString("conpanyCode",conpanyCode);
+        bundle.putString("endData", endData);
+        bundle.putString("startData", startData);
+        bundle.putString("conpanyCode", conpanyCode);
+        bundle.putString("shopName",shopName);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -53,6 +55,7 @@ public class ShopManAnalyseSalseMoneyFragment extends MBaseFragment {
         endData = getArguments().getString("endData");
         startData = getArguments().getString("startData");
         conpanyCode = getArguments().getString("conpanyCode");
+        shopName = getArguments().getString("shopName");
     }
 
     @Override
@@ -60,7 +63,7 @@ public class ShopManAnalyseSalseMoneyFragment extends MBaseFragment {
         rootView = View.inflate(getActivity(), R.layout.shop_man_analyse_salse_money_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         present = new ShopManAnalyseSalseMoneyPresenter(this);
-
+        present.getLinCharData(shopName,conpanyCode,startData,endData,"","","");
         return rootView;
     }
 
@@ -74,5 +77,9 @@ public class ShopManAnalyseSalseMoneyFragment extends MBaseFragment {
 
     public MeasureListView getShopManSalesMoneyTableList() {
         return shopManSalesMoneyTableList;
+    }
+
+    public ShopManAnalyseSalseMoneyPresenter getPresent() {
+        return present;
     }
 }

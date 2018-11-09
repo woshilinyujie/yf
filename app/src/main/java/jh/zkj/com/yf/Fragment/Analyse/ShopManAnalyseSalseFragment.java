@@ -37,13 +37,15 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
     private String endData;
     private String startData;
     private String conpanyCode;
+    private String shopName;
 
-    public static ShopManAnalyseSalseFragment newInstance(String startData,String endData,String conpanyCode) {
+    public static ShopManAnalyseSalseFragment newInstance(String shopName,String startData,String endData,String conpanyCode) {
         ShopManAnalyseSalseFragment fragment = new ShopManAnalyseSalseFragment();
         Bundle bundle=new Bundle();
         bundle.putString("endData",endData);
         bundle.putString("startData",startData);
         bundle.putString("conpanyCode",conpanyCode);
+        bundle.putString("shopName",shopName);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -54,6 +56,7 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
         endData = getArguments().getString("endData");
         startData = getArguments().getString("startData");
         conpanyCode = getArguments().getString("conpanyCode");
+        shopName = getArguments().getString("shopName");
     }
 
     @Override
@@ -61,7 +64,7 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
         rootView = View.inflate(getActivity(), R.layout.shop_man_analyse_salse_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         present = new ShopManAnalyseSalseFragmentPresenter(this);
-
+        present.getLinCharData(shopName,conpanyCode,startData,endData,"","","");
         return rootView;
     }
 
@@ -82,5 +85,9 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
 
     public MeasureListView getShopManSalesTableList() {
         return shopManSalesTableList;
+    }
+
+    public ShopManAnalyseSalseFragmentPresenter getPresent() {
+        return present;
     }
 }

@@ -73,7 +73,7 @@ public class AnalyseSelectPopupWindowTwo extends PopupWindow {
         }
     };
     private TimePickerView pvTime;
-
+    AnalyseSelectPopupWindow.ReplaceListener replaceListener;
     public AnalyseSelectPopupWindowTwo(final Context context) {
         super(context);
         this.context = context;
@@ -127,7 +127,7 @@ public class AnalyseSelectPopupWindowTwo extends PopupWindow {
     //日期选择初始化
     public void initPickerView() {
         //默认日期
-        shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis()));
+        shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime()));
         shopSelectEnd.setText(DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis()));
         pvTime = new TimePickerBuilder(context, new OnTimeSelectListener() {
             @Override
@@ -233,6 +233,11 @@ public class AnalyseSelectPopupWindowTwo extends PopupWindow {
                 break;
 
             case R.id.shop_select_replace://重置
+                shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime()));
+                shopSelectEnd.setText(DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis()));
+                if(replaceListener!=null){
+                    replaceListener.replace();
+                }
                 break;
             case R.id.shop_select_sure://确定
                 if (selectShopDateListener != null) {
@@ -267,5 +272,22 @@ public class AnalyseSelectPopupWindowTwo extends PopupWindow {
     public void setSelectDateListener(SelectShopDateTwoListener selectShopDateListener) {
         this.selectShopDateListener = selectShopDateListener;
     }
+
+    public interface ReplaceListener{
+        void replace();
+    }
+
+    public void setReplaceListener(AnalyseSelectPopupWindow.ReplaceListener replaceListener){
+        this.replaceListener=replaceListener;
+    }
+    public String getMonthEndTime() {
+        return DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis());
+    }
+
+    public String getMonthStartTime() {
+        return DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime());
+    }
+
+
 
 }

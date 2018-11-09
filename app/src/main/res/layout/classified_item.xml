@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44">
+
+        <TextView
+            android:id="@+id/classified_item_tx"
+            android:textColor="@color/c_333333"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_centerVertical="true"
+            android:text="名称"
+            android:textSize="@dimen/sp_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        
+        <ImageView
+            android:id="@+id/classified_item_iv"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/shop_select_bg"
+            android:layout_width="@dimen/dp_15"
+            android:layout_height="@dimen/dp_12" />
+    </RelativeLayout>
+
+</RelativeLayout>

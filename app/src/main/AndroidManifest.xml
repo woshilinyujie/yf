@@ -66,6 +66,7 @@
         </activity>
         <activity android:name=".Activity.Order.ReceivableDetailActivity">
         </activity>
+        <activity android:name=".Activity.Analyse.ClassifiedActivity"/>
     </application>
 
 </manifest>

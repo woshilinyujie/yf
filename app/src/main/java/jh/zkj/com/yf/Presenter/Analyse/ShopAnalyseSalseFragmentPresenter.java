@@ -36,6 +36,7 @@ import java.util.Set;
 import jh.zkj.com.yf.API.AnalyseAPI;
 import jh.zkj.com.yf.Activity.Analyse.ShopAnalyseActivity;
 import jh.zkj.com.yf.Bean.LineDataBean;
+import jh.zkj.com.yf.Bean.PieDataBean;
 import jh.zkj.com.yf.Bean.TestBean;
 import jh.zkj.com.yf.Contract.Analyse.ShopAnalyseSalseFragmentContract;
 import jh.zkj.com.yf.Fragment.Analyse.ShopAnalyseSalseFragment;
@@ -52,44 +53,31 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
     ShopAnalyseSalseFragment fragment;
     private LineChart mLineChart;
     public static final int[] PIE_COLORS = {
-            Color.rgb(181, 194, 202), Color.rgb(129, 216, 200), Color.rgb(241, 214, 145),
-            Color.rgb(108, 176, 223), Color.rgb(195, 221, 155), Color.rgb(251, 215, 191),
+            Color.rgb(255, 204, 98), Color.rgb(234, 99, 48), Color.rgb(63, 189, 176),
+            Color.rgb(247, 153, 84), Color.rgb(184, 233, 134), Color.rgb(251, 215, 191),
             Color.rgb(237, 189, 189), Color.rgb(172, 217, 243)
     };
     private List<PieEntry> entries;
     private Column<Object> name;
     private Column<Object> age;
     private Column<Object> id;
-    private List<TestBean> list;
+    private List<PieDataBean.DataBean> list;
     private ShopAnalyseActivity context;
     private final AnalyseAPI analyseAPI;
+    private PieChart pieChart;
 
 
     public ShopAnalyseSalseFragmentPresenter(ShopAnalyseSalseFragment fragment) {
         this.fragment = fragment;
         context = (ShopAnalyseActivity) fragment.getActivity();
         analyseAPI = new AnalyseAPI();
-        initPieChar();
-        initTable();
     }
 
-    private void initTable() {
-        list = new ArrayList<TestBean>();
-        TestBean bean = new TestBean();
-        TestBean bean1 = new TestBean();
-        TestBean bean2 = new TestBean();
-        bean.setCompany("中科金");
-        bean1.setCompany("中科金1");
-        bean2.setCompany("中科金2");
-        bean.setId(1);
-        bean1.setId(2);
-        bean2.setId(3);
-        bean.setSales("200");
-        bean1.setSales("300");
-        bean2.setSales("400");
-        list.add(bean);
-        list.add(bean1);
-        list.add(bean2);
+    private void initTable(PieDataBean bean) {
+        list = new ArrayList<PieDataBean.DataBean>();
+        for(int x=0;x<bean.getData().size();x++){
+            list.add(bean.getData().get(x));
+        }
         ShopAnalyseSalseFragmentAdapter adapter = new ShopAnalyseSalseFragmentAdapter();
         fragment.getSalesTableList().setAdapter(adapter);
     }
@@ -97,9 +85,9 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
 
     @Override
     public void getLinCharData(final String shopName, final String companyCode, final String startDate, final String endDate
-            , final String classifyUuid, final String brandUuid, final String skuName, final String danjuType) {
+            , final String classifyUuid, final String brandUuid, final String skuName) {
         analyseAPI.LineDate(context, "qty", companyCode, startDate, endDate, classifyUuid, brandUuid, skuName
-                , danjuType, new AnalyseAPI.IResultMsg<LineDataBean>() {
+                , new AnalyseAPI.IResultMsg<LineDataBean>() {
                     @Override
                     public void Result(LineDataBean bean) {
                         context.setShopAnalyseSelectDate1(startDate);
@@ -109,11 +97,30 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
                         context.shopAnalysePresent.setClassify(classifyUuid);
                         context.shopAnalysePresent.setBrand(brandUuid);
                         context.shopAnalysePresent.setModle(skuName);
-                        context.shopAnalysePresent.setDanjuType(danjuType);
                         context.shopAnalysePresent.setCompanyCode(companyCode);
                         context.shopAnalysePresent.setShopName(shopName);
+                        context.setShopAnalyseSelectShop(shopName);
                         initChart(bean);
                         mLineChart.invalidate();
+                        getPieCharData(shopName,companyCode,startDate,endDate,classifyUuid,brandUuid,skuName);
+                    }
+
+                    @Override
+                    public void Error(String json) {
+
+                    }
+                });
+    }
+
+    @Override
+    public void getPieCharData(final String shopName, final String companyCode, final String startDate, final String endDate, final String classifyUuid, final String brandUuid, final String skuName) {
+        analyseAPI.pieDate(context, "qty", companyCode, startDate, endDate, classifyUuid, brandUuid, skuName,
+                "store","", new AnalyseAPI.IResultMsg<PieDataBean>() {
+                    @Override
+                    public void Result(PieDataBean bean) {
+                        initPieChar(bean);
+                        initTable(bean);
+                        pieChart.invalidate();
                     }
 
                     @Override
@@ -128,31 +135,21 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
     public void initChart(LineDataBean bean) {
         int max = 0;//y最大值
         for (LineDataBean.DataBean item : bean.getData()) {
-            if (item.getQty() > max)
-                max = item.getQty();
+            if (item.getTarget_data() > max)
+                max = (int) item.getTarget_data();
         }
         mLineChart = fragment.getSalesChart();
         LineData mLineData = setLineData(bean, bean.getData().size(), max);
         showChart(bean.getData().size(),mLineChart, mLineData, Color.rgb(114, 188, 223));
     }
 
-    private void initPieChar() {
-        PieChart pieChart = fragment.getSalesPieChart();
-        //模拟数据
-        HashMap dataMap = new HashMap();
-        dataMap.put("A", "300");
-        dataMap.put("B", "600");
-        dataMap.put("C", "500");
-        dataMap.put("D", "800");
-        setPieChart(pieChart, dataMap, "数据", true);
-    }
 
     @Override
     public LineData setLineData(LineDataBean bean, int count, float range) {
         // y轴的数据
         ArrayList<Entry> yValues = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
-            float value = (float) bean.getData().get(i).getQty();
+            float value = (float) bean.getData().get(i).getTarget_data();
             yValues.add(new Entry(i, value));
         }
 
@@ -170,7 +167,11 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         LineData lineData = new LineData(lineDataSets);
         XAxis xl = mLineChart.getXAxis();
         YAxis yRight = mLineChart.getAxisRight();
-        yRight.setEnabled(false);
+//        yRight.setXOffset(20);
+        yRight.setEnabled(true);
+        yRight.setTextColor(Color.parseColor("#ffffff"));
+        yRight.setGridColor(Color.parseColor("#e2e2e2"));
+        yRight.setAxisLineColor(Color.parseColor("#ffffff"));
         YAxis yLeft = mLineChart.getAxisLeft();
         yLeft.setDrawAxisLine(false);
         yLeft.setGridColor(Color.parseColor("#e2e2e2"));//网格线颜色
@@ -181,7 +182,7 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         xl.setDrawAxisLine(false);
         xl.setTextColor(Color.parseColor("#a6a6a6"));
         xl.setDrawLabels(true);
-
+        xl.setAvoidFirstLastClipping(false);
 //
         String[] valueArry = new String[count];
         for(int x=0;x<count;x++){
@@ -203,8 +204,13 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
 //        if(count<3){
 //            xl.setLabelCount(2);
 //        }else{
-            xl.setLabelCount(3);
+            xl.setLabelCount(2);
 //        }
+        if(count<4){
+            xl.setLabelCount(2);
+        }else{
+            xl.setLabelCount(3);
+        }
         MyMarkerView mv = new MyMarkerView(fragment.getActivity(),
                 R.layout.custom_marker_view);
         mv.setChartView(mLineChart); // For bounds control
@@ -215,6 +221,8 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
 
         return lineData;
     }
+
+
 
     @Override
     public void showChart(int count,LineChart lineChart, LineData lineData, int color) {
@@ -232,13 +240,27 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         lineChart.setGridBackgroundColor(Color.parseColor("#f6f7fb"));
         lineChart.setData(lineData); // 设置数据
         if(count>7){
-
-            mLineChart.getViewPortHandler().getMatrixTouch().postScale(count/7, 1f);//默认缩放
+            mLineChart.fitScreen();
+            mLineChart.getViewPortHandler().getMatrixTouch().postScale((float) count/7.0f, 1f);//默认缩放
+        }else{
+            mLineChart.fitScreen();
         }
+        mLineChart.setScaleXEnabled(false);
+        mLineChart.setScaleYEnabled(false);
     }
 
 
-    public void setPieChart(PieChart pieChart, Map<String, Float> pieValues, String title, boolean showLegend) {
+    private void initPieChar(PieDataBean bean) {
+        pieChart = fragment.getSalesPieChart();
+        //模拟数据
+        HashMap<String, Integer> dataMap = new HashMap<String, Integer>();
+        for(int x=0;x<bean.getData().size();x++){
+            dataMap.put(x+"",bean.getData().get(x).getTarget_data());
+        }
+        setPieChart(bean,pieChart, dataMap, "数据", true);
+    }
+
+    public void setPieChart(PieDataBean bean,PieChart pieChart, Map<String, Integer> pieValues, String title, boolean showLegend) {
         pieChart.setUsePercentValues(true);//设置使用百分比（后续有详细介绍）
         pieChart.getDescription().setEnabled(false);//设置描述
         pieChart.setExtraOffsets(0,
@@ -267,7 +289,7 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         //图例设置
         Legend legend = pieChart.getLegend();
         legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
-        legend.setYOffset(38);
+        legend.setYOffset(18);
         legend.setTextSize(15);
         legend.setFormSize(15);
         legend.setTextColor(Color.parseColor("#a6a6a6"));
@@ -279,25 +301,28 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
 //        pieChart.animateX(1500, Easing.EasingOption.EaseInOutQuad);
         //设置饼图数据
-        setPieChartData(pieChart, pieValues);
+        setPieChartData(bean,pieChart, pieValues);
 
     }
 
 
     //设置饼图数据
-    private void setPieChartData(PieChart pieChart, Map<String, Float> pieValues) {
+    private void setPieChartData(PieDataBean bean,PieChart pieChart, Map<String, Integer> pieValues) {
+        int count=0;
+        for(int i=0;i<bean.getData().size();i++){
+            count= (int) (count+bean.getData().get(i).getTarget_data());
+        }
         entries = new ArrayList<PieEntry>();
-        Set set = pieValues.entrySet();
-        Iterator it = set.iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
+        for(int x=0 ;x<pieValues.size();x++){
+            Integer integer = pieValues.get(x + "");
             //倒数第二个/s后面的数据为上下行间距距
             //最后一个/s后面的数据为y距
-            entries.add(new PieEntry(Float.valueOf(entry.getValue().toString()), "5000，50%/s" + "华为荣耀/s" +
+            entries.add(new PieEntry(Float.valueOf(integer), bean.getData().get(x).getTarget_data()+"，"+(bean.getData().get(x).getTarget_data()/count)*100+"%/s" +bean.getData().get(x).getName()+ "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 2)
-                    , entry.getKey().toString()));
+                    , x+""));
         }
+
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setSliceSpace(0f);//设置饼块之间的间隔
@@ -348,23 +373,23 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            TestBean bean = list.get(position);
+            PieDataBean.DataBean dataBean = list.get(position);
             if (getItemViewType(position) == 0) {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item1, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
                 TextView company = convertView.findViewById(R.id.shop_analyse_sales_item1_company);
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
-                id.setText(bean.getId() + "");
-                company.setText(bean.getCompany());
-                sales.setText(bean.getSales());
+                id.setText(position+1 + "");
+                company.setText(dataBean.getName());
+                sales.setText(dataBean.getTarget_data()+"");
             } else {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item2, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
                 TextView company = convertView.findViewById(R.id.shop_analyse_sales_item1_company);
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
-                id.setText(bean.getId() + "");
-                company.setText(bean.getCompany());
-                sales.setText(bean.getSales());
+                id.setText(position+1 + "");
+                company.setText(dataBean.getName());
+                sales.setText(dataBean.getTarget_data()+"");
             }
             return convertView;
         }

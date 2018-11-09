@@ -31,9 +31,15 @@ import jh.zkj.com.yf.Mview.AnalyseSelectShopPopupWindowTwo;
 public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalysePresent {
     private final AnalyseAPI analyseAPI;
     private SalesAnalyseActivity activity;
-    private AnalyseSelectPopupWindow popupWindow;
+    private AnalyseSelectPopupWindowTwo popupWindow;
     private ArrayList<MBaseFragment> fragments;
     private AnalyseSelectShopPopupWindow shopPopupWindow;
+    private SalesAnalyseSalseFragment salesAnalyseSalseFragment;
+    private SalesAnalyseSalseMoneyFragment salesAnalyseSalseMoneyFragment;
+    public String startDate;
+    public String endDate;
+    public String CompanyCode;
+    public String shopName;
 
     public SalesAnalysePresenter(SalesAnalyseActivity activity) {
         this.activity = activity;
@@ -43,17 +49,24 @@ public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalyseP
 
     @Override
     public void initDate(ShopNameBean bean) {
-        shopPopupWindow = new AnalyseSelectShopPopupWindow(activity,bean);
-        popupWindow = new AnalyseSelectPopupWindow(activity);
+        shopPopupWindow = new AnalyseSelectShopPopupWindow(activity, bean);
+        popupWindow = new AnalyseSelectPopupWindowTwo(activity);
         activity.setShopAnalyseSelectDate1(popupWindow.getMonthStartTime());
         activity.setShopAnalyseSelectDate2(popupWindow.getMonthEndTime());
+        popupWindow.setReplaceListener(new AnalyseSelectPopupWindow.ReplaceListener() {
+            @Override
+            public void replace() {
+
+            }
+        });
     }
 
     @Override
-    public void initViewpager() {
+    public void initViewpager(String shopName, String CompanyCode) {
+        this.CompanyCode = CompanyCode;
         fragments = new ArrayList<>();
-        SalesAnalyseSalseFragment salesAnalyseSalseFragment = SalesAnalyseSalseFragment.newInstance();
-        SalesAnalyseSalseMoneyFragment salesAnalyseSalseMoneyFragment = SalesAnalyseSalseMoneyFragment.newInstance();
+        salesAnalyseSalseFragment = SalesAnalyseSalseFragment.newInstance(shopName, popupWindow.getMonthStartTime(), popupWindow.getMonthEndTime(), CompanyCode);
+        salesAnalyseSalseMoneyFragment = SalesAnalyseSalseMoneyFragment.newInstance(shopName, popupWindow.getMonthStartTime(), popupWindow.getMonthEndTime(), CompanyCode);
         SalesAnalyseProfitFragment salesAnalyseProfitFragment = SalesAnalyseProfitFragment.newInstance();
         fragments.add(salesAnalyseSalseFragment);
         fragments.add(salesAnalyseSalseMoneyFragment);
@@ -87,38 +100,48 @@ public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalyseP
      */
     @Override
     public void setInfoListener() {
-        popupWindow.setSelectDateListener(new SelectShopDateOneListener() {
-            @Override
-            public void SelectShopDate(String date1, String date2, String classify, String brand, String modle,String danjuType) {
-                activity.setShopAnalyseSelectDate1(date1);
-                activity.setShopAnalyseSelectDate2(date2);
+        if (popupWindow != null) {
+            popupWindow.setSelectDateListener(new SelectShopDateTwoListener() {
+                @Override
+                public void SelectShopDate(String date1, String date2) {
+                    salesAnalyseSalseFragment.getPresent().getPieCharData(shopName, CompanyCode, date1, date2, "", "", "");
+                    salesAnalyseSalseMoneyFragment.getPresent().getPieCharData(shopName, CompanyCode, date1, date2, "", "", "");
+                }
 
-            }
-        });
+            });
+        }
     }
 
 
     /**
-     * param 店名
+     * param 选择店名
      */
     @Override
     public void setShopNameListener() {
-        shopPopupWindow.setSelectShopListener(new SelectShopListener() {
-            @Override
-            public void SelectShop(ShopNameBean.DataBean bean) {
-                activity.setShopAnalyseSelectShop(bean.getName());
-            }
-        });
+        if (shopPopupWindow != null) {
+            shopPopupWindow.setSelectShopListener(new SelectShopListener() {
+                @Override
+                public void SelectShop(ShopNameBean.DataBean bean) {
+                    salesAnalyseSalseFragment.getPresent().getPieCharData(bean.getName(), bean.getCode(), startDate, endDate, "", "", "");
+                    salesAnalyseSalseMoneyFragment.getPresent().getPieCharData(bean.getName(), bean.getCode(), startDate, endDate, "", "", "");
+
+                }
+            });
+        }
     }
+
 
     @Override
     public void getshopName() {
         analyseAPI.getShopName(activity, new AnalyseAPI.IResultMsg<ShopNameBean>() {
             @Override
             public void Result(ShopNameBean bean) {
-                initDate(bean);
-                initViewpager();
-                activity.setShopAnalyseSelectShop(bean.getData().get(0).getName());
+                if (bean != null) {
+                    initDate(bean);
+                    initViewpager(bean.getData().get(0).getName(), bean.getData().get(0).getCode());
+                    activity.setShopAnalyseSelectShop(bean.getData().get(0).getName());
+                    shopName = bean.getData().get(0).getName();
+                }
             }
 
             @Override
@@ -157,4 +180,19 @@ public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalyseP
     }
 
 
+    public void setCompanyCode(String companyCode) {
+        CompanyCode = companyCode;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
 }

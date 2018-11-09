@@ -118,7 +118,7 @@ public class AnalyseSelectShopPopupWindow extends PopupWindow {
 
         @Override
         public int getCount() {
-            return data.size();
+            return data==null?0:data.size();
         }
 
         @Override
@@ -187,4 +187,5 @@ public class AnalyseSelectShopPopupWindow extends PopupWindow {
     public void setSelectShopListener(SelectShopListener selectShopListener){
         this.selectShopListener=selectShopListener;
     }
+
 }

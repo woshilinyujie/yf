@@ -1,6 +1,8 @@
 package jh.zkj.com.yf.Activity.Analyse;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,7 +48,7 @@ public class ShopManAnalyseActivity extends MBaseActivity implements ShopManAnal
     RelativeLayout shopAnalyseSelectDataRl;
     @BindView(R.id.shop_analyse_select_data_ll)
     LinearLayout shopAnalyseSelectDataLl;
-    private ShopManAnalysePresenter shopManAnalysePresent;
+    public ShopManAnalysePresenter shopManAnalysePresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,5 +110,26 @@ public class ShopManAnalyseActivity extends MBaseActivity implements ShopManAnal
 
     public ViewPager getShopAnalyseViewpager() {
         return viewpager;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1){//商品分类数据返回
+            String json = data.getStringExtra("json");
+            String uuid = data.getStringExtra("uuid");
+            String name = data.getStringExtra("name");
+            shopManAnalysePresent.setPopuoJson(1,json,name,uuid);
+        }else if(resultCode==2){////商品品牌数据返回
+            String json = data.getStringExtra("json");
+            String uuid = data.getStringExtra("uuid");
+            String name = data.getStringExtra("name");
+            shopManAnalysePresent.setPopuoJson(2,json,name,uuid);
+        }else if(resultCode==3){//商品型号数据返回
+            String json = data.getStringExtra("json");
+            String uuid = data.getStringExtra("uuid");
+            String name = data.getStringExtra("name");
+            shopManAnalysePresent.setPopuoJson(3,json,name,uuid);
+        }
     }
 }

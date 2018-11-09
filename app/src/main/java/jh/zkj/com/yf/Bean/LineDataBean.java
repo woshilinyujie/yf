@@ -8,8 +8,9 @@ import java.util.List;
 
 public class LineDataBean {
 
+
     /**
-     * data : [{"biz_date":"2018-11-04","qty":0},{"biz_date":"2018-11-05","qty":-13}]
+     * data : [{"biz_date":"2018-11-01","target_data":0,"qty":0},{"biz_date":"2018-11-02","target_data":0,"qty":0},{"biz_date":"2018-11-03","target_data":0,"qty":0},{"biz_date":"2018-11-04","target_data":0,"qty":0},{"biz_date":"2018-11-05","target_data":0,"qty":0},{"biz_date":"2018-11-06","target_data":0,"qty":0},{"biz_date":"2018-11-07","target_data":0,"qty":0},{"biz_date":"2018-11-08","target_data":0,"qty":0}]
      * msg : success
      * code : 0
      */
@@ -44,12 +45,14 @@ public class LineDataBean {
 
     public static class DataBean {
         /**
-         * biz_date : 2018-11-04
-         * qty : 0
+         * biz_date : 2018-11-01
+         * target_data : 0.0
+         * qty : 0.0
          */
 
         private String biz_date;
-        private int qty;
+        private double target_data;
+        private double qty;
 
         public String getBiz_date() {
             return biz_date;
@@ -59,11 +62,19 @@ public class LineDataBean {
             this.biz_date = biz_date;
         }
 
-        public int getQty() {
+        public double getTarget_data() {
+            return target_data;
+        }
+
+        public void setTarget_data(double target_data) {
+            this.target_data = target_data;
+        }
+
+        public double getQty() {
             return qty;
         }
 
-        public void setQty(int qty) {
+        public void setQty(double qty) {
             this.qty = qty;
         }
     }
