@@ -2,13 +2,13 @@ package jh.zkj.com.yf.Presenter.Analyse;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bin.david.form.data.column.Column;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -33,9 +33,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jh.zkj.com.yf.API.AnalyseAPI;
+import jh.zkj.com.yf.Activity.Analyse.ShopAnalyseActivity;
+import jh.zkj.com.yf.Bean.LineDataBean;
 import jh.zkj.com.yf.Bean.TestBean;
 import jh.zkj.com.yf.Contract.Analyse.ShopAnalyseSalseFragmentContract;
 import jh.zkj.com.yf.Fragment.Analyse.ShopAnalyseSalseFragment;
+import jh.zkj.com.yf.Mutils.DateUtil;
 import jh.zkj.com.yf.Mutils.DpUtils;
 import jh.zkj.com.yf.Mview.MyMarkerView;
 import jh.zkj.com.yf.R;
@@ -57,13 +61,14 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
     private Column<Object> age;
     private Column<Object> id;
     private List<TestBean> list;
-    private Context context;
+    private ShopAnalyseActivity context;
+    private final AnalyseAPI analyseAPI;
 
 
     public ShopAnalyseSalseFragmentPresenter(ShopAnalyseSalseFragment fragment) {
         this.fragment = fragment;
-        context=fragment.getActivity();
-        initChart();
+        context = (ShopAnalyseActivity) fragment.getActivity();
+        analyseAPI = new AnalyseAPI();
         initPieChar();
         initTable();
     }
@@ -89,6 +94,48 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         fragment.getSalesTableList().setAdapter(adapter);
     }
 
+
+    @Override
+    public void getLinCharData(final String shopName, final String companyCode, final String startDate, final String endDate
+            , final String classifyUuid, final String brandUuid, final String skuName, final String danjuType) {
+        analyseAPI.LineDate(context, "qty", companyCode, startDate, endDate, classifyUuid, brandUuid, skuName
+                , danjuType, new AnalyseAPI.IResultMsg<LineDataBean>() {
+                    @Override
+                    public void Result(LineDataBean bean) {
+                        context.setShopAnalyseSelectDate1(startDate);
+                        context.setShopAnalyseSelectDate2(endDate);
+                        context.shopAnalysePresent.setStartDate(startDate);
+                        context.shopAnalysePresent.setEndDate(endDate);
+                        context.shopAnalysePresent.setClassify(classifyUuid);
+                        context.shopAnalysePresent.setBrand(brandUuid);
+                        context.shopAnalysePresent.setModle(skuName);
+                        context.shopAnalysePresent.setDanjuType(danjuType);
+                        context.shopAnalysePresent.setCompanyCode(companyCode);
+                        context.shopAnalysePresent.setShopName(shopName);
+                        initChart(bean);
+                        mLineChart.invalidate();
+                    }
+
+                    @Override
+                    public void Error(String json) {
+
+                    }
+                });
+    }
+
+
+    @Override
+    public void initChart(LineDataBean bean) {
+        int max = 0;//y最大值
+        for (LineDataBean.DataBean item : bean.getData()) {
+            if (item.getQty() > max)
+                max = item.getQty();
+        }
+        mLineChart = fragment.getSalesChart();
+        LineData mLineData = setLineData(bean, bean.getData().size(), max);
+        showChart(bean.getData().size(),mLineChart, mLineData, Color.rgb(114, 188, 223));
+    }
+
     private void initPieChar() {
         PieChart pieChart = fragment.getSalesPieChart();
         //模拟数据
@@ -101,18 +148,11 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
     }
 
     @Override
-    public void initChart() {
-        mLineChart = fragment.getSalesChart();
-        LineData mLineData = getLineData(7, 100);
-        showChart(mLineChart, mLineData, Color.rgb(114, 188, 223));
-    }
-
-    @Override
-    public LineData getLineData(int count, float range) {
+    public LineData setLineData(LineDataBean bean, int count, float range) {
         // y轴的数据
         ArrayList<Entry> yValues = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
-            float value = (float) (Math.random() * range) + 3;
+            float value = (float) bean.getData().get(i).getQty();
             yValues.add(new Entry(i, value));
         }
 
@@ -121,7 +161,7 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         //用y轴的集合来设置参数
         lineDataSet.setLineWidth(1); // 线宽
         lineDataSet.setCircleSize(3.5f);// 显示的圆形大小
-      lineDataSet.setCircleHoleColor(Color.parseColor("#657ff6"));
+        lineDataSet.setCircleHoleColor(Color.parseColor("#657ff6"));
         lineDataSet.setColor(Color.parseColor("#657ff6"));// 显示颜色
         lineDataSet.setCircleColor(Color.parseColor("#657ff6"));// 圆形的颜色
         lineDataSet.setHighLightColor(Color.parseColor("#d9d9d9")); // 高亮的线的颜色
@@ -136,23 +176,35 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         yLeft.setGridColor(Color.parseColor("#e2e2e2"));//网格线颜色
         yLeft.setTextColor(Color.parseColor("#a6a6a6"));
         xl.setEnabled(true);
-        xl.setAvoidFirstLastClipping(true);
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
         xl.setDrawGridLines(false);
         xl.setDrawAxisLine(false);
         xl.setTextColor(Color.parseColor("#a6a6a6"));
-        final String[] valueArry = {"10.1", "10.2", "10.3", "10.4", "10.5","10.6", "10.7"};
-        final Map<Integer, String> xMap = new HashMap<>();
-        for (int i = 0; i < yValues.size(); i++) {
-            xMap.put((int) yValues.get(i).getX(), valueArry[i]);
+        xl.setDrawLabels(true);
+
+//
+        String[] valueArry = new String[count];
+        for(int x=0;x<count;x++){
+            valueArry[x]=bean.getData().get(x).getBiz_date();
         }
 
+        final Map<Integer, String> xMap = new HashMap<>();
+        for (int i = 0; i < yValues.size(); i++) {
+            xMap.put((int) yValues.get(i).getX(), valueArry[i].replaceAll("-","."));
+        }
+
+        //x轴数据格式化
         xl.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return xMap.get((int)value);
+                return xMap.get((int) value);
             }
         });
+//        if(count<3){
+//            xl.setLabelCount(2);
+//        }else{
+            xl.setLabelCount(3);
+//        }
         MyMarkerView mv = new MyMarkerView(fragment.getActivity(),
                 R.layout.custom_marker_view);
         mv.setChartView(mLineChart); // For bounds control
@@ -165,7 +217,7 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
     }
 
     @Override
-    public void showChart(LineChart lineChart, LineData lineData, int color) {
+    public void showChart(int count,LineChart lineChart, LineData lineData, int color) {
         lineChart.setDrawBorders(false); //是否在折线图上添加边框
         lineChart.setDrawGridBackground(true); // 是否显示表格颜色
         lineChart.setTouchEnabled(true); // 设置是否可以触摸
@@ -179,6 +231,10 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         mLegend.setTextColor(Color.WHITE);// 颜色
         lineChart.setGridBackgroundColor(Color.parseColor("#f6f7fb"));
         lineChart.setData(lineData); // 设置数据
+        if(count>7){
+
+            mLineChart.getViewPortHandler().getMatrixTouch().postScale(count/7, 1f);//默认缩放
+        }
     }
 
 
@@ -187,7 +243,7 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         pieChart.getDescription().setEnabled(false);//设置描述
         pieChart.setExtraOffsets(0,
                 0,
-                DpUtils.dip2px(context,20),
+                DpUtils.dip2px(context, 20),
                 15); //设置边距
         pieChart.setDragDecelerationFrictionCoef(0.95f);//设置摩擦系数（值越小摩擦系数越大）
         pieChart.setRotationEnabled(false);//是否可以旋转
@@ -210,7 +266,7 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
         pieChart.setEntryLabelTextSize(0);
         //图例设置
         Legend legend = pieChart.getLegend();
-        legend.setXOffset(DpUtils.dip2px(fragment.getActivity(),55));
+        legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
         legend.setYOffset(38);
         legend.setTextSize(15);
         legend.setFormSize(15);
@@ -237,10 +293,10 @@ public class ShopAnalyseSalseFragmentPresenter implements ShopAnalyseSalseFragme
             Map.Entry entry = (Map.Entry) it.next();
             //倒数第二个/s后面的数据为上下行间距距
             //最后一个/s后面的数据为y距
-            entries.add(new PieEntry(Float.valueOf(entry.getValue().toString()), "5000，50%/s"+"华为荣耀/s"+
-                    DpUtils.dip2px(fragment.getActivity(),18)+"/s"+
-                    DpUtils.dip2px(fragment.getActivity(),2)
-                    ,entry.getKey().toString()));
+            entries.add(new PieEntry(Float.valueOf(entry.getValue().toString()), "5000，50%/s" + "华为荣耀/s" +
+                    DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
+                    DpUtils.dip2px(fragment.getActivity(), 2)
+                    , entry.getKey().toString()));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");

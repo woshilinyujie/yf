@@ -169,7 +169,7 @@ public class AnalyseSelectShopPopupWindowTwo extends PopupWindow {
                     }
                     analyseShopBean.isSelect = true;
                     if(selectShopListener!=null)
-                        selectShopListener.SelectShop(analyseShopBean.getShopName());
+//                        selectShopListener.SelectShop(analyseShopBean.getShopName());
                     dismiss();
                 }
             });

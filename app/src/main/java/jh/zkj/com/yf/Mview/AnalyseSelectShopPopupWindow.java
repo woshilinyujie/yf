@@ -22,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.Bean.AnalyseShopBean;
+import jh.zkj.com.yf.Bean.ShopNameBean;
 import jh.zkj.com.yf.Listener.SelectShopListener;
 import jh.zkj.com.yf.R;
 
@@ -48,12 +49,14 @@ public class AnalyseSelectShopPopupWindow extends PopupWindow {
             }
         }
     };
-    private List<AnalyseShopBean> data;
     private AnalyseSelectShopPopupWindowAdapter adapter;
     SelectShopListener selectShopListener;
+    private List<ShopNameBean.DataBean> data;
 
-    public AnalyseSelectShopPopupWindow(final Context context) {
+    public AnalyseSelectShopPopupWindow(final Context context,ShopNameBean bean) {
         super(context);
+        data = new ArrayList<>();
+        data =bean.getData();
         this.context = context;
         view = View.inflate(context, R.layout.shop_select_shop_layout, null);
         setContentView(view);
@@ -85,14 +88,6 @@ public class AnalyseSelectShopPopupWindow extends PopupWindow {
     }
 
     private void initData() {
-        if (data == null) {
-            data = new ArrayList<AnalyseShopBean>();
-            for (int x = 0; x < 10; x++) {
-                AnalyseShopBean analyseShopBean = new AnalyseShopBean();
-                analyseShopBean.setShopName("店铺名称" + x);
-                data.add(analyseShopBean);
-            }
-        }
         if(adapter==null)
         adapter = new AnalyseSelectShopPopupWindowAdapter();
         selectShopListView.setAdapter(adapter);
@@ -138,7 +133,7 @@ public class AnalyseSelectShopPopupWindow extends PopupWindow {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final AnalyseShopBean analyseShopBean = data.get(position);
+            final ShopNameBean.DataBean dataBean = data.get(position);
             PopupWindowHolder holder;
             if (convertView == null) {
                 convertView = View.inflate(context, R.layout.analyse_select_shop_popup_item, null);
@@ -147,8 +142,8 @@ public class AnalyseSelectShopPopupWindow extends PopupWindow {
             } else {
                 holder = (PopupWindowHolder) convertView.getTag();
             }
-            holder.shopName.setText(analyseShopBean.getShopName());
-            if (analyseShopBean.isSelect) {
+            holder.shopName.setText(dataBean.getName());
+            if (dataBean.isSelect) {
                 holder.shopName.setTextColor(Color.parseColor("#6fb1fc"));
                 holder.bgIv.setVisibility(View.VISIBLE);
             } else {
@@ -158,18 +153,18 @@ public class AnalyseSelectShopPopupWindow extends PopupWindow {
             holder.rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (analyseShopBean.isSelect) {//点击已经是选中条目
+                    if (dataBean.isSelect) {//点击已经是选中条目
                         dismiss();
                         return;
                     }
-                    for (AnalyseShopBean bean : data) {
+                    for (ShopNameBean.DataBean bean : data) {
                         if (bean.isSelect) {
                             bean.isSelect = false;
                         }
                     }
-                    analyseShopBean.isSelect = true;
+                    dataBean.isSelect = true;
                     if(selectShopListener!=null)
-                        selectShopListener.SelectShop(analyseShopBean.getShopName());
+                        selectShopListener.SelectShop(dataBean);
                     dismiss();
                 }
             });

@@ -13,5 +13,6 @@ public class SalesAnalyseSalseFragmentContract {
     public  interface SalesAnalyseSalseFragmentPresent{
         void initListener();
         void initPopup();
+        void getLinData();
     }
 }

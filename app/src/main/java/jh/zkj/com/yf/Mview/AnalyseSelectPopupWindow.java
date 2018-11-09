@@ -59,6 +59,8 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     TextView shopSelectBrand;
     @BindView(R.id.shop_select_model)
     TextView shopSelectModel;
+    @BindView(R.id.shop_select_type)
+    TextView shopSelectType;
     @BindView(R.id.shop_select_replace)
     Button shopSelectReplace;
     @BindView(R.id.shop_select_sure)
@@ -247,12 +249,12 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
                 break;
             case R.id.shop_select_sure://确定
                 if (true) {
-                    if (selectShopDateListener != null) {
-                        selectShopDateListener.SelectShopDate(shopSelectBegin.getText().toString(), shopSelectEnd.getText().toString()
-                                , shopSelectClassified.getText().toString(), shopSelectBrand.getText().toString(), shopSelectModel.getText().toString());
-                    }
-                    dismiss();
+                if (selectShopDateListener != null) {
+                    selectShopDateListener.SelectShopDate(shopSelectBegin.getText().toString(), shopSelectEnd.getText().toString()
+                            , shopSelectClassified.getText().toString(), shopSelectBrand.getText().toString(), shopSelectModel.getText().toString(),shopSelectType.getText().toString());
                 }
+                dismiss();
+            }
                 break;
             case R.id.shop_select_bg://
                 dismiss();
@@ -296,4 +298,11 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
         this.selectShopDateListener = selectShopDateListener;
     }
 
+    public String getMonthEndTime() {
+        return DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis());
+    }
+
+    public String getMonthStartTime() {
+        return DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime());
+    }
 }

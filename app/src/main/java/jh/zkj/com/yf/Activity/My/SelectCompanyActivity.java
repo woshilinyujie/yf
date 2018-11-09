@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.lzy.okgo.OkGo;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,6 +27,7 @@ public class SelectCompanyActivity extends MBaseActivity implements SelectCompan
     ListView selectCompanyList;
     private SelectCompanyActivityPresenter selectCompanyActivityPresenter;
     private String phone;
+    private String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,11 @@ public class SelectCompanyActivity extends MBaseActivity implements SelectCompan
         setContentView(R.layout.activity_select_company);
         ButterKnife.bind(this);
         phone = getIntent().getStringExtra("phone");
+        json = getIntent().getStringExtra("json");
+
         selectCompanyActivityPresenter = new SelectCompanyActivityPresenter(this);
         selectCompanyActivityPresenter.initPager();
+
     }
 
     @OnClick({R.id.black})
@@ -51,5 +57,13 @@ public class SelectCompanyActivity extends MBaseActivity implements SelectCompan
 
     public String getPhone(){
         return phone;
+    }
+    public String getJson(){
+        return json;
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelTag(this);
     }
 }

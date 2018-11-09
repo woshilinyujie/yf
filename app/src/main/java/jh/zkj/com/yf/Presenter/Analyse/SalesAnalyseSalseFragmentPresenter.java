@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jh.zkj.com.yf.API.AnalyseAPI;
 import jh.zkj.com.yf.Activity.Analyse.ShopAnalyseActivity;
 import jh.zkj.com.yf.Bean.TestBean;
 import jh.zkj.com.yf.Contract.Analyse.SalesAnalyseSalseFragmentContract;
@@ -65,13 +66,16 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
     private Column<Object> id;
     private List<TestBean> list;
     private ClassifyPopupWindow classifyPopupWindow;
+    private final AnalyseAPI analyseAPI;
 
 
     public SalesAnalyseSalseFragmentPresenter(SalesAnalyseSalseFragment fragment) {
         this.fragment = fragment;
         context =fragment.getActivity();
+        analyseAPI = new AnalyseAPI();
         initPieChar();
         initTable();
+        getLinData();
     }
 
     //初始化popup 并且选择后  回调选择数据
@@ -85,6 +89,11 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
                 MToast.makeText(fragment.getActivity(),flag, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void getLinData() {
+//        analyseAPI.LineDate(context,"00001",);
     }
 
     private void initTable() {

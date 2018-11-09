@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:background="@drawable/shape_loading"
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_70"
         android:gravity="center">

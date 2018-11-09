@@ -10,12 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lzy.okgo.OkGo;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.RegisterActivityContract;
 import jh.zkj.com.yf.Mview.Toast.EToast;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.RegisterPresenter;
 import jh.zkj.com.yf.R;
 
@@ -48,6 +55,7 @@ public class RegisterActivity extends MBaseActivity implements RegisterActivityC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         registerPresenter = new RegisterPresenter(this);
     }
 
@@ -112,8 +120,21 @@ public class RegisterActivity extends MBaseActivity implements RegisterActivityC
 
     @Override
     public void showToast(String s) {
-        EToast.makeText(this,s, Toast.LENGTH_SHORT).show();
+        MToast.makeText(this,s, Toast.LENGTH_SHORT).show();
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelTag(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBus(String s){
+        if(s.equals("RegisterFinish")){
+            finish();
+        }
+    }
 }
