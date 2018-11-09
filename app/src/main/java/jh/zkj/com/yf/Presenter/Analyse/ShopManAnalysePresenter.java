@@ -91,7 +91,7 @@ public class ShopManAnalysePresenter implements ShopManAnalyseContract.ShopManAn
     public void setInfoListener() {
         popupWindow.setSelectDateListener(new SelectShopDateOneListener() {
             @Override
-            public void SelectShopDate(String date1, String date2, String classify, String brand, String modle,String danjuType) {
+            public void SelectShopDate(String date1, String date2, String classify, String brand, String modle) {
                 activity.setShopAnalyseSelectDate1(date1);
                 activity.setShopAnalyseSelectDate2(date2);
             }

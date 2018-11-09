@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Mview;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
@@ -24,11 +25,14 @@ import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jh.zkj.com.yf.Activity.Analyse.ClassifiedActivity;
 import jh.zkj.com.yf.Listener.SelectShopDateOneListener;
 import jh.zkj.com.yf.Mutils.DateUtil;
 import jh.zkj.com.yf.Mview.Toast.MToast;
@@ -42,7 +46,7 @@ import jh.zkj.com.yf.R;
 public class AnalyseSelectPopupWindow extends PopupWindow {
 
     private final View view;
-    Context context;
+    Activity context;
     @BindView(R.id.shop_select_today)
     Button shopSelectToday;
     @BindView(R.id.shop_select_week)
@@ -59,8 +63,6 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     TextView shopSelectBrand;
     @BindView(R.id.shop_select_model)
     TextView shopSelectModel;
-    @BindView(R.id.shop_select_type)
-    TextView shopSelectType;
     @BindView(R.id.shop_select_replace)
     Button shopSelectReplace;
     @BindView(R.id.shop_select_sure)
@@ -71,6 +73,13 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     DataSelect dataSelect1;
     DataSelect dataSelect2;
     SelectShopDateOneListener selectShopDateListener;
+    ReplaceListener replaceListener;
+    private String classifiedJson;
+    private String BrandJson;
+    private String ModelJson;
+    private String classifieduuid;
+    private String Branduuid;
+    private String Modeluuid;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -81,8 +90,9 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
         }
     };
     private TimePickerView pvTime;
+    private Intent intent;
 
-    public AnalyseSelectPopupWindow(final Context context) {
+    public AnalyseSelectPopupWindow(final Activity context) {
         super(context);
         this.context = context;
         view = View.inflate(context, R.layout.shop_select_layout, null);
@@ -96,7 +106,7 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
         //可触摸
         setTouchable(true);
         //设置进出动画
-        setAnimationStyle(R.style.select_Popup);
+//        setAnimationStyle(R.style.select_Popup);
         /**
          * 实例化一个ColorDrawable颜色为半透明
          * 设置SelectPicPopupWindow弹出窗体的背景
@@ -111,6 +121,7 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
         });
         initPickerView();
     }
+
 
     public void showPopup(View view) {
         //设置显示位置
@@ -135,7 +146,7 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     //日期选择初始化
     public void initPickerView() {
         //默认日期
-        shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis()));
+        shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime()));
         shopSelectEnd.setText(DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis()));
         pvTime = new TimePickerBuilder(context, new OnTimeSelectListener() {
             @Override
@@ -240,21 +251,46 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
                 dataSelect2 = dataSelect1;
                 break;
             case R.id.shop_select_classified://商品分类
+                if (intent == null)
+                    intent = new Intent(context, ClassifiedActivity.class);
+                intent.putExtra("flag", "classified");
+                intent.putExtra("json", classifiedJson);
+                context.startActivityForResult(intent, 1);
                 break;
             case R.id.shop_select_brand://商品品牌
+                if (intent == null)
+                    intent = new Intent(context, ClassifiedActivity.class);
+                intent.putExtra("flag", "brand");
+                intent.putExtra("json", BrandJson);
+                context.startActivityForResult(intent, 1);
                 break;
             case R.id.shop_select_model://商品型号
+                if (intent == null)
+                    intent = new Intent(context, ClassifiedActivity.class);
+                intent.putExtra("flag", "model");
+                intent.putExtra("json", ModelJson);
+                context.startActivityForResult(intent, 1);
                 break;
             case R.id.shop_select_replace://重置
+                shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime()));
+                shopSelectEnd.setText(DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis()));
+                shopSelectModel.setText("请选择");
+                shopSelectBrand.setText("请选择");
+                shopSelectClassified.setText("请选择");
+                classifieduuid="";
+                Branduuid="";
+                Modeluuid="";
+                if(replaceListener!=null){
+                    replaceListener.replace();
+                }
+
                 break;
             case R.id.shop_select_sure://确定
-                if (true) {
                 if (selectShopDateListener != null) {
                     selectShopDateListener.SelectShopDate(shopSelectBegin.getText().toString(), shopSelectEnd.getText().toString()
-                            , shopSelectClassified.getText().toString(), shopSelectBrand.getText().toString(), shopSelectModel.getText().toString(),shopSelectType.getText().toString());
+                            , classifieduuid, Branduuid, Modeluuid);
                 }
                 dismiss();
-            }
                 break;
             case R.id.shop_select_bg://
                 dismiss();
@@ -290,19 +326,47 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
 
     interface DataSelect {
         public void DataSelectSuccess(Date date);
-
-
     }
 
     public void setSelectDateListener(SelectShopDateOneListener selectShopDateListener) {
         this.selectShopDateListener = selectShopDateListener;
     }
 
+    public interface ReplaceListener{
+        void replace();
+    }
+
+    public void setReplaceListener(ReplaceListener replaceListener){
+        this.replaceListener=replaceListener;
+    }
     public String getMonthEndTime() {
         return DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis());
     }
 
     public String getMonthStartTime() {
         return DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime());
+    }
+
+    public void setclassifiedJson(String json, String name, String classifieduuid) {
+        classifiedJson = json;
+        this.classifieduuid = classifieduuid;
+        shopSelectClassified.setText(name);
+    }
+
+    public void setbrandJson(String json, String name, String branduuid) {
+        BrandJson = json;
+        this.Branduuid = branduuid;
+        shopSelectBrand.setText(name);
+    }
+
+    public void setModelJson(String json, String name, String modeluuid) {
+        ModelJson = json;
+        this.Modeluuid = modeluuid;
+        shopSelectModel.setText(name);
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
     }
 }

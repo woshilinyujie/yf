@@ -12,5 +12,5 @@ package jh.zkj.com.yf.Listener;
  */
 
 public interface SelectShopDateOneListener {
-        void SelectShopDate(String date1, String date2, String classify, String brand, String modle,String danjuType);
+        void SelectShopDate(String date1, String date2, String classify, String brand, String modle);
 }

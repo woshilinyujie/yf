@@ -66,7 +66,7 @@ public class ShopAnalyseSalseFragment extends MBaseFragment {
         rootView = View.inflate(getActivity(), R.layout.shop_analyse_salse_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         present = new ShopAnalyseSalseFragmentPresenter(this);
-        present.getLinCharData(shopName,conpanyCode,startData,endData,"","","","");
+        present.getLinCharData(shopName,conpanyCode,startData,endData,"","","");
         return rootView;
     }
 

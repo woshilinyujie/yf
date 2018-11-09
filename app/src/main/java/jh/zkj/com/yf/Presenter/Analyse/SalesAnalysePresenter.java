@@ -47,6 +47,11 @@ public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalyseP
         popupWindow = new AnalyseSelectPopupWindow(activity);
         activity.setShopAnalyseSelectDate1(popupWindow.getMonthStartTime());
         activity.setShopAnalyseSelectDate2(popupWindow.getMonthEndTime());
+        popupWindow.setReplaceListener(new AnalyseSelectPopupWindow.ReplaceListener() {
+            @Override
+            public void replace() {
+            }
+        });
     }
 
     @Override
@@ -89,7 +94,7 @@ public class SalesAnalysePresenter implements SalesAnalyseContract.SalesAnalyseP
     public void setInfoListener() {
         popupWindow.setSelectDateListener(new SelectShopDateOneListener() {
             @Override
-            public void SelectShopDate(String date1, String date2, String classify, String brand, String modle,String danjuType) {
+            public void SelectShopDate(String date1, String date2, String classify, String brand, String modle) {
                 activity.setShopAnalyseSelectDate1(date1);
                 activity.setShopAnalyseSelectDate2(date2);
 

@@ -41,7 +41,6 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
     private String classify;
     private String brand;
    private String modle;
-    private String danjuType;
     private  String shopName;
 
     public ShopAnalysePresenter(ShopAnalyseActivity activity) {
@@ -55,6 +54,14 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
         popupWindow = new AnalyseSelectPopupWindow(activity);
         activity.setShopAnalyseSelectDate1(popupWindow.getMonthStartTime());
         activity.setShopAnalyseSelectDate2(popupWindow.getMonthEndTime());
+        popupWindow.setReplaceListener(new AnalyseSelectPopupWindow.ReplaceListener() {
+            @Override
+            public void replace() {
+                classify="";
+                brand="";
+                modle="";
+            }
+        });
     }
 
 
@@ -80,11 +87,13 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
 
     @Override
     public void selectShop(View view) {
+        if(shopPopupWindow!=null)
         shopPopupWindow.showPopup(view);
     }
 
     @Override
     public void selectData(View view) {
+        if(popupWindow!=null)
         popupWindow.showPopup(view);
     }
 
@@ -99,12 +108,14 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
      */
     @Override
     public void setInfoListener() {
-        popupWindow.setSelectDateListener(new SelectShopDateOneListener() {
-            @Override
-            public void SelectShopDate(String date1, String date2, String classify, String brand, String modle,String danjuType) {
-                shopAnalyseSalseFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle,danjuType);
-            }
-        });
+        if(popupWindow!=null){
+            popupWindow.setSelectDateListener(new SelectShopDateOneListener() {
+                @Override
+                public void SelectShopDate(String date1, String date2, String classify, String brand, String modle) {
+                    shopAnalyseSalseFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle);
+                }
+            });
+        }
     }
 
 
@@ -113,13 +124,14 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
      */
     @Override
     public void setShopNameListener() {
-        shopPopupWindow.setSelectShopListener(new SelectShopListener() {
-            @Override
-            public void SelectShop(ShopNameBean.DataBean bean) {
-                shopAnalyseSalseFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle,danjuType);
-                activity.setShopAnalyseSelectShop(bean.getName());
-            }
-        });
+        if(shopPopupWindow!=null){
+            shopPopupWindow.setSelectShopListener(new SelectShopListener() {
+                @Override
+                public void SelectShop(ShopNameBean.DataBean bean) {
+                    shopAnalyseSalseFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle);
+                }
+            });
+        }
     }
 
     @Override
@@ -127,10 +139,12 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
         analyseAPI.getShopName(activity, new AnalyseAPI.IResultMsg<ShopNameBean>() {
             @Override
             public void Result(ShopNameBean bean) {
-                initDate(bean);
-                initViewpager(bean.getData().get(0).getName(),bean.getData().get(0).getCode());
-                activity.setShopAnalyseSelectShop(bean.getData().get(0).getName());
-                shopName=bean.getData().get(0).getName();
+                if(bean!=null){
+                    initDate(bean);
+                    initViewpager(bean.getData().get(0).getName(),bean.getData().get(0).getCode());
+                    activity.setShopAnalyseSelectShop(bean.getData().get(0).getName());
+                    shopName=bean.getData().get(0).getName();
+                }
             }
 
             @Override
@@ -191,11 +205,22 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
         this.modle = modle;
     }
 
-    public void setDanjuType(String danjuType) {
-        this.danjuType = danjuType;
-    }
 
     public void setShopName(String shopName) {
         this.shopName = shopName;
+    }
+
+    public void setPopuoJson(int flag,String s,String name,String uuid){
+        switch (flag){
+            case 1:
+                popupWindow.setclassifiedJson(s,name,uuid);
+                break;
+            case 2:
+                popupWindow.setbrandJson(s,name,uuid);
+                break;
+            case 3:
+                popupWindow.setModelJson(s,name,uuid);
+                break;
+        }
     }
 }
