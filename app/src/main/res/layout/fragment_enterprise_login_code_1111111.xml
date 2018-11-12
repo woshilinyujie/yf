@@ -155,6 +155,7 @@
     </LinearLayout>
 
     <!-- 这特喵的是个啥？ -->
+<!--
     <TextView
         android:layout_width="@dimen/dp_217"
         android:layout_height="@dimen/dp_44"
@@ -168,5 +169,6 @@
         android:textSize="@dimen/sp_14"
         android:layout_marginBottom="@dimen/dp_25"
         android:background="@drawable/shape_solid_ffc300_left_radius_4"/>
+-->
 
 </RelativeLayout>
