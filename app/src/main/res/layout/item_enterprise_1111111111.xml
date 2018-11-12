@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_12"
+        android:paddingLeft="@dimen/dp_16">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/enterprise_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="企业代码：1001"
+                android:includeFontPadding="false"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/c_a6a6a6"/>
+
+            <TextView
+                android:id="@+id/enterprise_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上海江川物流有限公司"
+                android:includeFontPadding="false"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/c_333333"
+                android:layout_marginTop="@dimen/dp_10"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16">
+
+            <TextView
+                android:id="@+id/enterprise_red_dot_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/dp_18"
+                android:paddingLeft="@dimen/dp_18"
+                android:paddingBottom="@dimen/dp_6"
+                android:paddingTop="@dimen/dp_6"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginRight="@dimen/dp_4"
+                android:text="审核"
+                android:textColor="@color/c_6fb1fc"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_stroke_6fb1fc_radius_30"/>
+
+            <TextView
+                android:id="@+id/enterprise_examine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="100"
+                android:textColor="@color/white"
+                android:minWidth="@dimen/dp_12"
+                android:textSize="@dimen/sp_10"
+                android:paddingLeft="@dimen/dp_3"
+                android:paddingRight="@dimen/dp_3"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_solid_ff001f_radius_30"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_10"/>
+
+</LinearLayout>
