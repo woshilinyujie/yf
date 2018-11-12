@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingTop="@dimen/dp_15"
+    android:paddingBottom="@dimen/dp_15"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/join_enterprise_history_com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/c_333333"
+        android:text="四川成都三菱数码有限公司"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12">
+
+        <TextView
+            android:id="@+id/join_enterprise_history_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/c_a6a6a6"
+            android:text="企业代码：ZAED007"/>
+
+        <TextView
+            android:id="@+id/join_enterprise_history_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/c_ff6600"
+            android:layout_alignParentRight="true"
+            android:text="已禁用"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
