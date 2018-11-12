@@ -83,7 +83,6 @@
 
 
         <EditText
-
             android:textCursorDrawable="@null"
             android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:id="@+id/login_pass_word_et"
