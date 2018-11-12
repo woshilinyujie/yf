@@ -1,14 +1,12 @@
 package jh.zkj.com.yf.Presenter.Analyse;
 
 import android.graphics.Color;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bin.david.form.data.column.Column;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -28,28 +26,25 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import jh.zkj.com.yf.API.AnalyseAPI;
-import jh.zkj.com.yf.Activity.Analyse.ShopManAnalyseActivity;
+import jh.zkj.com.yf.Activity.Analyse.ShopAnalyseActivity;
 import jh.zkj.com.yf.Bean.LineDataBean;
 import jh.zkj.com.yf.Bean.PieDataBean;
-import jh.zkj.com.yf.Bean.TestBean;
-import jh.zkj.com.yf.Contract.Analyse.ShopManAnalyseSalseMoneyFragmentContract;
-import jh.zkj.com.yf.Fragment.Analyse.ShopManAnalyseSalseMoneyFragment;
+import jh.zkj.com.yf.Contract.Analyse.ShopAnalyseMoneyFragmentContract;
+import jh.zkj.com.yf.Fragment.Analyse.ShopAnalyseProfitFragment;
 import jh.zkj.com.yf.Mutils.DpUtils;
 import jh.zkj.com.yf.Mview.MyMarkerView;
 import jh.zkj.com.yf.R;
 
 /**
- * Created by linyujie on 18/10/16.
+ * Created by linyujie on 18/10/11.
  */
 
-public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMoneyFragmentContract.ShopManAnalyseSalseMoneyFragmentpresent {
-    ShopManAnalyseSalseMoneyFragment fragment;
+public class ShopAnalyseSalseProfitFragmentPresenter implements ShopAnalyseMoneyFragmentContract.ShopAnalyseMoneyFragmentPresent {
+    ShopAnalyseProfitFragment fragment;
     private LineChart mLineChart;
     public static final int[] PIE_COLORS = {
             Color.rgb(255, 204, 98), Color.rgb(234, 99, 48), Color.rgb(63, 189, 176),
@@ -61,29 +56,32 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
     private Column<Object> age;
     private Column<Object> id;
     private List<PieDataBean.DataBean> list;
-    private ShopManAnalyseActivity context;
+    private ShopAnalyseActivity context;
     private final AnalyseAPI analyseAPI;
     private PieChart pieChart;
 
-    public ShopManAnalyseSalseMoneyPresenter(ShopManAnalyseSalseMoneyFragment fragment) {
+
+
+    public ShopAnalyseSalseProfitFragmentPresenter(ShopAnalyseProfitFragment fragment) {
         this.fragment = fragment;
-        context = (ShopManAnalyseActivity) fragment.getActivity();
+        context = (ShopAnalyseActivity) fragment.getActivity();
         analyseAPI = new AnalyseAPI();
     }
+
     private void initTable(PieDataBean bean) {
         list = new ArrayList<PieDataBean.DataBean>();
         for(int x=0;x<bean.getData().size();x++){
             list.add(bean.getData().get(x));
         }
-        ShopAnalyseSalseMoneyFragmentAdapter adapter = new ShopAnalyseSalseMoneyFragmentAdapter();
-        fragment.getShopManSalesMoneyTableList().setAdapter(adapter);
+        ShopAnalyseSalseProfitFragmentAdapter adapter = new ShopAnalyseSalseProfitFragmentAdapter();
+        fragment.getSalesProfitTableList().setAdapter(adapter);
     }
 
 
     @Override
     public void getLinCharData(final String shopName, final String companyCode, final String startDate, final String endDate
             , final String classifyUuid, final String brandUuid, final String skuName) {
-        analyseAPI.LineDate(context, "sale_amount", companyCode, startDate, endDate, classifyUuid, brandUuid, skuName
+        analyseAPI.LineDate(context, "profit", companyCode, startDate, endDate, classifyUuid, brandUuid, skuName
                 , new AnalyseAPI.IResultMsg<LineDataBean>() {
                     @Override
                     public void Result(LineDataBean bean) {
@@ -101,8 +99,8 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
 
     @Override
     public void getPieCharData(final String shopName, final String companyCode, final String startDate, final String endDate, final String classifyUuid, final String brandUuid, final String skuName) {
-        analyseAPI.pieDate(context, "sale_amount", companyCode, startDate, endDate, classifyUuid, brandUuid, skuName,
-                "clerk","", new AnalyseAPI.IResultMsg<PieDataBean>() {
+        analyseAPI.pieDate(context, "profit", companyCode, startDate, endDate, classifyUuid, brandUuid, skuName,
+                "store","", new AnalyseAPI.IResultMsg<PieDataBean>() {
                     @Override
                     public void Result(PieDataBean bean) {
                         initPieChar(bean);
@@ -125,7 +123,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
             if (item.getTarget_data() > max)
                 max = (int) item.getTarget_data();
         }
-        mLineChart = fragment.getShopManSalesMoneyChart();
+        mLineChart = fragment.getSalesProfitChart();
         LineData mLineData = setLineData(bean, bean.getData().size(), max);
         showChart(bean.getData().size(),mLineChart, mLineData, Color.rgb(114, 188, 223));
     }
@@ -133,15 +131,16 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
 
     @Override
     public LineData setLineData(LineDataBean bean, int count, float range) {
-        int countAll=0;
         // y轴的数据
+        int countAll=0;
         ArrayList<Entry> yValues = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
             yValues.add(new Entry(i, value));
             countAll= (int) (countAll+bean.getData().get(i).getTarget_data());
         }
-        fragment.setShopManSalesMoneyAll("总销量："+countAll);
+        fragment.setSalesProfitAllTx("总销量："+countAll);
+
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");
         //用y轴的集合来设置参数
@@ -240,7 +239,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
 
 
     private void initPieChar(PieDataBean bean) {
-        pieChart = fragment.getShopManSalesMoneyPieChart();
+        pieChart = fragment.getSalesProfitPieChart();
         //模拟数据
         HashMap<String, Integer> dataMap = new HashMap<String,Integer>();
         for(int x=0;x<bean.getData().size();x++){
@@ -328,8 +327,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         pieChart.invalidate();
     }
 
-
-    class ShopAnalyseSalseMoneyFragmentAdapter extends BaseAdapter {
+    class ShopAnalyseSalseProfitFragmentAdapter extends BaseAdapter {
 
         @Override
         public int getItemViewType(int position) {

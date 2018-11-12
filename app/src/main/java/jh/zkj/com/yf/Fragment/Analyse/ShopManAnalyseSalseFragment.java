@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -31,6 +32,8 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
     PieChart shopManSalesPieChart;
     @BindView(R.id.shop_man_sales_table_list)
     MeasureListView shopManSalesTableList;
+    @BindView(R.id.shop_man_sales_all)
+    TextView shopManSalesAll;
     private View rootView;
     private Unbinder unbinder;
     private ShopManAnalyseSalseFragmentPresenter present;
@@ -39,13 +42,13 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
     private String conpanyCode;
     private String shopName;
 
-    public static ShopManAnalyseSalseFragment newInstance(String shopName,String startData,String endData,String conpanyCode) {
+    public static ShopManAnalyseSalseFragment newInstance(String shopName, String startData, String endData, String conpanyCode) {
         ShopManAnalyseSalseFragment fragment = new ShopManAnalyseSalseFragment();
-        Bundle bundle=new Bundle();
-        bundle.putString("endData",endData);
-        bundle.putString("startData",startData);
-        bundle.putString("conpanyCode",conpanyCode);
-        bundle.putString("shopName",shopName);
+        Bundle bundle = new Bundle();
+        bundle.putString("endData", endData);
+        bundle.putString("startData", startData);
+        bundle.putString("conpanyCode", conpanyCode);
+        bundle.putString("shopName", shopName);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -64,7 +67,7 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
         rootView = View.inflate(getActivity(), R.layout.shop_man_analyse_salse_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         present = new ShopManAnalyseSalseFragmentPresenter(this);
-        present.getLinCharData(shopName,conpanyCode,startData,endData,"","","");
+        present.getLinCharData(shopName, conpanyCode, startData, endData, "", "", "");
         return rootView;
     }
 
@@ -89,5 +92,8 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
 
     public ShopManAnalyseSalseFragmentPresenter getPresent() {
         return present;
+    }
+    public void setShopManSalesAll(String s){
+        shopManSalesAll.setText(s);
     }
 }

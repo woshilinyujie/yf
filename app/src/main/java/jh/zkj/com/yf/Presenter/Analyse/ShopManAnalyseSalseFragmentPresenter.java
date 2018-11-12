@@ -145,13 +145,15 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
 
     @Override
     public LineData setLineData(LineDataBean bean, int count, float range) {
+        int countAll=0;
         // y轴的数据
         ArrayList<Entry> yValues = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
             yValues.add(new Entry(i, value));
+            countAll= (int) (countAll+bean.getData().get(i).getTarget_data());
         }
-
+        fragment.setShopManSalesAll("总销量："+countAll);
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");
         //用y轴的集合来设置参数

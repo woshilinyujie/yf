@@ -21,7 +21,7 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
  */
 
 public class AnalyseAPI {
-    public final String TOKEN="987637a9-bb4b-40f7-96d4-cac9aa3166cd";
+    public final String TOKEN="aa208119-d25b-4b59-b2ba-e25a0a9bb5f4";
     public final String API="http://192.168.68.12";
     private LoadingDialog dialog;
 
