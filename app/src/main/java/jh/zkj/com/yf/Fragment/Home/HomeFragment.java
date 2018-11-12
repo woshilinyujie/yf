@@ -133,9 +133,9 @@ public class HomeFragment extends MBaseFragment {
                 presenter.toRetailOrder();
                 break;
             case R.id.home_fragment_common_menu_two://常用2
-//                Intent intent=new Intent(getActivity(),CompanyFilesActivity.class);
-//                startActivity(intent);
-                presenter.toRetail();
+                Intent intent=new Intent(getActivity(),LoginActivity.class);
+                startActivity(intent);
+//                presenter.toRetail();
                 break;
             case R.id.home_fragment_common_menu_three://常用3
                 break;
