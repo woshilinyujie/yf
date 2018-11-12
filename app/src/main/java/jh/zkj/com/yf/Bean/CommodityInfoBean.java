@@ -38,8 +38,12 @@ public class CommodityInfoBean implements Serializable{
     private String firstInTime;
     private String currentStockAge;
     private String exceedStockAge;
+    //uuid不可能空  空了就叫服务端返回空字符串
     private String uuid;
+    //商品数量
     private String qty;
+    //库存
+    private String stockQty;
     //本地使用  无串号商品记录数量
     private int count;
     //单价
@@ -156,5 +160,13 @@ public class CommodityInfoBean implements Serializable{
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getStockQty() {
+        return stockQty;
+    }
+
+    public void setStockQty(String stockQty) {
+        this.stockQty = stockQty;
     }
 }

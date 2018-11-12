@@ -77,7 +77,7 @@
     </RelativeLayout>
 
     <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/retail_list_refresh"
+        android:id="@+id/select_commodity_refresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/select_commodity_store_name"
@@ -104,14 +104,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         android:paddingLeft="@dimen/dp_10"
-            android:paddingBottom="@dimen/dp_10">
+        android:paddingBottom="@dimen/dp_10">
 
-            <ImageView
-                android:id="@+id/select_commodity_car"
-                android:layout_width="@dimen/dp_52"
-                android:layout_height="@dimen/dp_52"
-                android:src="@mipmap/shopping_cart"/>
+        <ImageView
+            android:id="@+id/select_commodity_car"
+            android:layout_width="@dimen/dp_52"
+            android:layout_height="@dimen/dp_52"
+            android:src="@mipmap/shopping_cart"/>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

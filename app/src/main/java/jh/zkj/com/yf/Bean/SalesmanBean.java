@@ -10,99 +10,383 @@ import java.util.List;
  * use
  */
 public class SalesmanBean implements Serializable{
+
     /**
-     * topCompanyCode : 00001
-     * createTime : 2018-09-29 18:11:47
-     * createUserUuid : 1
-     * updateTime : 2018-09-30 09:44:48
-     * updateUserUuid : 1
-     * sysRemark : null
-     * validFlag : 1
-     * version : 1
-     * uuid : 1
-     * username : whz
-     * password : $2a$10$HCHkLz33QI.BfqxNTzgCk.BEF4GyJboWFOnf0WN81l9PsyqgPt2hO
-     * name : 吴
-     * tel : 18970313532
-     * idCard : 362331199108213012
-     * searchDays : 10
-     * soClerkFlag : 1
-     * poClerkFlag : 0
-     * serviceEngFlag : 0
-     * updateOtherBillFlag : 0
-     * viewSupplierFlag : 0
-     * viewCostFlag : 0
-     * viewWsPriceFlag : 0
-     * viewSoPriceFlag : 0
-     * viewSelfFlag : 0
-     * enableFlag : 1
-     * remark : null
-     * id : 20180929181148008
-     * companyUuid : 1426d062-1b36-4faf-a414-a04f1c8f2c22
+     * records : [{"topCompanyCode":"00001","createTime":"2018-11-09 10:10:02","createUserUuid":"1","updateTime":"2018-11-09 15:10:09","updateUserUuid":"1","sysRemark":null,"validFlag":1,"version":2,"uuid":"7bd8715ca6bd46eebeaff54f9e4a8050","ascriptionCompanyUuid":null,"password":"$2a$10$DEjknO3q8ASe./oTcNcFGedWoErVZ/sH6zB7gIvGjgnk8.uyGQi7i","name":"42rfdfffgfg","mobileNum":null,"idCard":"130444199809084559","searchDays":32,"soClerkFlag":1,"poClerkFlag":0,"serviceEngFlag":1,"updateOtherBillFlag":1,"viewSupplierFlag":0,"viewCostFlag":1,"viewWsPriceFlag":1,"viewSoPriceFlag":0,"basicUserUuid":null,"enableFlag":0,"remark":null,"id":20181109101002036,"companyUuid":"03f1d065adbd45809f05fe2914bf20dc","companyName":"舟山营销中心","roleName":"超级管理员","roleUuid":null}]
+     * total : 11
+     * size : 10
+     * current : 1
+     * pages : 2
      */
 
-//        private String topCompanyCode;
-//        private String createTime;
-//        private String createUserUuid;
-//        private String updateTime;
-//        private String updateUserUuid;
-//        private Object sysRemark;
-//        private int validFlag;
-//        private int version;
-    //唯一识别id
-    private String uuid;
-    //        private String username;
-//        private String password;
-    private String name;
-    //        private String tel;
-//        private String idCard;
-//        private int searchDays;
-//        private int soClerkFlag;
-//        private int poClerkFlag;
-//        private int serviceEngFlag;
-//        private int updateOtherBillFlag;
-//        private int viewSupplierFlag;
-//        private int viewCostFlag;
-//        private int viewWsPriceFlag;
-//        private int viewSoPriceFlag;
-//        private int viewSelfFlag;
-//        private int enableFlag;
-//        private Object remark;
-    private long id;
-    //选中状态
-    private boolean isSelect;
-//        private String companyUuid;
+    private int total;
+    private int size;
+    private int current;
+    private int pages;
+    private ArrayList<RecordsBean> records;
 
-
-    public String getUuid() {
-        return uuid;
+    public int getTotal() {
+        return total;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public String getName() {
-        return name;
+    public int getSize() {
+        return size;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    public long getId() {
-        return id;
+    public int getCurrent() {
+        return current;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
-    public boolean isSelect() {
-        return isSelect;
+    public int getPages() {
+        return pages;
     }
 
-    public void setSelect(boolean select) {
-        isSelect = select;
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public ArrayList<RecordsBean> getRecords() {
+        return records;
+    }
+
+    public void setRecords(ArrayList<RecordsBean> records) {
+        this.records = records;
+    }
+
+    public static class RecordsBean implements Serializable{
+        /**
+         * topCompanyCode : 00001
+         * createTime : 2018-11-09 10:10:02
+         * createUserUuid : 1
+         * updateTime : 2018-11-09 15:10:09
+         * updateUserUuid : 1
+         * sysRemark : null
+         * validFlag : 1
+         * version : 2
+         * uuid : 7bd8715ca6bd46eebeaff54f9e4a8050
+         * ascriptionCompanyUuid : null
+         * password : $2a$10$DEjknO3q8ASe./oTcNcFGedWoErVZ/sH6zB7gIvGjgnk8.uyGQi7i
+         * name : 42rfdfffgfg
+         * mobileNum : null
+         * idCard : 130444199809084559
+         * searchDays : 32
+         * soClerkFlag : 1
+         * poClerkFlag : 0
+         * serviceEngFlag : 1
+         * updateOtherBillFlag : 1
+         * viewSupplierFlag : 0
+         * viewCostFlag : 1
+         * viewWsPriceFlag : 1
+         * viewSoPriceFlag : 0
+         * basicUserUuid : null
+         * enableFlag : 0
+         * remark : null
+         * id : 20181109101002036
+         * companyUuid : 03f1d065adbd45809f05fe2914bf20dc
+         * companyName : 舟山营销中心
+         * roleName : 超级管理员
+         * roleUuid : null
+         */
+
+        private String topCompanyCode;
+        private String createTime;
+        private String createUserUuid;
+        private String updateTime;
+        private String updateUserUuid;
+        private Object sysRemark;
+        private int validFlag;
+        private int version;
+        private String uuid;
+        private Object ascriptionCompanyUuid;
+        private String password;
+        private String name;
+        private Object mobileNum;
+        private String idCard;
+        private int searchDays;
+        private int soClerkFlag;
+        private int poClerkFlag;
+        private int serviceEngFlag;
+        private int updateOtherBillFlag;
+        private int viewSupplierFlag;
+        private int viewCostFlag;
+        private int viewWsPriceFlag;
+        private int viewSoPriceFlag;
+        private Object basicUserUuid;
+        private int enableFlag;
+        private Object remark;
+        private long id;
+        private String companyUuid;
+        private String companyName;
+        private String roleName;
+        private Object roleUuid;
+        private boolean isSelect;
+
+        public String getTopCompanyCode() {
+            return topCompanyCode;
+        }
+
+        public void setTopCompanyCode(String topCompanyCode) {
+            this.topCompanyCode = topCompanyCode;
+        }
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
+
+        public String getCreateUserUuid() {
+            return createUserUuid;
+        }
+
+        public void setCreateUserUuid(String createUserUuid) {
+            this.createUserUuid = createUserUuid;
+        }
+
+        public String getUpdateTime() {
+            return updateTime;
+        }
+
+        public void setUpdateTime(String updateTime) {
+            this.updateTime = updateTime;
+        }
+
+        public String getUpdateUserUuid() {
+            return updateUserUuid;
+        }
+
+        public void setUpdateUserUuid(String updateUserUuid) {
+            this.updateUserUuid = updateUserUuid;
+        }
+
+        public Object getSysRemark() {
+            return sysRemark;
+        }
+
+        public void setSysRemark(Object sysRemark) {
+            this.sysRemark = sysRemark;
+        }
+
+        public int getValidFlag() {
+            return validFlag;
+        }
+
+        public void setValidFlag(int validFlag) {
+            this.validFlag = validFlag;
+        }
+
+        public int getVersion() {
+            return version;
+        }
+
+        public void setVersion(int version) {
+            this.version = version;
+        }
+
+        public String getUuid() {
+            return uuid;
+        }
+
+        public void setUuid(String uuid) {
+            this.uuid = uuid;
+        }
+
+        public Object getAscriptionCompanyUuid() {
+            return ascriptionCompanyUuid;
+        }
+
+        public void setAscriptionCompanyUuid(Object ascriptionCompanyUuid) {
+            this.ascriptionCompanyUuid = ascriptionCompanyUuid;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Object getMobileNum() {
+            return mobileNum;
+        }
+
+        public void setMobileNum(Object mobileNum) {
+            this.mobileNum = mobileNum;
+        }
+
+        public String getIdCard() {
+            return idCard;
+        }
+
+        public void setIdCard(String idCard) {
+            this.idCard = idCard;
+        }
+
+        public int getSearchDays() {
+            return searchDays;
+        }
+
+        public void setSearchDays(int searchDays) {
+            this.searchDays = searchDays;
+        }
+
+        public int getSoClerkFlag() {
+            return soClerkFlag;
+        }
+
+        public void setSoClerkFlag(int soClerkFlag) {
+            this.soClerkFlag = soClerkFlag;
+        }
+
+        public int getPoClerkFlag() {
+            return poClerkFlag;
+        }
+
+        public void setPoClerkFlag(int poClerkFlag) {
+            this.poClerkFlag = poClerkFlag;
+        }
+
+        public int getServiceEngFlag() {
+            return serviceEngFlag;
+        }
+
+        public void setServiceEngFlag(int serviceEngFlag) {
+            this.serviceEngFlag = serviceEngFlag;
+        }
+
+        public int getUpdateOtherBillFlag() {
+            return updateOtherBillFlag;
+        }
+
+        public void setUpdateOtherBillFlag(int updateOtherBillFlag) {
+            this.updateOtherBillFlag = updateOtherBillFlag;
+        }
+
+        public int getViewSupplierFlag() {
+            return viewSupplierFlag;
+        }
+
+        public void setViewSupplierFlag(int viewSupplierFlag) {
+            this.viewSupplierFlag = viewSupplierFlag;
+        }
+
+        public int getViewCostFlag() {
+            return viewCostFlag;
+        }
+
+        public void setViewCostFlag(int viewCostFlag) {
+            this.viewCostFlag = viewCostFlag;
+        }
+
+        public int getViewWsPriceFlag() {
+            return viewWsPriceFlag;
+        }
+
+        public void setViewWsPriceFlag(int viewWsPriceFlag) {
+            this.viewWsPriceFlag = viewWsPriceFlag;
+        }
+
+        public int getViewSoPriceFlag() {
+            return viewSoPriceFlag;
+        }
+
+        public void setViewSoPriceFlag(int viewSoPriceFlag) {
+            this.viewSoPriceFlag = viewSoPriceFlag;
+        }
+
+        public Object getBasicUserUuid() {
+            return basicUserUuid;
+        }
+
+        public void setBasicUserUuid(Object basicUserUuid) {
+            this.basicUserUuid = basicUserUuid;
+        }
+
+        public int getEnableFlag() {
+            return enableFlag;
+        }
+
+        public void setEnableFlag(int enableFlag) {
+            this.enableFlag = enableFlag;
+        }
+
+        public Object getRemark() {
+            return remark;
+        }
+
+        public void setRemark(Object remark) {
+            this.remark = remark;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getCompanyUuid() {
+            return companyUuid;
+        }
+
+        public void setCompanyUuid(String companyUuid) {
+            this.companyUuid = companyUuid;
+        }
+
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
+        }
+
+        public String getRoleName() {
+            return roleName;
+        }
+
+        public void setRoleName(String roleName) {
+            this.roleName = roleName;
+        }
+
+        public Object getRoleUuid() {
+            return roleUuid;
+        }
+
+        public void setRoleUuid(Object roleUuid) {
+            this.roleUuid = roleUuid;
+        }
+
+        public boolean isSelect() {
+            return isSelect;
+        }
+
+        public void setSelect(boolean select) {
+            isSelect = select;
+        }
     }
 }

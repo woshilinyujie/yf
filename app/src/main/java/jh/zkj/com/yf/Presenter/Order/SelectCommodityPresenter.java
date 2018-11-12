@@ -10,14 +10,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +39,7 @@ import jh.zkj.com.yf.Bean.CommodityBean;
 import jh.zkj.com.yf.Bean.CommodityInfoBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.SelectCommodityContract;
+import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.R;
 
 /**
@@ -50,9 +55,17 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     private SelectAdapter adapter;
     private RecyclerView recycler;
     private OrderAPI api;
+    private boolean isMore = true;//是否还有更多
+    private int pageNum = 1;
+    private final int pageSize = 10;
+    private TwinklingRefreshLayout refreshLayout;
 
     private ArrayList<CommodityInfoBean> commodityList = new ArrayList<>();
-//    private ArrayList<CommodityInfoBean> serialList = new ArrayList<>();
+    private ArrayList<CommodityInfoBean> records = new ArrayList<>();
+    private LoadingDialog loadingDialog;
+    private String searchText = "";
+
+    //    private ArrayList<CommodityInfoBean> serialList = new ArrayList<>();
 
     public SelectCommodityPresenter(SelectCommodityActivity activity) {
         this.activity = activity;
@@ -62,13 +75,15 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
     private void initPresenter() {
         recycler = activity.getRecycler();
+        refreshLayout = activity.getRefreshLayout();
         if(activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY) != null){
             commodityList = (ArrayList<CommodityInfoBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY);
         }
         api = new OrderAPI();
         initAdapter();
 
-        getCommodityList("", 0, 20);
+        pageNum = 1;
+        getCommodityList(searchText, pageNum, pageSize, refreshMsg);
     }
 
     private void initAdapter() {
@@ -81,6 +96,38 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     }
 
     private void initListener() {
+
+        activity.getSearch().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                //回车键
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    pageNum = 1;
+                    searchText = activity.getSearch().getText().toString();
+                    getCommodityList(searchText, pageNum, pageSize, refreshMsg);
+                }
+                return true;
+            }
+        });
+
+
+        refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                refreshLayout.setEnableLoadmore(true);
+                pageNum = 1;
+                getCommodityList(searchText, pageNum, pageSize, refreshMsg);
+            }
+
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                pageNum ++;
+                getCommodityList(searchText, pageNum, pageSize, loadMoreMsg);
+            }
+        });
     }
 
     @Override
@@ -160,7 +207,12 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
             final CommodityInfoBean item = getItem(position);
             if(item != null){
-                holder.stockNum.setText("库存：");
+                int index = item.getStockQty().indexOf(".");
+                if(index != -1){
+                    holder.stockNum.setText("库存：" + item.getStockQty().substring(0, index));
+                }else{
+                    holder.stockNum.setText("库存：" + item.getStockQty());
+                }
                 holder.content.setText(item.getFullName());
 
                 if(TextUtils.isEmpty(item.getSerialNo())){
@@ -235,6 +287,16 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                         }
                     });
                 }
+
+                if(isMore){
+                    holder.noMore.setVisibility(View.GONE);
+                }else{
+                    if(position == mArr.size() - 1){
+                        holder.noMore.setVisibility(View.VISIBLE);
+                    }else{
+                        holder.noMore.setVisibility(View.GONE);
+                    }
+                }
             }
         }
 
@@ -271,6 +333,9 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
             // + 或 扫码
             @BindView(R.id.select_commodity_add_scan)
             ImageView addOrScan;
+            //没有更多
+            @BindView(R.id.select_commodity_no_more)
+            TextView noMore;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -280,36 +345,92 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     }
 
     //****************************************************************************************************************
-    //获取商品列表
-    private void getCommodityList(String keyWord, int page, int size){
-        api.getSearchCommodity(keyWord, page, size, new OrderAPI.IResultMsg<CommodityBean>() {
-            @Override
-            public void Result(CommodityBean bean) {
+    //刷新MSG
+    private OrderAPI.IResultMsg<CommodityBean> refreshMsg =  new OrderAPI.IResultMsg<CommodityBean>(){
+        @Override
+        public void Result(CommodityBean bean) {
+            refreshLayout.finishRefreshing();
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            if(bean != null){
+                records = bean.getRecords();
+                refreshLayout.setEnableLoadmore(true);
+                setSelectComList(records);
+                isMore = true;
+                adapter.notifyData(records);
+            }
+        }
 
-                if(bean != null){
-                    ArrayList<CommodityInfoBean> records = bean.getRecords();
-                    for (CommodityInfoBean infoBean : commodityList){
-                        for (CommodityInfoBean record : records){
-                            if(TextUtils.isEmpty(infoBean.getSerialNo())){
-                                if(infoBean.getUuid().equals(record.getUuid())
-                                        && infoBean.getWarehouseUuid().equals(record.getWarehouseUuid())){
-                                    record.setCount(infoBean.getCount());
-                                    record.setPrice(infoBean.getPrice());
-                                }
-                            }
-                        }
+        @Override
+        public void Error(String json) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            if(BuildConfig.DEBUG){
+                Log.e("wdefer" , "error json == " + json);
+            }
+        }
+    };
+
+    //加载更多MSG
+    private OrderAPI.IResultMsg<CommodityBean> loadMoreMsg =  new OrderAPI.IResultMsg<CommodityBean>(){
+        @Override
+        public void Result(CommodityBean bean) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            refreshLayout.finishLoadmore();
+            if(bean != null){
+                if(bean.getRecords() != null && bean.getRecords().size() > 0){
+                    if(records != null){
+                        isMore = true;
+                        records.addAll(bean.getRecords());
                     }
-                    setTotalCount();
-                    adapter.notifyData(records);
+                }else{
+                    refreshLayout.setEnableLoadmore(false);
+                    isMore = false;
                 }
-            }
 
-            @Override
-            public void Error(String json) {
-                if(BuildConfig.DEBUG){
-                    Log.e("wdefer" , "error json == " + json);
+                setSelectComList(records);
+                adapter.notifyData(records);
+            }
+        }
+
+        @Override
+        public void Error(String json) {
+            if(loadingDialog.isShowing()){
+                loadingDialog.dismissLoading();
+            }
+            if(BuildConfig.DEBUG){
+                Log.e("wdefer" , "error json == " + json);
+            }
+        }
+    };
+
+    //获取商品列表
+    private void getCommodityList(String keyWord, int page, int size, OrderAPI.IResultMsg<CommodityBean> msg){
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(activity);
+        }
+        loadingDialog.showLoading();
+        api.getSearchCommodity(keyWord, page, size, msg);
+
+    }
+
+    //设置选择过的商品
+    private void setSelectComList(ArrayList<CommodityInfoBean> records) {
+        for (CommodityInfoBean infoBean : commodityList){
+            for (CommodityInfoBean record : records){
+                if(TextUtils.isEmpty(infoBean.getSerialNo())){
+                    if(infoBean.getUuid().equals(record.getUuid())
+                            && infoBean.getWarehouseUuid().equals(record.getWarehouseUuid())){
+                        record.setCount(infoBean.getCount());
+                        record.setPrice(infoBean.getPrice());
+                    }
                 }
             }
-        });
+        }
+        setTotalCount();
     }
 }

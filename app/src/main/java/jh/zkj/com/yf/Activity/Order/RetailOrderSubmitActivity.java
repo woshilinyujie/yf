@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Activity.Order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -49,5 +50,11 @@ public class RetailOrderSubmitActivity extends MBaseActivity implements RetailOr
             }
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.onActivityResult(requestCode, resultCode, data);
     }
 }

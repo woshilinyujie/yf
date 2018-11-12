@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/c_333333"
             android:textSize="@dimen/sp_14"
+            android:layout_marginLeft="@dimen/dp_100"
             android:layout_alignParentRight="true"/>
 
         <ImageView

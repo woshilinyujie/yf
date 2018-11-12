@@ -10,14 +10,22 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import jh.zkj.com.yf.API.HomeAPI;
+import jh.zkj.com.yf.API.OrderAPI;
+import jh.zkj.com.yf.Activity.Home.HomeConfig;
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.My.MyOrderActivity;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
+import jh.zkj.com.yf.Bean.HomeMenuBean;
 import jh.zkj.com.yf.Contract.Home.HomeContract;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
 import jh.zkj.com.yf.Fragment.Home.HomeWaitReceivablesFragment;
 import jh.zkj.com.yf.Fragment.Home.HomeWaitWarehouseFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
+import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/9/20.
@@ -29,6 +37,7 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
     private ArrayList<MBaseFragment> fragments;
     private HomeWaitReceivablesFragment homeWaitReceivablesFragment;
     private HomeWaitWarehouseFragment homeWaitWarehouseFragment;
+    private HomeAPI homeAPI;
 
     public HomeFragmentPresenter(HomeFragment homeFragment) {
         this.activity = (MainActivity) homeFragment.getActivity();
@@ -47,6 +56,9 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
         HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(activity.getSupportFragmentManager(), fragments);
         homeFragment.getHomeFragmentViewpager().setAdapter(adapter);
         homeFragment.getHomeFragmentTab().setViewPager(homeFragment.getHomeFragmentViewpager());
+
+        homeAPI = new HomeAPI();
+        getBasicMenuList();
     }
 
     @Override
@@ -80,7 +92,62 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
 
     @Override
     public void toRetail() {
+        Intent intent = new Intent(activity, MyOrderActivity.class);
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCOPE, RetailListPresenter.STATUS_SCOPE_ALL);
+        activity.startActivity(intent);
+    }
 
+    public void getBasicMenuList() {
+        homeAPI.getBasicMenuList(new OrderAPI.IResultMsg<HomeMenuBean>() {
+            @Override
+            public void Result(HomeMenuBean bean) {
+                if(bean != null){
+                    ArrayList<HomeMenuBean.MenusBean.ChildrenBeanX> children = bean.getMenus().getChildren();
+                    for (int i = 0; i < children.size(); i++){
+                        setMenuStatus(children.get(i).getChildren());
+                    }
+                }else{
+
+                }
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
+    }
+
+    //设置menu状态
+    private void setMenuStatus(ArrayList<HomeMenuBean.MenusBean.ChildrenBeanX.ChildrenBean> menus) {
+        for (int i = 0; i < menus.size(); i++){
+            String path = menus.get(i).getAttributes().get(0).getPath();
+            if(HomeConfig.TYPE_STOCK_SELECT.equals(path)){
+                if(HomeConfig.MENU_STATE_OPEN.equals(menus.get(i).getState())){
+                    homeFragment.setHomeFragmentCommonMenuOne(R.mipmap.lingshouxiadan);
+                }else{
+                    homeFragment.setHomeFragmentCommonMenuOne(R.mipmap.lingshouxiadan_gray);
+                }
+            }else if(HomeConfig.TYPE_SO_APP.equals(path)){
+                if(HomeConfig.MENU_STATE_OPEN.equals(menus.get(i).getState())){
+                    homeFragment.setHomeFragmentCommonMenuTwo(R.mipmap.lingshouchaxu);
+                }else{
+                    homeFragment.setHomeFragmentCommonMenuTwo(R.mipmap.lingshouchaxu_gray);
+                }
+            }else if(HomeConfig.TYPE_SO_SELECT.equals(path)){
+                if(HomeConfig.MENU_STATE_OPEN.equals(menus.get(i).getState())){
+                    homeFragment.setHomeFragmentCommonMenuThree(R.mipmap.baojiadan);
+                }else{
+                    homeFragment.setHomeFragmentCommonMenuThree(R.mipmap.baojiadan_gray);
+                }
+            }else if(HomeConfig.TYPE_OPERATION_ANALYSIS.equals(path)){
+                if(HomeConfig.MENU_STATE_OPEN.equals(menus.get(i).getState())){
+                    homeFragment.setHomeFragmentCommonMenuFour(R.mipmap.kucunguanli);
+                }else{
+                    homeFragment.setHomeFragmentCommonMenuFour(R.mipmap.kucunguanli_gray);
+                }
+            }
+        }
     }
 
 

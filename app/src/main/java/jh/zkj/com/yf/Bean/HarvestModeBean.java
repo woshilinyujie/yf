@@ -18,7 +18,7 @@ public class HarvestModeBean implements Serializable{
     private String cashierTypeUuid;
     private String cashierTypeName;
     //本地使用 存放金额
-    private String money = "0";
+    private String amount = "0";
 
     public String getCashierTypeUuid() {
         return cashierTypeUuid;
@@ -36,11 +36,11 @@ public class HarvestModeBean implements Serializable{
         this.cashierTypeName = cashierTypeName;
     }
 
-    public String getMoney() {
-        return money;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setMoney(String money) {
-        this.money = money;
+    public void setAmount(String money) {
+        this.amount = money;
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,9 +17,21 @@
         android:layout_height="@dimen/dp_1"
         android:background="@color/c_f6f7fb"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/select_client_recycler"
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/select_client_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/select_commodity_store_name"
+        app:layout_constraintBottom_toTopOf="@id/select_commodity_bottom_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/select_client_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+
 
 </LinearLayout>

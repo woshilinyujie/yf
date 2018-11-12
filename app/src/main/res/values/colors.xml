@@ -32,4 +32,10 @@
     <color name="c_737c87">#737C87</color>
     <color name="c_f1f1f2">#f1f1f2</color>
     <color name="c_fffbd9">#fffbd9</color>
+
+    <color name="c_040000">#040000</color>
+    <color name="c_e6e6e6">#e6e6e6</color>
+    <color name="c_f5a623">#F5A623</color>
+    <color name="c_ffc300">#ffc300</color>
+    <color name="c_d0021b">#d0021b</color>
 </resources>

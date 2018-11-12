@@ -2,7 +2,6 @@ package jh.zkj.com.yf.Bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by wdefer
@@ -48,6 +47,7 @@ public class OrderDetailsBean implements Serializable{
      * cashierTime : 2018-10-23 15:13:01
      */
 
+    private String bizSoUuid;
     private String uuid;
     private String bizType;
     private String bizDate;
@@ -83,8 +83,18 @@ public class OrderDetailsBean implements Serializable{
     private String cashierTime;
     private String clerkName;
     private String reason;
+    private String bizSoOutUuid;
+    private MemberDTOBean memberDTO = new MemberDTOBean();
     private ArrayList<DetailDTOListBean> detailDTOList;
     private ArrayList<HarvestModeBean> newCashierList;
+
+    public String getBizSoUuid() {
+        return bizSoUuid;
+    }
+
+    public void setBizSoUuid(String bizSoUuid) {
+        this.bizSoUuid = bizSoUuid;
+    }
 
     public String getUuid() {
         return uuid;
@@ -382,6 +392,22 @@ public class OrderDetailsBean implements Serializable{
         this.newCashierList = newCashierList;
     }
 
+    public MemberDTOBean getMemberDTO() {
+        return memberDTO;
+    }
+
+    public void setMemberDTO(MemberDTOBean memberDTO) {
+        this.memberDTO = memberDTO;
+    }
+
+    public String getBizSoOutUuid() {
+        return bizSoOutUuid;
+    }
+
+    public void setBizSoOutUuid(String bizSoOutUuid) {
+        this.bizSoOutUuid = bizSoOutUuid;
+    }
+
     public static class DetailDTOListBean implements Serializable{
         /**
          * uuid : 0529fe5f-3a42-438b-aa9b-daf811ae99cd
@@ -635,6 +661,94 @@ public class OrderDetailsBean implements Serializable{
 
         public void setClerkRemark(String clerkRemark) {
             this.clerkRemark = clerkRemark;
+        }
+    }
+
+
+    public class MemberDTOBean implements Serializable{
+
+        /**
+         * memberUuid : 1341114adaggaf
+         * mobilePhone : 15395617328
+         * identType : 身份证
+         * identNo : 342421199112055578
+         * companyUuid : 123214214214
+         * name : 可是
+         * tel : 0564-2411591
+         * sex : 0
+         */
+
+        private String memberUuid;
+        private String mobilePhone;
+        private String identType;
+        private String identNo;
+        private String companyUuid;
+        private String name;
+        private String tel;
+        private int sex;
+
+        public String getMemberUuid() {
+            return memberUuid;
+        }
+
+        public void setMemberUuid(String memberUuid) {
+            this.memberUuid = memberUuid;
+        }
+
+        public String getMobilePhone() {
+            return mobilePhone;
+        }
+
+        public void setMobilePhone(String mobilePhone) {
+            this.mobilePhone = mobilePhone;
+        }
+
+        public String getIdentType() {
+            return identType;
+        }
+
+        public void setIdentType(String identType) {
+            this.identType = identType;
+        }
+
+        public String getIdentNo() {
+            return identNo;
+        }
+
+        public void setIdentNo(String identNo) {
+            this.identNo = identNo;
+        }
+
+        public String getCompanyUuid() {
+            return companyUuid;
+        }
+
+        public void setCompanyUuid(String companyUuid) {
+            this.companyUuid = companyUuid;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getTel() {
+            return tel;
+        }
+
+        public void setTel(String tel) {
+            this.tel = tel;
+        }
+
+        public int getSex() {
+            return sex;
+        }
+
+        public void setSex(int sex) {
+            this.sex = sex;
         }
     }
 }

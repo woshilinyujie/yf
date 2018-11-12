@@ -82,4 +82,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="@color/c_f6f7fb"/>
+
+    <TextView
+        android:id="@+id/select_client_no_more"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center"
+        android:text="没有更多了"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/c_333333"
+        android:visibility="gone"/>
 </LinearLayout>

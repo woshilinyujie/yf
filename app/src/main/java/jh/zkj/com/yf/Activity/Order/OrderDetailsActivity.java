@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Activity.Order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -102,4 +103,9 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
         infoRecycler.setNestedScrollingEnabled(b);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.onActivityResult(requestCode, resultCode, data);
+    }
 }

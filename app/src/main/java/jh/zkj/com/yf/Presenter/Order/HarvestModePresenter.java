@@ -30,6 +30,7 @@ import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Bean.HarvestModeBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Contract.Order.HarvestModeContract;
+import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.R;
 
 /**
@@ -45,12 +46,17 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
     private OrderAPI api;
     DecimalFormat dFormat = new DecimalFormat("#.##");
     private OrderDetailsBean orderBean;
-    private String status;
+    //
+//    private String status;
     //总金额
     private String total = "0";
+    //现金bean（单独提出来方便计算的）
     private HarvestModeBean topBean;
+    //上次选择的支付方式
     private ArrayList<HarvestModeBean> modeList = new ArrayList<>();
+    //请求服务端获取的支付方式
     private ArrayList<HarvestModeBean> modeBean = new ArrayList<>();
+    private LoadingDialog loadingDialog;
 
     public HarvestModePresenter(HarvestModeActivity activity) {
         this.activity = activity;
@@ -73,7 +79,7 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
         api = new OrderAPI();
 
         orderBean = (OrderDetailsBean) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_BEAN);
-        status = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
+//        status = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
         total = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL);
         modeList = (ArrayList<HarvestModeBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_HARVEST_MODE);
 
@@ -104,14 +110,14 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
             BigDecimal bigDecimal = new BigDecimal("0");
             BigDecimal totalDecimal = new BigDecimal(total);
             for (HarvestModeBean bean : modeBean){
-                BigDecimal bigDecimal1 = new BigDecimal(bean.getMoney());
+                BigDecimal bigDecimal1 = new BigDecimal(bean.getAmount());
                 bigDecimal = bigDecimal.add(bigDecimal1);
             }
             double v = totalDecimal.subtract(bigDecimal).doubleValue();
             String format = dFormat.format(v);
-            topBean.setMoney(format);
+            topBean.setAmount(format);
 
-            activity.setEtMoney(topBean.getMoney());
+            activity.setEtMoney(topBean.getAmount());
         }
     }
 
@@ -176,13 +182,13 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                 holder.modeIcon.setVisibility(View.VISIBLE);
                 holder.modeText.setText(item.getCashierTypeName());
                 holder.money.setEnabled(true);
-                if(TextUtils.isEmpty(item.getMoney())){
+                if(TextUtils.isEmpty(item.getAmount())){
                     holder.select.setImageBitmap(gray);
                     holder.money.setText("");
                 }else{
-                    if(Double.valueOf(item.getMoney()) != 0){
+                    if(Double.valueOf(item.getAmount()) != 0){
                         holder.select.setImageBitmap(blue);
-                        holder.money.setText(item.getMoney());
+                        holder.money.setText(item.getAmount());
                     }else{
                         holder.select.setImageBitmap(gray);
                         holder.money.setText("");
@@ -195,24 +201,21 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         if(!ischange){
+
                             if(!TextUtils.isEmpty(s.toString())){
-                                //每次都要遍历集合进行计算
-                                item.setMoney(s.toString());
+                                if(".".equals(s.toString())){
+                                    item.setAmount("0");
+                                    holder.money.setText("0.");
+                                    holder.money.setSelection(2);
+                                }else{
+                                    item.setAmount(s.toString());
+                                }
                                 holder.select.setImageBitmap(blue);
                             }else{
                                 holder.select.setImageBitmap(gray);
-                                item.setMoney("0");
+                                item.setAmount("0");
                             }
 
-//                            BigDecimal bigDecimal = new BigDecimal("0");
-////                            BigDecimal totalDecimal = new BigDecimal(total);
-////                            for (HarvestModeBean bean : mArr){
-////                                BigDecimal bigDecimal1 = new BigDecimal(bean.getMoney());
-////                                bigDecimal = bigDecimal.add(bigDecimal1);
-////                            }
-////                            double v = totalDecimal.subtract(bigDecimal).doubleValue();
-////                            String format = dFormat.format(v);
-////                            topBean.setMoney(format);
                             refreshTopItem();
                         }
                     }
@@ -220,7 +223,16 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
                     @Override
-                    public void afterTextChanged(Editable s) { }
+                    public void afterTextChanged(Editable edt) {
+                        if(!ischange){
+                            String temp = edt.toString();
+                            int posDot = temp.indexOf(".");
+                            if (posDot <= 0) return;
+                            if (temp.length() - posDot - 1 > 2) {
+                                edt.delete(posDot + 3, posDot + 4);
+                            }
+                        }
+                    }
                 });
             }
 
@@ -256,20 +268,28 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
     //******************************************************************************************
     //获取收款方式
     public void getCashierType(String orderId) {
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(activity);
+        }
+        loadingDialog.showLoading();
+
         api.getCashierType(orderId, new OrderAPI.IResultMsg<ArrayList<HarvestModeBean>>() {
             @Override
             public void Result(ArrayList<HarvestModeBean> bean) {
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
                 modeBean = bean;
                 if(bean.size() > 0){
                     topBean = bean.remove(0);
-                    topBean.setMoney(total);
+                    topBean.setAmount(total);
                 }
 
                 if(modeList != null){
                     for (int i = 0 ; i < modeList.size(); i++){
                         for (int j = 0 ; j < bean.size(); j++){
                             if(modeList.get(i).getCashierTypeName().equals(bean.get(j).getCashierTypeName())){
-                                bean.get(j).setMoney(modeList.get(i).getMoney());
+                                bean.get(j).setAmount(modeList.get(i).getAmount());
                                 break;
                             }
                         }
@@ -281,7 +301,9 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
 
             @Override
             public void Error(String json) {
-
+                if(loadingDialog.isShowing()){
+                    loadingDialog.dismissLoading();
+                }
             }
         });
     }

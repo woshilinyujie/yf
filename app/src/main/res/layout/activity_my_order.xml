@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="#ffffff">
 
-        <TextView
+        <EditText
             android:id="@+id/my_order_search"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_32"
@@ -27,6 +27,10 @@
             android:paddingLeft="@dimen/dp_35"
             android:textColor="@color/c_a6a6a6"
             android:textSize="@dimen/sp_12"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:imeOptions="actionSearch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

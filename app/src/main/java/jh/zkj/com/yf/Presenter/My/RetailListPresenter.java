@@ -1,11 +1,13 @@
 package jh.zkj.com.yf.Presenter.My;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +24,14 @@ import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
+import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
 import jh.zkj.com.yf.Bean.OrderListBean;
 import jh.zkj.com.yf.Contract.My.RetailListContract;
 import jh.zkj.com.yf.Fragment.My.RetailListFragment;
+import jh.zkj.com.yf.Mutils.BigDecimalUtils;
 import jh.zkj.com.yf.Mutils.GsonUtils;
+import jh.zkj.com.yf.Mview.LoadingDialog;
+import jh.zkj.com.yf.Mview.OrderCancelPopup;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
@@ -34,6 +41,12 @@ import jh.zkj.com.yf.R;
  * use
  */
 public class RetailListPresenter implements RetailListContract.IRetailPresenter {
+
+    private final int REQUEST_ORDER_DETAILS = 1;
+    private final int REQUEST_ORDER_HARVEST_MODE = 2;
+
+    public static final String STATUS_SCOPE_ALL = "all";
+    public static final String STATUS_SCOPE_MY = "my";
 
     private final RetailListFragment fragment;
     private Context context;
@@ -46,7 +59,9 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
     private List<OrderListBean.DataBean.RecordsBean> dateList;
     private int total;//总数量
     private int pageSize = 10;
-    private boolean  more=false;//是否显示更多
+    private boolean more = false;//是否显示更多
+    //区分全部和我的
+    private String scope = STATUS_SCOPE_ALL;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -56,11 +71,11 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                     List<OrderListBean.DataBean.RecordsBean> records = orderListBean.getData().getRecords();
                     if (records.size() > 0) {
                         dateList.addAll(records);
-                        sendEmptyMessageDelayed(2,500);
+                        sendEmptyMessageDelayed(2, 500);
                     } else {
                         //没有跟多数据
                         twinklingRefreshLayout.setEnableLoadmore(false);
-                        more=true;
+                        more = true;
                         adapter.notifyDataSetChanged();
                     }
                     break;
@@ -68,12 +83,12 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 case 1://下拉刷新
                     twinklingRefreshLayout.finishRefreshing();
                     dateList.clear();
-                    more=false;
+                    more = false;
                     List<OrderListBean.DataBean.RecordsBean> records1 = orderListBean.getData().getRecords();
                     if (records1.size() > 0) {
                         dateList.addAll(records1);
                     }
-                   sendEmptyMessageDelayed(2,500);
+                    sendEmptyMessageDelayed(2, 500);
                     break;
                 case 2:
                     adapter.notifyDataSetChanged();
@@ -82,6 +97,9 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
         }
     };
     private OrderAPI.IResultMsgOne iResultMsg;
+    private String searchText = "";
+    private LoadingDialog loadingDialog;
+    private OrderCancelPopup cancelDialog;
 
     public RetailListPresenter(RetailListFragment fragment) {
         this.fragment = fragment;
@@ -92,6 +110,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
         context = fragment.getContext();
         recyclerView = fragment.getRecyclerView();
         twinklingRefreshLayout = fragment.getTwinklingRefreshLayout();
+        scope = fragment.getScope();
         orderAPI = new OrderAPI();
         dateList = new ArrayList<>();
         initAdapter();
@@ -104,14 +123,14 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 //下拉刷新
                 refreshLayout.setEnableLoadmore(true);
                 pageNum = 1;
-                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, 1,iResultMsg);
+                getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
             }
 
             @Override
             public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
                 //加载更多数据
                 pageNum++;
-                orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, pageSize, 0,iResultMsg);
+                getMyOrderList(searchText, pageNum, pageSize, 0, iResultMsg);
             }
         });
     }
@@ -132,13 +151,19 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
     public void initData() {
         iResultMsg = new OrderAPI.IResultMsgOne<OrderListBean>() {
             @Override
-            public void Result(OrderListBean bean,int flag) {
+            public void Result(OrderListBean bean, int flag) {
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismissLoading();
+                }
                 orderListBean = bean;
                 handler.sendEmptyMessage(flag);
             }
 
             @Override
-            public void Error(String json,int flag) {
+            public void Error(String json, int flag) {
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismissLoading();
+                }
                 if (flag == 0) {
                     twinklingRefreshLayout.finishRefreshing();
                 } else {
@@ -146,9 +171,30 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 }
             }
         };
-        orderAPI.getMyOrderList(fragment.getActivity(), fragment.getStatus(), "", pageNum, 10, 0,iResultMsg);
+        getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
     }
 
+    public void clickSearch(String keyWord) {
+        pageNum = 1;
+        searchText = keyWord;
+        getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_ORDER_DETAILS) {
+            if (resultCode == Activity.RESULT_OK) {
+                searchText = "";
+                getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
+            }
+        }
+        if (requestCode == REQUEST_ORDER_HARVEST_MODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                searchText = "";
+                getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
+            }
+        }
+    }
 
     /**
      * 使用：
@@ -191,16 +237,17 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
             holder.orderStatus.setTextColor(color);
             holder.name.setText(item.getName() + "");
             holder.phone.setText(item.getMobilePhone() + "");
-            int size = 0;
-            for (OrderListBean.DataBean.RecordsBean.BizSoDetailBean bean : item.getBizSoDetail()) {
-                size = (int) (size + bean.getQty());
-            }
-            holder.number.setText("共" + size + "件");
+            holder.number.setText("共" + item.getTotalQuantity() + "件");
             holder.orderTitle.setText(item.getBizSoDetail().get(0).getSkuFullName() + "");
-            holder.date.setText(item.getBizDate() + "");
-            holder.userName.setText(item.getCreateUserName() + "");
-            holder.moneyTop.setText(item.getPrice() + "元");
-            holder.moneyBottom.setText(item.getPrice() + "元");
+            holder.date.setText("下单时间：" + item.getCreateTime());
+            holder.userName.setText("下单人：" + item.getCreateUserName());
+
+            BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(String.valueOf(item.getTotalAmount()), 2);
+            String totalAmount = BigDecimalUtils.formatToNumber(bigDecimal);
+
+            holder.moneyTop.setText(totalAmount + "元");
+
+            holder.moneyBottom.setText(totalAmount + "元");
 
             if (OrderConfig.STATUS_UN_SUCCESS.equals(fragment.getStatus())) {
                 holder.moneyBottom.setVisibility(View.GONE);
@@ -214,9 +261,9 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                 holder.cancel.setVisibility(View.GONE);
             }
 
-            if(more && position==dateList.size()-1){
+            if (more && position == dateList.size() - 1) {
                 holder.noMore.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.noMore.setVisibility(View.GONE);
             }
 
@@ -226,16 +273,37 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                     Intent intent = new Intent(context, OrderDetailsActivity.class);
                     intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, fragment.getStatus());
                     intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, item.getBillNo());
-                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, String.valueOf(item.getPrice()));
-                    fragment.startActivity(intent);
+                    BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(String.valueOf(item.getTotalAmount()), 2);
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, BigDecimalUtils.formatToNumber(bigDecimal));
+                    fragment.startActivityForResult(intent, REQUEST_ORDER_DETAILS);
                 }
             });
-
 
             holder.cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getCancelOrder(item.getBillNo());
+                    if (cancelDialog == null) {
+                        cancelDialog = new OrderCancelPopup(fragment.getContext(), item.getBillNo());
+                    }
+                    cancelDialog.showAtLocation(fragment.getMainView(), Gravity.CENTER,0,0);
+                    cancelDialog.setOnSuccessClickListener(new OrderCancelPopup.Listener() {
+                        @Override
+                        public void onSuccessClick(String orderId, String reason) {
+                            getCancelOrder(orderId, reason);
+                        }
+                    });
+                }
+            });
+
+            holder.receipt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, RetailReceivableActivity.class);
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS, fragment.getStatus());
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, item.getBillNo());
+                    BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(String.valueOf(item.getTotalAmount()), 2);
+                    intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, BigDecimalUtils.formatToNumber(bigDecimal));
+                    fragment.startActivityForResult(intent, REQUEST_ORDER_HARVEST_MODE);
                 }
             });
 
@@ -284,14 +352,27 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
         }
     }
 
-    //*********************************************************************************
-    public void getCancelOrder(String orderId) {
+    //**********************************************************************************************
+    public void getMyOrderList(String keyword, int pageNum, int pageSize, int flag, OrderAPI.IResultMsgOne iResultMsg) {
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(fragment.getContext());
+        }
+        loadingDialog.showLoading();
+        orderAPI.getMyOrderList(fragment.getStatus(), keyword, pageNum, pageSize, flag, scope, iResultMsg);
+    }
 
-        orderAPI.getCancelOrder("/" + orderId, new OrderAPI.IResultMsg<String>() {
+
+    public void getCancelOrder(String orderId, String reason) {
+
+        orderAPI.getCancelOrder(orderId, reason, new OrderAPI.IResultMsg<String>() {
             @Override
             public void Result(String s) {
-                MToast.makeText(fragment.getContext(), "订单取消成功", MToast.LENGTH_LONG);
-                adapter.notifyDataSetChanged();
+                MToast.makeText(fragment.getContext(), "订单取消成功", MToast.LENGTH_LONG).show();
+                cancelDialog.dismiss();
+                fragment.clickSearch("");
+                if((fragment.getActivity()) != null){
+                    ((MyOrderActivity)fragment.getActivity()).getSearch().setText("");
+                }
             }
 
             @Override
@@ -300,5 +381,4 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
             }
         });
     }
-
 }

@@ -1,11 +1,17 @@
 package jh.zkj.com.yf.Activity.Order;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.Order.SelectClientContract;
 import jh.zkj.com.yf.Presenter.Order.SelectClientPresenter;
@@ -20,6 +26,11 @@ public class SelectClientActivity extends MBaseActivity implements SelectClientC
 
     @BindView(R.id.select_client_recycler)
     RecyclerView recycler;
+    @BindView(R.id.select_client_refresh)
+    TwinklingRefreshLayout refresh;
+    @BindView(R.id.search_edit)
+    EditText search;
+    private SelectClientPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +38,27 @@ public class SelectClientActivity extends MBaseActivity implements SelectClientC
         setContentView(R.layout.activity_select_client);
         ButterKnife.bind(this);
 
-        SelectClientPresenter presenter = new SelectClientPresenter(this);
+        presenter = new SelectClientPresenter(this);
+    }
+
+    @OnClick({R.id.search_left_img_layout})
+    public void onViewClicked(View v){
+        switch (v.getId()){
+            case R.id.search_left_img_layout:
+                presenter.finishActivity();
+                break;
+        }
     }
 
     public RecyclerView getRecycler() {
         return recycler;
+    }
+
+    public EditText getSearch(){
+        return search;
+    }
+
+    public TwinklingRefreshLayout getRefreshLayout(){
+        return refresh;
     }
 }

@@ -24,12 +24,8 @@ import jh.zkj.com.yf.R;
 
 
 public class SelectSalesmanActivity extends MBaseActivity implements SelectSalesmanContract.ISelectSalesmanView {
-
-    //返回按钮
-    @BindView(R.id.search_left_img)
-    ImageView back;
     //搜索
-    @BindView(R.id.search_edit)
+    @BindView(R.id.select_salesman_search_edit)
     EditText search;
     //recycler
     @BindView(R.id.select_salesman_recycler)
@@ -47,10 +43,13 @@ public class SelectSalesmanActivity extends MBaseActivity implements SelectSales
         presenter = new SelectSalesmanPresenter(this);
     }
 
-    @OnClick({R.id.search_left_img})
+    @OnClick({R.id.select_salesman_search_left_layout, R.id.select_salesman_search_right_layout})
     public void onViewClicked(View v){
         switch (v.getId()){
-            case R.id.search_left_img:
+            case R.id.select_salesman_search_left_layout:
+                finish();
+                break;
+            case R.id.select_salesman_search_right_layout:
                 presenter.finishActivity();
                 break;
         }

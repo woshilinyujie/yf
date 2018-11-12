@@ -19,6 +19,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Activity.My.CompanyFilesActivity;
+import jh.zkj.com.yf.Activity.My.MyOrderActivity;
+import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
 import jh.zkj.com.yf.Activity.My.RegisterActivity;
@@ -27,6 +30,7 @@ import jh.zkj.com.yf.Mview.MeasureViewpager;
 import jh.zkj.com.yf.Mview.SwitchText;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
 import jh.zkj.com.yf.Presenter.Home.HomeFragmentPresenter;
+import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -129,8 +133,9 @@ public class HomeFragment extends MBaseFragment {
                 presenter.toRetailOrder();
                 break;
             case R.id.home_fragment_common_menu_two://常用2
-                Intent intent=new Intent(getActivity(),RegisterActivity.class);
-                startActivity(intent);
+//                Intent intent=new Intent(getActivity(),CompanyFilesActivity.class);
+//                startActivity(intent);
+                presenter.toRetail();
                 break;
             case R.id.home_fragment_common_menu_three://常用3
                 break;
@@ -212,5 +217,18 @@ public class HomeFragment extends MBaseFragment {
 
     public SwitchText getHomeFragmentSwitchText() {
         return homeFragmentSwitchText;
+    }
+
+    public void setHomeFragmentCommonMenuOne(int resId){
+        homeFragmentCommonMenuOne.setImageResource(resId);
+    }
+    public void setHomeFragmentCommonMenuTwo(int resId){
+        homeFragmentCommonMenuTwo.setImageResource(resId);
+    }
+    public void setHomeFragmentCommonMenuThree(int resId){
+        homeFragmentCommonMenuThree.setImageResource(resId);
+    }
+    public void setHomeFragmentCommonMenuFour(int resId){
+        homeFragmentCommonMenuFour.setImageResource(resId);
     }
 }
