@@ -10,12 +10,12 @@
     <jh.zkj.com.yf.Mview.TitleLayout
         android:id="@+id/join_enterprise_history_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44"
+        android:layout_height="@dimen/dp_48"
         app:leftImageBg="@mipmap/back_arrow"
         app:leftImageWidthSize="@dimen/dp_12"
         app:leftImageHeightSize="@dimen/dp_20"
         app:leftMargin="@dimen/dp_16"
-        app:centerText="零售下单"
+        app:centerText="加入企业"
         app:centerTextSize="@dimen/sp_16"
         android:background="@color/white"/>
 
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="您已加入过以下企业："
-        android:textSize="@dimen/sp_14"
+        android:textSize="@dimen/sp_12"
         android:includeFontPadding="false"
         android:textColor="@color/c_333333"
         android:paddingRight="@dimen/dp_20"
@@ -52,6 +52,7 @@
             android:layout_marginTop="@dimen/dp_25"/>
 
         <TextView
+            android:layout_marginBottom="@dimen/dp_140"
             android:id="@+id/join_enterprise_history_next"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_44"
@@ -67,6 +68,8 @@
     </LinearLayout>
 
     <ListView
+        android:dividerHeight="0dp"
+        android:divider="@color/white"
         android:id="@+id/join_enterprise_history_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

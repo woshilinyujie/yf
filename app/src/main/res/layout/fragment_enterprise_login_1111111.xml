@@ -62,6 +62,8 @@
                     android:layout_gravity="center_vertical"/>
 
                 <EditText
+                    android:maxLength="20"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:id="@+id/login_enterprise_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

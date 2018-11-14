@@ -16,12 +16,19 @@ import java.util.UUID;
 
 import jh.zkj.com.yf.Bean.CRMInfoBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardBean;
+import jh.zkj.com.yf.Bean.CalibrateIdCardTokenBean;
+import jh.zkj.com.yf.Bean.CalibrateIdCardTokeupBean;
 import jh.zkj.com.yf.Bean.CheckLoginBean;
+import jh.zkj.com.yf.Bean.JoinCompanyBean;
+import jh.zkj.com.yf.Bean.JoinCompanyUpBean;
 import jh.zkj.com.yf.Bean.LoginCRMBean;
 import jh.zkj.com.yf.Bean.LoginERPBean;
 import jh.zkj.com.yf.Bean.RegisterBean;
 import jh.zkj.com.yf.Bean.RegisterNextBean;
 import jh.zkj.com.yf.Bean.RegisterUpBean;
+import jh.zkj.com.yf.Bean.SendCodeBean;
+import jh.zkj.com.yf.Bean.SendCodeNextBean;
+import jh.zkj.com.yf.Bean.SendRegisterCodeNextBean;
 import jh.zkj.com.yf.Mutils.GsonUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 
@@ -30,42 +37,12 @@ import jh.zkj.com.yf.Mview.LoadingDialog;
  */
 
 public class MyAPI {
-    public final String API = APIConstant.API;
-    public final String TOKEN = "eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9." +
-            "eNocy00KgzAQQOG7zNpFxkx-9DISzQQiipKkpVB692bcfrz3hb1lmCGQ17xhSJGRRmemuDq0bG302hMqGKC-1h7eR2jpKmeHXKuceRFbKpc3F-HQYEZDajKOnBmAP_cDiFqNAuU6WFaE3x8AAP__." +
-            "Ue8Y9olvbo0utJ2P-zJ24n9WwdFIP1UfURH6tTVOPXkpZ0H52ACha3HctzEKAYA7n-5MvKaQwjN0XFb-J1-Q1A";
+    public final String API = "http://192.168.68.12";
     private File file;
     private LoadingDialog dialog;
 
 
-    /**
-     * 检查该公司是否已经可以登录
-     * @param companyUUid  注册后公司返回的uuid
-     * @param iResultMsg
-     */
-    public void checkLogin(Context context, String companyUUid, final IResultMsg<CheckLoginBean> iResultMsg){
-        if (dialog == null)
-            dialog = new LoadingDialog(context);
-        dialog.showLoading();
-        OkGo.<String>get("http://192.168.68.77:9001/crmCompany/companyinit/"+ companyUUid)
-        .execute(new StringCallback() {
-            @Override
-            public void onSuccess(Response<String> response) {
-                if (dialog.isShowing())
-                    dialog.dismissLoading();
-                String s = response.body().toString();
-                CheckLoginBean checkLoginBean = GsonUtils.GsonToBean(s, CheckLoginBean.class);
-                iResultMsg.Result(checkLoginBean);
-            }
 
-            @Override
-            public void onError(Response<String> response) {
-                if (dialog.isShowing())
-                    dialog.dismissLoading();
-            }
-        });
-
-    }
     /**
      * 登录CRM
      * Authorization 固定值
@@ -76,13 +53,51 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get("http://192.168.68.77:3001/auth/oauth/token").tag(context)
+        OkGo.<String>get(API+":3001/auth/oauth/token").tag(context)
                 .headers("Authorization", "Basic amgtY3JtOmpoLWNybQ==")
                 .headers("device", "android")
                 .params("grant_type", "password")
-                .params("username", "jh-crm_web_" + phone)
+                .params("username", "jh-crm_android_" + phone)
                 .params("password", password)
                 .params("scope", "server")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String josn = response.body().toString();
+                        LoginCRMBean loginCRMBean = GsonUtils.GsonToBean(josn, LoginCRMBean.class);
+                        iResultMsg.Result(loginCRMBean);
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+    /**
+     * 登录CRM  验证码登录
+     * Authorization 固定值
+     * grant_type  固定值
+     * scope       固定值
+     */
+    public void loginCRMCode(Context context, String phone, String smsCode,final IResultMsg<LoginCRMBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get(API+":3001/auth/oauth/token").tag(context)
+                .headers("Authorization", "Basic amgtY3JtOmpoLWNybQ==")
+                .headers("device", "android")
+                .headers("smsCode", "true")
+                .params("grant_type", "password")
+                .params("username", "jh-crm_pass_android_" + phone)
+                .params("password", "123456")
+                .params("scope", "server")
+                .params("smsCode", smsCode)
+                .params("smsPhone", phone)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -111,7 +126,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get("http://192.168.68.77:9001/stdUser/company").tag(context)
+        OkGo.<String>get(API+":9001/stdUser/company").tag(context)
                 .headers("Authorization", "Bearer" + " " + token)
                 .execute(new StringCallback() {
                     @Override
@@ -134,21 +149,21 @@ public class MyAPI {
 
 
     /**
-     * 登入ERP
+     * 登入ERP  密码登录
      * Authorization  固定值
      * grant_type   固定值
      * usernameType  登录CRM productsType字段获取
      * password  登录CRM  password 字段获得
      */
-    public void loginERP(Context context, String usernameType, String username, String password, final IResultMsg<LoginERPBean> iResultMsg) {
+    public void loginERP(Context context, String usernameType, String username, String password, String companyCode,final IResultMsg<LoginERPBean> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get("http://192.168.68.77:3001/auth/oauth/token").tag(context)
+        OkGo.<String>get(API+":3001/auth/oauth/token").tag(context)
                 .headers("Authorization", "Basic amgtZXJwLTNjOmpoLWVycC0zYw==")
                 .headers("device", "android")
                 .params("grant_type", "password")
-                .params("username", usernameType + "_" + "android" + "_" + username)
+                .params("username", usernameType + "_" + "android" + "_" + username+"_"+companyCode)
                 .params("password", password)
                 .params("scope", "server")
                 .execute(new StringCallback() {
@@ -170,20 +185,107 @@ public class MyAPI {
                 });
     }
 
+    /**
+     * 登入ERP  验证码登录
+     * Authorization  固定值
+     * grant_type   固定值
+     * usernameType  登录CRM productsType字段获取
+     * password  登录CRM  password 字段获得
+     */
+    public void loginERPCode(Context context, String usernameType, String username, String password, String companyCode,String smsCode,final IResultMsg<LoginERPBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get(API+":3001/auth/oauth/token").tag(context)
+                .headers("Authorization", "Basic amgtZXJwLTNjOmpoLWVycC0zYw==")
+                .headers("device", "android")
+                .headers("smsCode", "true")
+                .params("grant_type", "password")
+                .params("username", usernameType + "_" + "pass_android" + "_" + username+"_"+companyCode)
+                .params("password", password)
+                .params("scope", "server")
+                .params("smsCode", smsCode)
+                .params("smsPhone", username)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String json = response.body().toString();
+                        LoginERPBean loginERPBean = GsonUtils.GsonToBean(json, LoginERPBean.class);
+                        iResultMsg.Result(loginERPBean);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
+    /**
+     * 获取上传照片所需的token
+     *
+     * @param context
+     */
+    public void CalibrateIdCardToke(final Context context, final IResultMsg<CalibrateIdCardTokenBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        CalibrateIdCardTokeupBean upbean = new CalibrateIdCardTokeupBean();
+        upbean.setApp_key("platform");
+        upbean.setApplication_type("101");
+        upbean.setApp_secret("123456");
+        upbean.setApply_no("2816c1948b634a24a448ba3f16c94c3e");
+        upbean.setData(new CalibrateIdCardTokeupBean.DataBean());
+        String s1 = GsonUtils.GsonString(upbean);
+        OkGo.<String>post("https://ai.msxf.com/apply").tag(context)
+                .headers("Content-Type", "application/json")
+                .upJson(s1)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String s = response.body().toString();
+                        try {
+                            JSONObject jsonObject = new JSONObject(s);
+                            String code = jsonObject.getString("code");
+                            String message = jsonObject.getString("message");
+                            if (code.equals("200")) {
+                                CalibrateIdCardTokenBean bean = GsonUtils.GsonToBean(s, CalibrateIdCardTokenBean.class);
+                                iResultMsg.Result(bean);
+                            } else {
+                                showToast(context, message);
+                                if (dialog.isShowing())
+                                    dialog.dismissLoading();
+                            }
+                        } catch (JSONException e) {
+                            if (dialog.isShowing())
+                                dialog.dismissLoading();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
 
     /**
      * 身份证id校验
      * fileCategory  F   前   R后
      */
-    public void CalibrateIdCard(final Context context, final String fileCategory, final String path, final IResultMsgTwo<CalibrateIdCardBean> iResultMsg) {
-        if (dialog == null)
-            dialog = new LoadingDialog(context);
-        dialog.showLoading();
+    public void CalibrateIdCard(final Context context, final String fileCategory, final String path, String token, final IResultMsgTwo<CalibrateIdCardBean> iResultMsg) {
 
         file = new File(path);
         OkGo.<String>post("https://ai.msxf.com/apiocr/out/idcard")
                 .tag(context)
-                .params("token", TOKEN)
+                .params("token", token)
                 .params("fileCategory", fileCategory)
                 .params("fileData", file)
                 .isMultipart(true)
@@ -222,54 +324,26 @@ public class MyAPI {
                 });
     }
 
-    /**
-     * 注册校验验证码
-     */
-    public void RegisterNext(Context context, String phone, String code, final IResultMsg<RegisterNextBean> iResultMsg) {
-        if (dialog == null)
-            dialog = new LoadingDialog(context);
-        dialog.showLoading();
-        OkGo.<String>get("http://192.168.68.77:9001/crmCompany/register/valid").tag(context)
-                .params("phone", phone)
-                .params("code", code)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        if (dialog.isShowing())
-                            dialog.dismissLoading();
-                        String s = response.body().toString();
-                        RegisterNextBean registerNextBean = GsonUtils.GsonToBean(s, RegisterNextBean.class);
-                        iResultMsg.Result(registerNextBean);
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        iResultMsg.Error(response.toString());
-                        if (dialog.isShowing())
-                            dialog.dismissLoading();
-                    }
-                });
-    }
 
     /**
-     * @param businessCode       统一社会信用码
-     * @param description 公司名称
-     * @param address      详细地址
-     * @param legalPerson        法人
-     * @param contactPerson      联系人
-     * @param contactPhone       联系号码
-     * @param zipCode            邮编
-     * @param businessLicense    营业执照
-     * @param productType        jh-erp-3c
-     * @param regionFullName     省市区全拼
-     * @param password           密码
-     * @param phone              手机号码
+     * @param businessCode    统一社会信用码
+     * @param description     公司名称
+     * @param address         详细地址
+     * @param legalPerson     法人
+     * @param contactPerson   联系人
+     * @param contactPhone    联系号码
+     * @param zipCode         邮编
+     * @param businessLicense 营业执照
+     * @param productType     jh-erp-3c
+     * @param regionFullName  省市区全拼
+     * @param password        密码
+     * @param phone           手机号码
      */
-    public void Register(Context context, String businessCode, String description
+    public void Register(final Context context, String businessCode, String description
             , String address, String legalPerson, String contactPerson,
                          String contactPhone, String zipCode, String businessLicense
             , String productType, String regionFullName, String password, String phone, final IResultMsg<RegisterBean> iResultMsg) {
-        RegisterUpBean bean=new RegisterUpBean();
+        RegisterUpBean bean = new RegisterUpBean();
         bean.setAddress(address);
         bean.setBusinessCode(businessCode);
         bean.setdescription(description);
@@ -286,7 +360,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>post(" http://192.168.68.77:9001/crmCompany/register").tag(context)
+        OkGo.<String>post(API+":9001/crmCompany/register").tag(context)
                 .upJson(slist)
                 .execute(new StringCallback() {
                     @Override
@@ -294,13 +368,171 @@ public class MyAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String s = response.body().toString();
-                        RegisterBean registerBean = GsonUtils.GsonToBean(s, RegisterBean.class);
-                        iResultMsg.Result(registerBean);
+                        try {
+                            RegisterBean registerBean = GsonUtils.GsonToBean(s, RegisterBean.class);
+                            if (registerBean.getCode() == 0) {
+                                iResultMsg.Result(registerBean);
+                            } else {
+                                showToast(context, registerBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
 
                     }
 
                     @Override
                     public void onError(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
+    /**
+     * 注册发送验证码
+     *
+     * @param context
+     * @param phone
+     * @param iResultMsg
+     */
+    public void sendRegisterCode(final Context context, String phone, final IResultMsg<SendCodeBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get(API+":3001/mobileCode").tag(context)
+                .params("mobile", phone)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String s = response.body().toString();
+                        try {
+                            SendCodeBean sendCodeBean = GsonUtils.GsonToBean(s, SendCodeBean.class);
+                            if (sendCodeBean.getMsg().equals("发送成功")) {
+                                iResultMsg.Result(sendCodeBean);
+                                showToast(context, "验证码已发送到您的手机");
+                            } else {
+                                showToast(context, sendCodeBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
+    /**
+     * 注册发送验证码后下一步
+     *
+     * @param context
+     * @param phone
+     * @param iResultMsg
+     */
+    public void sendRegisterCodeNext(final Context context, String smsCode, String phone, final IResultMsg<SendRegisterCodeNextBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        SendCodeNextBean bean = new SendCodeNextBean();
+        bean.setMobilePhone(phone);
+        String s1 = GsonUtils.GsonString(bean);
+        OkGo.<String>post(API+":3001/crm/stdUser/beforejoincompanyvalid?smsCode=" + smsCode + "&smsPhone=" + phone).tag(context)
+                .headers("Content-Type", "application/json")
+                .headers("smsCode", "true")
+                .upJson(s1)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String s = response.body().toString();
+                        try {
+                            SendRegisterCodeNextBean sendRegisterCodeNextBean = GsonUtils.GsonToBean(s, SendRegisterCodeNextBean.class);
+                            if (sendRegisterCodeNextBean.getCode() == 0) {
+                                iResultMsg.Result(sendRegisterCodeNextBean);
+                            } else {
+                                showToast(context, sendRegisterCodeNextBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
+    /**
+     * @param phone
+     * @param password
+     * @param confirmPassword 确认密码
+     * @param code            公司代码
+     * @param name            姓名
+     * @param username        登录名
+     * @param identNo         身份证
+     * @param sex
+     * @param regionFullName  所在地区
+     * @param identAddress    详细地址
+     * @param identImgFront
+     * @param identImgBack
+     * @param iResultMsg
+     */
+    public void joinCompanySave(final Context context, String phone, String password, String confirmPassword
+            , String code, String name, String username, String identNo, String sex, String regionFullName, String identAddress
+            , String identImgFront, String identImgBack, final IResultMsg<JoinCompanyBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        final JoinCompanyUpBean bean = new JoinCompanyUpBean();
+        bean.setMobilephone(phone);
+        bean.setPassword(password);
+        bean.setConfirmPassword(confirmPassword);
+        bean.setCode(code);
+        bean.setName(name);
+        bean.setUsername(username);
+        bean.setIdentNo(identNo);
+        bean.setSex(sex);
+        bean.setRegionFullName(regionFullName);
+        bean.setIdentAddress(identAddress);
+        bean.setIdentImgFront(identImgFront);
+        bean.setIdentImgBack(identImgBack);
+        String s1 = GsonUtils.GsonString(bean);
+        OkGo.<String>post(API+":3001/crm/stdUser/joincompany").tag(context)
+                .upJson(s1)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String s = response.body().toString();
+                        try {
+                            JoinCompanyBean bean1 = GsonUtils.GsonToBean(s, JoinCompanyBean.class);
+                            if (bean1.getCode() == 0) {
+                                iResultMsg.Result(bean1);
+                            } else {
+                                showToast(context, bean1.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                     }

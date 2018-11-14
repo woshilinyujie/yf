@@ -13,11 +13,6 @@
         <activity
             android:name=".Activity.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".Activity.ScanActivity"/>
         <!-- 零售详情 -->
@@ -41,8 +36,7 @@
         <activity android:name=".Activity.My.PhoneActivity"/>
         <activity android:name=".Activity.My.ModifyPasswordActivity"/>
         <activity android:name=".Activity.My.EmailActivity"/>
-        <activity android:name=".Activity.My.SelectCompanyActivity"/>
-        <activity android:name=".Activity.My.RegisterActivity"/>
+        <activity android:name=".Activity.My.JoinCompanyCodeActivity"/>
         <activity android:name=".Activity.My.PersonalFileActivity"/>
         <activity android:name=".Activity.My.CompanyFilesActivity"/>
 
@@ -67,6 +61,17 @@
         <activity android:name=".Activity.Order.ReceivableDetailActivity">
         </activity>
         <activity android:name=".Activity.Analyse.ClassifiedActivity"/>
+        <activity android:name=".Activity.My.JoinCompanyInfoActivity"/>
+        <activity android:name=".Activity.My.JoinCompanyPasswordActivity"/>
+        <activity android:name=".Activity.My.LoginCompanyActivity"/>
+        <activity android:name=".Activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

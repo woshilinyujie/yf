@@ -6,17 +6,20 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.lzy.okgo.OkGo;
 
 import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.model.TResult;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract;
 import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract.PersonalFileActivityView;
 import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Presenter.My.PersonalFilePresenter;
@@ -53,6 +56,10 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
     ImageView personalFileIdFrontX;
     @BindView(R.id.personal_file_id_back_x)
     ImageView personalFileIdBackX;
+    @BindView(R.id.personal_company_code)
+    EditText personalCompanyCode;
+    @BindView(R.id.personal_file_login_name)
+    EditText personalFileLoginName;
     private PersonalFilePresenter personalFilePresenter;
 
     @Override
@@ -60,10 +67,11 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_file);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         personalFilePresenter = new PersonalFilePresenter(this);
     }
 
-    @OnClick({R.id.personal_file_id_back_x,R.id.personal_file_id_front_x,R.id.personal_file_sex_man, R.id.personal_file_sex_woman, R.id.personal_file_address, R.id.personal_file_id_front, R.id.personal_file_id_back})
+    @OnClick({R.id.personal_file_id_back_x, R.id.personal_file_id_front_x, R.id.personal_file_sex_man, R.id.personal_file_sex_woman, R.id.personal_file_address, R.id.personal_file_id_front, R.id.personal_file_id_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.personal_file_sex_man://选男
@@ -101,7 +109,8 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
     public void setFrontIdBg(int resource) {
         Glide.with(this).load(resource).into(personalFileIdFront);
     }
-    public void setFrontIdBg(String  resource) {
+
+    public void setFrontIdBg(String resource) {
         Glide.with(this).load(resource).into(personalFileIdFront);
         personalFileIdFrontX.setVisibility(View.VISIBLE);
     }
@@ -110,6 +119,17 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
     public void setBackIdBg(int resource) {
         Glide.with(this).load(resource).into(personalFileIdBack);
     }
+
+    @Override
+    public void showToast(String s) {
+        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setPhoneS(String s) {
+        personalFilePhone.setText(s);
+    }
+
     public void setBackIdBg(String resource) {
         Glide.with(this).load(resource).into(personalFileIdBack);
         personalFileIdBackX.setVisibility(View.VISIBLE);
@@ -178,15 +198,23 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
         return personalFileIdBackX;
     }
 
+    public EditText getPersonalCompanyCode() {
+        return personalCompanyCode;
+    }
+
+    public EditText getPersonalFileLoginName() {
+        return personalFileLoginName;
+    }
+
     @Override
     public void takeSuccess(TResult result, View view) {//选择照片成功回调
         super.takeSuccess(result, view);
         String iconPath = result.getImage().getOriginalPath();//照片存储地址
         //访问网络
         if (personalFileIdFront == view) {
-            personalFilePresenter.CalibrateIdCard("F",iconPath);
+            personalFilePresenter.CalibrateIdCardToken(1,iconPath);
         } else {
-            personalFilePresenter.CalibrateIdCard("R",iconPath);
+            personalFilePresenter.CalibrateIdCardToken(2,iconPath);
         }
     }
 
@@ -199,5 +227,13 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
     protected void onDestroy() {
         super.onDestroy();
         OkGo.getInstance().cancelTag(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBus(String s) {
+        if (s.equals("joinCompanyFinish")) {
+            finish();
+        }
     }
 }

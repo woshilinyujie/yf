@@ -9,7 +9,8 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/join_enterprise_history_com"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:id="@+id/join_enterprise_history_company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
@@ -23,6 +24,7 @@
         android:layout_marginTop="@dimen/dp_12">
 
         <TextView
+            android:layout_marginLeft="@dimen/dp_20"
             android:id="@+id/join_enterprise_history_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +34,7 @@
             android:text="企业代码：ZAED007"/>
 
         <TextView
+            android:layout_marginRight="@dimen/dp_20"
             android:id="@+id/join_enterprise_history_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
