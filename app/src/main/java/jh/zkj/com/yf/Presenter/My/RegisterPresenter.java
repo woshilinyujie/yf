@@ -1,20 +1,20 @@
 package jh.zkj.com.yf.Presenter.My;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import jh.zkj.com.yf.API.MyAPI;
-import jh.zkj.com.yf.Activity.My.CompanyFilesActivity;
-import jh.zkj.com.yf.Activity.My.RegisterActivity;
-import jh.zkj.com.yf.Bean.RegisterNextBean;
+import jh.zkj.com.yf.Activity.My.JoinCompanyCodeActivity;
+import jh.zkj.com.yf.Activity.My.JoinCompanyInfoActivity;
+import jh.zkj.com.yf.Activity.My.JoinCompanyPasswordActivity;
+import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
+import jh.zkj.com.yf.Bean.SendCodeBean;
+import jh.zkj.com.yf.Bean.SendRegisterCodeNextBean;
 import jh.zkj.com.yf.Contract.My.RegisterActivityContract;
-import jh.zkj.com.yf.Mutils.AESUtils;
-import jh.zkj.com.yf.Mview.Toast.EToast;
+import jh.zkj.com.yf.Mutils.GsonUtils;
 import jh.zkj.com.yf.R;
 
 /**
@@ -22,14 +22,14 @@ import jh.zkj.com.yf.R;
  */
 
 public class RegisterPresenter implements RegisterActivityContract.RegisterActivityPresente {
-    RegisterActivity activity;
+    JoinCompanyCodeActivity activity;
     private CountDownTimer countDownTimer;
     private final MyAPI myAPI;
     private String phone;
     private String password;
     private String code;
 
-    public RegisterPresenter(RegisterActivity activity) {
+    public RegisterPresenter(JoinCompanyCodeActivity activity) {
         this.activity = activity;
         myAPI = new MyAPI();
         initDate();
@@ -39,8 +39,6 @@ public class RegisterPresenter implements RegisterActivityContract.RegisterActiv
     @Override
     public void initListener() {
         calibrate(activity.getRegisterCodeEt());
-        calibrate(activity.getRegisterPasswordOneEt());
-        calibrate(activity.getRegisterPasswordTwoEt());
         calibrate(activity.getRegisterPhoneEt());
     }
 
@@ -73,30 +71,46 @@ public class RegisterPresenter implements RegisterActivityContract.RegisterActiv
             activity.showToast("请填写11位手机号码");
             return;
         }
+        myAPI.sendRegisterCode(activity, phone, new MyAPI.IResultMsg<SendCodeBean>() {
+            @Override
+            public void Result(SendCodeBean bean) {
+                //访问网络成功回调
+                countDownTimer.start();//开始倒计时
+            }
 
-        //访问网络成功回调
-        countDownTimer.start();//开始倒计时
+            @Override
+            public void Error(String json) {
+
+            }
+        });
     }
 
     @Override
     public void Next() {
-        code = "111111";
+        code = activity.getRegisterCodeEt().getText().toString();
         phone = activity.getRegisterPhoneEt().getText().toString();
         if(!activity.getRegisterCheckboxIv().isChecked()){
             activity.showToast("请阅读并勾选《俊航ERP用户注册协议》");
-        }else if(!activity.getRegisterPasswordOneEt().getText().toString().equals(activity.getRegisterPasswordTwoEt().getText().toString())){
-            activity.showToast("确认登录密码不正确");
         }else{
-            password = activity.getRegisterPasswordOneEt().getText().toString();
-            //访问网络
-            myAPI.RegisterNext(activity, phone, code, new MyAPI.IResultMsg<RegisterNextBean>() {
+            myAPI.sendRegisterCodeNext(activity, code, phone, new MyAPI.IResultMsg<SendRegisterCodeNextBean>() {
                 @Override
-                public void Result(RegisterNextBean bean) {
-                    if(bean!=null&&bean.isData()){
-                        Intent intent=new Intent(activity, CompanyFilesActivity.class);
-                        AESUtils aesUtils=new AESUtils();
-                        intent.putExtra("password",aesUtils.encryptData(password));
+                public void Result(SendRegisterCodeNextBean bean) {
+                    if(bean.getData().getFlag()==0){
+                        //进入密码设置页
+                        Intent intent=new Intent(activity, JoinCompanyPasswordActivity.class);
                         intent.putExtra("phone",phone);
+                        activity.startActivity(intent);
+                    }else if(bean.getData().getStdUserApplys().size()==0){
+                        //进入加入企业
+                        Intent intent=new Intent(activity, PersonalFileActivity.class);
+                        intent.putExtra("phone",phone);
+                        activity.startActivity(intent);
+                    }else{
+                        //进入选择企业
+                        Intent intent=new Intent(activity, JoinCompanyInfoActivity.class);
+                        String json = GsonUtils.GsonString(bean);
+                        intent.putExtra("phone",phone);
+                        intent.putExtra("json",json);
                         activity.startActivity(intent);
                     }
                 }
@@ -124,9 +138,8 @@ public class RegisterPresenter implements RegisterActivityContract.RegisterActiv
             @Override
             public void afterTextChanged(Editable s) {
                 if (activity.getRegisterPhoneEt().getText().toString().length() != 11 ||
-                        activity.getRegisterCodeEt().getText().toString().length() < 6 ||
-                        activity.getRegisterPasswordOneEt().getText().toString().length() < 6 ||
-                        activity.getRegisterPasswordTwoEt().getText().toString().length() < 6) {
+                        activity.getRegisterCodeEt().getText().toString().length() < 4
+                ) {
                     activity.setNextBg(R.drawable.shape_radius_4_e6e6e6);
                     activity.getRegisterNext().setEnabled(false);
                 } else {
@@ -137,6 +150,8 @@ public class RegisterPresenter implements RegisterActivityContract.RegisterActiv
         });
     }
 
-
+    public CountDownTimer getCountDownTimer(){
+        return countDownTimer;
+    }
 
 }

@@ -71,7 +71,7 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
         fragments = new ArrayList<>();
         shopAnalyseSalseFragment = ShopAnalyseSalseFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
         shopAnalyseSalseMoneyFragment = ShopAnalyseSalseMoneyFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
-        shopAnalyseProfitFragment = ShopAnalyseProfitFragment.newInstance();
+        shopAnalyseProfitFragment = ShopAnalyseProfitFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
         ShopAnalysePureProfitFragment shopAnalysePureProfitFragment = ShopAnalysePureProfitFragment.newInstance();
         fragments.add(shopAnalyseSalseFragment);
         fragments.add(shopAnalyseSalseMoneyFragment);

@@ -16,6 +16,8 @@ public class PersonalFileActivityContract {
         void setAddressTextColor(int color);
         void setFrontIdBg(int Resource);
         void setBackIdBg(int Resource);
+        void showToast(String s);
+        void setPhoneS(String s);
     }
 
     public interface PersonalFileActivityPresente{
@@ -37,6 +39,7 @@ public class PersonalFileActivityContract {
         void ClickPhotoCancle();//选头像取消
         void clickFrontX();//点击照片前   删除
         void clickBackX();//点击照片后  删除
-        void CalibrateIdCard(String fileCategory, String path);//身份证校验网络访问
+        void CalibrateIdCard(String fileCategory, String path,String token);//身份证校验网络访问
+        void CalibrateIdCardToken(int flag,String path);
     }
 }

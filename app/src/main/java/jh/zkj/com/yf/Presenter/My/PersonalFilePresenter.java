@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -19,9 +21,11 @@ import java.util.ArrayList;
 import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
 import jh.zkj.com.yf.Bean.CalibrateIdCardBean;
+import jh.zkj.com.yf.Bean.CalibrateIdCardTokenBean;
 import jh.zkj.com.yf.Bean.JsonBean;
 import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract;
 import jh.zkj.com.yf.Mutils.GetJsonDataUtil;
+import jh.zkj.com.yf.Mview.CancleDialog;
 import jh.zkj.com.yf.Mview.PhotoPopupWindow;
 import jh.zkj.com.yf.R;
 
@@ -47,6 +51,11 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
     private PhotoPopupWindow popupWindow;
     private MyAPI myAPI;
     private MyAPI.IResultMsgTwo<CalibrateIdCardBean> calibrateIResultMsg;
+    private String password;
+    private String phone;
+    private String sex = "1";
+    private String identImgFront="";
+    private String identImgBack="";
 
     public PersonalFilePresenter(PersonalFileActivity activity) {
         this.activity = activity;
@@ -56,15 +65,21 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
 
     @Override
     public void initData() {
+        password = activity.getIntent().getStringExtra("password");
+        phone = activity.getIntent().getStringExtra("phone");
+        activity.setPhoneS(phone);
         myAPI = new MyAPI();
         //身份证校验网络回调  flag 0=view1    flag1=view2
         calibrateIResultMsg = new MyAPI.IResultMsgTwo<CalibrateIdCardBean>() {
             @Override
             public void Result(CalibrateIdCardBean bean, int flag, String path) {
+
                 if (flag == 0) {
                     activity.setFrontIdBg(path);
+                    identImgFront = bean.getData().getValidity();
                 } else {
                     activity.setBackIdBg(path);
+                    identImgBack = bean.getData().getValidity();
                 }
             }
 
@@ -77,13 +92,51 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
 
     @Override
     public void initListener() {
-        //点击保存
         activity.getPersonalFileTitle().getRigthText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //点击保存
+                String code = activity.getPersonalCompanyCode().getText().toString();
+                String name = activity.getPersonalFileName().getText().toString();
+                if (TextUtils.isEmpty(activity.getPersonalCompanyCode().getText().toString())) {
+                    activity.showToast("请填写企业代码");
+                    return;
+                }
+                if (TextUtils.isEmpty(activity.getPersonalFileName().getText().toString())) {
+                    activity.showToast("请填写姓名");
+                    return;
+                }
+                String userName = activity.getPersonalFileLoginName().getText().toString();
+                String id = activity.getPersonalFileId().getText().toString();
+                String regionFullName = activity.getPersonalFileAddress().toString();
+                String identAddress = activity.getPersonalFileNameDetailedAddress().getText().toString();
+                myAPI.joinCompanySave(activity, phone, password, password, code, name, userName, id, sex, regionFullName, identAddress, identImgFront, identImgBack, new MyAPI.IResultMsg() {
+                    @Override
+                    public void Result(Object bean) {
+                        final CancleDialog dialog = new CancleDialog(activity);
+                        dialog.show();
+                        dialog.getCancle().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.getSure().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EventBus.getDefault().post("joinCompanyFinish");
+                            }
+                        });
+                    }
 
+                    @Override
+                    public void Error(String json) {
+
+                    }
+                });
             }
         });
+
     }
 
 
@@ -91,12 +144,14 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
     public void selectSexMan() {
         activity.getPersonalFileSexMan().setChecked(true);
         activity.getPersonalFileSexWoman().setChecked(false);
+        sex = "1";
     }
 
     @Override
     public void selectSexWomanMan() {
         activity.getPersonalFileSexMan().setChecked(false);
         activity.getPersonalFileSexWoman().setChecked(true);
+        sex = "2";
     }
 
     public void showPickerView() {// 弹出选择器
@@ -267,8 +322,29 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
     }
 
     @Override
-    public void CalibrateIdCard(String fileCategory, String path) {
-        myAPI.CalibrateIdCard(activity,fileCategory, path, calibrateIResultMsg);
+    public void CalibrateIdCard(String fileCategory, String path,String token) {
+        myAPI.CalibrateIdCard(activity, fileCategory, path,token, calibrateIResultMsg);
     }
+
+    @Override
+    public void CalibrateIdCardToken(final int flag, final String path) {
+        myAPI.CalibrateIdCardToke(activity, new MyAPI.IResultMsg<CalibrateIdCardTokenBean>() {
+            @Override
+            public void Result(CalibrateIdCardTokenBean bean) {
+                String token = bean.getData().getToken();
+                if(flag==1){
+                    CalibrateIdCard("F", path,token);
+                }else{
+                    CalibrateIdCard("R", path,token);
+                }
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
+    }
+
 
 }

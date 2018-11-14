@@ -105,6 +105,8 @@
 
 
         <EditText
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:maxLength="20"
             android:inputType="textPassword"
             android:layout_marginRight="@dimen/dp_30"
             android:layout_width="match_parent"
@@ -128,6 +130,8 @@
 
 
         <EditText
+            android:maxLength="20"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:inputType="textPassword"
             android:layout_marginRight="@dimen/dp_30"
             android:layout_width="match_parent"

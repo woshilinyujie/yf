@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,19 +17,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import jh.zkj.com.yf.Activity.My.CompanyFilesActivity;
-import jh.zkj.com.yf.Activity.My.MyOrderActivity;
-import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
-import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.My.LoginActivity;
-import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
-import jh.zkj.com.yf.Activity.My.RegisterActivity;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureViewpager;
 import jh.zkj.com.yf.Mview.SwitchText;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
 import jh.zkj.com.yf.Presenter.Home.HomeFragmentPresenter;
-import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -133,7 +125,7 @@ public class HomeFragment extends MBaseFragment {
                 presenter.toRetailOrder();
                 break;
             case R.id.home_fragment_common_menu_two://常用2
-//                Intent intent=new Intent(getActivity(),CompanyFilesActivity.class);
+//                Intent intent=new Intent(getActivity(),LoginActivity.class);
 //                startActivity(intent);
                 presenter.toRetail();
                 break;

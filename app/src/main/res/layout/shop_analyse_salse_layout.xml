@@ -35,10 +35,11 @@
                     android:background="@color/c_6fb1fc" />
 
                 <TextView
+                    android:id="@+id/sales_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_6"
-                    android:text="总销售量：98"
+                    android:text="总销量："
                     android:textColor="@color/c_333333"
                     android:textSize="@dimen/sp_13" />
 

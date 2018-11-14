@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,25 +20,20 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.RegisterActivityContract;
-import jh.zkj.com.yf.Mview.Toast.EToast;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.RegisterPresenter;
 import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/10/25.
- * 注册
+ * 加入企业发验证码入口
  */
 
-public class RegisterActivity extends MBaseActivity implements RegisterActivityContract.RegisterActivityView{
+public class JoinCompanyCodeActivity extends MBaseActivity implements RegisterActivityContract.RegisterActivityView {
     @BindView(R.id.register_phone_et)
     EditText registerPhoneEt;
     @BindView(R.id.register_code_et)
     EditText registerCodeEt;
-    @BindView(R.id.register_password_one_et)
-    EditText registerPasswordOneEt;
-    @BindView(R.id.register_password_two_et)
-    EditText registerPasswordTwoEt;
     @BindView(R.id.register_next)
     Button registerNext;
     @BindView(R.id.register_checkbox_iv)
@@ -59,7 +53,7 @@ public class RegisterActivity extends MBaseActivity implements RegisterActivityC
         registerPresenter = new RegisterPresenter(this);
     }
 
-    @OnClick({R.id.register_send_code,R.id.register_next, R.id.register_checkbox_iv, R.id.register_negotiate})
+    @OnClick({R.id.register_send_code, R.id.register_next, R.id.register_checkbox_iv, R.id.register_negotiate})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.register_next:
@@ -83,13 +77,6 @@ public class RegisterActivity extends MBaseActivity implements RegisterActivityC
         return registerCodeEt;
     }
 
-    public EditText getRegisterPasswordOneEt() {
-        return registerPasswordOneEt;
-    }
-
-    public EditText getRegisterPasswordTwoEt() {
-        return registerPasswordTwoEt;
-    }
 
     public Button getRegisterNext() {
         return registerNext;
@@ -120,7 +107,7 @@ public class RegisterActivity extends MBaseActivity implements RegisterActivityC
 
     @Override
     public void showToast(String s) {
-        MToast.makeText(this,s, Toast.LENGTH_SHORT).show();
+        MToast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -129,12 +116,15 @@ public class RegisterActivity extends MBaseActivity implements RegisterActivityC
         super.onDestroy();
         OkGo.getInstance().cancelTag(this);
         EventBus.getDefault().unregister(this);
+        registerPresenter.getCountDownTimer().cancel();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void messageEventBus(String s){
-        if(s.equals("RegisterFinish")){
+    public void messageEventBus(String s) {
+        if (s.equals("joinCompanyFinish")) {
             finish();
         }
     }
+
+
 }
