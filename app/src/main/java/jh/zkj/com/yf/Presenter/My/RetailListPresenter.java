@@ -237,7 +237,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
             holder.orderStatus.setTextColor(color);
             holder.name.setText(item.getName() + "");
             holder.phone.setText(item.getMobilePhone() + "");
-            holder.number.setText("共" + item.getTotalQuantity() + "件");
+            holder.number.setText("共" + (int)item.getTotalQuantity() + "件");
             holder.orderTitle.setText(item.getBizSoDetail().get(0).getSkuFullName() + "");
             holder.date.setText("下单时间：" + item.getCreateTime());
             holder.userName.setText("下单人：" + item.getCreateUserName());

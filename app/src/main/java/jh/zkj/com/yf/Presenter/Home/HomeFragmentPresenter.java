@@ -14,6 +14,7 @@ import jh.zkj.com.yf.API.HomeAPI;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Home.HomeConfig;
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.My.EnterpriseActivity;
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
@@ -92,7 +93,8 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
 
     @Override
     public void toRetail() {
-        Intent intent = new Intent(activity, MyOrderActivity.class);
+//        Intent intent = new Intent(activity, MyOrderActivity.class);
+        Intent intent = new Intent(activity, EnterpriseActivity.class);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCOPE, RetailListPresenter.STATUS_SCOPE_ALL);
         activity.startActivity(intent);
     }

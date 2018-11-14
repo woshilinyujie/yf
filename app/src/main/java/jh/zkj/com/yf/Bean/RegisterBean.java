@@ -1,10 +1,12 @@
 package jh.zkj.com.yf.Bean;
 
+import java.io.Serializable;
+
 /**
  * Created by linyujie on 18/11/5.
  */
 
-public class RegisterBean {
+public class RegisterBean implements Serializable{
 
     /**
      * data : {"uuid":"bb2ed9655c90410cb2f4f202e162f2fa","code":"04422","businessCode":"","description":"刚回家就","remark":null,"industryCode":10001,"regionCode":null,"address":"超级经纪人","legalPerson":"","contactPerson":"","contactPhone":"","zipCode":"","businessLicense":null,"init_over_flag":null,"validFlag":"1","createUserUuid":"c28b9008037d4d9680975a0e823c48e9","createTime":"2018-11-05 15:24:51","updateUserUuid":null,"updateTime":"2018-11-05 15:24:51","version":0,"sysRemark":null,"id":20181105152451048}
@@ -40,7 +42,7 @@ public class RegisterBean {
         this.code = code;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * uuid : bb2ed9655c90410cb2f4f202e162f2fa
          * code : 04422

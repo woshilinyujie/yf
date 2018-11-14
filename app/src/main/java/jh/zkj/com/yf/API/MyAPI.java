@@ -3,6 +3,8 @@ package jh.zkj.com.yf.API;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -12,11 +14,14 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.UUID;
 
+import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.CRMInfoBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardBean;
 import jh.zkj.com.yf.Bean.CheckLoginBean;
+import jh.zkj.com.yf.Bean.CommodityBean;
+import jh.zkj.com.yf.Bean.CompanyBean;
+import jh.zkj.com.yf.Bean.EntExamineListBean;
 import jh.zkj.com.yf.Bean.LoginCRMBean;
 import jh.zkj.com.yf.Bean.LoginERPBean;
 import jh.zkj.com.yf.Bean.RegisterBean;
@@ -274,19 +279,23 @@ public class MyAPI {
         bean.setBusinessCode(businessCode);
         bean.setdescription(description);
         bean.setContactPerson(contactPerson);
+        bean.setName(description);
         bean.setContactPhone(contactPhone);
+        bean.setMobileNum(contactPhone);
         bean.setLegalPerson(legalPerson);
         bean.setPassword(password);
         bean.setPhone(phone);
         bean.setZipCode(zipCode);
-        bean.setBusinessCode(businessLicense);
+        bean.setBusinessCode(businessCode);
         bean.setProductType(productType);
         bean.setRegionFullName(regionFullName);
+        bean.setIndustryCode("10001");
         String slist = GsonUtils.GsonString(bean);
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>post(" http://192.168.68.77:9001/crmCompany/register").tag(context)
+        OkGo.<String>post(" http://192.168.68.12:3001/crm/crmCompany/company/register").tag(context)
+                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
                 .upJson(slist)
                 .execute(new StringCallback() {
                     @Override
@@ -306,6 +315,103 @@ public class MyAPI {
                     }
                 });
     }
+
+    /**
+     * 审核列表
+     *  auditFlag 0 审核中  1已经拒接 和已审核
+     */
+    public void getEntExamineList(Context context, String uuid, String keywords, String opreate, final IResultMsg<ArrayList<EntExamineListBean>> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get("http://192.168.68.12:3001/" + HttpConstant.HTTP_CRM_STD_USER_APPLY + uuid).tag(context)
+                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
+                .params("keywords", keywords)
+                .params("opreate", opreate)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        BaseBean<ArrayList<EntExamineListBean>> bean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<EntExamineListBean>>>() {});
+
+                        iResultMsg.Result(bean.getData());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        iResultMsg.Error(response.toString());
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
+    /**
+     * 企业信息
+     */
+    public void getCompanyInfo(Context context, final IResultMsg<CompanyBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get("http://192.168.68.12:3001/" + HttpConstant.HTTP_CRM_COMPANY_INFO).tag(context)
+                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        BaseBean<CompanyBean> bean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<CompanyBean>>() {});
+
+                        iResultMsg.Result(bean.getData());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        iResultMsg.Error(response.toString());
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
+    /**
+     * 加入企业审核
+     */
+    public void getOperratorAudit(Context context, String uuid, boolean flag, final IResultMsg<String> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get("http://192.168.68.12:3001/"
+                + (flag ? HttpConstant.HTTP_CRM_OPERRATOR_AUDIT : HttpConstant.HTTP_CRM_OPERRATOR_UN_AUDIT)
+                + uuid)
+                .tag(context)
+                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        BaseBean<String> bean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<String>>() {});
+
+                        iResultMsg.Result(bean.getData());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        iResultMsg.Error(response.toString());
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
 
     public interface IResultMsg<T> {
         void Result(T bean);

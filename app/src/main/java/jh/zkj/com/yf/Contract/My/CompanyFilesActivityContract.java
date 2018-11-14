@@ -18,4 +18,11 @@ public class CompanyFilesActivityContract {
     }
 
 
+    /**
+     * Created by wdefer
+     * 2018/11/13
+     * use
+     */
+    public static class EntExamineContract {
+    }
 }

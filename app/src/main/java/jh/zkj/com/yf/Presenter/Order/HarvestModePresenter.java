@@ -280,10 +280,22 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                     loadingDialog.dismissLoading();
                 }
                 modeBean = bean;
-                if(bean.size() > 0){
-                    topBean = bean.remove(0);
-                    topBean.setAmount(total);
+                //返回的数据可能会出现没有“现金”的情况
+                boolean has = false;
+                for(int i = 0 ; i < bean.size() ;i++){
+                    if("现金".equals(bean.get(i).getCashierTypeName())){
+                        has = true;
+                        topBean = bean.remove(i);
+                        break;
+                    }
                 }
+
+                if(!has){
+                    topBean = new HarvestModeBean();
+                    topBean.setCashierTypeName("现金");
+                }
+
+                topBean.setAmount(total);
 
                 if(modeList != null){
                     for (int i = 0 ; i < modeList.size(); i++){

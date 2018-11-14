@@ -42,7 +42,7 @@
                 android:layout_marginTop="@dimen/dp_6"
                 android:background="@drawable/shape_radius_30_f2f2f2"
                 android:gravity="center_vertical"
-                android:hint="审核"
+                android:hint="姓名/手机号"
                 android:paddingLeft="@dimen/dp_35"
                 android:textColor="@color/c_a6a6a6"
                 android:textSize="@dimen/sp_12"
@@ -73,7 +73,7 @@
         app:tl_textSelectColor="@color/c_6fb1fc"
         app:tl_textUnselectColor="@color/c_333333"
         app:tl_textsize="16sp"
-        app:tl_underline_color="@color/white"
+        app:tl_underline_color="@color/c_f6f7fb"
         app:tl_underline_height="1dp"
         android:background="@color/white"/>
 

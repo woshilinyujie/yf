@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/dp_12"
         android:paddingBottom="@dimen/dp_12"
-        android:paddingLeft="@dimen/dp_16">
+        android:paddingLeft="@dimen/dp_16"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -46,7 +47,7 @@
             android:paddingRight="@dimen/dp_16">
 
             <TextView
-                android:id="@+id/enterprise_red_dot_num"
+                android:id="@+id/enterprise_examine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/dp_18"
@@ -61,7 +62,7 @@
                 android:background="@drawable/shape_stroke_6fb1fc_radius_30"/>
 
             <TextView
-                android:id="@+id/enterprise_examine"
+                android:id="@+id/enterprise_red_dot_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

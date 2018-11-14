@@ -132,7 +132,7 @@ public class OrderListBean {
             private String soOutCreateUserName;
             private String createTime;
             private String totalAmount;
-            private String totalQuantity;
+            private double totalQuantity;
             private List<BizSoDetailBean> bizSoDetail;
             private List<BizSoClerkBean> bizSoClerk;
 
@@ -520,11 +520,11 @@ public class OrderListBean {
                 this.totalAmount = totalAmount;
             }
 
-            public String getTotalQuantity() {
+            public double getTotalQuantity() {
                 return totalQuantity;
             }
 
-            public void setTotalQuantity(String totalQuantity) {
+            public void setTotalQuantity(double totalQuantity) {
                 this.totalQuantity = totalQuantity;
             }
 

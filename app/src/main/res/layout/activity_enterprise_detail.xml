@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c_f6f7fb"
+    android:orientation="vertical">
+
+    <jh.zkj.com.yf.Mview.TitleLayout
+        android:id="@+id/enterprise_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/white"
+        app:centerText="详情"
+        app:centerTextSize="@dimen/sp_16"
+        app:leftImageBg="@mipmap/back_arrow"
+        app:leftImageHeightSize="@dimen/dp_20"
+        app:leftImageWidthSize="@dimen/dp_12"
+        app:leftMargin="@dimen/dp_16"
+        app:rightMargin="@dimen/dp_20"
+        app:rightText="编辑"
+        app:rightTextColor="@color/c_666666"
+        app:rightTextSize="@dimen/sp_14"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_16">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/enterprise_detail_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_radius_8_ffffff"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="@drawable/shape_radius_8_ffffff"
+                android:paddingBottom="@dimen/dp_16"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                android:paddingTop="@dimen/dp_16">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="营业执照"
+                    android:textColor="@color/c_333333"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/enterprise_detail_license"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_alignParentRight="true"
+                    android:src="#f00"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -31,6 +31,8 @@ public class OrderConfig {
     public static final String TYPE_STRING_ORDER_TOTAL = "orderTotal";
     //订单uuid
     public static final String TYPE_STRING_BILL_UUID = "billUuid";
+    //付款方式备注
+    public static final String TYPE_STRING_OUT_REMARK = "outRemark";
 
 
     //选择客户取消客户

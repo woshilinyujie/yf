@@ -83,7 +83,10 @@ public class OrderDetailsBean implements Serializable{
     private String cashierTime;
     private String clerkName;
     private String reason;
+    //付款时传入的uuid
     private String bizSoOutUuid;
+    //付款详情备注
+    private String bizSoOutRemark;
     private MemberDTOBean memberDTO = new MemberDTOBean();
     private ArrayList<DetailDTOListBean> detailDTOList;
     private ArrayList<HarvestModeBean> newCashierList;
@@ -406,6 +409,14 @@ public class OrderDetailsBean implements Serializable{
 
     public void setBizSoOutUuid(String bizSoOutUuid) {
         this.bizSoOutUuid = bizSoOutUuid;
+    }
+
+    public String getBizSoOutRemark() {
+        return bizSoOutRemark;
+    }
+
+    public void setBizSoOutRemark(String bizSoOutRemark) {
+        this.bizSoOutRemark = bizSoOutRemark;
     }
 
     public static class DetailDTOListBean implements Serializable{

@@ -16,6 +16,9 @@ public class RegisterUpBean {
     String regionFullName;
     String password;
     String phone;
+    String name;
+    String industryCode;
+    String mobileNum;
 
     public void setBusinessCode(String businessCode) {
         this.businessCode = businessCode;
@@ -103,5 +106,29 @@ public class RegisterUpBean {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIndustryCode() {
+        return industryCode;
+    }
+
+    public void setIndustryCode(String industryCode) {
+        this.industryCode = industryCode;
+    }
+
+    public String getMobileNum() {
+        return mobileNum;
+    }
+
+    public void setMobileNum(String mobileNum) {
+        this.mobileNum = mobileNum;
     }
 }
