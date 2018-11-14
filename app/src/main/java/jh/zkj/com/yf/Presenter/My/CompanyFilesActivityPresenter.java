@@ -56,10 +56,16 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
     private String password;
     private String phone;
 
-    public CompanyFilesActivityPresenter(CompanyFilesActivity activity) {
+    public CompanyFilesActivityPresenter(final CompanyFilesActivity activity) {
         this.activity = activity;
         myAPI = new MyAPI();
         save();
+        activity.getBack().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
     }
 
 

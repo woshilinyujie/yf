@@ -104,6 +104,9 @@ public class CompanyFilesActivity extends MBaseActivity implements CompanyFilesA
         return companyPhotoEt;
     }
 
+    public ImageView getBack(){
+        return companyTitle.getLetfImage();
+    }
 
     @Override
     public void setAddress(String s) {
