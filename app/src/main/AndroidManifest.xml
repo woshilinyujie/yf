@@ -61,6 +61,14 @@
         <activity android:name=".Activity.Order.ReceivableDetailActivity">
         </activity>
         <activity android:name=".Activity.Analyse.ClassifiedActivity"/>
+        <!-- 企业 -->
+        <activity android:name=".Activity.My.EnterpriseActivity"/>
+        <!-- 企业审核 -->
+        <activity android:name=".Activity.My.EntExamineActivity"/>
+        <!-- 创建企业成功 -->
+        <activity android:name=".Activity.My.CreateEnterpriseSuccessActivity"/>
+        <!-- 企业详情 -->
+        <activity android:name=".Activity.My.EnterpriseDetailActivity"/>
         <activity android:name=".Activity.My.JoinCompanyInfoActivity"/>
         <activity android:name=".Activity.My.JoinCompanyPasswordActivity"/>
         <activity android:name=".Activity.My.LoginCompanyActivity"/>

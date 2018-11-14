@@ -63,7 +63,7 @@
                         android:layout_width="@dimen/dp_15"
                         android:layout_height="@dimen/dp_15"
                         android:layout_marginLeft="@dimen/dp_4"
-                        android:src="#f00"/>
+                        android:src="@mipmap/rename_img"/>
 
                 </LinearLayout>
 
@@ -131,6 +131,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/enterprise_recycler_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -143,8 +144,8 @@
                 android:paddingBottom="@dimen/dp_6"
                 android:paddingLeft="@dimen/dp_14"/>
 
-            <ListView
-                android:id="@+id/enterprise_list"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/enterprise_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>

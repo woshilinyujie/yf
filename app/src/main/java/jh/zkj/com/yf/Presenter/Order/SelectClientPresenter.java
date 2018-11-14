@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -68,9 +69,11 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     private void setSelectBean() {
         if (clientInfoBean != null) {
             for (ClientInfoBean bean : clientList) {
-                if (bean.getUuid().equals(clientInfoBean.getUuid())) {
-                    bean.setSelect(true);
-                    break;
+                if(!TextUtils.isEmpty(bean.getUuid())){
+                    if (bean.getUuid().equals(clientInfoBean.getUuid())) {
+                        bean.setSelect(true);
+                        break;
+                    }
                 }
             }
         }

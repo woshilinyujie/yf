@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.My.CompanyFilesActivity;
+import jh.zkj.com.yf.Activity.My.CreateEnterpriseSuccessActivity;
 import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Bean.JsonBean;
 import jh.zkj.com.yf.Bean.RegisterBean;
@@ -75,6 +76,7 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
         phone = activity.getIntent().getStringExtra("phone");
         companyDescription = activity.getCompanyNameEt().getText().toString();
         businessCode = activity.getCompanyCodeEt().getText().toString();
+        businessCode = activity.getCompanyCodeEt().getText().toString();
         regionFullName = activity.getCompanyAddress().getText().toString();
         address = activity.getCompanyDetailAddressEt().getText().toString();
         legalPerson = activity.getCompanyLegalEntityEt().getText().toString();
@@ -95,14 +97,14 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
                             , regionFullName, password, phone, new MyAPI.IResultMsg<RegisterBean>() {
                                 @Override
                                 public void Result(RegisterBean bean) {
-                                    if(bean.getMsg().equals("success")){
+                                    if("success".equals(bean.getMsg())){
                                         activity.showToast("注册成功");
-                                        Intent intent=new Intent(activity, LoginActivity.class);
-                                        intent.putExtra("uuid",bean.getData().getUuid());
+                                        Intent intent=new Intent(activity, CreateEnterpriseSuccessActivity.class);
+                                        intent.putExtra("RegisterBean",bean);
                                         intent.putExtra("phone",phone);
                                         activity.startActivity(intent);
-                                        EventBus.getDefault().post("RegisterFinish");
-                                        activity.finish();
+//                                        EventBus.getDefault().post("RegisterFinish");
+//                                        activity.finish();
                                     }
                                 }
 

@@ -26,4 +26,12 @@ public class HttpConstant {
     public static String HTTP_BIZ_SO_RECEIVABLE_DETAIL = "erp/biz/soOut/app";
     //首页上方的按钮
     public static String HTTP_BASIC_MENU_LIST = "erp/basic/menu/list";
+    //审核列表
+    public static String HTTP_CRM_STD_USER_APPLY = "crm/stdUserApply";
+    //企业信息
+    public static String HTTP_CRM_COMPANY_INFO = "crm/crmCompany/company/info";
+    //企业 接受审核
+    public static String HTTP_CRM_OPERRATOR_AUDIT = "crm/stdUserApply/operrator/audit";
+    //企业 拒绝审核
+    public static String HTTP_CRM_OPERRATOR_UN_AUDIT = "crm/stdUserApply/operrator/unaudit";
 }

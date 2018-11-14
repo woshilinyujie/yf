@@ -194,6 +194,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
                         public void onClick(View v) {
                             Intent intent = new Intent(activity, ReceivableDetailActivity.class);
                             intent.putExtra(OrderConfig.TYPE_STRING_BILL_UUID, orderBean.getBizSoOutUuid());
+                            intent.putExtra(OrderConfig.TYPE_STRING_OUT_REMARK, orderBean.getBizSoOutRemark());
                             activity.startActivity(intent);
                         }
                     });

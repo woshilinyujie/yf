@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:src="#f00"
+        android:layout_marginTop="@dimen/dp_66"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="创建成功"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/sp_14"
+        android:layout_marginTop="@dimen/dp_14"
+        android:textColor="@color/c_333333"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_32">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您的企业代码为"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            android:textColor="@color/c_333333"/>
+
+
+        <TextView
+            android:id="@+id/create_enterprise_success_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1006"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/sp_24"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textColor="@color/c_ff3b2f"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分享给员工，邀请他们加入企业！"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/sp_14"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textColor="@color/c_333333"/>
+
+    <TextView
+        android:id="@+id/create_enterprise_success_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:text="登录骏杭ERP"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/sp_14"
+        android:layout_marginTop="@dimen/dp_90"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/shape_solid_ffc300_radius_4"/>
+
+    <TextView
+        android:id="@+id/create_enterprise_success_break"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:text="返回"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/sp_14"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:textColor="@color/c_f5a623"
+        android:gravity="center"
+        android:background="@drawable/shape_stroke_ffc300_radius_4"/>
+
+</LinearLayout>

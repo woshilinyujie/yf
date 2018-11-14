@@ -34,7 +34,7 @@ import jh.zkj.com.yf.Mview.Toast.EToast;
 public class OrderAPI {
     public final String API = APIConstant.API;
 //    public final String TOKEN = "bearer 292f06ac-f530-4218-a991-b1440ebc3d17";
-    public final String TOKEN = "bearer 7dcca7f8-c11d-4f80-810b-ff2880d27820";
+    public final String TOKEN = "bearer 5faf588c-1bbb-421f-9d21-23e1c9914c1a";
 
     /**
      * 获取业务员信息
@@ -88,8 +88,7 @@ public class OrderAPI {
                             Log.d("wdefer", "json == " + response.body());
                         }
                         BaseBean<CommodityBean> comInfoBean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<CommodityBean>>() {
-                                });
+                                new TypeReference<BaseBean<CommodityBean>>() {});
 
                         if (APIConstant.REQUEST_SUCCESS.equals(comInfoBean.getCode())) {
                             iResultMsg.Result(comInfoBean.getData());
