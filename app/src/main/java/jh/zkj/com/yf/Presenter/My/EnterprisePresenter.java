@@ -26,6 +26,7 @@ import jh.zkj.com.yf.Bean.EntExamineListBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.My.EnterpriseContract;
 import jh.zkj.com.yf.Mview.EntRenameDialog;
+import jh.zkj.com.yf.Mview.EnterprisePasswordDialog;
 import jh.zkj.com.yf.R;
 
 /**
@@ -60,8 +61,13 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
     }
 
     private void initData() {
+        boolean isPassword = activity.getIntent().getBooleanExtra("isPassword", false);
         initAdapter();
         getCompanyInfo();
+        if(!isPassword){
+            EnterprisePasswordDialog dialog=new EnterprisePasswordDialog(activity);
+            dialog.show();
+        }
     }
 
     private void initListener() {

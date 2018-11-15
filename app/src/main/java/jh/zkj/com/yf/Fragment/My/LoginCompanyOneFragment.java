@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.My.EnterpriseActivity;
 import jh.zkj.com.yf.Activity.My.LoginCompanyActivity;
 import jh.zkj.com.yf.Bean.LoginCRMBean;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
@@ -66,6 +67,7 @@ public class LoginCompanyOneFragment extends MBaseFragment {
     }
 
     private void initListener() {
+        loginOneBtn.setEnabled(false);
         setEt(loginComCode);
         setEt(loginPassword);
     }
@@ -104,13 +106,14 @@ public class LoginCompanyOneFragment extends MBaseFragment {
 
     @OnClick(R.id.login_one_btn)
     public void onViewClicked() {
+
         String phone = loginComCode.getText().toString();
         String password = aesUtils.encryptData(loginPassword.getText().toString());
         myAPI.loginCRM(activity, phone, password, new MyAPI.IResultMsg<LoginCRMBean>() {
             @Override
             public void Result(LoginCRMBean bean) {
                 PrefUtils.putString(activity,"crm_token",bean.getAccess_token());
-                Intent intent=new Intent(activity, MainActivity.class);
+                Intent intent=new Intent(activity, EnterpriseActivity.class);
                 activity.startActivity(intent);
                 EventBus.getDefault().post("loginFinish");
                 activity.finish();

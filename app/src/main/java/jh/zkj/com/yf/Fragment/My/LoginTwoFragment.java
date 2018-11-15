@@ -75,6 +75,7 @@ public class LoginTwoFragment extends MBaseFragment {
     }
 
     private void initListener() {
+        loginBtn.setEnabled(false);
         setEt(loginCodeEnterpriseNum);
         setEt(loginCodePhone);
         setEt(loginCode);

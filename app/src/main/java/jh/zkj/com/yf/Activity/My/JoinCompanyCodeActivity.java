@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.RegisterActivityContract;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.RegisterPresenter;
 import jh.zkj.com.yf.R;
@@ -42,6 +44,8 @@ public class JoinCompanyCodeActivity extends MBaseActivity implements RegisterAc
     TextView registerSendCode;
     @BindView(R.id.register_negotiate)
     TextView registerNegotiate;
+    @BindView(R.id.title)
+    TitleLayout title;
     private RegisterPresenter registerPresenter;
 
     @Override
@@ -51,6 +55,7 @@ public class JoinCompanyCodeActivity extends MBaseActivity implements RegisterAc
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         registerPresenter = new RegisterPresenter(this);
+        registerNext.setEnabled(false);
     }
 
     @OnClick({R.id.register_send_code, R.id.register_next, R.id.register_checkbox_iv, R.id.register_negotiate})
@@ -100,6 +105,9 @@ public class JoinCompanyCodeActivity extends MBaseActivity implements RegisterAc
         registerSendCode.setText(s);
     }
 
+    public ImageView getBack(){
+        return title.getLetfImage();
+    }
     @Override
     public void setSendCodeColor(String color) {
         registerSendCode.setTextColor(Color.parseColor(color));

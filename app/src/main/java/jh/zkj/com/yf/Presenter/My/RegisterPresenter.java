@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
 import jh.zkj.com.yf.API.MyAPI;
@@ -40,6 +41,12 @@ public class RegisterPresenter implements RegisterActivityContract.RegisterActiv
     public void initListener() {
         calibrate(activity.getRegisterCodeEt());
         calibrate(activity.getRegisterPhoneEt());
+        activity.getBack().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
     }
 
     @Override
