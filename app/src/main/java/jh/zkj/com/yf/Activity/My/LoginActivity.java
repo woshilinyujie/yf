@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Activity.My;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.LoginActivityContract;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
 import jh.zkj.com.yf.Presenter.My.LoginActivityPresenter;
 import jh.zkj.com.yf.R;
@@ -44,6 +46,7 @@ public class LoginActivity extends MBaseActivity implements LoginActivityContrac
     TextView loginEnterprise;
     @BindView(R.id.company_login)
     TextView companyLogin;
+    private long exitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,5 +113,20 @@ public class LoginActivity extends MBaseActivity implements LoginActivityContrac
         super.onDestroy();
         OkGo.getInstance().cancelTag(this);
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                MToast.makeText(getApplicationContext(), "再按一次退出程序", MToast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

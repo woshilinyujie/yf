@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Activity.My;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.EnterpriseContract;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.EnterprisePresenter;
 import jh.zkj.com.yf.R;
 
@@ -53,6 +55,7 @@ public class EnterpriseActivity extends MBaseActivity implements EnterpriseContr
     LinearLayout recyclerLayout;
 
     private EnterprisePresenter presenter;
+    private long exitTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,5 +94,20 @@ public class EnterpriseActivity extends MBaseActivity implements EnterpriseContr
 
     public RecyclerView getRecycler(){
         return recycler;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                MToast.makeText(getApplicationContext(), "再按一次退出程序", MToast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

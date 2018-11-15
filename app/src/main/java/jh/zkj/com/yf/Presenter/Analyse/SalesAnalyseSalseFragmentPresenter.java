@@ -28,6 +28,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,6 +58,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
     private final SalesAnalyseActivity context;
     SalesAnalyseSalseFragment fragment;
     private LineChart mLineChart;
+    DecimalFormat df = new DecimalFormat("0.00");
     public static final int[] PIE_COLORS = {
             Color.rgb(255, 204, 98), Color.rgb(234, 99, 48), Color.rgb(63, 189, 176),
             Color.rgb(247, 153, 84), Color.rgb(184, 233, 134), Color.rgb(251, 215, 191),
@@ -124,7 +126,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
         //模拟数据
         HashMap<String, Integer> dataMap = new HashMap<String, Integer>();
         for(int x=0;x<bean.getData().size();x++){
-            dataMap.put(x+"",bean.getData().get(x).getTarget_data());
+            dataMap.put(x+"", (int) bean.getData().get(x).getTarget_data());
         }
         setPieChart(bean, pieChart, dataMap, "数据", true);
     }
@@ -182,7 +184,6 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
         //图例设置
         Legend legend = pieChart.getLegend();
         legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
-        legend.setYOffset(18);
         legend.setTextSize(15);
         legend.setFormSize(15);
         legend.setTextColor(Color.parseColor("#a6a6a6"));
@@ -210,7 +211,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
             Integer integer = pieValues.get(x + "");
             //倒数第二个/s后面的数据为上下行间距距
             //最后一个/s后面的数据为y距
-            entries.add(new PieEntry(Float.valueOf(integer), bean.getData().get(x).getTarget_data()+"，"+(bean.getData().get(x).getTarget_data()/count)*100+"%/s" +bean.getData().get(x).getName()+ "/s" +
+            entries.add(new PieEntry(Float.valueOf(integer), (int)(bean.getData().get(x).getTarget_data())+"，"+df.format((bean.getData().get(x).getTarget_data()/count)*100)+"%/s" +bean.getData().get(x).getName()+ "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 2)
                     , x+""));
@@ -278,7 +279,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
                 inspect = convertView.findViewById(R.id.shop_analyse_sales_item3_inspect);
                 id.setText(position+1 + "");
                 company.setText(dataBean.getName());
-                sales.setText(dataBean.getTarget_data()+"");
+                sales.setText((int)(dataBean.getTarget_data())+"");
             } else {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item4, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
@@ -287,7 +288,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
                 inspect = convertView.findViewById(R.id.shop_analyse_sales_item3_inspect);
                 id.setText(position+1 + "");
                 company.setText(dataBean.getName());
-                sales.setText(dataBean.getTarget_data()+"");
+                sales.setText((int)(dataBean.getTarget_data())+"");
             }
             inspect.setOnClickListener(new View.OnClickListener() {
                 @Override

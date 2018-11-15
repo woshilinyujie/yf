@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import jh.zkj.com.yf.API.HttpConstant;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Mview.MainViewPager;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.MainPresenter;
 import jh.zkj.com.yf.R;
 
@@ -47,6 +49,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     @BindView(R.id.home_activity_view_page)
     MainViewPager homeActivityViewPage;
     private MainPresenter presenter;
+    private long exitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,4 +176,18 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         mainActivityMyText.setTextColor(color);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                MToast.makeText(getApplicationContext(), "再按一次退出程序", MToast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

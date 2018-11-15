@@ -19,7 +19,7 @@ public class SplashActivity extends MBaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(TextUtils.isEmpty(PrefUtils.getString(SplashActivity.this,"access_token",""))){
+            if(TextUtils.isEmpty(PrefUtils.getString(SplashActivity.this,"erp_token",""))){
                 Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
                 SplashActivity.this.startActivity(intent);
                 finish();

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import butterknife.BindView;
@@ -26,11 +27,11 @@ import jh.zkj.com.yf.R;
 
 public class AnalyseFragment extends MBaseFragment {
     @BindView(R.id.analyse_shop_rl)
-    RelativeLayout analyseShopRl;
+    LinearLayout analyseShopRl;
     @BindView(R.id.analyse_shop_man_rl)
-    RelativeLayout analyseShopManRl;
+    LinearLayout analyseShopManRl;
     @BindView(R.id.analyse_sales_rl)
-    RelativeLayout analyseSalesRl;
+    LinearLayout analyseSalesRl;
     Unbinder unbinder;
     private View rootView;
 

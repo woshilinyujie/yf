@@ -45,7 +45,7 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
  */
 
 public class MyAPI {
-    public final String API = "http://192.168.68.77";
+    public final String API = "http://192.168.68.12";
     private File file;
     private LoadingDialog dialog;
 
@@ -380,7 +380,7 @@ public class MyAPI {
     }
 
 
-    /**
+    /** 添加新企业
      * @param businessCode    统一社会信用码
      * @param description     公司名称
      * @param address         详细地址
@@ -645,8 +645,8 @@ public class MyAPI {
                     public void onSuccess(Response<String> response) {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
-
-                        BaseBean<CompanyBean> bean = JSON.parseObject(response.body(),
+                        String s = response.body().toString();
+                        BaseBean<CompanyBean> bean = JSON.parseObject(s,
                                 new TypeReference<BaseBean<CompanyBean>>() {});
 
                         iResultMsg.Result(bean.getData());

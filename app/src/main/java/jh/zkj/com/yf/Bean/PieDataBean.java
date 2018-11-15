@@ -9,7 +9,7 @@ import java.util.List;
 public class PieDataBean {
 
     /**
-     * data : [{"target_data":5,"name":"浙江公司test","uuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22"}]
+     * data : [{"target_data":11093.600036621094,"name":"浙江公司test","uuid":"1426d062-1b36-4faf-a414-a04f1c8f2c22"}]
      * msg : success
      * code : 0
      */
@@ -44,20 +44,20 @@ public class PieDataBean {
 
     public static class DataBean {
         /**
-         * target_data : 5.0
+         * target_data : 11093.600036621094
          * name : 浙江公司test
          * uuid : 1426d062-1b36-4faf-a414-a04f1c8f2c22
          */
 
-        private int target_data;
+        private double target_data;
         private String name;
         private String uuid;
 
-        public int getTarget_data() {
+        public double getTarget_data() {
             return target_data;
         }
 
-        public void setTarget_data(int target_data) {
+        public void setTarget_data(double target_data) {
             this.target_data = target_data;
         }
 

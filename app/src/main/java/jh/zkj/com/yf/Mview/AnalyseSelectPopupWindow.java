@@ -215,10 +215,21 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
                     dataSelect = new DataSelect() { //选着时间成功后处理
                         @Override
                         public void DataSelectSuccess(Date date) {
-                            shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(date.getTime()));
-                            unSelectColor(shopSelectToday);
-                            unSelectColor(shopSelectWeek);
-                            unSelectColor(shopSelectMonth);
+                            String endTimeS = shopSelectEnd.getText().toString();
+                            try {
+                                Date endTime = DateUtil.getInstance().stringToDate(endTimeS, "yyyy-MM-dd");
+                                if (date.getTime()<= endTime.getTime()) {
+                                    shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(date.getTime()));
+                                    unSelectColor(shopSelectToday);
+                                    unSelectColor(shopSelectWeek);
+                                    unSelectColor(shopSelectMonth);
+                                } else {
+                                    MToast.makeText(context, "结束时间必须大于等于开始时间", Toast.LENGTH_SHORT).show();
+
+                                }
+                            } catch (Exception e) {
+                                Log.e("时间格式转换错误: ", e.toString());
+                            }
 
                         }
                     };

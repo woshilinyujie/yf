@@ -8,6 +8,7 @@ import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Contract.My.MyFragmentContract;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.PhotoPopupWindow;
 
 /**
@@ -72,6 +73,11 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
         Intent intent = new Intent(activity, MyOrderActivity.class);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCOPE, RetailListPresenter.STATUS_SCOPE_MY);
         fragment.startActivity(intent);
+    }
+
+    @Override
+    public void exitLogin() {
+        PrefUtils.putString(activity,"erp_token","");
     }
 
 }

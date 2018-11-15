@@ -26,6 +26,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,6 +65,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
     private ShopManAnalyseActivity context;
     private final AnalyseAPI analyseAPI;
     private PieChart pieChart;
+    DecimalFormat df = new DecimalFormat("0.00");
 
     public ShopManAnalyseSalseMoneyPresenter(ShopManAnalyseSalseMoneyFragment fragment) {
         this.fragment = fragment;
@@ -244,7 +246,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         //模拟数据
         HashMap<String, Integer> dataMap = new HashMap<String,Integer>();
         for(int x=0;x<bean.getData().size();x++){
-            dataMap.put(x+"",bean.getData().get(x).getTarget_data());
+            dataMap.put(x+"", (int) bean.getData().get(x).getTarget_data());
         }
         setPieChart(bean,pieChart, dataMap, "数据", true);
     }
@@ -278,7 +280,6 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         //图例设置
         Legend legend = pieChart.getLegend();
         legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
-        legend.setYOffset(18);
         legend.setTextSize(15);
         legend.setFormSize(15);
         legend.setTextColor(Color.parseColor("#a6a6a6"));
@@ -306,7 +307,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
             Integer integer = pieValues.get(x + "");
             //倒数第二个/s后面的数据为上下行间距距
             //最后一个/s后面的数据为y距
-            entries.add(new PieEntry(Float.valueOf(integer), bean.getData().get(x).getTarget_data()+"，"+(bean.getData().get(x).getTarget_data()/count)*100+"%/s" +bean.getData().get(x).getName()+ "/s" +
+            entries.add(new PieEntry(Float.valueOf(integer), (int)(bean.getData().get(x).getTarget_data())+"，"+df.format((bean.getData().get(x).getTarget_data()/count)*100)+"%/s" +bean.getData().get(x).getName()+ "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 2)
                     , x+""));
@@ -370,7 +371,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
                 id.setText(position+1 + "");
                 company.setText(dataBean.getName());
-                sales.setText(dataBean.getTarget_data()+"");
+                sales.setText((int)(dataBean.getTarget_data())+"");
             } else {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item2, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
@@ -378,7 +379,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
                 id.setText(position+1 + "");
                 company.setText(dataBean.getName());
-                sales.setText(dataBean.getTarget_data()+"");
+                sales.setText((int)(dataBean.getTarget_data())+"");
             }
             return convertView;
         }

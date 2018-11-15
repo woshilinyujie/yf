@@ -114,6 +114,7 @@ public class LoginCompanyOneFragment extends MBaseFragment {
             public void Result(LoginCRMBean bean) {
                 PrefUtils.putString(activity,"crm_token",bean.getAccess_token());
                 Intent intent=new Intent(activity, EnterpriseActivity.class);
+                intent.putExtra("isPassword",true);
                 activity.startActivity(intent);
                 EventBus.getDefault().post("loginFinish");
                 activity.finish();

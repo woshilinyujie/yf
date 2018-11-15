@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Activity.My.EmailActivity;
+import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.My.ModifyPasswordActivity;
 import jh.zkj.com.yf.Activity.My.PhoneActivity;
 import jh.zkj.com.yf.Activity.My.UserNameActivity;
@@ -110,6 +111,11 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
                 startActivity(intent2);
                 break;
             case R.id.my_exit://退出
+                presenter.exitLogin();
+                Intent intent4=new Intent(getActivity(), LoginActivity.class);
+                activity.startActivity(intent4);
+                activity.finish();
+
                 break;
             case R.id.my_account_order://我的订单
                 presenter.startMyOrderActivity();
