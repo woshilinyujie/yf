@@ -69,7 +69,7 @@ public class EnterpriseActivity extends MBaseActivity implements EnterpriseContr
         }
     }
 
-    public void setName(String s){
+    public void setUserName(String s){
         name.setText(s);
     }
 

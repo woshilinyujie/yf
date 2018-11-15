@@ -75,7 +75,7 @@ public class CompanyBean implements Serializable{
          * id : 1
          */
 
-        private Object name;
+        private String name;
         private String password;
         private int sex;
         private Object birthday;
@@ -102,11 +102,11 @@ public class CompanyBean implements Serializable{
         private String identImgFront;
         private String identImgBack;
 
-        public Object getName() {
+        public String getName() {
             return name;
         }
 
-        public void setName(Object name) {
+        public void setName(String name) {
             this.name = name;
         }
 

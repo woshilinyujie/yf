@@ -180,6 +180,10 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
             public void Result(CompanyBean bean) {
                 if(bean != null){
                     comBean = bean;
+                    if(bean.getStdUser() != null){
+                        activity.setUserName(bean.getStdUser().getName());
+                        activity.setPhone(bean.getStdUser().getMobilePhone());
+                    }
                     if(bean.getCrmCompanys() != null && bean.getCrmCompanys().size() > 0){
                         activity.setEmptyDisplay(View.GONE);
                         activity.setRecyclerDisplay(View.VISIBLE);

@@ -369,13 +369,14 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         OkGo.<String>post(API+":3001/crm/crmCompany/company/register").tag(context)
+                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
                 .upJson(slist)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
-                        String s = response.body().toString();
+                        String s = response.body();
                         try {
                             RegisterBean registerBean = GsonUtils.GsonToBean(s, RegisterBean.class);
                             if (registerBean.getCode() == 0) {
