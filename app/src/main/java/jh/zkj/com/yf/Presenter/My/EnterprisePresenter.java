@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,9 @@ import jh.zkj.com.yf.Activity.My.EnterpriseDetailActivity;
 import jh.zkj.com.yf.Activity.My.MyConfig;
 import jh.zkj.com.yf.Bean.CompanyBean;
 import jh.zkj.com.yf.Bean.EntExamineListBean;
+import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.My.EnterpriseContract;
+import jh.zkj.com.yf.Mview.EntRenameDialog;
 import jh.zkj.com.yf.R;
 
 /**
@@ -40,6 +43,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
     private Adapter adapter;
     private MyAPI api;
     private CompanyBean comBean;
+    private EntRenameDialog renameDialog;
 
     public EnterprisePresenter(EnterpriseActivity activity) {
         this.activity = activity;
@@ -75,6 +79,22 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
         Intent intent = new Intent(activity, CompanyFilesActivity.class);
         intent.putExtra("phone", comBean.getStdUser().getMobilePhone());
         activity.startActivityForResult(intent, REQUEST_COMPANY_FILE);
+    }
+
+    @Override
+    public void showRenameDialog() {
+        if(renameDialog == null)
+            renameDialog = new EntRenameDialog(activity);
+        renameDialog.show();
+        renameDialog.setListener(new EntRenameDialog.Listener() {
+            @Override
+            public void onSuccessClick(String name) {
+                if(BuildConfig.DEBUG){
+                    Log.e("wdefer" , "name == " + name);
+                }
+
+            }
+        });
     }
 
     /**
