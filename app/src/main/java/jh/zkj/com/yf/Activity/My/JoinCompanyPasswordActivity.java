@@ -19,6 +19,7 @@ import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Mutils.AESUtils;
 import jh.zkj.com.yf.Mview.TitleLayout;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -106,7 +107,7 @@ public class JoinCompanyPasswordActivity extends MBaseActivity {
     public void onViewClicked() {
         Intent intent = new Intent(this, PersonalFileActivity.class);
         if (!passwordOneEt.getText().toString().equals(passwordTwoEt.getText().toString())) {
-            Toast.makeText(this, "二次密码不一致", Toast.LENGTH_SHORT).show();
+            MToast.makeText(this, "二次密码不一致", Toast.LENGTH_SHORT).show();
             return;
         }
         intent.putExtra("password", aesUtils.encryptData(passwordOneEt.getText().toString()));

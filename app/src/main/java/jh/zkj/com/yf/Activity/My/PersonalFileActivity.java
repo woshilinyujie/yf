@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract.PersonalFileActivityView;
 import jh.zkj.com.yf.Mview.TitleLayout;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.PersonalFilePresenter;
 import jh.zkj.com.yf.R;
 
@@ -122,7 +123,7 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
 
     @Override
     public void showToast(String s) {
-        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+        MToast.makeText(this,s,Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import cn.bingoogolapple.qrcode.zbar.ZBarView;
 import jh.zkj.com.yf.Contract.Order.OrderScanContract;
 import jh.zkj.com.yf.Contract.ScanContract;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.Order.OrderScanPresenter;
 import jh.zkj.com.yf.Presenter.ScanPresenter;
 import jh.zkj.com.yf.R;
@@ -71,7 +72,7 @@ public class OrderScanActivity extends AppCompatActivity implements OrderScanCon
 
     @Override
     public void showToast(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        MToast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
     @Override  //权限回调

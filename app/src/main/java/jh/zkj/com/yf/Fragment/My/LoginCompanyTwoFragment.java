@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
 
@@ -33,6 +34,7 @@ import jh.zkj.com.yf.Bean.LoginCRMBean;
 import jh.zkj.com.yf.Bean.SendCodeBean;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mutils.PrefUtils;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -139,6 +141,10 @@ public class LoginCompanyTwoFragment extends MBaseFragment {
         final String phone = loginPhone.getText().toString();
         switch (view.getId()) {
             case R.id.login_code_get:
+                if(phone.length()<11){
+                    MToast.makeText(activity,"请输入11位手机号码",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 myAPI.sendRegisterCode(activity, phone, new MyAPI.IResultMsg<SendCodeBean>() {
                     @Override
                     public void Result(SendCodeBean bean) {
@@ -156,7 +162,7 @@ public class LoginCompanyTwoFragment extends MBaseFragment {
                 myAPI.loginCRMCalibrate(activity, phone, new MyAPI.IResultMsg<CRMCalibrateBean>() {
                     @Override
                     public void Result(CRMCalibrateBean bean) {
-                        loginCRMCode(phone, TextUtils.isEmpty(bean.getData().getPassword()));
+                        loginCRMCode(phone, !TextUtils.isEmpty(bean.getData().getPassword()));
                     }
 
                     @Override

@@ -23,6 +23,7 @@ import jh.zkj.com.yf.Activity.My.MyConfig;
 import jh.zkj.com.yf.Bean.CompanyBean;
 import jh.zkj.com.yf.Bean.EntExamineListBean;
 import jh.zkj.com.yf.Contract.My.EnterpriseContract;
+import jh.zkj.com.yf.Mview.EnterprisePasswordDialog;
 import jh.zkj.com.yf.R;
 
 /**
@@ -59,8 +60,9 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
         boolean isPassword = activity.getIntent().getBooleanExtra("isPassword", false);
         initAdapter();
         getCompanyInfo();
-        if(isPassword){
-
+        if(!isPassword){
+            EnterprisePasswordDialog dialog=new EnterprisePasswordDialog(activity);
+            dialog.show();
         }
     }
 

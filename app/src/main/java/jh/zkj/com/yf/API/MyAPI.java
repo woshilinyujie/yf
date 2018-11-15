@@ -36,14 +36,16 @@ import jh.zkj.com.yf.Bean.SendCodeBean;
 import jh.zkj.com.yf.Bean.SendCodeNextBean;
 import jh.zkj.com.yf.Bean.SendRegisterCodeNextBean;
 import jh.zkj.com.yf.Mutils.GsonUtils;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 
 /**
  * Created by linyujie on 18/11/1.
  */
 
 public class MyAPI {
-    public final String API = "http://192.168.68.12";
+    public final String API = "http://192.168.68.77";
     private File file;
     private LoadingDialog dialog;
 
@@ -158,7 +160,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API+":9001/stdUser/company").tag(context)
+        OkGo.<String>get(API+":3001/stdUser/company").tag(context)
                 .headers("Authorization", "Bearer" + " " + token)
                 .execute(new StringCallback() {
                     @Override
@@ -179,6 +181,26 @@ public class MyAPI {
                 });
     }
 
+
+    /**
+     * crm设置密码
+     * @param context
+     * @param password
+     */
+    public void CRMPassWord(Context context,String password,IResultMsg iResultMsg){
+        String crm_token = PrefUtils.getString(context, "crm_token", "");
+        OkGo.<String>get(API+":3001/crm/crmCompany/set/password").tag(context)
+                .headers("Authorization","Bearer "+crm_token)
+                .params("password",password)
+                .params("confirmPassword",password)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String s = response.body().toString();
+                    }
+                });
+
+    }
 
     /**
      * 登入ERP  密码登录
@@ -692,6 +714,6 @@ public class MyAPI {
     }
 
     public void showToast(Context context, String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        MToast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 }
