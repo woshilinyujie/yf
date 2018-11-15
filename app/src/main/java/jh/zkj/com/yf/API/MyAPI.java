@@ -418,8 +418,9 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
+        String crm_token = PrefUtils.getString(context, "crm_token", "");
         OkGo.<String>post(API+":3001/crm/crmCompany/company/register").tag(context)
-                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
+                .headers("Authorization", "Bearer " + crm_token)
                 .upJson(slist)
                 .execute(new StringCallback() {
                     @Override
@@ -606,8 +607,9 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
+        String crm_token = PrefUtils.getString(context, "crm_token", "");
         OkGo.<String>get("http://192.168.68.12:3001/" + HttpConstant.HTTP_CRM_STD_USER_APPLY + uuid).tag(context)
-                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
+                .headers("Authorization", "Bearer " + crm_token)
                 .params("keywords", keywords)
                 .params("opreate", opreate)
                 .execute(new StringCallback() {
@@ -638,8 +640,9 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
+        String crm_token = PrefUtils.getString(context, "crm_token", "");
         OkGo.<String>get("http://192.168.68.12:3001/" + HttpConstant.HTTP_CRM_COMPANY_INFO).tag(context)
-                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
+                .headers("Authorization", "Bearer " + crm_token)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -664,15 +667,16 @@ public class MyAPI {
     /**
      * 加入企业审核
      */
-    public void getOperratorAudit(Context context, String uuid, boolean flag, final IResultMsg<String> iResultMsg) {
+    public void getOperratorAudit(final Context context, String uuid, boolean flag, final IResultMsg<String> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
+        String crm_token = PrefUtils.getString(context, "crm_token", "");
         OkGo.<String>get("http://192.168.68.12:3001/"
                 + (flag ? HttpConstant.HTTP_CRM_OPERRATOR_AUDIT : HttpConstant.HTTP_CRM_OPERRATOR_UN_AUDIT)
                 + uuid)
                 .tag(context)
-                .headers("Authorization", "Bearer a1f8c65d-3e3d-4dae-a9a3-06eb8c8c4d48")
+                .headers("Authorization", "Bearer " + crm_token)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -682,7 +686,14 @@ public class MyAPI {
                         BaseBean<String> bean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<String>>() {});
 
-                        iResultMsg.Result(bean.getData());
+                        if(bean.getCode().equals(APIConstant.REQUEST_SUCCESS)){
+                            iResultMsg.Result(bean.getData());
+                        }else if(bean.getCode().equals("100008")){
+                            MToast.makeText(context, "该用户已经加入企业，请忽略该条申请",MToast.LENGTH_SHORT).show();
+                            iResultMsg.Result(bean.getData());
+                        }else{
+                            MToast.makeText(context, bean.getMsg(),MToast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override

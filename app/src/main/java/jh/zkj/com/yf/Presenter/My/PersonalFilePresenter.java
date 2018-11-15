@@ -1,12 +1,10 @@
 package jh.zkj.com.yf.Presenter.My;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -25,7 +23,7 @@ import jh.zkj.com.yf.Bean.CalibrateIdCardTokenBean;
 import jh.zkj.com.yf.Bean.JsonBean;
 import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract;
 import jh.zkj.com.yf.Mutils.GetJsonDataUtil;
-import jh.zkj.com.yf.Mview.CancleDialog;
+import jh.zkj.com.yf.Mview.CancelDialog;
 import jh.zkj.com.yf.Mview.PhotoPopupWindow;
 import jh.zkj.com.yf.R;
 
@@ -113,7 +111,7 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
                 myAPI.joinCompanySave(activity, phone, password, password, code, name, userName, id, sex, regionFullName, identAddress, identImgFront, identImgBack, new MyAPI.IResultMsg() {
                     @Override
                     public void Result(Object bean) {
-                        final CancleDialog dialog = new CancleDialog(activity);
+                        final CancelDialog dialog = new CancelDialog(activity);
                         dialog.show();
                         dialog.getCancle().setOnClickListener(new View.OnClickListener() {
                             @Override

@@ -24,6 +24,7 @@ import jh.zkj.com.yf.Bean.EntExamineListBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.My.EntExamineFragmentContract;
 import jh.zkj.com.yf.Fragment.My.EntExamineFragment;
+import jh.zkj.com.yf.Mview.CancelDialog;
 import jh.zkj.com.yf.R;
 
 /**
@@ -155,14 +156,47 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
                 holder.examineOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getOperratorAudit(item.getUuid(), true, okMsg);
+                        final CancelDialog dialog = new CancelDialog(activity);
+                        dialog.setMsgS("确认将" + item.getMobilePhone() + "(" + item.getName() + ") 加入企业吗？");
+
+                        dialog.getSure().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getOperratorAudit(item.getUuid(), true, okMsg);
+                            }
+                        });
+                        dialog.getCancle().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
                     }
                 });
 
                 holder.examineNo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getOperratorAudit(item.getUuid(), false, noMsg);
+
+                        final CancelDialog dialog = new CancelDialog(activity);
+                        dialog.setMsgS("确认拒绝" + item.getMobilePhone() + "(" + item.getName() + ") 加入企业吗？");
+
+                        dialog.getSure().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getOperratorAudit(item.getUuid(), false, noMsg);
+                            }
+                        });
+                        dialog.getCancle().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
                     }
                 });
             }
