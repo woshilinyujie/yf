@@ -46,6 +46,7 @@ public class LoginCompanyActivity extends MBaseActivity implements LoginCompanyA
         setContentView(R.layout.activity_company_login);
         ButterKnife.bind(this);
         presenter = new LoginCompanyActivityPresenter(this);
+        loginEnterprise.setEnabled(false);
     }
 
     public ImageView getLoginLogo() {
@@ -78,11 +79,11 @@ public class LoginCompanyActivity extends MBaseActivity implements LoginCompanyA
         switch (view.getId()) {
             case R.id.login_forget://忘记密码
                 break;
-            case R.id.login_back://忘记密码
+            case R.id.login_back:
                 finish();
                 break;
             case R.id.login_enterprise://加入企业
-                Intent intent = new Intent(this, JoinCompanyCodeActivity.class);
+                Intent intent = new Intent(this, EnterpriseActivity.class);
                 startActivity(intent);
                 break;
         }

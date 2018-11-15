@@ -55,7 +55,7 @@ public class JoinCompanyCodeActivity extends MBaseActivity implements RegisterAc
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         registerPresenter = new RegisterPresenter(this);
-
+        registerNext.setEnabled(false);
     }
 
     @OnClick({R.id.register_send_code, R.id.register_next, R.id.register_checkbox_iv, R.id.register_negotiate})

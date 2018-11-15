@@ -16,6 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import jh.zkj.com.yf.Bean.BaseBean;
+import jh.zkj.com.yf.Bean.CRMCalibrateBean;
 import jh.zkj.com.yf.Bean.CRMInfoBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardTokenBean;
@@ -83,6 +84,32 @@ public class MyAPI {
                     }
                 });
     }
+
+    /**
+     * crm 验证码登录前校验
+     * @param context
+     * @param phone
+     * @param iResultMsg
+     */
+    public void loginCRMCalibrate(final Context context, String phone , final IResultMsg<CRMCalibrateBean> iResultMsg){
+        OkGo.<String>get(API+":3001/crm/crmCompany/smslogin/valid").tag(context)
+                .params("phone",phone)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String s = response.body().toString();
+                        CRMCalibrateBean crmCalibrateBean = GsonUtils.GsonToBean(s, CRMCalibrateBean.class);
+                        if(crmCalibrateBean.getCode()==0){
+                            iResultMsg.Result(crmCalibrateBean);
+                        }else{
+                            showToast(context,crmCalibrateBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+
+
     /**
      * 登录CRM  验证码登录
      * Authorization 固定值
@@ -98,7 +125,7 @@ public class MyAPI {
                 .headers("device", "android")
                 .headers("smsCode", "true")
                 .params("grant_type", "password")
-                .params("username", "jh-crm_pass_android_" + phone)
+                .params("username", "jh-crm_code_android_" + phone)
                 .params("password", "123456")
                 .params("scope", "server")
                 .params("smsCode", smsCode)
@@ -190,6 +217,7 @@ public class MyAPI {
                 });
     }
 
+
     /**
      * 登入ERP  验证码登录
      * Authorization  固定值
@@ -206,7 +234,7 @@ public class MyAPI {
                 .headers("device", "android")
                 .headers("smsCode", "true")
                 .params("grant_type", "password")
-                .params("username", usernameType + "_" + "pass_android" + "_" + username+"_"+companyCode)
+                .params("username", usernameType + "_" + "code_android" + "_" + username+"_"+companyCode)
                 .params("password", password)
                 .params("scope", "server")
                 .params("smsCode", smsCode)

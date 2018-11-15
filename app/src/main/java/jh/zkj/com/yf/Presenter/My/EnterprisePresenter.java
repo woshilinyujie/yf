@@ -56,8 +56,12 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
     }
 
     private void initData() {
+        boolean isPassword = activity.getIntent().getBooleanExtra("isPassword", false);
         initAdapter();
         getCompanyInfo();
+        if(isPassword){
+
+        }
     }
 
     private void initListener() {

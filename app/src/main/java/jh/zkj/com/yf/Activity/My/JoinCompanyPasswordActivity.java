@@ -44,6 +44,7 @@ public class JoinCompanyPasswordActivity extends MBaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initLintener();
+        passwordNext.setEnabled(false);
     }
 
     private void initLintener() {

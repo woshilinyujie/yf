@@ -13,6 +13,7 @@ import jh.zkj.com.yf.Bean.LineDataBean;
 import jh.zkj.com.yf.Bean.PieDataBean;
 import jh.zkj.com.yf.Bean.ShopNameBean;
 import jh.zkj.com.yf.Mutils.GsonUtils;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 
@@ -21,7 +22,6 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
  */
 
 public class AnalyseAPI {
-    public final String TOKEN="aa208119-d25b-4b59-b2ba-e25a0a9bb5f4";
     public final String API="http://192.168.68.12";
     private LoadingDialog dialog;
 
@@ -33,6 +33,7 @@ public class AnalyseAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
+        String TOKEN= PrefUtils.getString(context,"erp_token","");
         OkGo.<String>get(API+":3001/erp/basic/data/company").tag(context)
                .params("access_token",TOKEN)
                 .params("type","company")
@@ -70,6 +71,7 @@ public class AnalyseAPI {
      */
     public void LineDate(final Context context, String type, String companyCode, String startDate, String endDate
     , String classifyUuid , String  brandUuid, String  skuName,final IResultMsg<LineDataBean> iResultMsg){
+        String TOKEN= PrefUtils.getString(context,"erp_token","");
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
@@ -138,6 +140,7 @@ public class AnalyseAPI {
         if(TextUtils.isEmpty(skuName)||skuName.equals("请选择")){
             skuName="";
         }
+        String TOKEN= PrefUtils.getString(context,"erp_token","");
         OkGo.<String>get(API+":3001/report/analysis/pie/statistics").tag(context)
                 .params("access_token",TOKEN)
                 .params("companyCode",companyCode)
@@ -176,6 +179,7 @@ public class AnalyseAPI {
      * 商品分类
      */
     public  void getClassify(Context context, final IResultMsg<ArticleBean> iResultMsg ){
+        String TOKEN= PrefUtils.getString(context,"erp_token","");
         OkGo.<String>get(API+":3001/erp/basic/data/classify").tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
@@ -191,6 +195,7 @@ public class AnalyseAPI {
      * 商品品牌
      */
     public  void getBrand(Context context, final IResultMsg<ArticleBean> iResultMsg ){
+        String TOKEN= PrefUtils.getString(context,"erp_token","");
         OkGo.<String>get(API+":3001/erp/basic/data/brand").tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
@@ -206,6 +211,7 @@ public class AnalyseAPI {
      * 商品型号
      */
     public  void getProduct(Context context, final IResultMsg<ArticleBean> iResultMsg ){
+        String TOKEN= PrefUtils.getString(context,"erp_token","");
         OkGo.<String>get(API+":3001/erp/basic/data/product").tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {

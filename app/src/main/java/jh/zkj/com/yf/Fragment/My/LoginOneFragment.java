@@ -69,6 +69,7 @@ public class LoginOneFragment extends MBaseFragment {
         setEt(loginCompanyCode);
         setEt(loginPhone);
         setEt(loginPassword);
+        loginOneBtn.setEnabled(false);
     }
 
     public void setEt(EditText view) {

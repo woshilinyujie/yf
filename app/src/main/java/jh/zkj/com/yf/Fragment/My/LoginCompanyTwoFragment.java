@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.My.EnterpriseActivity;
 import jh.zkj.com.yf.Activity.My.LoginCompanyActivity;
+import jh.zkj.com.yf.Bean.CRMCalibrateBean;
 import jh.zkj.com.yf.Bean.LoginCRMBean;
 import jh.zkj.com.yf.Bean.SendCodeBean;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
@@ -78,6 +81,7 @@ public class LoginCompanyTwoFragment extends MBaseFragment {
     }
 
     private void initListener() {
+        loginBtn.setEnabled(false);
         setEt(loginPhone);
         setEt(loginCode);
         //倒计时
@@ -132,7 +136,7 @@ public class LoginCompanyTwoFragment extends MBaseFragment {
 
     @OnClick({R.id.login_code_get, R.id.login_btn})
     public void onViewClicked(View view) {
-        String phone = loginPhone.getText().toString();
+        final String phone = loginPhone.getText().toString();
         switch (view.getId()) {
             case R.id.login_code_get:
                 myAPI.sendRegisterCode(activity, phone, new MyAPI.IResultMsg<SendCodeBean>() {
@@ -149,15 +153,10 @@ public class LoginCompanyTwoFragment extends MBaseFragment {
                 });
                 break;
             case R.id.login_btn:
-                String code = loginCode.getText().toString();
-                myAPI.loginCRMCode(activity, phone, code, new MyAPI.IResultMsg<LoginCRMBean>() {
+                myAPI.loginCRMCalibrate(activity, phone, new MyAPI.IResultMsg<CRMCalibrateBean>() {
                     @Override
-                    public void Result(LoginCRMBean bean) {
-                        PrefUtils.putString(activity,"crm_token",bean.getAccess_token());
-                        Intent intent=new Intent(activity, MainActivity.class);
-                        activity.startActivity(intent);
-                        EventBus.getDefault().post("loginFinish");
-                        activity.finish();
+                    public void Result(CRMCalibrateBean bean) {
+                        loginCRMCode(phone, TextUtils.isEmpty(bean.getData().getPassword()));
                     }
 
                     @Override
@@ -167,6 +166,27 @@ public class LoginCompanyTwoFragment extends MBaseFragment {
                 });
                 break;
         }
+    }
+
+
+    public void loginCRMCode(String phone, final boolean isPassword) {
+        String code = loginCode.getText().toString();
+        myAPI.loginCRMCode(activity, phone, code, new MyAPI.IResultMsg<LoginCRMBean>() {
+            @Override
+            public void Result(LoginCRMBean bean) {
+                PrefUtils.putString(activity, "crm_token", bean.getAccess_token());
+                Intent intent = new Intent(activity, EnterpriseActivity.class);
+                intent.putExtra("isPassword",isPassword);
+                activity.startActivity(intent);
+                EventBus.getDefault().post("loginFinish");
+                activity.finish();
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
     }
 
     @Override
