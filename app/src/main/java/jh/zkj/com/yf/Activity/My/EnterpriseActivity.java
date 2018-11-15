@@ -65,10 +65,17 @@ public class EnterpriseActivity extends MBaseActivity implements EnterpriseContr
         presenter = new EnterprisePresenter(this);
     }
 
-    @OnClick({R.id.enterprise_add})
+    @OnClick({R.id.enterprise_name_img, R.id.enterprise_add})
     public void onViewClicked(View view){
-        if(view.getId() == R.id.enterprise_add){
-            presenter.createCompany();
+        switch (view.getId()){
+            case R.id.enterprise_name_img:{
+                presenter.showRenameDialog();
+                break;
+            }
+            case R.id.enterprise_add:{
+                presenter.createCompany();
+                break;
+            }
         }
     }
 

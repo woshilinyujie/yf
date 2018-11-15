@@ -11,5 +11,6 @@ public class EnterpriseContract {
 
     public interface EnterprisePresente {
         void createCompany();
+        void showRenameDialog();
     }
 }

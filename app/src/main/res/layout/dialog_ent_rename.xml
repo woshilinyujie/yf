@@ -13,16 +13,17 @@
         android:paddingBottom="@dimen/dp_30"
         android:paddingTop="@dimen/dp_30"
         android:paddingLeft="@dimen/dp_20"
-        android:paddingRight="@dimen/dp_20">
+        android:paddingRight="@dimen/dp_20"
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/ent_password_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:text="设置名称"
             android:textColor="@color/c_030303"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/sp_14"/>
 
         <EditText
             android:id="@+id/ent_rename_et"
