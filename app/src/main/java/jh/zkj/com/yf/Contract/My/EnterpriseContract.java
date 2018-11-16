@@ -12,5 +12,13 @@ public class EnterpriseContract {
     public interface EnterprisePresente {
         void createCompany();
         void showRenameDialog();
+        void ClickPhoto();//点击换头像
+
+        void ClickTakePhoto();//点击拍照
+
+        void ClickPhotoSelect();//相册选择
+
+        void ClickPhotoCancle();//选头像取消
+        void exit();
     }
 }

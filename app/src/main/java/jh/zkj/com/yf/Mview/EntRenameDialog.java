@@ -5,15 +5,20 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.MyAPI;
+import jh.zkj.com.yf.Bean.ModifyCRMNameBean;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -47,7 +52,7 @@ public class EntRenameDialog extends Dialog {
         init(activity);
     }
 
-    private void init(Activity activity) {
+    private void init(final Activity activity) {
         View view = View.inflate(activity, R.layout.dialog_ent_rename, null);
         ButterKnife.bind(this, view);
         setCanceledOnTouchOutside(false);
@@ -56,8 +61,23 @@ public class EntRenameDialog extends Dialog {
         success.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(listener != null){
-                    listener.onSuccessClick(rename.getText().toString());
+                if(!TextUtils.isEmpty(rename.getText().toString())){
+                    new MyAPI().ModifyCRMName(activity, rename.getText().toString(), new MyAPI.IResultMsg<ModifyCRMNameBean>() {
+                        @Override
+                        public void Result(ModifyCRMNameBean bean) {
+                            if(listener != null){
+                                listener.onSuccessClick(rename.getText().toString());
+                            }
+                            dismiss();
+                        }
+
+                        @Override
+                        public void Error(String json) {
+
+                        }
+                    });
+                }else{
+                    MToast.makeText(activity,"姓名不能为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });

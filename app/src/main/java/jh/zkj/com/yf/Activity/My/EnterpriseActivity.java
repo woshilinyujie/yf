@@ -10,11 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import org.devio.takephoto.model.TResult;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.EnterpriseContract;
+import jh.zkj.com.yf.Mview.CircleView;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.EnterprisePresenter;
 import jh.zkj.com.yf.R;
@@ -24,11 +29,11 @@ import jh.zkj.com.yf.R;
  * 2018/11/13
  * use 企业
  */
-public class EnterpriseActivity extends MBaseActivity implements EnterpriseContract.EnterpriseView {
+public class EnterpriseActivity extends PhotoActivity implements EnterpriseContract.EnterpriseView {
 
     //头像
     @BindView(R.id.enterprise_head_img)
-    ImageView headImg;
+    CircleView headImg;
     //名字
     @BindView(R.id.enterprise_name)
     TextView name;
@@ -53,6 +58,8 @@ public class EnterpriseActivity extends MBaseActivity implements EnterpriseContr
     //recycler layout
     @BindView(R.id.enterprise_recycler_layout)
     LinearLayout recyclerLayout;
+    @BindView(R.id.enterprise_exit)
+    TextView exit;
 
     private EnterprisePresenter presenter;
     private long exitTime;
@@ -65,17 +72,21 @@ public class EnterpriseActivity extends MBaseActivity implements EnterpriseContr
         presenter = new EnterprisePresenter(this);
     }
 
-    @OnClick({R.id.enterprise_name_img, R.id.enterprise_add})
+    @OnClick({R.id.enterprise_name_img, R.id.enterprise_add,R.id.enterprise_head_img,R.id.enterprise_exit})
     public void onViewClicked(View view){
         switch (view.getId()){
-            case R.id.enterprise_name_img:{
+            case R.id.enterprise_name_img:
                 presenter.showRenameDialog();
                 break;
-            }
-            case R.id.enterprise_add:{
+            case R.id.enterprise_add:
                 presenter.createCompany();
                 break;
-            }
+            case R.id.enterprise_head_img:
+                presenter.ClickPhoto();
+                break;
+            case R.id.enterprise_exit:
+                presenter.exit();
+                break;
         }
     }
 
@@ -101,6 +112,23 @@ public class EnterpriseActivity extends MBaseActivity implements EnterpriseContr
 
     public RecyclerView getRecycler(){
         return recycler;
+    }
+
+    @Override
+    public void takeCancel() {//取消选择照片回调
+        super.takeCancel();
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {//择照片回调失败
+        super.takeFail(result, msg);
+    }
+
+    @Override
+    public void takeSuccess(TResult result,View view) {//选择照片成功回调
+        super.takeSuccess(result,view);
+        String iconPath = result.getImage().getOriginalPath();//照片存储地址
+        Glide.with(this).load(iconPath).into(headImg);
     }
 
     @Override

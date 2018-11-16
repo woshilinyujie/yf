@@ -87,7 +87,7 @@ public class CompanyBean implements Serializable{
         private Object updateTime;
         private int version;
         private Object sysRemark;
-        private int id;
+        private String id;
 
 
         private String uuid;
@@ -198,11 +198,11 @@ public class CompanyBean implements Serializable{
             this.sysRemark = sysRemark;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

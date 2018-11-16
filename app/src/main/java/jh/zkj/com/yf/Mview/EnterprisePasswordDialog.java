@@ -15,6 +15,8 @@ import butterknife.OnClick;
 import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.My.EnterpriseActivity;
 import jh.zkj.com.yf.Activity.My.LoginActivity;
+import jh.zkj.com.yf.Bean.CRMInfoBean;
+import jh.zkj.com.yf.Bean.CRMPassWordBean;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
@@ -31,6 +33,7 @@ public class EnterprisePasswordDialog extends Dialog {
     TextView entPasswordInfo;
     TextView entPasswordBt;
     private EnterpriseActivity context;
+    private boolean flag=true;
 
     public EnterprisePasswordDialog(@NonNull Context context) {
         this(context, R.style.ActionSheetDialogStyle);
@@ -71,10 +74,11 @@ public class EnterprisePasswordDialog extends Dialog {
                     MToast.makeText(context, "请勾选《骏杭ERP企业注册协议》", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                new MyAPI().CRMPassWord(context, entPasswordEt.getText().toString(), new MyAPI.IResultMsg() {
+                new MyAPI().CRMPassWord(context, entPasswordEt.getText().toString(), new MyAPI.IResultMsg<CRMPassWordBean>() {
                     @Override
-                    public void Result(Object bean) {
-
+                    public void Result(CRMPassWordBean bean) {
+                        flag=false;
+                        dismiss();
                     }
 
                     @Override
@@ -90,7 +94,9 @@ public class EnterprisePasswordDialog extends Dialog {
     @Override
     public void dismiss() {
         super.dismiss();
-        context.startActivity(new Intent(context, LoginActivity.class));
-        context.finish();
+        if(flag){
+            context.startActivity(new Intent(context, LoginActivity.class));
+            context.finish();
+        }
     }
 }

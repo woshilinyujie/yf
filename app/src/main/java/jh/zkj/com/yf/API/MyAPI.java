@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.CRMCalibrateBean;
 import jh.zkj.com.yf.Bean.CRMInfoBean;
+import jh.zkj.com.yf.Bean.CRMPassWordBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardTokenBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardTokeupBean;
@@ -29,6 +30,8 @@ import jh.zkj.com.yf.Bean.JoinCompanyBean;
 import jh.zkj.com.yf.Bean.JoinCompanyUpBean;
 import jh.zkj.com.yf.Bean.LoginCRMBean;
 import jh.zkj.com.yf.Bean.LoginERPBean;
+import jh.zkj.com.yf.Bean.ModifyCRMNameBean;
+import jh.zkj.com.yf.Bean.ModifyCRMNameUpBean;
 import jh.zkj.com.yf.Bean.RegisterBean;
 import jh.zkj.com.yf.Bean.RegisterNextBean;
 import jh.zkj.com.yf.Bean.RegisterUpBean;
@@ -187,7 +190,7 @@ public class MyAPI {
      * @param context
      * @param password
      */
-    public void CRMPassWord(Context context,String password,IResultMsg iResultMsg){
+    public void CRMPassWord(final Context context, String password, final IResultMsg<CRMPassWordBean> iResultMsg){
         String crm_token = PrefUtils.getString(context, "crm_token", "");
         OkGo.<String>get(API+":3001/crm/crmCompany/set/password").tag(context)
                 .headers("Authorization","Bearer "+crm_token)
@@ -197,6 +200,12 @@ public class MyAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String s = response.body().toString();
+                        CRMPassWordBean crmInfoBean = GsonUtils.GsonToBean(s, CRMPassWordBean.class);
+                        if(crmInfoBean.getCode()==0){
+                            iResultMsg.Result(crmInfoBean);
+                        }else{
+                            showToast(context,crmInfoBean.getMsg());
+                        }
                     }
                 });
 
@@ -504,7 +513,7 @@ public class MyAPI {
         SendCodeNextBean bean = new SendCodeNextBean();
         bean.setMobilePhone(phone);
         String s1 = GsonUtils.GsonString(bean);
-        OkGo.<String>post(API+":3001/crm/stdUser/beforejoincompanyvalid?smsCode=" + smsCode + "&smsPhone=" + phone).tag(context)
+        OkGo.<String>post(API+":3001/crm/stdUser/notoken/beforejoincompanyvalid?smsCode=" + smsCode + "&smsPhone=" + phone).tag(context)
                 .headers("Content-Type", "application/json")
                 .headers("smsCode", "true")
                 .upJson(s1)
@@ -570,7 +579,7 @@ public class MyAPI {
         bean.setIdentImgFront(identImgFront);
         bean.setIdentImgBack(identImgBack);
         String s1 = GsonUtils.GsonString(bean);
-        OkGo.<String>post(API+":3001/crm/stdUser/joincompany").tag(context)
+        OkGo.<String>post(API+":3001/crm/stdUser/notoken/joincompany").tag(context)
                 .upJson(s1)
                 .execute(new StringCallback() {
                     @Override
@@ -641,15 +650,14 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>get("http://192.168.68.12:3001/" + HttpConstant.HTTP_CRM_COMPANY_INFO).tag(context)
+        OkGo.<String>get(API+":3001/" + HttpConstant.HTTP_CRM_COMPANY_INFO).tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
-                        String s = response.body().toString();
-                        BaseBean<CompanyBean> bean = JSON.parseObject(s,
+                        BaseBean<CompanyBean> bean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<CompanyBean>>() {});
 
                         iResultMsg.Result(bean.getData());
@@ -672,7 +680,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>get("http://192.168.68.12:3001/"
+        OkGo.<String>get(API+":3001/"
                 + (flag ? HttpConstant.HTTP_CRM_OPERRATOR_AUDIT : HttpConstant.HTTP_CRM_OPERRATOR_UN_AUDIT)
                 + uuid)
                 .tag(context)
@@ -701,6 +709,30 @@ public class MyAPI {
                         iResultMsg.Error(response.toString());
                         if (dialog.isShowing())
                             dialog.dismissLoading();
+                    }
+                });
+    }
+
+    public void ModifyCRMName(final Context context, String name, final IResultMsg<ModifyCRMNameBean> iResultMsg){
+        String crm_token = PrefUtils.getString(context, "crm_token", "");
+        ModifyCRMNameUpBean bean=new ModifyCRMNameUpBean();
+        bean.setName(name);
+        String s = GsonUtils.GsonString(bean);
+        OkGo.<String>post(API+":3001/crm/stdUser/set/userinfo").tag(context)
+                .headers("Authorization","Bearer "+crm_token)
+                .headers("Content-Type","application/json")
+                .upJson(s)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String s1 = response.body().toString();
+                        ModifyCRMNameBean modifyCRMNameBean = GsonUtils.GsonToBean(s1, ModifyCRMNameBean.class);
+                        if(modifyCRMNameBean.getCode()==0){
+                            iResultMsg.Result(modifyCRMNameBean);
+                        }else{
+                            showToast(context,modifyCRMNameBean.getMsg());
+                        }
+                        iResultMsg.Result(modifyCRMNameBean);
                     }
                 });
     }
