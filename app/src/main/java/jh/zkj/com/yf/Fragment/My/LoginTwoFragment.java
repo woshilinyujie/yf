@@ -153,7 +153,7 @@ public class LoginTwoFragment extends MBaseFragment {
                 myAPI.loginERPCode(activity, "jh-erp-3c", phone, "123456", companyCode, code, new MyAPI.IResultMsg<LoginERPBean>() {
                     @Override
                     public void Result(LoginERPBean bean) {
-                        PrefUtils.putString(activity,"access_token",bean.getAccess_token());
+                        PrefUtils.putString(activity,"erp_token",bean.getAccess_token());
                         Intent intent=new Intent(activity, MainActivity.class);
                         activity.startActivity(intent);
                         activity.finish();

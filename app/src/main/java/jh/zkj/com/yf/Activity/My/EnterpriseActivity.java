@@ -90,6 +90,10 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
         }
     }
 
+    public CircleView getHeadImg() {
+        return headImg;
+    }
+
     public void setUserName(String s){
         name.setText(s);
     }
@@ -128,7 +132,7 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
     public void takeSuccess(TResult result,View view) {//选择照片成功回调
         super.takeSuccess(result,view);
         String iconPath = result.getImage().getOriginalPath();//照片存储地址
-        Glide.with(this).load(iconPath).into(headImg);
+        presenter.upFile(iconPath);
     }
 
     @Override

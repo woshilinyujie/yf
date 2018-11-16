@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Presenter.My;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,8 @@ import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.My.MyConfig;
 import jh.zkj.com.yf.Bean.CompanyBean;
 import jh.zkj.com.yf.Bean.EntExamineListBean;
+import jh.zkj.com.yf.Bean.ModifyCRMNameBean;
+import jh.zkj.com.yf.Bean.UpFileBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.My.EnterpriseContract;
 import jh.zkj.com.yf.Mview.CancelDialog;
@@ -300,4 +305,33 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
         });
     }
 
+
+    public void upFile(final String path) {
+        api.upFile(activity, path, new MyAPI.IResultMsg<UpFileBean>() {
+            @Override
+            public void Result(UpFileBean bean) {
+                ModifyHead(bean.getData(), path);
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
+    }
+
+
+    public void ModifyHead(String data, final String path) {
+        api.ModifyCRMHead(activity, data, new MyAPI.IResultMsg<ModifyCRMNameBean>() {
+            @Override
+            public void Result(ModifyCRMNameBean bean) {
+                Glide.with(activity).load(path).into(activity.getHeadImg());
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
+    }
 }
