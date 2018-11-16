@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/serial_on_stoke_title_layout"
+        android:id="@+id/sku_stock_title_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:paddingLeft="@dimen/dp_16"
@@ -17,7 +17,7 @@
         android:paddingTop="@dimen/dp_6">
 
         <ImageView
-            android:id="@+id/serial_on_stoke_filter"
+            android:id="@+id/sku_stock_filter"
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_17"
             android:src="@mipmap/filter"
@@ -25,7 +25,7 @@
             android:layout_centerVertical="true"/>
 
         <ImageView
-            android:id="@+id/serial_on_stoke_scan"
+            android:id="@+id/sku_stock_scan"
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
             android:src="@mipmap/scan"
@@ -37,8 +37,8 @@
             android:layout_marginRight="@dimen/dp_12"
             android:layout_marginLeft="@dimen/dp_12"
             android:background="@drawable/shape_radius_30_ffffff"
-            android:layout_toRightOf="@id/serial_on_stoke_scan"
-            android:layout_toLeftOf="@id/serial_on_stoke_filter">
+            android:layout_toRightOf="@id/sku_stock_scan"
+            android:layout_toLeftOf="@id/sku_stock_filter">
 
             <ImageView
                 android:layout_width="@dimen/dp_10"
@@ -48,7 +48,7 @@
                 android:layout_centerVertical="true"/>
 
             <ImageView
-                android:id="@+id/serial_on_stoke_clear_img"
+                android:id="@+id/sku_stock_clear_img"
                 android:layout_width="@dimen/dp_14"
                 android:layout_height="@dimen/dp_14"
                 android:src="@mipmap/clear_img"
@@ -57,7 +57,7 @@
                 android:layout_alignParentRight="true"/>
 
             <EditText
-                android:id="@+id/serial_on_stoke_search"
+                android:id="@+id/sku_stock_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="@dimen/sp_12"
@@ -71,23 +71,11 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/serial_on_stoke_msg_layout"
+        android:id="@+id/sku_stock_msg_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/serial_on_stoke_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/sp_12"
-            android:textColor="@color/c_333333"
-            android:paddingLeft="@dimen/dp_16"
-            android:paddingTop="@dimen/dp_10"
-            android:paddingBottom="@dimen/dp_10"
-            app:layout_constraintTop_toTopOf="parent"/>
 
         <View
             android:layout_width="match_parent"
@@ -96,13 +84,11 @@
 
         <!-- 放recycler或者多级listView -->
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/serial_on_stoke_recycler"
+            android:id="@+id/sku_stock_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"/>
 
     </LinearLayout>
-
-
 
 </LinearLayout>

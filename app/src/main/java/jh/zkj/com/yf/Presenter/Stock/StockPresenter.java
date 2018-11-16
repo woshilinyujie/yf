@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import jh.zkj.com.yf.Contract.Stock.StockContract;
 import jh.zkj.com.yf.Fragment.Stock.CommodityStockFragment;
+import jh.zkj.com.yf.Fragment.Stock.SerialNoTrackFragment;
+import jh.zkj.com.yf.Fragment.Stock.SkuStockFragment;
 import jh.zkj.com.yf.Fragment.Stock.StockFragment;
 import jh.zkj.com.yf.Fragment.Stock.StockListFragment;
 import jh.zkj.com.yf.Fragment.Stock.StockSerialNoFragment;
@@ -33,8 +35,10 @@ public class StockPresenter implements StockContract.IStockPresenter {
         CommodityStockFragment commodityStocks = CommodityStockFragment.newInstance();
 //        StockListFragment stockNumber = StockListFragment.newInstance(StockListFragment.TYPE_STOCK_NUMBER);
         StockSerialNoFragment stockNumber = StockSerialNoFragment.newInstance();
-        StockListFragment numberTrack = StockListFragment.newInstance(StockListFragment.TYPE_NUMBER_TRACK);
-        StockListFragment childWarehouse = StockListFragment.newInstance(StockListFragment.TYPE_CHILD_WAREHOUSE_STOCKS);
+//        StockListFragment numberTrack = StockListFragment.newInstance(StockListFragment.TYPE_NUMBER_TRACK);
+        SerialNoTrackFragment numberTrack = SerialNoTrackFragment.newInstance();
+//        StockListFragment childWarehouse = StockListFragment.newInstance(StockListFragment.TYPE_CHILD_WAREHOUSE_STOCKS);
+        SkuStockFragment childWarehouse = SkuStockFragment.newInstance();
         fragments.add(commodityStocks);
         fragments.add(stockNumber);
         fragments.add(numberTrack);

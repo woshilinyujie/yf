@@ -16,11 +16,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import jh.zkj.com.yf.Contract.Stock.SerialNoContract;
-import jh.zkj.com.yf.Contract.Stock.SerialNoTrackContract;
+import jh.zkj.com.yf.Contract.Stock.SkuStockContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
-import jh.zkj.com.yf.Presenter.Stock.SerialNoPresenter;
 import jh.zkj.com.yf.Presenter.Stock.SerialNoTrackPresenter;
+import jh.zkj.com.yf.Presenter.Stock.SkuStockPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -28,52 +27,48 @@ import jh.zkj.com.yf.R;
  * 2018/11/16
  * use
  */
-public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrackContract.ISerialNoTrackiew{
+public class SkuStockFragment extends MBaseFragment implements SkuStockContract.ISkuStockView{
     //清空
-    @BindView(R.id.serial_no_track_clear_img)
+    @BindView(R.id.sku_stock_clear_img)
     ImageView mCommStockClearImg;
     //search
-    @BindView(R.id.serial_no_track_search)
+    @BindView(R.id.sku_stock_search)
     EditText search;
-    //商店名
-    @BindView(R.id.serial_no_track_text)
-    TextView commodity;
     //recycler
-    @BindView(R.id.serial_no_track_recycler)
+    @BindView(R.id.sku_stock_recycler)
     RecyclerView recycler;
     //扫码
-    @BindView(R.id.serial_no_track_scan)
+    @BindView(R.id.sku_stock_scan)
     ImageView scan;
-
-    @BindView(R.id.serial_no_track_msg_layout)
+    @BindView(R.id.sku_stock_msg_layout)
     LinearLayout msgLayout;
     private Unbinder bind;
-    private SerialNoTrackPresenter presenter;
+    private SkuStockPresenter presenter;
     private View mainView;
 
-    public static SerialNoTrackFragment newInstance() {
-        return new SerialNoTrackFragment();
+    public static SkuStockFragment newInstance() {
+        return new SkuStockFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_serial_no_track, null);
+        mainView = inflater.inflate(R.layout.fragment_sku_stock, null);
         bind = ButterKnife.bind(this, mainView);
-        presenter = new SerialNoTrackPresenter(this);
+        presenter = new SkuStockPresenter(this);
         return mainView;
     }
 
-    @OnClick({R.id.serial_no_track_clear_img})
+    @OnClick({R.id.sku_stock_clear_img, R.id.sku_stock_filter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //清空edittext
-            case R.id.stock_clear_img: {
+            case R.id.sku_stock_clear_img: {
 
                 break;
             }
 
-            case R.id.stock_filter: {
+            case R.id.sku_stock_filter: {
 
                 break;
             }
@@ -92,10 +87,6 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
 
     public EditText getSearch() {
         return search;
-    }
-
-    public TextView getCommodity() {
-        return commodity;
     }
 
     public RecyclerView getRecyclerView() {
