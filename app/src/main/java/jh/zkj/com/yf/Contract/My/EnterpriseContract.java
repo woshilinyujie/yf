@@ -1,5 +1,7 @@
 package jh.zkj.com.yf.Contract.My;
 
+import android.content.Intent;
+
 /**
  * Created by wdefer
  * 2018/11/13
@@ -20,5 +22,6 @@ public class EnterpriseContract {
 
         void ClickPhotoCancle();//选头像取消
         void exit();
+        void onActivityResult(int requestCode, int resultCode, Intent data);
     }
 }

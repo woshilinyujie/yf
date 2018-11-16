@@ -79,7 +79,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         total = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL);
 
         initAdapter();
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
         if(orderBean != null){
             setData();
         }else{

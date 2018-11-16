@@ -77,6 +77,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     private LoadingDialog loadingDialog;
     private String total;
     private String count;
+    private ClientInfoBean.RecordsBean recordsBean;
 
     public RetailOrderPresenter(RetailOrderActivity activity) {
         this.activity = activity;
@@ -87,7 +88,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
     private void initData() {
         orderBean = new RetailOrderBean();
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
     }
 
     private void initAdapter() {
@@ -142,7 +143,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     @Override
     public void startSelectClientActivity() {
         Intent intent = new Intent(activity, SelectClientActivity.class);
-        intent.putExtra(OrderConfig.TYPE_STRING_CLIENT_LIST, orderBean.getClient());
+        intent.putExtra(OrderConfig.TYPE_STRING_CLIENT_LIST, recordsBean);
         activity.startActivityForResult(intent, REQUEST_CLIENT);
     }
 
@@ -175,8 +176,8 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             //客户信息
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
-                    orderBean.setClient((ClientInfoBean) data.getSerializableExtra(OrderConfig.TYPE_STRING_CLIENT_LIST));
-                    activity.setClientinfo(orderBean.getClient().getName(), orderBean.getClient().getMobilePhone());
+                    recordsBean = ((ClientInfoBean.RecordsBean) data.getSerializableExtra(OrderConfig.TYPE_STRING_CLIENT_LIST));
+                    activity.setClientinfo(recordsBean.getName(), recordsBean.getMobilePhone());
                 }
             } else if (resultCode == OrderConfig.RESULT_CLIENT_LIST_CLEAR) {
                 orderBean.setClient(null);

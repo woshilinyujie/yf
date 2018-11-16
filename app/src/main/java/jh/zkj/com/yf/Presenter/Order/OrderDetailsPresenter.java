@@ -101,7 +101,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     }
 
     private void initData() {
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
         Intent intent = activity.getIntent();
         status = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);
         orderNum = intent.getStringExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER);

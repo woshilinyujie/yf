@@ -5,11 +5,11 @@ package jh.zkj.com.yf.Contract.Stock;
  * 2018/11/15
  * use
  */
-public class CommodityContract {
-    public interface ICommodityView{
+public class SerialNoContract {
+    public interface ISerialNoView{
     }
 
-    public interface ICommodityPresenter{
+    public interface ISerialNoPresenter{
         void clearFindEt();
         void showFilterPopup();
     }

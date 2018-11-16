@@ -76,7 +76,7 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
 
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
 
         orderBean = (OrderDetailsBean) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_BEAN);
 //        status = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_DETAIL_STATUS);

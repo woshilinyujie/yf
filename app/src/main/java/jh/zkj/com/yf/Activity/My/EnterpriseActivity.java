@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Activity.My;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import org.devio.takephoto.model.TResult;
 
@@ -60,6 +62,8 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
     LinearLayout recyclerLayout;
     @BindView(R.id.enterprise_exit)
     TextView exit;
+    @BindView(R.id.enterprise_refresh)
+    TwinklingRefreshLayout refresh;
 
     private EnterprisePresenter presenter;
     private long exitTime;
@@ -114,6 +118,10 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
         return recycler;
     }
 
+    public TwinklingRefreshLayout getRefresh(){
+        return refresh;
+    }
+
     @Override
     public void takeCancel() {//取消选择照片回调
         super.takeCancel();
@@ -144,5 +152,11 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.onActivityResult(requestCode, resultCode, data);
     }
 }

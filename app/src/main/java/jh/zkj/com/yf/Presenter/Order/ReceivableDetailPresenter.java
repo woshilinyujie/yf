@@ -57,7 +57,7 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
     }
 
     private void initData() {
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
         String uuid = activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_BILL_UUID);
         activity.setRemake(activity.getIntent().getStringExtra(OrderConfig.TYPE_STRING_OUT_REMARK));
         if(!TextUtils.isEmpty(uuid)){

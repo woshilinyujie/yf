@@ -146,10 +146,19 @@
                 android:paddingBottom="@dimen/dp_6"
                 android:paddingLeft="@dimen/dp_14"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/enterprise_recycler"
+
+            <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+                android:id="@+id/enterprise_refresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/enterprise_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
         </LinearLayout>
 
     </RelativeLayout>

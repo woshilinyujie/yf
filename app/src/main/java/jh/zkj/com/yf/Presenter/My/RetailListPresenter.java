@@ -111,7 +111,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
         recyclerView = fragment.getRecyclerView();
         twinklingRefreshLayout = fragment.getTwinklingRefreshLayout();
         scope = fragment.getScope();
-        orderAPI = new OrderAPI();
+        orderAPI = new OrderAPI(fragment.getContext());
         dateList = new ArrayList<>();
         initAdapter();
         initData();

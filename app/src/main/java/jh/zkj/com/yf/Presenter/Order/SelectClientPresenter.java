@@ -54,8 +54,8 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     private LoadingDialog loadingDialog;
 
     //客户信息list
-    private ArrayList<ClientInfoBean> clientList = new ArrayList<>();
-    private ClientInfoBean clientInfoBean;
+    private ArrayList<ClientInfoBean.RecordsBean> clientList = new ArrayList<>();
+    private ClientInfoBean.RecordsBean clientInfoBean;
     //页码
     private int pageNum = 1;
     //每次拉取数据数量
@@ -68,7 +68,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     //设置已选客户
     private void setSelectBean() {
         if (clientInfoBean != null) {
-            for (ClientInfoBean bean : clientList) {
+            for (ClientInfoBean.RecordsBean bean : clientList) {
                 if(!TextUtils.isEmpty(bean.getUuid())){
                     if (bean.getUuid().equals(clientInfoBean.getUuid())) {
                         bean.setSelect(true);
@@ -124,9 +124,9 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     private void initData() {
         activity.getSearch().setHint("客户姓名/手机号/会员号/证件号");
         refreshLayout = activity.getRefreshLayout();
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
 
-        clientInfoBean = (ClientInfoBean) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_CLIENT_LIST);
+        clientInfoBean = (ClientInfoBean.RecordsBean) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_CLIENT_LIST);
 
         initAdapter();
         pageNum = 1;
@@ -149,7 +149,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
         private Bitmap select;
         private Bitmap unSelect;
 
-        private ArrayList<ClientInfoBean> mArr = new ArrayList<>();
+        private ArrayList<ClientInfoBean.RecordsBean> mArr = new ArrayList<>();
 
         public SelectClientAdapter() {
             Resources res = activity.getResources();
@@ -159,7 +159,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
         }
 
         //后期传入刷新
-        public void notifyData(ArrayList<ClientInfoBean> arr) {
+        public void notifyData(ArrayList<ClientInfoBean.RecordsBean> arr) {
             if(arr != null){
                 mArr.clear();
                 mArr.addAll(arr);
@@ -173,7 +173,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
             return new ViewHolder(view);
         }
 
-        public ClientInfoBean getItem(int position) {
+        public ClientInfoBean.RecordsBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
@@ -187,7 +187,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            final ClientInfoBean item = getItem(position);
+            final ClientInfoBean.RecordsBean item = getItem(position);
 
             if (item.isSelect()) {
                 holder.selectImg.setImageBitmap(select);
@@ -196,7 +196,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
             }
             holder.name.setText(item.getName());
             holder.phone.setText(item.getMobilePhone());
-            holder.certificates.setText(item.getIdentType() + "：" + item.getIdentNo());
+            holder.certificates.setText("身份证：" + item.getIdentNo());
             holder.vipNum.setText("会员号：" + item.getCardNo());
 
             if (isMore){
@@ -256,16 +256,16 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
 
     //**********************************************************************************************
     //下拉刷新时使用
-    private OrderAPI.IResultMsg<ArrayList<ClientInfoBean>> refreshMsg = new OrderAPI.IResultMsg<ArrayList<ClientInfoBean>>() {
+    private OrderAPI.IResultMsg<ClientInfoBean> refreshMsg = new OrderAPI.IResultMsg<ClientInfoBean>() {
         @Override
-        public void Result(ArrayList<ClientInfoBean> beans) {
+        public void Result(ClientInfoBean beans) {
 
             if (loadingDialog.isShowing()) {
                 loadingDialog.dismissLoading();
             }
 
             refreshLayout.finishRefreshing();
-            clientList = beans;
+            clientList = beans.getRecords();
 
             setSelectBean();
             isMore = true;
@@ -284,9 +284,9 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     };
 
     //加载更多时使用
-    private OrderAPI.IResultMsg<ArrayList<ClientInfoBean>> loadMoreMsg = new OrderAPI.IResultMsg<ArrayList<ClientInfoBean>>() {
+    private OrderAPI.IResultMsg<ClientInfoBean> loadMoreMsg = new OrderAPI.IResultMsg<ClientInfoBean>() {
         @Override
-        public void Result(ArrayList<ClientInfoBean> beans) {
+        public void Result(ClientInfoBean beans) {
 
             if (loadingDialog.isShowing()) {
                 loadingDialog.dismissLoading();
@@ -294,9 +294,9 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
 
             refreshLayout.finishLoadmore();
 
-            if (beans != null && beans.size() > 0) {
+            if (beans != null && beans.getRecords().size() > 0) {
                 if (clientList != null) {
-                    clientList.addAll(beans);
+                    clientList.addAll(beans.getRecords());
                 }
                 isMore = true;
             } else {
@@ -323,7 +323,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     };
 
 
-    private void getClientInfo(String wordKey, int pageNum, int pageSize, OrderAPI.IResultMsg<ArrayList<ClientInfoBean>> resultMsg) {
+    private void getClientInfo(String wordKey, int pageNum, int pageSize, OrderAPI.IResultMsg<ClientInfoBean> resultMsg) {
         if (loadingDialog == null) {
             loadingDialog = new LoadingDialog(activity);
         }

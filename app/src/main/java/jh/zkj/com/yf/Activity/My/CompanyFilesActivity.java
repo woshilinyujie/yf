@@ -1,6 +1,8 @@
 package jh.zkj.com.yf.Activity.My;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -121,5 +123,11 @@ public class CompanyFilesActivity extends MBaseActivity implements CompanyFilesA
     @Override
     public void showToast(String msg) {
         MToast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.onActivityResult(requestCode, resultCode, data);
     }
 }
