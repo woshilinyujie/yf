@@ -36,17 +36,16 @@ public class StockAPI {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-//                        BaseBean<SalesmanBean> baseBean = JSON.parseObject(response.body(),
-//                                new TypeReference<BaseBean<SalesmanBean>>() {
-//                                });
+                        BaseBean<commodityStockBean> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<commodityStockBean>>() {});
 
-//                        iResultMsg.Result(baseBean.getData());
+                        iResultMsg.Result(baseBean.getData());
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-//                        iResultMsg.Error(response.body());
+                        iResultMsg.Error(response.body());
                     }
                 });
     }

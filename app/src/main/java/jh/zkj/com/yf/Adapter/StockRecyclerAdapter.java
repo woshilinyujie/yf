@@ -78,10 +78,10 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (viewholder != null) {
             if (viewholder instanceof CommodityStocksHolder) {
                 CommodityStocksHolder holder = (CommodityStocksHolder) viewholder;
-                if (position % 5 == 0)
-                    holder.lastName.setVisibility(View.VISIBLE);
-                else
-                    holder.lastName.setVisibility(View.GONE);
+//                if (position % 5 == 0)
+//                    holder.lastName.setVisibility(View.VISIBLE);
+//                else
+//                    holder.lastName.setVisibility(View.GONE);
 
             } else if (viewholder instanceof StockNumberHolder) {
                 StockNumberHolder holder = (StockNumberHolder) viewholder;
@@ -133,8 +133,8 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     //商品库存holder
     class CommodityStocksHolder extends RecyclerView.ViewHolder {
         //姓氏
-        @BindView(R.id.commodity_stock_last_name)
-        TextView lastName;
+//        @BindView(R.id.commodity_stock_last_name)
+//        TextView lastName;
 
         public CommodityStocksHolder(View itemView) {
             super(itemView);

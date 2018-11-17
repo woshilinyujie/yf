@@ -185,6 +185,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
                     public void onClick(View v) {
                         Intent intent = new Intent(activity, EntExamineActivity.class);
                         intent.putExtra(MyConfig.TYPE_STRING_COM_NAME, item.getName());
+                        intent.putExtra(MyConfig.TYPE_STRING_COMPANY_UUID, item.getUuid());
                         activity.startActivityForResult(intent, REQUEST_ENTERPRISE_EXAMINE);
                     }
                 });
