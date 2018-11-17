@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -28,6 +29,8 @@ import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.My.MyConfig;
 import jh.zkj.com.yf.Bean.CompanyBean;
 import jh.zkj.com.yf.Bean.EntExamineListBean;
+import jh.zkj.com.yf.Bean.ModifyCRMNameBean;
+import jh.zkj.com.yf.Bean.UpFileBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.My.EnterpriseContract;
 import jh.zkj.com.yf.Mview.CancelDialog;
@@ -323,6 +326,34 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
                 dialog.dismiss();
             }
         });
+
+    }
+    public void upFile(final String path) {
+        api.upFile(activity, path, new MyAPI.IResultMsg<UpFileBean>() {
+            @Override
+            public void Result(UpFileBean bean) {
+                ModifyHead(bean.getData(), path);
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
     }
 
+
+    public void ModifyHead(String data, final String path) {
+        api.ModifyCRMHead(activity, data, new MyAPI.IResultMsg<ModifyCRMNameBean>() {
+            @Override
+            public void Result(ModifyCRMNameBean bean) {
+                Glide.with(activity).load(path).into(activity.getHeadImg());
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
+    }
 }

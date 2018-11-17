@@ -22,7 +22,7 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
  */
 
 public class AnalyseAPI {
-    public final String API="http://192.168.68.12";
+    public final String API=APIConstant.API;
     private LoadingDialog dialog;
 
 
@@ -43,11 +43,15 @@ public class AnalyseAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String s = response.body().toString();
-                        ShopNameBean shopNameBean = GsonUtils.GsonToBean(s, ShopNameBean.class);
-                        if(shopNameBean.getCode()==0){
-                            iResultMsg.Result(shopNameBean);
-                        }else{
-                            MToast.makeText(context,shopNameBean.getMsg(), Toast.LENGTH_SHORT).show();
+                        try {
+                            ShopNameBean shopNameBean = GsonUtils.GsonToBean(s, ShopNameBean.class);
+                            if(shopNameBean.getCode()==0 &&shopNameBean.getData()!=null){
+                                iResultMsg.Result(shopNameBean);
+                            }else{
+                                MToast.makeText(context,shopNameBean.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
                         }
                     }
 
@@ -97,11 +101,15 @@ public class AnalyseAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String s = response.body().toString();
-                        LineDataBean lineData = GsonUtils.GsonToBean(s, LineDataBean.class);
-                        if(lineData.getCode()==0){
-                            iResultMsg.Result(lineData);
-                        }else{
-                            MToast.makeText(context,lineData.getMsg(),Toast.LENGTH_SHORT).show();
+                        try {
+                            LineDataBean lineData = GsonUtils.GsonToBean(s, LineDataBean.class);
+                            if(lineData.getCode()==0 &&lineData.getData()!=null){
+                                iResultMsg.Result(lineData);
+                            }else{
+                                MToast.makeText(context,lineData.getMsg(),Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
                         }
                     }
 
@@ -158,11 +166,15 @@ public class AnalyseAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String s = response.body().toString();
-                        PieDataBean pieData = GsonUtils.GsonToBean(s, PieDataBean.class);
-                        if(pieData.getCode()==0){
-                            iResultMsg.Result(pieData);
-                        }else{
-                            MToast.makeText(context,pieData.getMsg(),Toast.LENGTH_SHORT).show();
+                        try {
+                            PieDataBean pieData = GsonUtils.GsonToBean(s, PieDataBean.class);
+                            if(pieData.getCode()==0 &&pieData.getData()!=null){
+                                iResultMsg.Result(pieData);
+                            }else{
+                                MToast.makeText(context,pieData.getMsg(),Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
                         }
                     }
 
@@ -178,7 +190,7 @@ public class AnalyseAPI {
     /**
      * 商品分类
      */
-    public  void getClassify(Context context, final IResultMsg<ArticleBean> iResultMsg ){
+    public  void getClassify(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
         OkGo.<String>get(API+":3001/erp/basic/data/classify").tag(context)
                 .params("access_token",TOKEN)
@@ -186,15 +198,23 @@ public class AnalyseAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String s = response.body().toString();
-                        ArticleBean articleBean = GsonUtils.GsonToBean(s, ArticleBean.class);
-                        iResultMsg.Result(articleBean);
+                        try {
+                            ArticleBean articleBean = GsonUtils.GsonToBean(s, ArticleBean.class);
+                            if(articleBean.getCode()==0&&articleBean.getData()!=null){
+                                iResultMsg.Result(articleBean);
+                            }else{
+                                showToast(context,articleBean.getMsg());
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
+                        }
                     }
                 });
     }
     /**
      * 商品品牌
      */
-    public  void getBrand(Context context, final IResultMsg<ArticleBean> iResultMsg ){
+    public  void getBrand(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
         OkGo.<String>get(API+":3001/erp/basic/data/brand").tag(context)
                 .params("access_token",TOKEN)
@@ -202,15 +222,23 @@ public class AnalyseAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String s = response.body().toString();
-                        ArticleBean articleBean = GsonUtils.GsonToBean(s, ArticleBean.class);
-                        iResultMsg.Result(articleBean);
+                        try {
+                            ArticleBean articleBean = GsonUtils.GsonToBean(s, ArticleBean.class);
+                            if(articleBean.getCode()==0&&articleBean.getData()!=null){
+                                iResultMsg.Result(articleBean);
+                            }else{
+                                showToast(context,articleBean.getMsg());
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
+                        }
                     }
                 });
     }
     /**
      * 商品型号
      */
-    public  void getProduct(Context context, final IResultMsg<ArticleBean> iResultMsg ){
+    public  void getProduct(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
         OkGo.<String>get(API+":3001/erp/basic/data/product").tag(context)
                 .params("access_token",TOKEN)
@@ -218,8 +246,16 @@ public class AnalyseAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String s = response.body().toString();
-                        ArticleBean articleBean = GsonUtils.GsonToBean(s, ArticleBean.class);
-                        iResultMsg.Result(articleBean);
+                        try {
+                            ArticleBean articleBean = GsonUtils.GsonToBean(s, ArticleBean.class);
+                            if(articleBean.getCode()==0&&articleBean.getData()!=null){
+                                iResultMsg.Result(articleBean);
+                            }else{
+                                showToast(context,articleBean.getMsg());
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
+                        }
                     }
                 });
     }
@@ -228,5 +264,9 @@ public class AnalyseAPI {
         void Result(T bean);
 
         void Error(String json);
+    }
+
+    public void showToast(Context context, String msg) {
+        MToast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 }

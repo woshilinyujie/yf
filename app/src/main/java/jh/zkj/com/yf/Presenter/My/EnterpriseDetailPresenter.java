@@ -78,7 +78,12 @@ public class EnterpriseDetailPresenter {
     }
 
     private void initListener() {
-
+        activity.getEnterpriseDetailTitle().getLetfImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
     }
 
     /**

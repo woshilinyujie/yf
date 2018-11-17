@@ -22,6 +22,8 @@ public class EnterpriseDetailActivity extends MBaseActivity {
     RecyclerView recycler;
     @BindView(R.id.enterprise_detail_license)
     ImageView license;
+    @BindView(R.id.enterprise_detail_title)
+    TitleLayout enterpriseDetailTitle;
     private EnterpriseDetailPresenter presenter;
 
     @Override
@@ -34,5 +36,9 @@ public class EnterpriseDetailActivity extends MBaseActivity {
 
     public RecyclerView getRecycler() {
         return recycler;
+    }
+
+    public TitleLayout getEnterpriseDetailTitle() {
+        return enterpriseDetailTitle;
     }
 }

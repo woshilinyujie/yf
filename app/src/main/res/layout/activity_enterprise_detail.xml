@@ -10,7 +10,7 @@
     <jh.zkj.com.yf.Mview.TitleLayout
         android:id="@+id/enterprise_detail_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44"
+        android:layout_height="@dimen/dp_48"
         android:background="@color/white"
         app:centerText="详情"
         app:centerTextSize="@dimen/sp_16"
@@ -19,9 +19,7 @@
         app:leftImageWidthSize="@dimen/dp_12"
         app:leftMargin="@dimen/dp_16"
         app:rightMargin="@dimen/dp_20"
-        app:rightText="编辑"
-        app:rightTextColor="@color/c_666666"
-        app:rightTextSize="@dimen/sp_14"/>
+       />
 
 
     <ScrollView

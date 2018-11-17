@@ -50,7 +50,7 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
  */
 
 public class MyAPI {
-    public final String API =APIConstant.API;
+    public final String API = APIConstant.API;
     private File file;
     private LoadingDialog dialog;
 
@@ -61,7 +61,7 @@ public class MyAPI {
      * grant_type  固定值
      * scope       固定值
      */
-    public void loginCRM(Context context, String phone, String password, final IResultMsg<LoginCRMBean> iResultMsg) {
+    public void loginCRM(final Context context, String phone, String password, final IResultMsg<LoginCRMBean> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
@@ -78,8 +78,16 @@ public class MyAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String josn = response.body().toString();
-                        LoginCRMBean loginCRMBean = GsonUtils.GsonToBean(josn, LoginCRMBean.class);
-                        iResultMsg.Result(loginCRMBean);
+                        try {
+                            LoginCRMBean loginCRMBean = JSON.parseObject(josn, LoginCRMBean.class);
+                            if (loginCRMBean.getAccess_token() != null) {
+                                iResultMsg.Result(loginCRMBean);
+                            } else {
+                                showToast(context, "出错了");
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
 
                     }
 
@@ -105,11 +113,15 @@ public class MyAPI {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String s = response.body().toString();
-                        CRMCalibrateBean crmCalibrateBean = GsonUtils.GsonToBean(s, CRMCalibrateBean.class);
-                        if (crmCalibrateBean.getCode() == 0) {
-                            iResultMsg.Result(crmCalibrateBean);
-                        } else {
-                            showToast(context, crmCalibrateBean.getMsg());
+                        try {
+                            CRMCalibrateBean crmCalibrateBean = GsonUtils.GsonToBean(s, CRMCalibrateBean.class);
+                            if (crmCalibrateBean.getCode() == 0 && crmCalibrateBean.getData() != null) {
+                                iResultMsg.Result(crmCalibrateBean);
+                            } else {
+                                showToast(context, crmCalibrateBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
                         }
                     }
                 });
@@ -122,7 +134,7 @@ public class MyAPI {
      * grant_type  固定值
      * scope       固定值
      */
-    public void loginCRMCode(Context context, String phone, String smsCode, final IResultMsg<LoginCRMBean> iResultMsg) {
+    public void loginCRMCode(final Context context, String phone, String smsCode, final IResultMsg<LoginCRMBean> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
@@ -142,43 +154,21 @@ public class MyAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String josn = response.body().toString();
-                        LoginCRMBean loginCRMBean = GsonUtils.GsonToBean(josn, LoginCRMBean.class);
-                        iResultMsg.Result(loginCRMBean);
+                        try {
+                            LoginCRMBean loginCRMBean = GsonUtils.GsonToBean(josn, LoginCRMBean.class);
+                            if (loginCRMBean.getAccess_token() != null) {
+                                iResultMsg.Result(loginCRMBean);
+                            } else {
+                                showToast(context, "出错了");
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
 
                     }
 
                     @Override
                     public void onError(Response<String> response) {
-                        if (dialog.isShowing())
-                            dialog.dismissLoading();
-                    }
-                });
-    }
-
-
-    /**
-     * 获取crm信息
-     * token 登录CRM  获取
-     */
-    public void getCRMInfo(Context context, String token, final IResultMsg<CRMInfoBean> iResultMsg) {
-        if (dialog == null)
-            dialog = new LoadingDialog(context);
-        dialog.showLoading();
-        OkGo.<String>get(API + ":3001/stdUser/company").tag(context)
-                .headers("Authorization", "Bearer" + " " + token)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        if (dialog.isShowing())
-                            dialog.dismissLoading();
-                        String json = response.body().toString();
-                        CRMInfoBean crmInfoBean = GsonUtils.GsonToBean(json, CRMInfoBean.class);
-                        iResultMsg.Result(crmInfoBean);
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                     }
@@ -203,7 +193,7 @@ public class MyAPI {
                     public void onSuccess(Response<String> response) {
                         String s = response.body().toString();
                         CRMPassWordBean crmInfoBean = GsonUtils.GsonToBean(s, CRMPassWordBean.class);
-                        if (crmInfoBean.getCode() == 0) {
+                        if (crmInfoBean.getCode() == 0 && crmInfoBean.isData()) {
                             iResultMsg.Result(crmInfoBean);
                         } else {
                             showToast(context, crmInfoBean.getMsg());
@@ -220,7 +210,7 @@ public class MyAPI {
      * usernameType  登录CRM productsType字段获取
      * password  登录CRM  password 字段获得
      */
-    public void loginERP(Context context, String usernameType, String username, String password, String companyCode, final IResultMsg<LoginERPBean> iResultMsg) {
+    public void loginERP(final Context context, String usernameType, String username, String password, String companyCode, final IResultMsg<LoginERPBean> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
@@ -237,8 +227,16 @@ public class MyAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String json = response.body().toString();
-                        LoginERPBean loginERPBean = GsonUtils.GsonToBean(json, LoginERPBean.class);
-                        iResultMsg.Result(loginERPBean);
+                        try {
+                            LoginERPBean loginERPBean = GsonUtils.GsonToBean(json, LoginERPBean.class);
+                            if (loginERPBean.getAccess_token() != null) {
+                                iResultMsg.Result(loginERPBean);
+                            } else {
+                                showToast(context, "出错了");
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
                     }
 
                     @Override
@@ -258,7 +256,7 @@ public class MyAPI {
      * usernameType  登录CRM productsType字段获取
      * password  登录CRM  password 字段获得
      */
-    public void loginERPCode(Context context, String usernameType, String username, String password, String companyCode, String smsCode, final IResultMsg<LoginERPBean> iResultMsg) {
+    public void loginERPCode(final Context context, String usernameType, String username, String password, String companyCode, String smsCode, final IResultMsg<LoginERPBean> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
@@ -278,8 +276,16 @@ public class MyAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String json = response.body().toString();
-                        LoginERPBean loginERPBean = GsonUtils.GsonToBean(json, LoginERPBean.class);
-                        iResultMsg.Result(loginERPBean);
+                        try {
+                            LoginERPBean loginERPBean = GsonUtils.GsonToBean(json, LoginERPBean.class);
+                            if (loginERPBean.getAccess_token() != null) {
+                                iResultMsg.Result(loginERPBean);
+                            } else {
+                                showToast(context, "出错了");
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
                     }
 
                     @Override
@@ -443,7 +449,7 @@ public class MyAPI {
                         String s = response.body();
                         try {
                             RegisterBean registerBean = GsonUtils.GsonToBean(s, RegisterBean.class);
-                            if (registerBean.getCode() == 0) {
+                            if (registerBean.getCode() == 0 && registerBean.getData() != null) {
                                 iResultMsg.Result(registerBean);
                             } else {
                                 showToast(context, registerBean.getMsg());
@@ -529,7 +535,7 @@ public class MyAPI {
                         String s = response.body().toString();
                         try {
                             SendRegisterCodeNextBean sendRegisterCodeNextBean = GsonUtils.GsonToBean(s, SendRegisterCodeNextBean.class);
-                            if (sendRegisterCodeNextBean.getCode() == 0) {
+                            if (sendRegisterCodeNextBean.getCode() == 0 && sendRegisterCodeNextBean.getData() != null) {
                                 iResultMsg.Result(sendRegisterCodeNextBean);
                             } else {
                                 showToast(context, sendRegisterCodeNextBean.getMsg());
@@ -593,7 +599,7 @@ public class MyAPI {
                         String s = response.body().toString();
                         try {
                             JoinCompanyBean bean1 = GsonUtils.GsonToBean(s, JoinCompanyBean.class);
-                            if (bean1.getCode() == 0) {
+                            if (bean1.getCode() == 0 && bean1.isData()) {
                                 iResultMsg.Result(bean1);
                             } else {
                                 showToast(context, bean1.getMsg());
@@ -616,7 +622,7 @@ public class MyAPI {
      * 审核列表
      * auditFlag 0 审核中  1已经拒接 和已审核
      */
-    public void getEntExamineList(Context context, String uuid, String keywords, String opreate, final IResultMsg<ArrayList<EntExamineListBean>> iResultMsg) {
+    public void getEntExamineList(final Context context, String uuid, String keywords, String opreate, final IResultMsg<ArrayList<EntExamineListBean>> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
@@ -630,12 +636,19 @@ public class MyAPI {
                     public void onSuccess(Response<String> response) {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
+                        try {
+                            BaseBean<ArrayList<EntExamineListBean>> bean = JSON.parseObject(response.body(),
+                                    new TypeReference<BaseBean<ArrayList<EntExamineListBean>>>() {
+                                    });
 
-                        BaseBean<ArrayList<EntExamineListBean>> bean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<ArrayList<EntExamineListBean>>>() {
-                                });
-
-                        iResultMsg.Result(bean.getData());
+                            if ("0".equals(bean.getCode()) && bean.getData() != null) {
+                                iResultMsg.Result(bean.getData());
+                            } else {
+                                showToast(context, bean.getMsg());
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
+                        }
                     }
 
                     @Override
@@ -650,7 +663,7 @@ public class MyAPI {
     /**
      * 企业信息
      */
-    public void getCompanyInfo(Context context, final IResultMsg<CompanyBean> iResultMsg) {
+    public void getCompanyInfo(final Context context, final IResultMsg<CompanyBean> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
@@ -663,11 +676,19 @@ public class MyAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String s = response.body().toString();
-                        BaseBean<CompanyBean> bean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<CompanyBean>>() {
-                                });
+                        try {
+                            BaseBean<CompanyBean> bean = JSON.parseObject(response.body(),
+                                    new TypeReference<BaseBean<CompanyBean>>() {
+                                    });
 
-                        iResultMsg.Result(bean.getData());
+                            if("0".equals(bean.getCode())&&bean.getData()!=null){
+                                iResultMsg.Result(bean.getData());
+                            }else{
+                                showToast(context,bean.getMsg());
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
+                        }
                     }
 
                     @Override
@@ -747,13 +768,17 @@ public class MyAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String s1 = response.body().toString();
-                        ModifyCRMNameBean modifyCRMNameBean = GsonUtils.GsonToBean(s1, ModifyCRMNameBean.class);
-                        if (modifyCRMNameBean.getCode() == 0) {
+                        try {
+                            ModifyCRMNameBean modifyCRMNameBean = GsonUtils.GsonToBean(s1, ModifyCRMNameBean.class);
+                            if (modifyCRMNameBean.getCode() == 0 &&modifyCRMNameBean.isData()) {
+                                iResultMsg.Result(modifyCRMNameBean);
+                            } else {
+                                showToast(context, modifyCRMNameBean.getMsg());
+                            }
                             iResultMsg.Result(modifyCRMNameBean);
-                        } else {
-                            showToast(context, modifyCRMNameBean.getMsg());
+                        }catch (Exception e){
+                            showToast(context,e.toString());
                         }
-                        iResultMsg.Result(modifyCRMNameBean);
                     }
                 });
     }
@@ -784,7 +809,7 @@ public class MyAPI {
                             dialog.dismissLoading();
                         String s1 = response.body().toString();
                         ModifyCRMNameBean modifyCRMNameBean = GsonUtils.GsonToBean(s1, ModifyCRMNameBean.class);
-                        if (modifyCRMNameBean.getCode() == 0) {
+                        if (modifyCRMNameBean.getCode() == 0 &&modifyCRMNameBean.isData()) {
                             iResultMsg.Result(modifyCRMNameBean);
                         } else {
                             showToast(context, modifyCRMNameBean.getMsg());
@@ -795,7 +820,7 @@ public class MyAPI {
     }
 
 
-    /**
+    /**上传头像
      * @param context
      * @param path
      * @param iResultMsg
@@ -814,11 +839,15 @@ public class MyAPI {
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String s = response.body().toString();
-                        UpFileBean upFileBean = GsonUtils.GsonToBean(s, UpFileBean.class);
-                        if (upFileBean.getCode() == 0) {
-                            iResultMsg.Result(upFileBean);
-                        } else {
-                            showToast(context,upFileBean.getMsg());
+                        try {
+                            UpFileBean upFileBean = GsonUtils.GsonToBean(s, UpFileBean.class);
+                            if (upFileBean.getCode() == 0 &&upFileBean.getData()!=null) {
+                                iResultMsg.Result(upFileBean);
+                            } else {
+                                showToast(context, upFileBean.getMsg());
+                            }
+                        }catch (Exception e){
+                            showToast(context,e.toString());
                         }
                     }
                 });

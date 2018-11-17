@@ -158,10 +158,12 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
                     public void onClick(View v) {
                         final CancelDialog dialog = new CancelDialog(activity);
                         dialog.setMsgS("确认将" + item.getMobilePhone() + "(" + item.getName() + ") 加入企业吗？");
-
+                        dialog.setCancleS("取消");
+                        dialog.setSureS("确认");
                         dialog.getSure().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                dialog.dismiss();
                                 getOperratorAudit(item.getUuid(), true, okMsg);
                             }
                         });
@@ -182,10 +184,12 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
 
                         final CancelDialog dialog = new CancelDialog(activity);
                         dialog.setMsgS("确认拒绝" + item.getMobilePhone() + "(" + item.getName() + ") 加入企业吗？");
-
+                        dialog.setCancleS("取消");
+                        dialog.setSureS("确认");
                         dialog.getSure().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                dialog.dismiss();
                                 getOperratorAudit(item.getUuid(), false, noMsg);
                             }
                         });

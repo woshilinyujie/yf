@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_76"
+            android:layout_marginTop="@dimen/dp_50"
             android:gravity="right"
             android:orientation="vertical">
 
@@ -97,7 +97,7 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/dp_94"
+            android:layout_marginTop="@dimen/dp_40"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_20"
             android:layout_centerHorizontal="true"
