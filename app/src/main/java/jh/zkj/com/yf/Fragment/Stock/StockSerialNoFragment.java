@@ -47,6 +47,10 @@ public class StockSerialNoFragment extends MBaseFragment {
     @BindView(R.id.serial_on_stoke_scan)
     ImageView scan;
 
+    //历史记录
+    @BindView(R.id.serial_on_stoke_history)
+    LinearLayout historyLayout;
+
     @BindView(R.id.serial_on_stoke_msg_layout)
     LinearLayout msgLayout;
     private Unbinder bind;
@@ -118,5 +122,9 @@ public class StockSerialNoFragment extends MBaseFragment {
 
     public void setSearchText(String s){
         search.setText(s);
+    }
+
+    public LinearLayout getHistoryLayout(){
+        return historyLayout;
     }
 }

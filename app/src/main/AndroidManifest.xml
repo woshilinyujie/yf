@@ -13,6 +13,12 @@
         <activity
             android:name=".Activity.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
+
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".Activity.ScanActivity"/>
         <!-- 零售详情 -->
@@ -38,8 +44,7 @@
         <activity android:name=".Activity.My.EmailActivity"/>
         <activity android:name=".Activity.My.JoinCompanyCodeActivity"/>
         <activity android:name=".Activity.My.PersonalFileActivity"/>
-        <activity android:name=".Activity.My.CompanyFilesActivity"/>
-
+        <activity android:name=".Activity.My.CompanyFilesActivity"/>41184
         <!-- 分仓库存选择仓库 -->
         <activity android:name=".Activity.Stock.ChildWarehouseActivity"/>
         <activity android:name=".Activity.Analyse.ShopAnalyseActivity"/>

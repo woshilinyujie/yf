@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Presenter.Stock;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ListView;
@@ -15,9 +16,11 @@ import jh.zkj.com.yf.Activity.MainActivity;
 import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
 import jh.zkj.com.yf.Adapter.StockListAdapter;
 import jh.zkj.com.yf.Adapter.StockRecyclerAdapter;
+import jh.zkj.com.yf.Bean.CommodityTreeBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.Bean.TreeListBean;
 import jh.zkj.com.yf.Bean.commodityStockBean;
+import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Stock.CommodityContract;
 import jh.zkj.com.yf.Fragment.Stock.CommodityStockFragment;
 import jh.zkj.com.yf.Fragment.Stock.StockListFragment;
@@ -35,7 +38,9 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     //筛选popup
     private StockFilterPopup popup;
     private StockAPI api;
-    private ArrayList<TreeListBean> nodes;
+    ArrayList<CommodityTreeBean> nodes = new ArrayList<>();
+    private StockListAdapter<CommodityTreeBean> listAdapter;
+
 
     public CommodityPresenter(CommodityStockFragment fragment){
         this.fragment = fragment;
@@ -54,7 +59,7 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         listView.setDivider(null);
         listView.setBackgroundColor(0xffffffff);
 
-        initAdapter();
+//        initAdapter();
 
         api = new StockAPI(fragment.getContext());
         getCommodityList();
@@ -116,24 +121,23 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     }
 
 
-    private void initAdapter() {
-        ArrayList<TreeListBean> nodes = new ArrayList<>();
-        nodes.add(new TreeListBean(1, 0, "Apple iPhone6S 128G 白色"));
-        nodes.add(new TreeListBean(2, 0, "Apple iPhone6S 128G 灰色"));
-        nodes.add(new TreeListBean(3, 0, "Apple iPhone6S 128G 金"));
-        nodes.add(new TreeListBean(4, 1, "A 分仓"));
-        nodes.add(new TreeListBean(5, 2, "A 分仓"));
-        nodes.add(new TreeListBean(6, 3, "A 分仓"));
-        nodes.add(new TreeListBean(7, 3, "B 分仓"));
-        nodes.add(new TreeListBean(8, 4, "A 的子分仓"));
-        try {
-            StockListAdapter<TreeListBean> listAdapter = new StockListAdapter<>(listView,
-                    activity, nodes, 0, true);
-            listView.setAdapter(listAdapter);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void initAdapter() {
+////        nodes.add(new CommodityTreeBean(1, 0, "Apple iPhone6S 128G 白色"));
+////        nodes.add(new CommodityTreeBean(2, 0, "Apple iPhone6S 128G 灰色"));
+////        nodes.add(new CommodityTreeBean(3, 0, "Apple iPhone6S 128G 金"));
+////        nodes.add(new CommodityTreeBean(4, 1, "A 分仓"));
+////        nodes.add(new CommodityTreeBean(5, 2, "A 分仓"));
+////        nodes.add(new CommodityTreeBean(6, 3, "A 分仓"));
+////        nodes.add(new CommodityTreeBean(7, 3, "B 分仓"));
+////        nodes.add(new CommodityTreeBean(8, 4, "A 的子分仓"));
+//        try {
+//            listAdapter = new StockListAdapter<>(listView,
+//                    activity, nodes, 0, true);
+//            listView.setAdapter(listAdapter);
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void clearFindEt() {
@@ -150,7 +154,32 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
             @Override
             public void Result(commodityStockBean bean) {
                 if(bean != null){
-                    
+                    //父节点
+                    int fCount = 0;
+                    //子节点
+                    int cCount = 0;
+                    ArrayList<commodityStockBean.ContentBean> content = bean.getContent();
+                    for (int i = 0 ; i < content.size() ; i++){
+                        cCount = fCount;
+                        nodes.add(new CommodityTreeBean(fCount, cCount, content.get(i).getName(), (long)content.get(i).getQty()));
+                        fCount++;
+                        if(content.get(i).getWarehouseList() != null && content.get(i).getWarehouseList().size() > 0){
+                            for (int j = 0 ; j < content.get(i).getWarehouseList().size() ; j++){
+                                nodes.add(new CommodityTreeBean(fCount, cCount
+                                        , content.get(i).getWarehouseList().get(j).getWarehouse_name()
+                                        , (long)content.get(i).getWarehouseList().get(j).getQty()));
+                                fCount++;
+                            }
+                        }
+                    }
+
+                    try {
+                        listAdapter = new StockListAdapter<>(listView,
+                                activity, nodes, 0, true);
+                        listView.setAdapter(listAdapter);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

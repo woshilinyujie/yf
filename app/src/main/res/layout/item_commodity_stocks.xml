@@ -9,17 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/commodity_stock_last_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="A"
-            android:background="@color/c_f6f7fb"
-            android:textSize="@dimen/sp_12"
-            android:paddingTop="@dimen/dp_4"
-            android:paddingBottom="@dimen/dp_4"
-            android:includeFontPadding="false"
-            android:paddingLeft="@dimen/dp_16"/>
+        <!--<TextView-->
+            <!--android:id="@+id/commodity_stock_last_name"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="A"-->
+            <!--android:background="@color/c_f6f7fb"-->
+            <!--android:textSize="@dimen/sp_12"-->
+            <!--android:paddingTop="@dimen/dp_4"-->
+            <!--android:paddingBottom="@dimen/dp_4"-->
+            <!--android:includeFontPadding="false"-->
+            <!--android:paddingLeft="@dimen/dp_16"/>-->
 
         <RelativeLayout
             android:id="@+id/commodity_stock_content_layout"
@@ -28,8 +28,7 @@
             android:paddingTop="@dimen/dp_15"
             android:paddingBottom="@dimen/dp_15"
             android:paddingLeft="@dimen/dp_16"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/commodity_stock_last_name">
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/commodity_stock_title"

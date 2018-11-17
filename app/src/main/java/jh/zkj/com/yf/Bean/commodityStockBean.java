@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class commodityStockBean {
     private int number;
     private int size;
     private SummaryBean summary;
-    private List<ContentBean> content;
+    private ArrayList<ContentBean> content;
 
     public int getTotalElements() {
         return totalElements;
@@ -65,11 +66,11 @@ public class commodityStockBean {
         this.summary = summary;
     }
 
-    public List<ContentBean> getContent() {
+    public ArrayList<ContentBean> getContent() {
         return content;
     }
 
-    public void setContent(List<ContentBean> content) {
+    public void setContent(ArrayList<ContentBean> content) {
         this.content = content;
     }
 
@@ -92,7 +93,7 @@ public class commodityStockBean {
     public static class ContentBean {
         /**
          * pinyin :
-         * warehouseList : [{"warehouse_name":"仓库01","qty":2},{"warehouse_name":"仓库2342","qty":22}]
+         * warehouseArrayList : [{"warehouse_name":"仓库01","qty":2},{"warehouse_name":"仓库2342","qty":22}]
          * qty : 24.0
          * name : 测试配件
          */
@@ -100,7 +101,7 @@ public class commodityStockBean {
         private String pinyin;
         private double qty;
         private String name;
-        private List<WarehouseListBean> warehouseList;
+        private ArrayList<WarehouseListBean> warehouseList;
 
         public String getPinyin() {
             return pinyin;
@@ -126,11 +127,11 @@ public class commodityStockBean {
             this.name = name;
         }
 
-        public List<WarehouseListBean> getWarehouseList() {
+        public ArrayList<WarehouseListBean> getWarehouseList() {
             return warehouseList;
         }
 
-        public void setWarehouseList(List<WarehouseListBean> warehouseList) {
+        public void setWarehouseList(ArrayList<WarehouseListBean> warehouseList) {
             this.warehouseList = warehouseList;
         }
 

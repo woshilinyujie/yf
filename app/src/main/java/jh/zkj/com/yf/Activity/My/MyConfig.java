@@ -12,6 +12,8 @@ public class MyConfig {
     public static final String TYPE_STRING_EXAMINE_STATUS = "examineStatus";
     //审核状态
     public static final String TYPE_STRING_COMPANY_BEAN = "CompanyBean";
+    //企业id
+    public static final String TYPE_STRING_COMPANY_UUID = "CompanyUuid";
 
 
 

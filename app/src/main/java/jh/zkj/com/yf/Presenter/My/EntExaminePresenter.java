@@ -41,6 +41,7 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
     private Adapter adapter;
     private MyAPI api;
     private String comName;
+    private String uuid;
     private String status;
 
     public EntExaminePresenter(EntExamineFragment fragment) {
@@ -60,6 +61,7 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
 
     private void initData() {
         comName = activity.getIntent().getStringExtra(MyConfig.TYPE_STRING_COM_NAME);
+        uuid = activity.getIntent().getStringExtra(MyConfig.TYPE_STRING_COMPANY_UUID);
         if(fragment.getArguments() != null){
             status = fragment.getArguments().getString(MyConfig.TYPE_STRING_EXAMINE_STATUS);
         }
@@ -68,7 +70,7 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
 
         initAdapter();
 
-        getEntExamineList("/92156253-0723-4b3a-b09e-de6f6d8f192d", ""
+        getEntExamineList("/" + uuid, ""
                 , MyConfig.TYPE_STRING_UN_EXAMINE.equals(status)? "0" : "1");
     }
 
@@ -84,7 +86,7 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
         refresh.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                getEntExamineList("/92156253-0723-4b3a-b09e-de6f6d8f192d", ""
+                getEntExamineList("/" + uuid, ""
                         , MyConfig.TYPE_STRING_UN_EXAMINE.equals(status)? "0" : "1");
             }
         });
@@ -92,7 +94,7 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
 
     @Override
     public void refreshView() {
-        getEntExamineList("/92156253-0723-4b3a-b09e-de6f6d8f192d", ""
+        getEntExamineList("/" + uuid, ""
                 , MyConfig.TYPE_STRING_UN_EXAMINE.equals(status)? "0" : "1");
     }
 
