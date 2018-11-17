@@ -18,7 +18,7 @@
                 <!--<action android:name="android.intent.action.MAIN"/>-->
 
                 <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+            <!--</intent-filter>-->41184
         </activity>
         <activity android:name=".Activity.ScanActivity"/>
         <!-- 零售详情 -->
@@ -44,7 +44,7 @@
         <activity android:name=".Activity.My.EmailActivity"/>
         <activity android:name=".Activity.My.JoinCompanyCodeActivity"/>
         <activity android:name=".Activity.My.PersonalFileActivity"/>
-        <activity android:name=".Activity.My.CompanyFilesActivity"/>41184
+        <activity android:name=".Activity.My.CompanyFilesActivity"/>
         <!-- 分仓库存选择仓库 -->
         <activity android:name=".Activity.Stock.ChildWarehouseActivity"/>
         <activity android:name=".Activity.Analyse.ShopAnalyseActivity"/>

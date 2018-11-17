@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Presenter.My;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -112,6 +113,12 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
                 mArr.addAll(arr);
                 notifyDataSetChanged();
             }
+        }
+
+        //清空
+        public void clearData() {
+                mArr.clear();
+                notifyDataSetChanged();
         }
 
         @Override
@@ -251,6 +258,8 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
                 refresh.finishRefreshing();
                 if (bean != null && bean.size() > 0) {
                     adapter.notifyData(bean);
+                }else{
+                    adapter.clearData();
                 }
             }
 
@@ -266,6 +275,7 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
         public void Result(String data) {
             if(fragment.getActivity() != null){
                 ((EntExamineActivity)fragment.getActivity()).refreshFragment();
+                fragment.getActivity().setResult(Activity.RESULT_OK);
             }
         }
 
@@ -279,6 +289,7 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
         public void Result(String data) {
             if(fragment.getActivity() != null){
                 ((EntExamineActivity)fragment.getActivity()).refreshFragment();
+                fragment.getActivity().setResult(Activity.RESULT_OK);
             }
         }
 
