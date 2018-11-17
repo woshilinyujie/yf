@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
 
@@ -134,6 +135,10 @@ public class LoginTwoFragment extends MBaseFragment {
         String phone = loginCodePhone.getText().toString();
         switch (view.getId()) {
             case R.id.login_code_get:
+                if(phone.length()<11){
+                    Toast.makeText(activity,"请输入11位手机号",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 myAPI.sendRegisterCode(activity, phone, new MyAPI.IResultMsg<SendCodeBean>() {
                     @Override
                     public void Result(SendCodeBean bean) {
