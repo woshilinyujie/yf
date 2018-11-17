@@ -34,4 +34,6 @@ public class HttpConstant {
     public static String HTTP_CRM_OPERRATOR_AUDIT = "crm/stdUserApply/operrator/audit";
     //企业 拒绝审核
     public static String HTTP_CRM_OPERRATOR_UN_AUDIT = "crm/stdUserApply/operrator/unaudit";
+    //商品库存
+    public static String HTTP_REPORT_SKUSTOCK_APP = "report/skuStock/app";
 }

@@ -47,7 +47,7 @@ public class StockListPresenter implements StockListContract.IStockListPresenter
         recycler = new RecyclerView(activity);
         listView = new ListView(activity);
         listView.setDivider(null);
-        listView.setBackgroundColor(0xffffffff);
+        listView.setBackgroundColor(0xffff0000);
 
         if(flag == StockListFragment.TYPE_COMMODITY_STOCKS){
             fragment.getScan().setVisibility(View.GONE);

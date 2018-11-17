@@ -25,6 +25,7 @@ import jh.zkj.com.yf.Bean.ReceivableTypeBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Mutils.GsonUtils;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.Toast.EToast;
 
 /**
@@ -32,9 +33,14 @@ import jh.zkj.com.yf.Mview.Toast.EToast;
  */
 
 public class OrderAPI {
-    public final String API = APIConstant.API;
+    public String API = APIConstant.API + ":3001/";
 //    public final String TOKEN = "bearer 292f06ac-f530-4218-a991-b1440ebc3d17";
-    public final String TOKEN = "bearer 5faf588c-1bbb-421f-9d21-23e1c9914c1a";
+    public String TOKEN = "bearer 06bc2bd8-69f9-4feb-9655-1d5b824aa7e6";
+
+    public OrderAPI(Context context){
+//        TOKEN = "bearer " + PrefUtils.getString(context, "erp_token", "");
+        API = "http://192.168.68.12:3001/";
+    }
 
     /**
      * 获取业务员信息
@@ -111,7 +117,7 @@ public class OrderAPI {
     /**
      * 获取会员的接口
      */
-    public void getClientInfo(String keyWord, int pageNum, int pageSize, final IResultMsg<ArrayList<ClientInfoBean>> iResultMsg) {
+    public void getClientInfo(String keyWord, int pageNum, int pageSize, final IResultMsg<ClientInfoBean> iResultMsg) {
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_MEMBER_INFO)
                 .headers("Authorization", TOKEN)
                 .params("keywords", keyWord)
@@ -128,8 +134,8 @@ public class OrderAPI {
                             Log.e("wdefer", "json == " + response.body());
                         }
 
-                        BaseBean<ArrayList<ClientInfoBean>> client = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<ArrayList<ClientInfoBean>>>() {
+                        BaseBean<ClientInfoBean> client = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ClientInfoBean>>() {
                                 });
 
                         if (APIConstant.REQUEST_SUCCESS.equals(client.getCode())) {

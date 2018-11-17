@@ -3,75 +3,72 @@ package jh.zkj.com.yf.Fragment.Stock;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jh.zkj.com.yf.Contract.Stock.SkuStockContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
-import jh.zkj.com.yf.Presenter.Stock.CommodityPresenter;
+import jh.zkj.com.yf.Presenter.Stock.SerialNoTrackPresenter;
+import jh.zkj.com.yf.Presenter.Stock.SkuStockPresenter;
 import jh.zkj.com.yf.R;
 
 /**
  * Created by wdefer
- * 2018/11/15
+ * 2018/11/16
  * use
  */
-public class CommodityStockFragment extends MBaseFragment {
-
-    //筛选
-    @BindView(R.id.comm_stock_filter)
-    ImageView mCommStockFilter;
+public class SkuStockFragment extends MBaseFragment implements SkuStockContract.ISkuStockView{
     //清空
-    @BindView(R.id.comm_stock_clear_img)
+    @BindView(R.id.sku_stock_clear_img)
     ImageView mCommStockClearImg;
     //search
-    @BindView(R.id.comm_stock_search)
+    @BindView(R.id.sku_stock_search)
     EditText search;
-    //商店名
-    @BindView(R.id.comm_stock_text)
-    TextView commodity;
-    //抽屉listview
-    @BindView(R.id.comm_stock_list)
-    ListView listView;
-
-    @BindView(R.id.comm_stock_msg_layout)
+    //recycler
+    @BindView(R.id.sku_stock_recycler)
+    RecyclerView recycler;
+    //扫码
+    @BindView(R.id.sku_stock_scan)
+    ImageView scan;
+    @BindView(R.id.sku_stock_msg_layout)
     LinearLayout msgLayout;
     private Unbinder bind;
-    private CommodityPresenter presenter;
+    private SkuStockPresenter presenter;
     private View mainView;
 
-    public static CommodityStockFragment newInstance() {
-        return new CommodityStockFragment();
+    public static SkuStockFragment newInstance() {
+        return new SkuStockFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_commodity_stock, null);
+        mainView = inflater.inflate(R.layout.fragment_sku_stock, null);
         bind = ButterKnife.bind(this, mainView);
-        presenter = new CommodityPresenter(this);
+        presenter = new SkuStockPresenter(this);
         return mainView;
     }
 
-    @OnClick({R.id.comm_stock_clear_img, R.id.comm_stock_filter})
+    @OnClick({R.id.sku_stock_clear_img, R.id.sku_stock_filter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //清空edittext
-            case R.id.stock_clear_img: {
+            case R.id.sku_stock_clear_img: {
 
                 break;
             }
 
-            case R.id.stock_filter: {
+            case R.id.sku_stock_filter: {
 
                 break;
             }
@@ -84,10 +81,6 @@ public class CommodityStockFragment extends MBaseFragment {
         bind.unbind();
     }
 
-    public ImageView getmCommStockFilter() {
-        return mCommStockFilter;
-    }
-
     public ImageView getmCommStockClearImg() {
         return mCommStockClearImg;
     }
@@ -96,12 +89,8 @@ public class CommodityStockFragment extends MBaseFragment {
         return search;
     }
 
-    public TextView getCommodity() {
-        return commodity;
-    }
-
-    public ListView getListView() {
-        return listView;
+    public RecyclerView getRecyclerView() {
+        return recycler;
     }
 
     public LinearLayout getMsgLayout() {

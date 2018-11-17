@@ -6,8 +6,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 
 import jh.zkj.com.yf.Contract.Stock.StockContract;
+import jh.zkj.com.yf.Fragment.Stock.CommodityStockFragment;
+import jh.zkj.com.yf.Fragment.Stock.SerialNoTrackFragment;
+import jh.zkj.com.yf.Fragment.Stock.SkuStockFragment;
 import jh.zkj.com.yf.Fragment.Stock.StockFragment;
 import jh.zkj.com.yf.Fragment.Stock.StockListFragment;
+import jh.zkj.com.yf.Fragment.Stock.StockSerialNoFragment;
 
 /**
  * Created by wdefer
@@ -27,10 +31,14 @@ public class StockPresenter implements StockContract.IStockPresenter {
 
     private void initPresenter() {
         titles = new String[]{"商品库存", "库存串号", "串号跟踪", "分仓库存"};
-        StockListFragment commodityStocks = StockListFragment.newInstance(StockListFragment.TYPE_COMMODITY_STOCKS);
-        StockListFragment stockNumber = StockListFragment.newInstance(StockListFragment.TYPE_STOCK_NUMBER);
-        StockListFragment numberTrack = StockListFragment.newInstance(StockListFragment.TYPE_NUMBER_TRACK);
-        StockListFragment childWarehouse = StockListFragment.newInstance(StockListFragment.TYPE_CHILD_WAREHOUSE_STOCKS);
+//        StockListFragment commodityStocks = StockListFragment.newInstance(StockListFragment.TYPE_COMMODITY_STOCKS);
+        CommodityStockFragment commodityStocks = CommodityStockFragment.newInstance();
+//        StockListFragment stockNumber = StockListFragment.newInstance(StockListFragment.TYPE_STOCK_NUMBER);
+        StockSerialNoFragment stockNumber = StockSerialNoFragment.newInstance();
+//        StockListFragment numberTrack = StockListFragment.newInstance(StockListFragment.TYPE_NUMBER_TRACK);
+        SerialNoTrackFragment numberTrack = SerialNoTrackFragment.newInstance();
+//        StockListFragment childWarehouse = StockListFragment.newInstance(StockListFragment.TYPE_CHILD_WAREHOUSE_STOCKS);
+        SkuStockFragment childWarehouse = SkuStockFragment.newInstance();
         fragments.add(commodityStocks);
         fragments.add(stockNumber);
         fragments.add(numberTrack);

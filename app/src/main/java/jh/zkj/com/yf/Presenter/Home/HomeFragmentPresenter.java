@@ -93,8 +93,8 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
 
     @Override
     public void toRetail() {
-//        Intent intent = new Intent(activity, MyOrderActivity.class);
-        Intent intent = new Intent(activity, EnterpriseActivity.class);
+        Intent intent = new Intent(activity, MyOrderActivity.class);
+//        Intent intent = new Intent(activity, EnterpriseActivity.class);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCOPE, RetailListPresenter.STATUS_SCOPE_ALL);
         activity.startActivity(intent);
     }

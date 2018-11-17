@@ -2,14 +2,14 @@ package jh.zkj.com.yf.Contract.Stock;
 
 /**
  * Created by wdefer
- * 2018/11/15
+ * 2018/11/16
  * use
  */
-public class CommodityContract {
-    public interface ICommodityView{
+public class SerialNoTrackContract {
+    public interface ISerialNoTrackiew{
     }
 
-    public interface ICommodityPresenter{
+    public interface ISerialNoTrackPresenter{
         void clearFindEt();
         void showFilterPopup();
     }

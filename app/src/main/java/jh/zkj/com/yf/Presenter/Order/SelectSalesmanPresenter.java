@@ -101,7 +101,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
 
     private void initPresenter() {
         activity.getSearch().setHint("业务员姓名");
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
         gson = new Gson();
         if((ArrayList<SalesmanBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_SALESMAN_LIST) != null ){
             selectSalesmans.addAll((ArrayList<SalesmanBean.RecordsBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_SALESMAN_LIST));

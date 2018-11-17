@@ -1,9 +1,11 @@
 package jh.zkj.com.yf.Presenter.My;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -31,6 +33,7 @@ import jh.zkj.com.yf.Mutils.GetJsonDataUtil;
  */
 
 public class CompanyFilesActivityPresenter implements CompanyFilesActivityContract.CompanyFilesActivityPresente {
+    private final int REQUEST_CREATE_ENTERPRISE_SUCCESS = 1;
     CompanyFilesActivity activity;
     private ArrayList<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
@@ -102,7 +105,7 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
                                         Intent intent=new Intent(activity, CreateEnterpriseSuccessActivity.class);
                                         intent.putExtra("RegisterBean",bean);
                                         intent.putExtra("phone",phone);
-                                        activity.startActivity(intent);
+                                        activity.startActivityForResult(intent, REQUEST_CREATE_ENTERPRISE_SUCCESS);
 //                                        EventBus.getDefault().post("RegisterFinish");
 //                                        activity.finish();
                                     }
@@ -235,5 +238,15 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
 
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_CREATE_ENTERPRISE_SUCCESS){
+            if(resultCode == Activity.RESULT_OK){
+                activity.setResult(Activity.RESULT_OK);
+                activity.finish();
+            }
+        }
     }
 }

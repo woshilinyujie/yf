@@ -4,60 +4,46 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
-import android.view.View;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import jh.zkj.com.yf.API.OrderAPI;
-import jh.zkj.com.yf.API.StockAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
 import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
-import jh.zkj.com.yf.Adapter.StockListAdapter;
+import jh.zkj.com.yf.Activity.Stock.StockConfig;
 import jh.zkj.com.yf.Adapter.StockRecyclerAdapter;
-import jh.zkj.com.yf.Bean.SalesmanBean;
-import jh.zkj.com.yf.Bean.TreeListBean;
-import jh.zkj.com.yf.Bean.commodityStockBean;
-import jh.zkj.com.yf.Contract.Stock.CommodityContract;
-import jh.zkj.com.yf.Fragment.Stock.CommodityStockFragment;
-import jh.zkj.com.yf.Fragment.Stock.StockListFragment;
+import jh.zkj.com.yf.Contract.Stock.SerialNoTrackContract;
+import jh.zkj.com.yf.Contract.Stock.SkuStockContract;
+import jh.zkj.com.yf.Fragment.Stock.SerialNoTrackFragment;
+import jh.zkj.com.yf.Fragment.Stock.SkuStockFragment;
 import jh.zkj.com.yf.Mview.StockFilterPopup;
 
 /**
  * Created by wdefer
- * 2018/11/15
- * use 商品库存
+ * 2018/11/16
+ * use
  */
-public class CommodityPresenter implements CommodityContract.ICommodityPresenter{
-    private CommodityStockFragment fragment;
+public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter{
+
+    private SkuStockFragment fragment;
     private MainActivity activity;
-    private ListView listView;
+    private RecyclerView recycler;
+    //页面类型
+    private StockRecyclerAdapter recyclerAdapter;
     //筛选popup
     private StockFilterPopup popup;
-    private StockAPI api;
-    private ArrayList<TreeListBean> nodes;
 
-    public CommodityPresenter(CommodityStockFragment fragment){
+    public SkuStockPresenter(SkuStockFragment fragment){
         this.fragment = fragment;
         activity = (MainActivity) fragment.getActivity();
-        initView();
-        initData();
-        initListener();
+        initPresenter();
     }
 
-    private void initView() {
-        listView = fragment.getListView();
-    }
-
-    private void initData() {
+    private void initPresenter() {
         popup = new StockFilterPopup(activity);
-        listView.setDivider(null);
-        listView.setBackgroundColor(0xffffffff);
+        recycler = fragment.getRecyclerView();
 
-        initAdapter();
-
-        api = new StockAPI(fragment.getContext());
-        getCommodityList();
+        initRecyclerAdapter();
+        initListener();
     }
 
     private void initListener() {
@@ -110,29 +96,34 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                         popup.dismiss();
                         break;
                     }
+
                 }
             }
         });
     }
 
+    //recyclerView兼容跟多形式的嵌套布局 相比listview来说坑会少一些 方便后期维护
+    private void initRecyclerAdapter() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        recycler.setLayoutManager(layoutManager);
+        recyclerAdapter = new StockRecyclerAdapter(fragment, StockConfig.TYPE_CHILD_WAREHOUSE_STOCKS);
+        recycler.setAdapter(recyclerAdapter);
 
-    private void initAdapter() {
-        ArrayList<TreeListBean> nodes = new ArrayList<>();
-        nodes.add(new TreeListBean(1, 0, "Apple iPhone6S 128G 白色"));
-        nodes.add(new TreeListBean(2, 0, "Apple iPhone6S 128G 灰色"));
-        nodes.add(new TreeListBean(3, 0, "Apple iPhone6S 128G 金"));
-        nodes.add(new TreeListBean(4, 1, "A 分仓"));
-        nodes.add(new TreeListBean(5, 2, "A 分仓"));
-        nodes.add(new TreeListBean(6, 3, "A 分仓"));
-        nodes.add(new TreeListBean(7, 3, "B 分仓"));
-        nodes.add(new TreeListBean(8, 4, "A 的子分仓"));
-        try {
-            StockListAdapter<TreeListBean> listAdapter = new StockListAdapter<>(listView,
-                    activity, nodes, 0, true);
-            listView.setAdapter(listAdapter);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        ArrayList<String> arr = new ArrayList<>();
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+        arr.add("1");
+
+        recyclerAdapter.notifyData(arr);
     }
 
     @Override
@@ -143,21 +134,5 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     @Override
     public void showFilterPopup() {
         popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
-    }
-
-    public void getCommodityList() {
-        api.getCommodityList(new OrderAPI.IResultMsg<commodityStockBean>() {
-            @Override
-            public void Result(commodityStockBean bean) {
-                if(bean != null){
-                    
-                }
-            }
-
-            @Override
-            public void Error(String json) {
-
-            }
-        });
     }
 }

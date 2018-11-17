@@ -1,6 +1,6 @@
 package jh.zkj.com.yf.Presenter.My;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -27,8 +28,6 @@ import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.My.MyConfig;
 import jh.zkj.com.yf.Bean.CompanyBean;
 import jh.zkj.com.yf.Bean.EntExamineListBean;
-import jh.zkj.com.yf.Bean.ModifyCRMNameBean;
-import jh.zkj.com.yf.Bean.UpFileBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.My.EnterpriseContract;
 import jh.zkj.com.yf.Mview.CancelDialog;
@@ -55,6 +54,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
     private EntRenameDialog renameDialog;
     private PhotoPopupWindow popupWindow;
     private CancelDialog dialog;
+    private TwinklingRefreshLayout refresh;
 
     public EnterprisePresenter(EnterpriseActivity activity) {
         this.activity = activity;
@@ -65,6 +65,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
 
     private void initView() {
         recycler = activity.getRecycler();
+        refresh = activity.getRefresh();
         activity.setEmptyText(Html.fromHtml("点击 <font color='ffc300'>添加新企业</font> 按钮～"));
 
         api = new MyAPI();
@@ -72,6 +73,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
 
     private void initData() {
         boolean isPassword = activity.getIntent().getBooleanExtra("isPassword", false);
+        refresh.setEnableLoadmore(false);
         initAdapter();
         getCompanyInfo();
         if (!isPassword) {
@@ -81,6 +83,12 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
     }
 
     private void initListener() {
+        refresh.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                getCompanyInfo();
+            }
+        });
     }
 
     private void initAdapter() {
@@ -93,7 +101,9 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
     @Override
     public void createCompany() {
         Intent intent = new Intent(activity, CompanyFilesActivity.class);
-        intent.putExtra("phone", comBean.getStdUser().getMobilePhone());
+        if(comBean != null && comBean.getStdUser() != null){
+            intent.putExtra("phone", comBean.getStdUser().getMobilePhone());
+        }
         activity.startActivityForResult(intent, REQUEST_COMPANY_FILE);
     }
 
@@ -109,6 +119,15 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
 
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_COMPANY_FILE){
+            if(resultCode == Activity.RESULT_OK){
+                getCompanyInfo();
+            }
+        }
     }
 
     /**
@@ -212,6 +231,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
         api.getCompanyInfo(activity, new MyAPI.IResultMsg<CompanyBean>() {
             @Override
             public void Result(CompanyBean bean) {
+                refresh.finishRefreshing();
                 if (bean != null) {
                     comBean = bean;
                     if (bean.getStdUser() != null) {
@@ -232,7 +252,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
 
             @Override
             public void Error(String json) {
-
+                refresh.finishRefreshing();
             }
         });
     }
@@ -305,33 +325,4 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
         });
     }
 
-
-    public void upFile(final String path) {
-        api.upFile(activity, path, new MyAPI.IResultMsg<UpFileBean>() {
-            @Override
-            public void Result(UpFileBean bean) {
-                ModifyHead(bean.getData(), path);
-            }
-
-            @Override
-            public void Error(String json) {
-
-            }
-        });
-    }
-
-
-    public void ModifyHead(String data, final String path) {
-        api.ModifyCRMHead(activity, data, new MyAPI.IResultMsg<ModifyCRMNameBean>() {
-            @Override
-            public void Result(ModifyCRMNameBean bean) {
-                Glide.with(activity).load(path).into(activity.getHeadImg());
-            }
-
-            @Override
-            public void Error(String json) {
-
-            }
-        });
-    }
 }

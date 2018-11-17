@@ -35,7 +35,7 @@ public class OrderScanPresenter implements QRCodeView.Delegate{
 
     public OrderScanPresenter(OrderScanActivity activity) {
         this.activity = activity;
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
     }
 
 

@@ -79,7 +79,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
         if(activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY) != null){
             commodityList = (ArrayList<CommodityInfoBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY);
         }
-        api = new OrderAPI();
+        api = new OrderAPI(activity);
         initAdapter();
 
         pageNum = 1;
