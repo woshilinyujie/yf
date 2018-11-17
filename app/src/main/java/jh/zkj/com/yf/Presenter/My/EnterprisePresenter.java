@@ -130,6 +130,10 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
             if(resultCode == Activity.RESULT_OK){
                 getCompanyInfo();
             }
+        }else if(requestCode == REQUEST_ENTERPRISE_EXAMINE){
+            if(resultCode == Activity.RESULT_OK){
+                getCompanyInfo();
+            }
         }
     }
 
@@ -195,7 +199,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
                     public void onClick(View v) {
                         Intent intent = new Intent(activity, EnterpriseDetailActivity.class);
                         intent.putExtra(MyConfig.TYPE_STRING_COMPANY_BEAN, item);
-                        activity.startActivityForResult(intent, REQUEST_ENTERPRISE_EXAMINE);
+                        activity.startActivity(intent);
                     }
                 });
             }
