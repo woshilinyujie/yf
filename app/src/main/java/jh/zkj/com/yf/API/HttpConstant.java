@@ -36,4 +36,10 @@ public class HttpConstant {
     public static String HTTP_CRM_OPERRATOR_UN_AUDIT = "crm/stdUserApply/operrator/unaudit";
     //商品库存
     public static String HTTP_REPORT_SKUSTOCK_APP = "report/skuStock/app";
+    //分仓库存
+    public static String HTTP_REPORT_SKUSTOCK_APP_STOCKPART = "report/skuStock/app/stockPart";
+    //序列号查询
+    public static String HTTP_BIZ_SERIAL_NO_LIST = "erp/biz/stock/manage/serial/stockSerial";
+    //序列号追踪
+    public static String HTTP_BIZ_SERIAL_NO_TRACK = "erp/biz/stock/manage/serial/track";
 }

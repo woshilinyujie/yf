@@ -48,8 +48,11 @@ public class StockSerialNoFragment extends MBaseFragment {
     ImageView scan;
 
     //历史记录
-    @BindView(R.id.serial_on_stoke_history)
+    @BindView(R.id.serial_on_stoke_history_layout)
     LinearLayout historyLayout;
+    //历史记录
+    @BindView(R.id.serial_on_stoke_history)
+    LinearLayout history;
 
     @BindView(R.id.serial_on_stoke_msg_layout)
     LinearLayout msgLayout;
@@ -126,5 +129,8 @@ public class StockSerialNoFragment extends MBaseFragment {
 
     public LinearLayout getHistoryLayout(){
         return historyLayout;
+    }
+    public LinearLayout getHistory(){
+        return history;
     }
 }

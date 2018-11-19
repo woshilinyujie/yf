@@ -85,12 +85,50 @@
             android:layout_height="@dimen/dp_1"
             app:layout_constraintTop_toBottomOf="@id/stock_msg_layout"/>
 
-        <!-- 放recycler或者多级listView -->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/serial_no_track_recycler"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:layout_height="match_parent">
+
+            <!-- 放recycler或者多级listView -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/serial_no_track_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:id="@+id/serial_no_track_history_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/c_f6f7fb"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dp_16"
+                android:paddingRight="@dimen/dp_16">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_20">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="搜索历史"
+                        android:layout_centerVertical="true"/>
+                    <ImageView
+                        android:layout_width="@dimen/dp_14"
+                        android:layout_height="@dimen/dp_14"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/delete"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/serial_no_track_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
+
+            </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

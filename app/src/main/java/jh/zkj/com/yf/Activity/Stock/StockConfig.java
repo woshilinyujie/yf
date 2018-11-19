@@ -14,4 +14,7 @@ public class StockConfig {
     public static final int TYPE_NUMBER_TRACK = 0x00000003;
     //分仓库存
     public static final int TYPE_CHILD_WAREHOUSE_STOCKS = 0x00000004;
+
+    //分仓库存列表
+    public static final String TYPE_STRING_SKU_STOCK_LIST = "sku_stock_list";
 }

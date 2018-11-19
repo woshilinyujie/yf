@@ -5,11 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import jh.zkj.com.yf.Activity.Stock.ChildWarehouseActivity;
+import jh.zkj.com.yf.Activity.Stock.StockConfig;
+import jh.zkj.com.yf.Bean.SkuStockBean;
 import jh.zkj.com.yf.Contract.Stock.ChildWarehouseContract;
+import jh.zkj.com.yf.Mutils.BigDecimalUtils;
 import jh.zkj.com.yf.R;
 
 /**
@@ -23,48 +29,36 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
     private RecyclerView recycler;
     private ChildWarehouseAdapter adapter;
 
-    public ChildWarehousePresenter(ChildWarehouseActivity activity){
+    public ChildWarehousePresenter(ChildWarehouseActivity activity) {
         this.activity = activity;
         initPresenter();
     }
 
     private void initPresenter() {
         recycler = activity.getRecycler();
-
-        initAdapter();
+        ArrayList<SkuStockBean.ListBean.SkuFullNameListBean> SkuFullList =
+                (ArrayList<SkuStockBean.ListBean.SkuFullNameListBean>) activity.getIntent().getSerializableExtra(StockConfig.TYPE_STRING_SKU_STOCK_LIST);
+        initAdapter(SkuFullList);
     }
 
-    private void initAdapter() {
+    private void initAdapter(ArrayList<SkuStockBean.ListBean.SkuFullNameListBean> list) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(layoutManager);
         adapter = new ChildWarehouseAdapter();
         recycler.setAdapter(adapter);
 
-        ArrayList<Object> arr = new ArrayList<>();
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-        arr.add(new Object());
-
-        adapter.notifyData(arr);
+        adapter.notifyData(list);
     }
 
     /**
      * 使用：
      */
-    class ChildWarehouseAdapter extends RecyclerView.Adapter<ChildWarehouseAdapter.ViewHolder>{
+    class ChildWarehouseAdapter extends RecyclerView.Adapter<ChildWarehouseAdapter.ViewHolder> {
 
-        private ArrayList<Object> mArr = new ArrayList<>();
+        private ArrayList<SkuStockBean.ListBean.SkuFullNameListBean> mArr = new ArrayList<>();
 
         //后期传入刷新
-        public void notifyData(ArrayList<Object> arr) {
+        public void notifyData(ArrayList<SkuStockBean.ListBean.SkuFullNameListBean> arr) {
             mArr.clear();
             mArr.addAll(arr);
             notifyDataSetChanged();
@@ -76,8 +70,8 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
             return new ViewHolder(view);
         }
 
-        public Object getItem(int position){
-            if(mArr != null && mArr.size() > position){
+        public SkuStockBean.ListBean.SkuFullNameListBean getItem(int position) {
+            if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
             return null;
@@ -90,7 +84,12 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-
+            SkuStockBean.ListBean.SkuFullNameListBean item = getItem(position);
+            if(item != null){
+                holder.fullName.setText(item.getSku_full_name());
+                holder.number.setText(String.valueOf(item.getQty()));
+                holder.price.setText("￥" + BigDecimalUtils.getBigDecimal("" + item.getPrice(), 2).doubleValue());
+            }
         }
 
         @Override
@@ -98,10 +97,19 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
             return mArr == null ? 0 : mArr.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder{
+        class ViewHolder extends RecyclerView.ViewHolder {
+            @BindView(R.id.warehouse_detail_price)
+            TextView price;
+            @BindView(R.id.warehouse_detail_number_text)
+            TextView number;
+            @BindView(R.id.warehouse_detail_full_name)
+            TextView fullName;
             private View view;
+
             public ViewHolder(View itemView) {
                 super(itemView);
+                ButterKnife.bind(this, itemView);
+                view = itemView;
             }
         }
     }
