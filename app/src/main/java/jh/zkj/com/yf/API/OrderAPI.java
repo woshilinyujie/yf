@@ -38,7 +38,7 @@ public class OrderAPI {
     public String TOKEN = "bearer 7cf3dac3-6f53-4a41-86a7-07f2ab75702e";
 
     public OrderAPI(Context context){
-//        TOKEN = "bearer " + PrefUtils.getString(context, "erp_token", "");
+        TOKEN = "bearer " + PrefUtils.getString(context, "erp_token", "");
         API = "http://192.168.68.128:3001/";
     }
 
