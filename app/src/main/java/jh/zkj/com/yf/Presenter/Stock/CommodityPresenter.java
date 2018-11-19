@@ -5,8 +5,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -40,6 +43,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     private StockAPI api;
     ArrayList<CommodityTreeBean> nodes = new ArrayList<>();
     private StockListAdapter<CommodityTreeBean> listAdapter;
+    private int pageNum;
+    private int pageSize = 10;
 
 
     public CommodityPresenter(CommodityStockFragment fragment){
@@ -62,10 +67,25 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
 //        initAdapter();
 
         api = new StockAPI(fragment.getContext());
-        getCommodityList();
+        pageNum = 1;
+        getCommodityList("", "", "", "", pageNum, pageSize);
     }
 
     private void initListener() {
+
+        fragment.getSearch().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                //回车键
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    pageNum = 1;
+//                    searchText = activity.getSearch().getText().toString();
+//                    getClientInfo(searchText, pageNum, pageSize, refreshMsg);
+                }
+                return true;
+            }
+        });
+
         popup.setListener(new StockFilterPopup.Listener() {
             @Override
             public void onItemClick(int position) {
@@ -149,8 +169,10 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
     }
 
-    public void getCommodityList() {
-        api.getCommodityList(new OrderAPI.IResultMsg<commodityStockBean>() {
+    public void getCommodityList(String classifyUuid, String companyUuid, String brandUuid
+            , String skuUuid, int pageNumber, int pageSize) {
+        api.getCommodityList(classifyUuid, companyUuid, brandUuid, skuUuid, pageNumber, pageSize
+                , new OrderAPI.IResultMsg<commodityStockBean>() {
             @Override
             public void Result(commodityStockBean bean) {
                 if(bean != null){

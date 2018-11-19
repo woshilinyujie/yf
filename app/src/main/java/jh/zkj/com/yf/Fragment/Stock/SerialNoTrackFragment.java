@@ -47,6 +47,13 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
 
     @BindView(R.id.serial_no_track_msg_layout)
     LinearLayout msgLayout;
+    //历史搜索记录
+    @BindView(R.id.serial_no_track_history)
+    LinearLayout history;
+    //历史记录Layout
+    @BindView(R.id.serial_no_track_history_layout)
+    LinearLayout historyLayout;
+
     private Unbinder bind;
     private SerialNoTrackPresenter presenter;
     private View mainView;
@@ -112,5 +119,13 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
 
     public void setSearchText(String s){
         search.setText(s);
+    }
+
+    public LinearLayout getHistory(){
+        return history;
+    }
+
+    public LinearLayout getHistoryLayout(){
+        return historyLayout;
     }
 }
