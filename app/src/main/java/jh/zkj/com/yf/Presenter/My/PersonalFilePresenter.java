@@ -20,10 +20,12 @@ import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.My.PersonalFileActivity;
 import jh.zkj.com.yf.Bean.CalibrateIdCardBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardTokenBean;
+import jh.zkj.com.yf.Bean.JoinCompanyBean;
 import jh.zkj.com.yf.Bean.JsonBean;
 import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract;
 import jh.zkj.com.yf.Mutils.GetJsonDataUtil;
 import jh.zkj.com.yf.Mview.CancelDialog;
+import jh.zkj.com.yf.Mview.MDialog;
 import jh.zkj.com.yf.Mview.PhotoPopupWindow;
 import jh.zkj.com.yf.R;
 
@@ -108,17 +110,11 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
                 String id = activity.getPersonalFileId().getText().toString();
                 String regionFullName = activity.getPersonalFileAddress().toString();
                 String identAddress = activity.getPersonalFileNameDetailedAddress().getText().toString();
-                myAPI.joinCompanySave(activity, phone, password, password, code, name, userName, id, sex, regionFullName, identAddress, identImgFront, identImgBack, new MyAPI.IResultMsg() {
+                myAPI.joinCompanySave(activity, phone, password, password, code, name, userName, id, sex, regionFullName, identAddress, identImgFront, identImgBack, new MyAPI.IResultMsg<JoinCompanyBean>() {
                     @Override
-                    public void Result(Object bean) {
-                        final CancelDialog dialog = new CancelDialog(activity);
+                    public void Result(JoinCompanyBean bean) {
+                        final MDialog dialog = new MDialog(activity);
                         dialog.show();
-                        dialog.getCancle().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
                         dialog.getSure().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
