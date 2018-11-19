@@ -45,4 +45,5 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.51'
     compile project(path: ':takephoto_library')
     implementation files('libs/sun.misc.base64decoder 2.jar')
+    compile 'ch.ielse:switchbutton:1.0.1'
 }
