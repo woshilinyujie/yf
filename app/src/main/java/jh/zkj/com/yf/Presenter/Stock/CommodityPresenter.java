@@ -45,6 +45,7 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     private StockListAdapter<CommodityTreeBean> listAdapter;
     private int pageNum;
     private int pageSize = 10;
+    private String searchText;
 
 
     public CommodityPresenter(CommodityStockFragment fragment){
@@ -79,8 +80,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                 //回车键
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     pageNum = 1;
-//                    searchText = activity.getSearch().getText().toString();
-//                    getClientInfo(searchText, pageNum, pageSize, refreshMsg);
+                    searchText = fragment.getSearch().getText().toString();
+                    getCommodityList("", "", "", "", pageNum, pageSize);
                 }
                 return true;
             }
