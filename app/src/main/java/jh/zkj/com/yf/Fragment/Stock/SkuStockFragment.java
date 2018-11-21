@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -42,6 +43,8 @@ public class SkuStockFragment extends MBaseFragment implements SkuStockContract.
     ImageView scan;
     @BindView(R.id.sku_stock_msg_layout)
     LinearLayout msgLayout;
+    @BindView(R.id.sku_stock_title_layout)
+    RelativeLayout titleLayout;
     private Unbinder bind;
     private SkuStockPresenter presenter;
     private View mainView;
@@ -64,12 +67,12 @@ public class SkuStockFragment extends MBaseFragment implements SkuStockContract.
         switch (view.getId()) {
             //清空edittext
             case R.id.sku_stock_clear_img: {
-
+                setSearchText("");
                 break;
             }
 
             case R.id.sku_stock_filter: {
-
+                presenter.showFilterPopup();
                 break;
             }
         }
@@ -103,5 +106,9 @@ public class SkuStockFragment extends MBaseFragment implements SkuStockContract.
 
     public void setSearchText(String s){
         search.setText(s);
+    }
+
+    public RelativeLayout getTitleLayout(){
+        return titleLayout;
     }
 }

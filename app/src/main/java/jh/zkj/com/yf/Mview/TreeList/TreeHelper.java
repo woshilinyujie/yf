@@ -104,6 +104,7 @@ public class TreeHelper {
 			int id = -1;
 			int pId = -1;
 			String name = null;
+			Object obj = null;
 
 			Class<? extends Object> clazz = t.getClass();
 			Field[] declaredFields = clazz.getDeclaredFields();
@@ -134,6 +135,11 @@ public class TreeHelper {
 					continue;
 				}
 
+				if ("obj".equals(f.getName())) {
+					f.setAccessible(true);
+					obj = f.get(t);
+				}
+
 //				if (id == -1 && pId == -1 && name == null) {
 //					break;
 //				}
@@ -141,6 +147,7 @@ public class TreeHelper {
 
 			node = new Node(id, pId, name);
 			node.setHideChecked(isHide);
+			node.setObj(obj);
 			nodes.add(node);
 		}
 

@@ -42,14 +42,32 @@
                 android:includeFontPadding="false"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <ImageView
-                android:id="@+id/commodity_stock_arrow"
-                android:layout_width="@dimen/dp_10"
-                android:layout_height="@dimen/dp_5"
-                android:src="@mipmap/bottom_arrow"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_centerVertical="true"
+                android:gravity="center_vertical"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_32"/>
+                android:layout_marginRight="@dimen/dp_32">
+
+                <TextView
+                    android:id="@+id/commodity_stock_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_14"
+                    android:text="Apple i"
+                    android:textColor="@color/c_333333"
+                    android:includeFontPadding="false"
+                    android:paddingRight="@dimen/dp_2"/>
+
+                <ImageView
+                    android:id="@+id/commodity_stock_arrow"
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_5"
+                    android:src="@mipmap/bottom_arrow"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

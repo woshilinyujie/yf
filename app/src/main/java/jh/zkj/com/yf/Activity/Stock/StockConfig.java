@@ -14,7 +14,22 @@ public class StockConfig {
     public static final int TYPE_NUMBER_TRACK = 0x00000003;
     //分仓库存
     public static final int TYPE_CHILD_WAREHOUSE_STOCKS = 0x00000004;
-
     //分仓库存列表
-    public static final String TYPE_STRING_SKU_STOCK_LIST = "sku_stock_list";
+    public static final String TYPE_STRING_SKU_STOCK_BEAN = "sku_stock_bean";
+    //筛选状态
+    public static final String TYPE_STRING_FILTER_STATUS = "filter_status";
+    //数据
+    public static final String TYPE_STRING_FILTER_DATA = "filter_data";
+
+
+    //公司
+    public static final int STATUS_TYPE_COMPANY = 1;
+    //仓库
+    public static final int STATUS_TYPE_WAREHOUSE = 2;
+    //商品分类
+    public static final int STATUS_TYPE_CLASSIFICATION = 3;
+    //品牌
+    public static final int STATUS_TYPE_BRAND = 4;
+    //型号
+    public static final int STATUS_TYPE_MODEL = 5;
 }

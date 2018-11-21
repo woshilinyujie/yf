@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Fragment.Stock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +46,12 @@ public class CommodityStockFragment extends MBaseFragment {
     //抽屉listview
     @BindView(R.id.comm_stock_list)
     ListView listView;
+    //抽屉listview
+    @BindView(R.id.comm_stock_refresh)
+    TwinklingRefreshLayout refresh;
+    //抽屉listview
+    @BindView(R.id.comm_stock_title_layout)
+    RelativeLayout titleLayout;
 
     @BindView(R.id.comm_stock_msg_layout)
     LinearLayout msgLayout;
@@ -66,13 +76,13 @@ public class CommodityStockFragment extends MBaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //清空edittext
-            case R.id.stock_clear_img: {
-
+            case R.id.comm_stock_clear_img: {
+                setSearchText("");
                 break;
             }
 
-            case R.id.stock_filter: {
-
+            case R.id.comm_stock_filter: {
+                presenter.showFilterPopup();
                 break;
             }
         }
@@ -84,13 +94,6 @@ public class CommodityStockFragment extends MBaseFragment {
         bind.unbind();
     }
 
-    public ImageView getmCommStockFilter() {
-        return mCommStockFilter;
-    }
-
-    public ImageView getmCommStockClearImg() {
-        return mCommStockClearImg;
-    }
 
     public EditText getSearch() {
         return search;
@@ -114,5 +117,19 @@ public class CommodityStockFragment extends MBaseFragment {
 
     public void setSearchText(String s){
         search.setText(s);
+    }
+
+    public TwinklingRefreshLayout getRefresh() {
+        return refresh;
+    }
+
+    public RelativeLayout getTitleLayout() {
+        return titleLayout;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -11,6 +11,11 @@ import com.lzy.okgo.model.Response;
 import java.util.ArrayList;
 
 import jh.zkj.com.yf.Bean.BaseBean;
+import jh.zkj.com.yf.Bean.FilterBaseWarehouseBean;
+import jh.zkj.com.yf.Bean.FilterBrandBean;
+import jh.zkj.com.yf.Bean.FilterClassifyBean;
+import jh.zkj.com.yf.Bean.FilterCompanyBean;
+import jh.zkj.com.yf.Bean.FilterProductBean;
 import jh.zkj.com.yf.Bean.SerialNoBean;
 import jh.zkj.com.yf.Bean.SerialNoTrackBean;
 import jh.zkj.com.yf.Bean.SkuStockBean;
@@ -27,7 +32,7 @@ public class StockAPI {
     private final Context context;
     public String API = APIConstant.API + ":3001/";
 
-    public String TOKEN = "bearer a5b5729e-4ca8-4f76-a6ad-c6eac3fa7be7";
+    public String TOKEN = "bearer edc3e08f-ba6f-4e86-aa82-6f38d412bc52";
     private final LoadingDialog dialog;
 
     public StockAPI(Context context){
@@ -47,11 +52,12 @@ public class StockAPI {
      * @param pageSize 每页展示数
      * @param iResultMsg msg
      */
-    public void getCommodityList(String classifyUuid, String companyUuid, String brandUuid
+    public void getCommodityList(String skuFullName, String classifyUuid, String companyUuid, String brandUuid
             , String skuUuid, int pageNumber, int pageSize, final OrderAPI.IResultMsg<commodityStockBean> iResultMsg){
         dialog.showLoading();
         OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKUSTOCK_APP)
                 .headers("Authorization", TOKEN)
+                .params("skuFullName", skuFullName)
                 .params("classifyUuid", classifyUuid)
                 .params("companyUuid", companyUuid)
                 .params("brandUuid", brandUuid)
@@ -80,13 +86,31 @@ public class StockAPI {
                 });
     }
 
-    //库存序列号
-    public void getSerialNoList(String keywords, final OrderAPI.IResultMsg<SerialNoBean> iResultMsg){
+    /**
+     * 库存序列号
+     * @param keywords 搜索关键字
+     * @param classifyUuid 商品分类
+     * @param companyUuid 公司uuid
+     * @param brandUuid 品牌uuid
+     * @param skuUuid 型号uuid
+     * @param warehouseUuid 仓库uuid
+     * @param iResultMsg msg
+     */
+    public void getSerialNoList(String keywords, String classifyUuid, String companyUuid
+            , String brandUuid, String skuUuid, String warehouseUuid
+            , int pageNum, int pageSize, final OrderAPI.IResultMsg<SerialNoBean> iResultMsg){
         dialog.showLoading();
 
         OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SERIAL_NO_LIST)
                 .headers("Authorization", TOKEN)
                 .params("keywords", keywords)
+                .params("classifyUuid", classifyUuid)
+                .params("companyUuid", companyUuid)
+                .params("brandUuid", brandUuid)
+                .params("skuUuid", skuUuid)
+                .params("pageNum", pageNum)
+                .params("pageSize", pageSize)
+                .params("warehouseUuid", warehouseUuid)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -155,6 +179,151 @@ public class StockAPI {
 
                         BaseBean<SkuStockBean> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<SkuStockBean>>() {});
+
+                        iResultMsg.Result(baseBean.getData());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        iResultMsg.Error(response.body());
+                    }
+                });
+    }
+
+    //公司下拉选择
+    public void getFilterCompany(final OrderAPI.IResultMsg<ArrayList<FilterCompanyBean>> iResultMsg){
+        dialog.showLoading();
+
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_COMPANY)
+                .headers("Authorization", TOKEN)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        BaseBean<ArrayList<FilterCompanyBean>> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<FilterCompanyBean>>>() {});
+
+                        iResultMsg.Result(baseBean.getData());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        iResultMsg.Error(response.body());
+                    }
+                });
+    }
+
+    //商品分类下拉选择
+    public void getFilterClassify(final OrderAPI.IResultMsg<ArrayList<FilterClassifyBean>> iResultMsg){
+        dialog.showLoading();
+
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_CLASSIFY)
+                .headers("Authorization", TOKEN)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        BaseBean<ArrayList<FilterClassifyBean>> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<FilterClassifyBean>>>() {});
+
+                        iResultMsg.Result(baseBean.getData());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        iResultMsg.Error(response.body());
+                    }
+                });
+    }
+
+    //商品品牌下拉选择
+    public void getFilterBrand(final OrderAPI.IResultMsg<ArrayList<FilterBrandBean>> iResultMsg){
+        dialog.showLoading();
+
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_BRAND)
+                .headers("Authorization", TOKEN)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        BaseBean<ArrayList<FilterBrandBean>> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<FilterBrandBean>>>() {});
+
+                        iResultMsg.Result(baseBean.getData());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        iResultMsg.Error(response.body());
+                    }
+                });
+    }
+
+    //商品型号下拉选择
+    public void getFilterProduct(final OrderAPI.IResultMsg<ArrayList<FilterProductBean>> iResultMsg){
+        dialog.showLoading();
+
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_PRODUCT)
+                .headers("Authorization", TOKEN)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        BaseBean<ArrayList<FilterProductBean>> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<FilterProductBean>>>() {});
+
+                        iResultMsg.Result(baseBean.getData());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        iResultMsg.Error(response.body());
+                    }
+                });
+    }
+
+    //仓库下拉选择
+    public void getFilterBaseWarehouse(final OrderAPI.IResultMsg<ArrayList<FilterBaseWarehouseBean>> iResultMsg){
+        dialog.showLoading();
+
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_BASE_WAREHOUSE_SELECT_LIST)
+                .headers("Authorization", TOKEN)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if(dialog.isShowing())
+                            dialog.dismissLoading();
+
+                        BaseBean<ArrayList<FilterBaseWarehouseBean>> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<FilterBaseWarehouseBean>>>() {});
 
                         iResultMsg.Result(baseBean.getData());
                     }

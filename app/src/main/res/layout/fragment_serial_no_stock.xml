@@ -41,6 +41,7 @@
             android:layout_toLeftOf="@id/serial_on_stoke_filter">
 
             <ImageView
+                android:id="@+id/serial_no_stoke_search_img"
                 android:layout_width="@dimen/dp_10"
                 android:layout_height="@dimen/dp_10"
                 android:src="@mipmap/find"
@@ -64,6 +65,8 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:background="@null"
+                android:imeOptions="actionSearch"
+                android:layout_toRightOf="@id/serial_no_stoke_search_img"
                 android:layout_marginLeft="@dimen/dp_4"/>
 
         </RelativeLayout>
@@ -94,51 +97,57 @@
             android:layout_height="@dimen/dp_1"
             app:layout_constraintTop_toBottomOf="@id/stock_msg_layout"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- 放recycler或者多级listView -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/serial_on_stoke_recycler"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"/>
-
-            <LinearLayout
-                android:id="@+id/serial_on_stoke_history_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/c_f6f7fb"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/dp_16"
-                android:paddingRight="@dimen/dp_16">
-                <RelativeLayout
+                android:layout_height="match_parent">
+                <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+                    android:id="@+id/serial_on_stoke_refresh"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_20">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="搜索历史"
-                        android:layout_centerVertical="true"/>
-                    <ImageView
-                        android:layout_width="@dimen/dp_14"
-                        android:layout_height="@dimen/dp_14"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/delete"/>
-                </RelativeLayout>
+                    android:layout_height="match_parent">
+
+                    <!-- 放recycler或者多级listView -->
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/serial_on_stoke_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"/>
+
+                </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
                 <LinearLayout
-                    android:id="@+id/serial_on_stoke_history"
+                    android:id="@+id/serial_on_stoke_history_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:layout_height="match_parent"
+                    android:background="@color/c_f6f7fb"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/dp_16"
+                    android:paddingRight="@dimen/dp_6">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_20">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="搜索历史"
+                            android:layout_centerVertical="true"/>
+                        <ImageView
+                            android:layout_width="@dimen/dp_14"
+                            android:layout_height="@dimen/dp_14"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/delete"/>
+                    </RelativeLayout>
 
-            </LinearLayout>
-        </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/serial_on_stoke_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
 
+                </LinearLayout>
+            </RelativeLayout>
 
     </LinearLayout>
 

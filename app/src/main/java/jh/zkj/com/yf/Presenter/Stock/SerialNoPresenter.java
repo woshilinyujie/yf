@@ -9,13 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -25,7 +31,14 @@ import jh.zkj.com.yf.API.StockAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
+import jh.zkj.com.yf.Activity.Stock.StockConfig;
+import jh.zkj.com.yf.Bean.FilterBaseWarehouseBean;
+import jh.zkj.com.yf.Bean.FilterBrandBean;
+import jh.zkj.com.yf.Bean.FilterClassifyBean;
+import jh.zkj.com.yf.Bean.FilterCompanyBean;
+import jh.zkj.com.yf.Bean.FilterProductBean;
 import jh.zkj.com.yf.Bean.SerialNoBean;
+import jh.zkj.com.yf.Bean.StockFilterBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Stock.SerialNoContract;
 import jh.zkj.com.yf.Fragment.Stock.StockSerialNoFragment;
@@ -40,6 +53,7 @@ import jh.zkj.com.yf.R;
  */
 public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
 
+    private static final int REQUEST_FILTER_LIST = 1;
 
     private StockSerialNoFragment fragment;
     private MainActivity activity;
@@ -51,6 +65,12 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     private LinearLayout historyLayout;
     private LinearLayout history;
     private StockAPI api;
+    private StockFilterBean filterBean = new StockFilterBean();
+    private TwinklingRefreshLayout refresh;
+    private String searchText;
+    private ArrayList<SerialNoBean.RecordsBean> records;
+    private int pageNum = 1;
+    private int pageSize = 10;
 
     public SerialNoPresenter(StockSerialNoFragment fragment) {
         this.fragment = fragment;
@@ -59,11 +79,9 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     }
 
     private void initPresenter() {
-
         initView();
         initData();
         initListener();
-
     }
 
     private void initView() {
@@ -71,22 +89,24 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
         recycler = fragment.getRecyclerView();
         historyLayout = fragment.getHistoryLayout();
         history = fragment.getHistory();
+        refresh = fragment.getRefresh();
     }
 
     private void initData() {
         initRecyclerAdapter();
         initHistory();
         initListener();
+        filterBean.cleanBean();
+        popup.setData(filterBean);
 
         api = new StockAPI(activity);
-        getSerialNoList("");
     }
 
     private void initHistory() {
         WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels - DpUtils.dip2px(activity, 16f) * 2;         // 屏幕宽度（像素）
+        int width = dm.widthPixels - DpUtils.dip2px(activity, 16f) - DpUtils.dip2px(activity, 6f);         // 屏幕宽度（像素）
 
         String s[] = {"11", "123", "4321", "asdfg", "zxcvbn", "你", "宛如少女的猫", "我并不想加班", "阿斯顿发生大发发士大夫撒打算的"};
         LinearLayout linear = null;
@@ -95,7 +115,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
             if (history.getChildCount() > 2) {
                 break;
             }
-            TextView tv = new TextView(activity);
+            final TextView tv = new TextView(activity);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, 0, DpUtils.dip2px(activity, 10f), 0);
@@ -111,7 +131,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
             if (linear == null) {
                 linear = new LinearLayout(activity);
                 linear.setOrientation(LinearLayout.HORIZONTAL);
-                linear.setPadding(0, 0, 0, DpUtils.dip2px(activity, 10f));
+                linear.setPadding(0, DpUtils.dip2px(activity, 10f), 0, 0);
                 history.addView(linear);
             }
             linear.addView(tv);
@@ -127,64 +147,118 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                         pix = childAt.getMeasuredWidth() + DpUtils.dip2px(activity, 10f);
                         linear = new LinearLayout(activity);
                         linear.setOrientation(LinearLayout.HORIZONTAL);
-                        linear.setPadding(0, 0, 0, DpUtils.dip2px(activity, 10f));
+                        linear.setPadding(0, DpUtils.dip2px(activity, 10f), 0, 0);
                         linear.addView(tv);
                         history.addView(linear);
                     }
                 }
             }
+
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    searchText = tv.getText().toString();
+                    pageNum = 1;
+                    getSerialNoList(searchText
+                            , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                            , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                            , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                            , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
+                            , pageNum, pageSize, refreshMsg);
+                    fragment.getSearch().setText(searchText);
+                    fragment.getSearch().setSelection(searchText.length());
+                }
+            });
         }
 
     }
 
     private void initListener() {
+
+        fragment.getSearch().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                //回车键
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    searchText = fragment.getSearch().getText().toString();
+                    pageNum = 1;
+                    getSerialNoList(searchText
+                            , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                            , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                            , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                            , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
+                            , pageNum, pageSize, refreshMsg);
+                }
+                return true;
+            }
+        });
+
+        refresh.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                pageNum = 1;
+                getSerialNoList(searchText
+                        , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                        , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                        , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
+                        , pageNum, pageSize, refreshMsg);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                pageNum ++;
+                getSerialNoList(searchText
+                        , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                        , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                        , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
+                        , pageNum, pageSize, loadMoreMsg);
+            }
+        });
+
+
         popup.setListener(new StockFilterPopup.Listener() {
             @Override
             public void onItemClick(int position) {
                 switch (position) {
                     //公司
-                    case StockFilterPopup.CLICK_TYPE_COMPANY: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "公司");
-                        activity.startActivity(intent);
-                        break;
-                    }
+                    case StockConfig.STATUS_TYPE_COMPANY:
                     //仓库
-                    case StockFilterPopup.CLICK_TYPE_WAREHOUSE: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "仓库");
-                        activity.startActivity(intent);
-                        break;
-                    }
+                    case StockConfig.STATUS_TYPE_WAREHOUSE:
                     //商品分类
-                    case StockFilterPopup.CLICK_TYPE_CLASSIFICATION: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "商品分类");
-                        activity.startActivity(intent);
-                        break;
-                    }
+                    case StockConfig.STATUS_TYPE_CLASSIFICATION:
                     //品牌
-                    case StockFilterPopup.CLICK_TYPE_BRAND: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "品牌");
-                        activity.startActivity(intent);
-                        break;
-                    }
+                    case StockConfig.STATUS_TYPE_BRAND:
                     //型号
-                    case StockFilterPopup.CLICK_TYPE_MODEL: {
+                    case StockConfig.STATUS_TYPE_MODEL: {
                         Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "型号");
-                        activity.startActivity(intent);
+                        intent.putExtra(StockConfig.TYPE_STRING_FILTER_STATUS, position);
+                        intent.putExtra(StockConfig.TYPE_STRING_FILTER_DATA, filterBean);
+                        fragment.startActivityForResult(intent, REQUEST_FILTER_LIST);
                         break;
                     }
                     //重置
                     case StockFilterPopup.CLICK_TYPE_RESET: {
                         popup.reset();
+                        filterBean.cleanBean();
                         break;
                     }
                     //确认
                     case StockFilterPopup.CLICK_TYPE_CONFIRM: {
                         popup.dismiss();
+                        pageNum = 1;
+                        getSerialNoList(searchText
+                                , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                                , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                                , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                                , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
+                                , pageNum, pageSize, refreshMsg);
                         break;
                     }
 
@@ -208,7 +282,30 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
 
     @Override
     public void showFilterPopup() {
-        popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
+        popup.showAsDropDown(fragment.getTitleLayout(), 0, 0);
+//        popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == FilterListPresenter.REQUEST_COMPANY){
+            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+            filterBean.setComBean((FilterCompanyBean) bean);
+        }else if(resultCode == FilterListPresenter.REQUEST_WAREHOUSE){
+            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+            filterBean.setWarehouseBean((FilterBaseWarehouseBean) bean);
+        }else if(resultCode == FilterListPresenter.REQUEST_CLASSIFICATION){
+            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+            filterBean.setClassifyBean((FilterClassifyBean) bean);
+        }else if(resultCode == FilterListPresenter.REQUEST_BRAND){
+            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+            filterBean.setBrandBean((FilterBrandBean) bean);
+        }else if(resultCode == FilterListPresenter.REQUEST_MODEL){
+            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+            filterBean.setProductBean((FilterProductBean) bean);
+        }
+
+        popup.setData(filterBean);
     }
 
     /**
@@ -314,25 +411,50 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
 
     //**********************************************************************************************
 
-    public void getSerialNoList(String keywords) {
-        api.getSerialNoList(keywords, new OrderAPI.IResultMsg<SerialNoBean>() {
-            @Override
-            public void Result(SerialNoBean bean) {
-                if (bean != null) {
-                    ArrayList<SerialNoBean.RecordsBean> records = bean.getRecords();
-                    if(records != null && records.size() > 0){
-                        adapter.notifyData(records);
-                        historyLayout.setVisibility(View.GONE);
-                    }else{
-                        historyLayout.setVisibility(View.VISIBLE);
-                    }
+    public void getSerialNoList(String keywords, String classifyUuid, String companyUuid
+            , String brandUuid, String skuUuid, String warehouseUuid
+            , int pageNum, int pageSize, OrderAPI.IResultMsg<SerialNoBean> msg) {
+        refresh.setEnableLoadmore(true);
+        api.getSerialNoList(keywords, classifyUuid, brandUuid, skuUuid, warehouseUuid, companyUuid
+                , pageNum, pageSize, msg);
+    }
+
+    OrderAPI.IResultMsg<SerialNoBean> refreshMsg = new OrderAPI.IResultMsg<SerialNoBean>() {
+        @Override
+        public void Result(SerialNoBean bean) {
+            if (bean != null) {
+                records = bean.getRecords();
+                if(records != null && records.size() > 0){
+                    adapter.notifyData(records);
+                    historyLayout.setVisibility(View.GONE);
+                }else{
+                    historyLayout.setVisibility(View.VISIBLE);
                 }
             }
+        }
 
-            @Override
-            public void Error(String json) {
+        @Override
+        public void Error(String json) {
 
+        }
+    };
+
+    OrderAPI.IResultMsg<SerialNoBean> loadMoreMsg = new OrderAPI.IResultMsg<SerialNoBean>() {
+        @Override
+        public void Result(SerialNoBean bean) {
+            if (bean != null) {
+                if(bean.getRecords() != null && bean.getRecords().size() > 0){
+                    records.addAll(bean.getRecords());
+                    adapter.notifyData(records);
+                }else{
+                    refresh.setEnableLoadmore(false);
+                }
             }
-        });
-    }
+        }
+
+        @Override
+        public void Error(String json) {
+
+        }
+    };
 }

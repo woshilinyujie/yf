@@ -29,7 +29,7 @@ public class CommodityTreeBean {
     /**
      * 库存数量
      */
-    private long qty;
+    private Object obj;
 
 
     public CommodityTreeBean(int id, int pId, String name, long qty) {
@@ -37,7 +37,7 @@ public class CommodityTreeBean {
         this.id = id;
         this.pId = pId;
         this.name = name;
-        this.qty = qty;
+        this.obj = qty;
     }
 
     public int getId() {
@@ -71,11 +71,11 @@ public class CommodityTreeBean {
         this.length = length;
     }
 
-    public long getQty() {
-        return qty;
+    public Object getQty() {
+        return obj;
     }
 
-    public void setQty(long qty) {
-        this.qty = qty;
+    public void setQty(Object qty) {
+        this.obj = qty;
     }
 }

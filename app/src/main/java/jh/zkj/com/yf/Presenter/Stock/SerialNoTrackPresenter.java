@@ -8,10 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -76,63 +78,75 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         initRecyclerAdapter();
 
         api = new StockAPI(activity);
-        getSerialNoTrack("");
     }
 
     private void initListener() {
-        popup.setListener(new StockFilterPopup.Listener() {
-            @Override
-            public void onItemClick(int position) {
-                switch (position) {
-                    //公司
-                    case StockFilterPopup.CLICK_TYPE_COMPANY: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "公司");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //仓库
-                    case StockFilterPopup.CLICK_TYPE_WAREHOUSE: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "仓库");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //商品分类
-                    case StockFilterPopup.CLICK_TYPE_CLASSIFICATION: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "商品分类");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //品牌
-                    case StockFilterPopup.CLICK_TYPE_BRAND: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "品牌");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //型号
-                    case StockFilterPopup.CLICK_TYPE_MODEL: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "型号");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //重置
-                    case StockFilterPopup.CLICK_TYPE_RESET: {
-                        popup.reset();
-                        break;
-                    }
-                    //确认
-                    case StockFilterPopup.CLICK_TYPE_CONFIRM: {
-                        popup.dismiss();
-                        break;
-                    }
 
+        fragment.getSearch().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                //回车键
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    getSerialNoTrack(fragment.getSearch().getText().toString());
                 }
+                return true;
             }
         });
+
+
+//        popup.setListener(new StockFilterPopup.Listener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                switch (position) {
+//                    //公司
+//                    case StockFilterPopup.CLICK_TYPE_COMPANY: {
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "公司");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //仓库
+//                    case StockFilterPopup.CLICK_TYPE_WAREHOUSE: {
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "仓库");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //商品分类
+//                    case StockFilterPopup.CLICK_TYPE_CLASSIFICATION: {
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "商品分类");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //品牌
+//                    case StockFilterPopup.CLICK_TYPE_BRAND: {
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "品牌");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //型号
+//                    case StockFilterPopup.CLICK_TYPE_MODEL: {
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "型号");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //重置
+//                    case StockFilterPopup.CLICK_TYPE_RESET: {
+//                        popup.reset();
+//                        break;
+//                    }
+//                    //确认
+//                    case StockFilterPopup.CLICK_TYPE_CONFIRM: {
+//                        popup.dismiss();
+//                        break;
+//                    }
+//
+//                }
+//            }
+//        });
     }
 
 
@@ -140,7 +154,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels - DpUtils.dip2px(activity, 16f) * 2;         // 屏幕宽度（像素）
+        int width = dm.widthPixels - DpUtils.dip2px(activity, 16f) - DpUtils.dip2px(activity, 6f);
 
         String s[] = {"11", "123", "4321", "asdfg哈哈哈", "zxcvbn", "你", "宛如少女的猫", "我并不想加班", "阿斯顿发生大发发士大夫撒打算的"};
         LinearLayout linear = null;
@@ -149,7 +163,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             if (history.getChildCount() > 2) {
                 break;
             }
-            TextView tv = new TextView(activity);
+            final TextView tv = new TextView(activity);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, 0, DpUtils.dip2px(activity, 10f), 0);
@@ -165,10 +179,11 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             if (linear == null) {
                 linear = new LinearLayout(activity);
                 linear.setOrientation(LinearLayout.HORIZONTAL);
-                linear.setPadding(0, 0, 0, DpUtils.dip2px(activity, 10f));
+                linear.setPadding(0, DpUtils.dip2px(activity, 10f), 0, 0);
                 history.addView(linear);
             }
             linear.addView(tv);
+
 
             if (linear.getChildCount() > 0) {
                 TextView childAt = (TextView) linear.getChildAt(linear.getChildCount() - 1);
@@ -181,12 +196,22 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                         pix = childAt.getMeasuredWidth() + DpUtils.dip2px(activity, 10f);
                         linear = new LinearLayout(activity);
                         linear.setOrientation(LinearLayout.HORIZONTAL);
-                        linear.setPadding(0, 0, 0, DpUtils.dip2px(activity, 10f));
+                        linear.setPadding(0, DpUtils.dip2px(activity, 10f), 0, 0);
                         linear.addView(tv);
                         history.addView(linear);
                     }
                 }
             }
+
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = tv.getText().toString();
+                    getSerialNoTrack(text);
+                    fragment.getSearch().setText(text);
+                    fragment.getSearch().setSelection(text.length());
+                }
+            });
         }
 
     }
@@ -206,7 +231,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
 
     @Override
     public void showFilterPopup() {
-        popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
+//        popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
     }
 
 

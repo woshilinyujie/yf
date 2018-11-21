@@ -42,4 +42,14 @@ public class HttpConstant {
     public static String HTTP_BIZ_SERIAL_NO_LIST = "erp/biz/stock/manage/serial/stockSerial";
     //序列号追踪
     public static String HTTP_BIZ_SERIAL_NO_TRACK = "erp/biz/stock/manage/serial/track";
+    //公司下拉选择
+    public static String HTTP_BASIC_DATA_COMPANY = "erp/basic/data/company";
+    //商品分类下拉选择
+    public static String HTTP_BASIC_DATA_CLASSIFY = "erp/basic/data/classify";
+    //商品品牌下拉选择
+    public static String HTTP_BASIC_DATA_BRAND = "erp/basic/data/brand";
+    //商品型号下拉选择
+    public static String HTTP_BASIC_DATA_PRODUCT = "erp/basic/data/product";
+    //仓库下拉选择
+    public static String HTTP_BASIC_BASE_WAREHOUSE_SELECT_LIST = "erp/basic/baseWarehouse/selectlist";
 }

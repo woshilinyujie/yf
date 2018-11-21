@@ -55,6 +55,7 @@ public class StockListAdapter<T> extends TreeListViewAdapter<T>{
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_commodity_stocks, null);
             holder.titleName = convertView.findViewById(R.id.commodity_stock_title);
+            holder.num = convertView.findViewById(R.id.commodity_stock_num);
 //            holder.lastName = convertView.findViewById(R.id.commodity_stock_last_name);
             holder.arrow = convertView.findViewById(R.id.commodity_stock_arrow);
             convertView.setTag(holder);
@@ -66,6 +67,7 @@ public class StockListAdapter<T> extends TreeListViewAdapter<T>{
 //        else
 //            holder.lastName.setVisibility(View.GONE);
         holder.titleName.setText(node.getName());
+        holder.num.setText(node.getObj().toString());
 
         //有子列表要显示箭头
         if(node.getChildrenNodes() != null && node.getChildrenNodes().size() > 0){
@@ -77,7 +79,7 @@ public class StockListAdapter<T> extends TreeListViewAdapter<T>{
                 holder.arrow.setImageBitmap(bottom);
             }
         }else{
-            holder.arrow.setVisibility(View.GONE);
+            holder.arrow.setVisibility(View.INVISIBLE);
         }
 
         return convertView;
@@ -85,6 +87,7 @@ public class StockListAdapter<T> extends TreeListViewAdapter<T>{
 
     class ViewHolder{
         TextView titleName;
+        TextView num;
 //        TextView lastName;
         ImageView arrow;
     }
