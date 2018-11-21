@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,11 +19,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +47,7 @@ import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Stock.SerialNoContract;
 import jh.zkj.com.yf.Fragment.Stock.StockSerialNoFragment;
 import jh.zkj.com.yf.Mutils.DpUtils;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.StockFilterPopup;
 import jh.zkj.com.yf.R;
 
@@ -98,21 +103,30 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
         initListener();
         filterBean.cleanBean();
         popup.setData(filterBean);
+        refresh.setEnableLoadmore(false);
+        refresh.setEnableRefresh(false);
 
         api = new StockAPI(activity);
     }
 
     private void initHistory() {
+        String historyText = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, "");
+        ArrayList<String> arr = (ArrayList<String>) JSONObject.parseArray(historyText, String.class);
+        if(arr == null){
+            return;
+        }
+        history.removeAllViews();
         WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels - DpUtils.dip2px(activity, 16f) - DpUtils.dip2px(activity, 6f);         // 屏幕宽度（像素）
 
-        String s[] = {"11", "123", "4321", "asdfg", "zxcvbn", "你", "宛如少女的猫", "我并不想加班", "阿斯顿发生大发发士大夫撒打算的"};
         LinearLayout linear = null;
         int pix = 0;
-        for (int i = 0; i < s.length; i++) {
+        int position = 0;
+        for (int i = 0; i < arr.size(); i++) {
             if (history.getChildCount() > 2) {
+                position = i;
                 break;
             }
             final TextView tv = new TextView(activity);
@@ -127,7 +141,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                     , DpUtils.dip2px(activity, 14f), DpUtils.dip2px(activity, 9f));
 
             tv.setBackgroundResource(R.drawable.shape_radius_4_e6e6e6);
-            tv.setText(s[i]);
+            tv.setText(arr.get(i));
             if (linear == null) {
                 linear = new LinearLayout(activity);
                 linear.setOrientation(LinearLayout.HORIZONTAL);
@@ -170,7 +184,17 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                     fragment.getSearch().setSelection(searchText.length());
                 }
             });
+
+            position = i;
         }
+
+        for (int i = 0; i < position ; i++){
+            if(arr.size() - 1 > position){
+                arr.remove(position);
+            }
+        }
+
+        PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, JSON.toJSONString(arr));
 
     }
 
@@ -183,6 +207,21 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchText = fragment.getSearch().getText().toString();
                     pageNum = 1;
+                    if(!TextUtils.isEmpty(searchText)){
+                        String searchHistory = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, "");
+                        ArrayList<String> strings = (ArrayList<String>) JSON.parseArray(searchHistory, String.class);
+                        if(strings == null){
+                            strings = new ArrayList<>();
+                        }
+                        for (int i = 0 ; i < strings.size() ; i++){
+                            if(searchText.equals(strings.get(i))){
+                                strings.remove(i);
+                                break;
+                            }
+                        }
+                        strings.add(0, searchText);
+                        PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, JSON.toJSONString(strings));
+                    }
                     getSerialNoList(searchText
                             , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                             , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
@@ -415,7 +454,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
             , String brandUuid, String skuUuid, String warehouseUuid
             , int pageNum, int pageSize, OrderAPI.IResultMsg<SerialNoBean> msg) {
         refresh.setEnableLoadmore(true);
-        api.getSerialNoList(keywords, classifyUuid, brandUuid, skuUuid, warehouseUuid, companyUuid
+        api.getSerialNoList(keywords, classifyUuid, companyUuid, brandUuid, skuUuid, warehouseUuid
                 , pageNum, pageSize, msg);
     }
 
@@ -423,12 +462,18 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
         @Override
         public void Result(SerialNoBean bean) {
             if (bean != null) {
+                refresh.finishRefreshing();
                 records = bean.getRecords();
                 if(records != null && records.size() > 0){
                     adapter.notifyData(records);
                     historyLayout.setVisibility(View.GONE);
+                    refresh.setEnableLoadmore(true);
+                    refresh.setEnableRefresh(true);
                 }else{
                     historyLayout.setVisibility(View.VISIBLE);
+                    initHistory();
+                    refresh.setEnableLoadmore(false);
+                    refresh.setEnableRefresh(false);
                 }
             }
         }
@@ -442,6 +487,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     OrderAPI.IResultMsg<SerialNoBean> loadMoreMsg = new OrderAPI.IResultMsg<SerialNoBean>() {
         @Override
         public void Result(SerialNoBean bean) {
+            refresh.finishLoadmore();
             if (bean != null) {
                 if(bean.getRecords() != null && bean.getRecords().size() > 0){
                     records.addAll(bean.getRecords());

@@ -17,6 +17,14 @@ public class LoginCRMBean {
     private String token_type;
     private int expires_in;
     private String scope;
+    /**
+     * msg : 短信验证码失效
+     * code : 20005
+     */
+
+    private String msg;
+    private int code;
+
 
     public String getAccess_token() {
         return access_token;
@@ -48,5 +56,21 @@ public class LoginCRMBean {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

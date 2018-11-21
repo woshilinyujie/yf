@@ -20,6 +20,10 @@ public class StockConfig {
     public static final String TYPE_STRING_FILTER_STATUS = "filter_status";
     //数据
     public static final String TYPE_STRING_FILTER_DATA = "filter_data";
+    //库存序列号
+    public static final String TYPE_STRING_SERIAL_NO_HISTORY = "serial_no_history";
+    //序列号跟踪
+    public static final String TYPE_STRING_SERIAL_NO_TRACK_HISTORY = "serial_no_track_history";
 
 
     //公司

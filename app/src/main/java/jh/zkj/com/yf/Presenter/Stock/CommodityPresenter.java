@@ -86,7 +86,12 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
 
         api = new StockAPI(fragment.getContext());
         pageNum = 1;
-        getCommodityList("", "", "", "", "", pageNum, pageSize, refreshMsg);
+        getCommodityList(""
+                , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                , pageNum, pageSize, refreshMsg);
     }
 
     private void initListener() {
@@ -98,7 +103,12 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     pageNum = 1;
                     searchText = fragment.getSearch().getText().toString();
-                    getCommodityList(searchText, "", "", "", "", pageNum, pageSize, refreshMsg);
+                    getCommodityList(searchText
+                            , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                            , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                            , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                            , pageNum, pageSize, refreshMsg);
                 }
                 return true;
             }
@@ -108,13 +118,23 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 pageNum = 1;
-                getCommodityList(searchText, "", "", "", "", pageNum, pageSize, refreshMsg);
+                getCommodityList(searchText
+                        , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                        , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                        , pageNum, pageSize, refreshMsg);
             }
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 pageNum ++;
-                getCommodityList(searchText, "", "", "", "", pageNum, pageSize, loadMoreMsg);
+                getCommodityList(searchText
+                        , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
+                        , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
+                        , pageNum, pageSize, loadMoreMsg);
             }
 
         });
@@ -149,7 +169,7 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                     case StockFilterPopup.CLICK_TYPE_CONFIRM:{
                         popup.dismiss();
                         pageNum = 1;
-                        getCommodityList(""
+                        getCommodityList(searchText
                                 , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                                 , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
                                 , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌

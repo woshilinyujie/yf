@@ -83,7 +83,7 @@ public class MyAPI {
                             if (loginCRMBean.getAccess_token() != null) {
                                 iResultMsg.Result(loginCRMBean);
                             } else {
-                                showToast(context, "出错了");
+                                showToast(context, loginCRMBean.getMsg());
                             }
                         } catch (Exception e) {
                             showToast(context, e.toString());
@@ -159,7 +159,7 @@ public class MyAPI {
                             if (loginCRMBean.getAccess_token() != null) {
                                 iResultMsg.Result(loginCRMBean);
                             } else {
-                                showToast(context, "出错了");
+                                showToast(context, loginCRMBean.getMsg());
                             }
                         } catch (Exception e) {
                             showToast(context, e.toString());
@@ -232,7 +232,7 @@ public class MyAPI {
                             if (loginERPBean.getAccess_token() != null) {
                                 iResultMsg.Result(loginERPBean);
                             } else {
-                                showToast(context, "出错了");
+                                showToast(context, loginERPBean.getMsg());
                             }
                         } catch (Exception e) {
                             showToast(context, e.toString());
@@ -281,7 +281,7 @@ public class MyAPI {
                             if (loginERPBean.getAccess_token() != null) {
                                 iResultMsg.Result(loginERPBean);
                             } else {
-                                showToast(context, "出错了");
+                                showToast(context, loginERPBean.getMsg());
                             }
                         } catch (Exception e) {
                             showToast(context, e.toString());

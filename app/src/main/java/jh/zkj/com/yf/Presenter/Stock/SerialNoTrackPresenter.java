@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -17,6 +18,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
 
@@ -33,6 +37,7 @@ import jh.zkj.com.yf.Contract.Stock.SerialNoTrackContract;
 import jh.zkj.com.yf.Fragment.Stock.SerialNoTrackFragment;
 import jh.zkj.com.yf.Mutils.BigDecimalUtils;
 import jh.zkj.com.yf.Mutils.DpUtils;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.StockFilterPopup;
 import jh.zkj.com.yf.R;
 
@@ -87,80 +92,52 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 //回车键
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    getSerialNoTrack(fragment.getSearch().getText().toString());
+                    String searchText = fragment.getSearch().getText().toString();
+                    if(!TextUtils.isEmpty(searchText)){
+                        String searchHistory = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, "");
+                        ArrayList<String> strings = (ArrayList<String>) JSON.parseArray(searchHistory, String.class);
+                        if(strings == null){
+                            strings = new ArrayList<>();
+                        }
+                        for (int i = 0 ; i < strings.size() ; i++){
+                            if(searchText.equals(strings.get(i))){
+                                strings.remove(i);
+                                break;
+                            }
+                        }
+                        strings.add(0, searchText);
+                        PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, JSON.toJSONString(strings));
+                    }
+
+
+                    getSerialNoTrack(searchText);
                 }
                 return true;
             }
         });
 
-
-//        popup.setListener(new StockFilterPopup.Listener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                switch (position) {
-//                    //公司
-//                    case StockFilterPopup.CLICK_TYPE_COMPANY: {
-//                        Intent intent = new Intent(activity, FilterListActivity.class);
-//                        intent.putExtra("title", "公司");
-//                        activity.startActivity(intent);
-//                        break;
-//                    }
-//                    //仓库
-//                    case StockFilterPopup.CLICK_TYPE_WAREHOUSE: {
-//                        Intent intent = new Intent(activity, FilterListActivity.class);
-//                        intent.putExtra("title", "仓库");
-//                        activity.startActivity(intent);
-//                        break;
-//                    }
-//                    //商品分类
-//                    case StockFilterPopup.CLICK_TYPE_CLASSIFICATION: {
-//                        Intent intent = new Intent(activity, FilterListActivity.class);
-//                        intent.putExtra("title", "商品分类");
-//                        activity.startActivity(intent);
-//                        break;
-//                    }
-//                    //品牌
-//                    case StockFilterPopup.CLICK_TYPE_BRAND: {
-//                        Intent intent = new Intent(activity, FilterListActivity.class);
-//                        intent.putExtra("title", "品牌");
-//                        activity.startActivity(intent);
-//                        break;
-//                    }
-//                    //型号
-//                    case StockFilterPopup.CLICK_TYPE_MODEL: {
-//                        Intent intent = new Intent(activity, FilterListActivity.class);
-//                        intent.putExtra("title", "型号");
-//                        activity.startActivity(intent);
-//                        break;
-//                    }
-//                    //重置
-//                    case StockFilterPopup.CLICK_TYPE_RESET: {
-//                        popup.reset();
-//                        break;
-//                    }
-//                    //确认
-//                    case StockFilterPopup.CLICK_TYPE_CONFIRM: {
-//                        popup.dismiss();
-//                        break;
-//                    }
-//
-//                }
-//            }
-//        });
     }
 
 
     private void initHistory() {
+        String historyText = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, "");
+        ArrayList<String> arr = (ArrayList<String>) JSONObject.parseArray(historyText, String.class);
+        if(arr == null){
+            return;
+        }
+
+        history.removeAllViews();
         WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels - DpUtils.dip2px(activity, 16f) - DpUtils.dip2px(activity, 6f);
 
-        String s[] = {"11", "123", "4321", "asdfg哈哈哈", "zxcvbn", "你", "宛如少女的猫", "我并不想加班", "阿斯顿发生大发发士大夫撒打算的"};
         LinearLayout linear = null;
         int pix = 0;
-        for (int i = 0; i < s.length; i++) {
+        int position = 0;
+        for (int i = 0; i < arr.size(); i++) {
             if (history.getChildCount() > 2) {
+                position = i;
                 break;
             }
             final TextView tv = new TextView(activity);
@@ -175,7 +152,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                     , DpUtils.dip2px(activity, 14f), DpUtils.dip2px(activity, 9f));
 
             tv.setBackgroundResource(R.drawable.shape_radius_4_e6e6e6);
-            tv.setText(s[i]);
+            tv.setText(arr.get(i));
             if (linear == null) {
                 linear = new LinearLayout(activity);
                 linear.setOrientation(LinearLayout.HORIZONTAL);
@@ -212,8 +189,16 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                     fragment.getSearch().setSelection(text.length());
                 }
             });
+            position = i;
         }
 
+        for (int i = 0; i < position ; i++){
+            if(arr.size() - 1 > position){
+                arr.remove(position);
+            }
+        }
+
+        PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, JSON.toJSONString(arr));
     }
 
     //recyclerView兼容跟多形式的嵌套布局 相比listview来说坑会少一些 方便后期维护
@@ -324,6 +309,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                     adapter.notifyData(beans);
                 }else{
                     historyLayout.setVisibility(View.VISIBLE);
+                    initHistory();
                 }
             }
 
