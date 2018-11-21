@@ -300,6 +300,8 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         orderBean.getMemberDTO().setName(orderBean.getName());
         orderBean.getMemberDTO().setMobilePhone(orderBean.getMobilePhone());
         orderBean.getMemberDTO().setSex(orderBean.getSex());
+        orderBean.setCreateTime(null);
+        orderBean.setUpdateTime(null);
         String json = JSON.toJSONString(orderBean);
 
         if (loadingDialog == null) {

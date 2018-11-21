@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -69,59 +71,51 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
 
 
     private void initListener() {
-        popup.setListener(new StockFilterPopup.Listener() {
-            @Override
-            public void onItemClick(int position) {
-                switch (position) {
-                    //公司
-                    case StockFilterPopup.CLICK_TYPE_COMPANY: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "公司");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //仓库
-                    case StockFilterPopup.CLICK_TYPE_WAREHOUSE: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "仓库");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //商品分类
-                    case StockFilterPopup.CLICK_TYPE_CLASSIFICATION: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "商品分类");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //品牌
-                    case StockFilterPopup.CLICK_TYPE_BRAND: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "品牌");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //型号
-                    case StockFilterPopup.CLICK_TYPE_MODEL: {
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "型号");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //重置
-                    case StockFilterPopup.CLICK_TYPE_RESET: {
-                        popup.reset();
-                        break;
-                    }
-                    //确认
-                    case StockFilterPopup.CLICK_TYPE_CONFIRM: {
-                        popup.dismiss();
-                        break;
-                    }
 
+        fragment.getSearch().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                //回车键
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    getSkuStockList(fragment.getSearch().getText().toString());
                 }
+                return true;
             }
         });
+
+//        popup.setListener(new StockFilterPopup.Listener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                switch (position) {
+//                    //公司
+//                    case StockConfig.STATUS_TYPE_COMPANY:
+//                    //仓库
+//                    case StockConfig.STATUS_TYPE_WAREHOUSE:
+//                    //商品分类
+//                    case StockConfig.STATUS_TYPE_CLASSIFICATION:
+//                    //品牌
+//                    case StockConfig.STATUS_TYPE_BRAND:
+//                    //型号
+//                    case StockConfig.STATUS_TYPE_MODEL: {
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra(StockConfig.TYPE_STRING_FILTER_STATUS, position);
+//                        fragment.startActivity(intent);
+//                        break;
+//                    }
+//                    //重置
+//                    case StockFilterPopup.CLICK_TYPE_RESET: {
+//                        popup.reset();
+//                        break;
+//                    }
+//                    //确认
+//                    case StockFilterPopup.CLICK_TYPE_CONFIRM: {
+//                        popup.dismiss();
+//                        break;
+//                    }
+//
+//                }
+//            }
+//        });
     }
 
     //recyclerView兼容跟多形式的嵌套布局 相比listview来说坑会少一些 方便后期维护
@@ -139,7 +133,8 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
 
     @Override
     public void showFilterPopup() {
-        popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
+        popup.showAsDropDown(fragment.getTitleLayout(), 0, 0);
+//        popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
     }
 
     /**
@@ -194,7 +189,7 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(fragment.getActivity(), ChildWarehouseActivity.class);
-                        intent.putExtra(StockConfig.TYPE_STRING_SKU_STOCK_LIST, item.getSkuFullNameList());
+                        intent.putExtra(StockConfig.TYPE_STRING_SKU_STOCK_BEAN, item);
                         fragment.startActivity(intent);
                     }
                 });

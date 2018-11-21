@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Fragment.Stock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +12,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +50,9 @@ public class StockSerialNoFragment extends MBaseFragment {
     //扫码
     @BindView(R.id.serial_on_stoke_scan)
     ImageView scan;
+    //扫码
+    @BindView(R.id.serial_on_stoke_refresh)
+    TwinklingRefreshLayout refresh;
 
     //历史记录
     @BindView(R.id.serial_on_stoke_history_layout)
@@ -53,6 +60,9 @@ public class StockSerialNoFragment extends MBaseFragment {
     //历史记录
     @BindView(R.id.serial_on_stoke_history)
     LinearLayout history;
+    //历史记录
+    @BindView(R.id.serial_on_stoke_title_layout)
+    RelativeLayout titleLayout;
 
     @BindView(R.id.serial_on_stoke_msg_layout)
     LinearLayout msgLayout;
@@ -77,13 +87,13 @@ public class StockSerialNoFragment extends MBaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //清空edittext
-            case R.id.stock_clear_img: {
-
+            case R.id.serial_on_stoke_clear_img: {
+                setSearchText("");
                 break;
             }
 
-            case R.id.stock_filter: {
-
+            case R.id.serial_on_stoke_filter: {
+                presenter.showFilterPopup();
                 break;
             }
         }
@@ -132,5 +142,19 @@ public class StockSerialNoFragment extends MBaseFragment {
     }
     public LinearLayout getHistory(){
         return history;
+    }
+
+    public RelativeLayout getTitleLayout(){
+        return titleLayout;
+    }
+
+    public TwinklingRefreshLayout getRefresh() {
+        return refresh;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.onActivityResult(requestCode, resultCode, data);
     }
 }

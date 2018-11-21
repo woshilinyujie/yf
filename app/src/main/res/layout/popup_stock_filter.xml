@@ -8,33 +8,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/shape_radius_8_ffffff"
-            android:layout_marginRight="@dimen/dp_30"
-            android:layout_marginLeft="@dimen/dp_30">
+            android:background="@color/white">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="筛选"
-                android:textSize="@dimen/sp_16"
-                android:textColor="@color/c_333333"
-                android:layout_marginTop="@dimen/dp_20"
-                android:includeFontPadding="false"
-                android:gravity="center"/>
             <!-- 公司 -->
             <RelativeLayout
                 android:id="@+id/stock_filter_company"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_44"
-                android:layout_marginTop="@dimen/dp_43"
                 android:gravity="center_vertical"
                 android:paddingRight="@dimen/dp_16"
                 android:paddingLeft="@dimen/dp_16">
@@ -55,6 +41,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/stock_filter_com_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
@@ -103,6 +90,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/stock_filter_warehouse_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
@@ -151,6 +139,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/stock_filter_classification_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
@@ -200,6 +189,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/stock_filter_brand_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
@@ -249,6 +239,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/stock_filter_model_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
@@ -301,25 +292,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:includeFontPadding="false"
-                    android:text="确定"
-                    android:textSize="@dimen/sp_14"
+                    android:background="@color/c_6fb1fc"
                     android:gravity="center"
-                    android:paddingTop="@dimen/dp_18"
+                    android:includeFontPadding="false"
                     android:paddingBottom="@dimen/dp_18"
-                    android:background="@drawable/shape_radius_right_bottom_8_6fb1fc"/>
+                    android:paddingTop="@dimen/dp_18"
+                    android:text="确定"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_14"/>
 
             </LinearLayout>
 
         </LinearLayout>
         
-        <ImageView
-            android:id="@+id/stock_filter_close"
-            android:layout_width="@dimen/dp_38"
-            android:layout_height="@dimen/dp_38"
-            android:layout_marginTop="@dimen/dp_30"
-            android:src="@mipmap/close_popup"/>
-        
+
     </LinearLayout>
 
 </RelativeLayout>

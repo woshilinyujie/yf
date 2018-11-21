@@ -38,6 +38,10 @@ public class Node {
 	 * 节点的父节点
 	 */
 	private Node parent;
+	/**
+	 * 其他附加数据
+	 */
+	private Object obj;
 
 	public Node() {
 	}
@@ -168,5 +172,13 @@ public class Node {
 
 	public void setHideChecked(boolean isHideChecked) {
 		this.isHideChecked = isHideChecked;
+	}
+
+	public Object getObj() {
+		return obj;
+	}
+
+	public void setObj(Object obj) {
+		this.obj = obj;
 	}
 }

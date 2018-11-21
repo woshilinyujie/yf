@@ -73,59 +73,59 @@ public class StockListPresenter implements StockListContract.IStockListPresenter
     }
 
     private void initListener() {
-        popup.setListener(new StockFilterPopup.Listener() {
-            @Override
-            public void onItemClick(int position) {
-                switch (position){
-                    //公司
-                    case StockFilterPopup.CLICK_TYPE_COMPANY:{
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "公司");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //仓库
-                    case StockFilterPopup.CLICK_TYPE_WAREHOUSE:{
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "仓库");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //商品分类
-                    case StockFilterPopup.CLICK_TYPE_CLASSIFICATION:{
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "商品分类");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //品牌
-                    case StockFilterPopup.CLICK_TYPE_BRAND:{
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "品牌");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //型号
-                    case StockFilterPopup.CLICK_TYPE_MODEL:{
-                        Intent intent = new Intent(activity, FilterListActivity.class);
-                        intent.putExtra("title", "型号");
-                        activity.startActivity(intent);
-                        break;
-                    }
-                    //重置
-                    case StockFilterPopup.CLICK_TYPE_RESET:{
-                        popup.reset();
-                        break;
-                    }
-                    //确认
-                    case StockFilterPopup.CLICK_TYPE_CONFIRM:{
-                        popup.dismiss();
-                        break;
-                    }
-
-                }
-            }
-        });
+//        popup.setListener(new StockFilterPopup.Listener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                switch (position){
+//                    //公司
+//                    case StockFilterPopup.CLICK_TYPE_COMPANY:{
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "公司");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //仓库
+//                    case StockFilterPopup.CLICK_TYPE_WAREHOUSE:{
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "仓库");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //商品分类
+//                    case StockFilterPopup.CLICK_TYPE_CLASSIFICATION:{
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "商品分类");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //品牌
+//                    case StockFilterPopup.CLICK_TYPE_BRAND:{
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "品牌");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //型号
+//                    case StockFilterPopup.CLICK_TYPE_MODEL:{
+//                        Intent intent = new Intent(activity, FilterListActivity.class);
+//                        intent.putExtra("title", "型号");
+//                        activity.startActivity(intent);
+//                        break;
+//                    }
+//                    //重置
+//                    case StockFilterPopup.CLICK_TYPE_RESET:{
+//                        popup.reset();
+//                        break;
+//                    }
+//                    //确认
+//                    case StockFilterPopup.CLICK_TYPE_CONFIRM:{
+//                        popup.dismiss();
+//                        break;
+//                    }
+//
+//                }
+//            }
+//        });
     }
 
 

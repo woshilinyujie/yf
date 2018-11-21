@@ -75,13 +75,8 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //清空edittext
-            case R.id.stock_clear_img: {
-
-                break;
-            }
-
-            case R.id.stock_filter: {
-
+            case R.id.serial_no_track_clear_img: {
+                setSearchText("");
                 break;
             }
         }

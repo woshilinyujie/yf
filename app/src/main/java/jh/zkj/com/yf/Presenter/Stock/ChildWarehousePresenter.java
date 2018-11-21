@@ -31,14 +31,27 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
 
     public ChildWarehousePresenter(ChildWarehouseActivity activity) {
         this.activity = activity;
-        initPresenter();
+        initView();
+        initData();
+        initListener();
     }
 
-    private void initPresenter() {
+    private void initView() {
         recycler = activity.getRecycler();
-        ArrayList<SkuStockBean.ListBean.SkuFullNameListBean> SkuFullList =
-                (ArrayList<SkuStockBean.ListBean.SkuFullNameListBean>) activity.getIntent().getSerializableExtra(StockConfig.TYPE_STRING_SKU_STOCK_LIST);
-        initAdapter(SkuFullList);
+    }
+
+    private void initData() {
+        SkuStockBean.ListBean SkuListBean =
+                (SkuStockBean.ListBean) activity.getIntent().getSerializableExtra(StockConfig.TYPE_STRING_SKU_STOCK_BEAN);
+
+        activity.getName().setText("仓库：" + SkuListBean.getName());
+        activity.getNumber().setText("总数量：" + SkuListBean.getQty());
+        activity.getTotal().setText("总金额：" + BigDecimalUtils.getBigDecimal(String.valueOf(SkuListBean.getPrice()), 2).doubleValue());
+        initAdapter(SkuListBean.getSkuFullNameList());
+    }
+
+    private void initListener() {
+
     }
 
     private void initAdapter(ArrayList<SkuStockBean.ListBean.SkuFullNameListBean> list) {
@@ -60,8 +73,11 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
         //后期传入刷新
         public void notifyData(ArrayList<SkuStockBean.ListBean.SkuFullNameListBean> arr) {
             mArr.clear();
-            mArr.addAll(arr);
+            if(arr != null){
+                mArr.addAll(arr);
+            }
             notifyDataSetChanged();
+
         }
 
         @Override
