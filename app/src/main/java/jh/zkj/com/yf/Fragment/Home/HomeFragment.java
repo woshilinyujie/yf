@@ -13,11 +13,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.youth.banner.Banner;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.Order.PrintActivity;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureViewpager;
@@ -69,6 +70,8 @@ public class HomeFragment extends MBaseFragment {
     Unbinder unbinder;
     @BindView(R.id.home_fragment_switch_text)
     SwitchText homeFragmentSwitchText;
+    @BindView(R.id.banner)
+    Banner banner;
 
 
     private View rootView;
@@ -92,6 +95,7 @@ public class HomeFragment extends MBaseFragment {
         unbinder = ButterKnife.bind(this, rootView);
         presenter = new HomeFragmentPresenter(this);
         initdata();
+        presenter.initBanner();
         return rootView;
     }
 
@@ -126,7 +130,7 @@ public class HomeFragment extends MBaseFragment {
                 presenter.toRetailOrder();
                 break;
             case R.id.home_fragment_common_menu_two://常用2
-                Intent intent=new Intent(getActivity(),PrintActivity.class);
+                Intent intent = new Intent(getActivity(), PrintActivity.class);
                 startActivity(intent);
 //                presenter.toRetail();
                 break;
@@ -212,16 +216,35 @@ public class HomeFragment extends MBaseFragment {
         return homeFragmentSwitchText;
     }
 
-    public void setHomeFragmentCommonMenuOne(int resId){
+    public void setHomeFragmentCommonMenuOne(int resId) {
         homeFragmentCommonMenuOne.setImageResource(resId);
     }
-    public void setHomeFragmentCommonMenuTwo(int resId){
+
+    public void setHomeFragmentCommonMenuTwo(int resId) {
         homeFragmentCommonMenuTwo.setImageResource(resId);
     }
-    public void setHomeFragmentCommonMenuThree(int resId){
+
+    public void setHomeFragmentCommonMenuThree(int resId) {
         homeFragmentCommonMenuThree.setImageResource(resId);
     }
-    public void setHomeFragmentCommonMenuFour(int resId){
+
+    public void setHomeFragmentCommonMenuFour(int resId) {
         homeFragmentCommonMenuFour.setImageResource(resId);
+    }
+
+    public Banner getBanner() {
+        return banner;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        banner.startAutoPlay();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        banner.stopAutoPlay();
     }
 }

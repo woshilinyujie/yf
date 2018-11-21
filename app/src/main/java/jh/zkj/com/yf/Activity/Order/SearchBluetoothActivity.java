@@ -1,6 +1,7 @@
 package jh.zkj.com.yf.Activity.Order;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
@@ -22,6 +23,8 @@ import jh.zkj.com.yf.Mutils.print.BtUtil;
 import jh.zkj.com.yf.Mutils.print.PrintQueue;
 import jh.zkj.com.yf.Mutils.print.PrintUtil;
 import jh.zkj.com.yf.Mutils.print.SearchBleAdapter;
+import jh.zkj.com.yf.Mview.LoadingDialog;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
@@ -30,57 +33,41 @@ import jh.zkj.com.yf.R;
  * Created by liuguirong on 2017/8/3.
  */
 
-public class SearchBluetoothActivity extends BluetoothActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class SearchBluetoothActivity extends BluetoothActivity implements AdapterView.OnItemClickListener {
 
     private BluetoothAdapter bluetoothAdapter;
     private ListView lv_searchblt;
-    private TextView tv_title;
-    private TextView tv_summary;
     private SearchBleAdapter searchBleAdapter;
+    private TitleLayout title;
+    private LoadingDialog dialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchbooth);
         lv_searchblt = (ListView) findViewById(R.id.lv_searchblt);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_summary = (TextView) findViewById(R.id.tv_summary);
+        title = findViewById(R.id.print_search_title);
         //初始化蓝牙适配k器
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         searchBleAdapter = new SearchBleAdapter(SearchBluetoothActivity.this, null);
         lv_searchblt.setAdapter(searchBleAdapter);
-        init();
         searchDeviceOrOpenBluetooth();
         lv_searchblt.setOnItemClickListener(this);
-        tv_title.setOnClickListener(this);
-        tv_summary.setOnClickListener(this);
+        title.getRigthText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dialog==null)
+                dialog = new LoadingDialog(SearchBluetoothActivity.this);
+                if(!dialog.isShowing())
+                    dialog.showLoading();
+                searchDeviceOrOpenBluetooth();
+            }
+        });
     }
 
 
 
 
-    private void init() {
-        if (!BtUtil.isOpen(bluetoothAdapter)) {
-            tv_title.setText("未连接蓝牙打印机");
-            tv_summary.setText("系统蓝牙已关闭,点击开启");
-
-        } else {
-            if (!PrintUtil.isBondPrinter(this, bluetoothAdapter)) {
-                //未绑定蓝牙打印机器
-                tv_title.setText("未连接蓝牙打印机");
-                tv_summary.setText("点击后搜索蓝牙打印机");
-
-            } else {
-                //已绑定蓝牙设备
-                tv_title.setText(getPrinterName() + "已连接");
-                String blueAddress = PrintUtil.getDefaultBluethoothDeviceAddress(this);
-                if (TextUtils.isEmpty(blueAddress)) {
-                    blueAddress = "点击后搜索蓝牙打印机";
-                }
-                tv_summary.setText(blueAddress);
-            }
-        }
-}
     @Override
     public void btStatusChanged(Intent intent) {
 
@@ -126,14 +113,12 @@ public class SearchBluetoothActivity extends BluetoothActivity implements Adapte
     }
     @Override
     public void btStartDiscovery(Intent intent) {
-        tv_title.setText("正在搜索蓝牙设备…");
-        tv_summary.setText("");
     }
 
     @Override
     public void btFinishDiscovery(Intent intent) {
-        tv_title.setText("搜索完成");
-        tv_summary.setText("点击重新搜索");
+        if(dialog!=null)
+            dialog.dismissLoading();
     }
     @Override
     public void btFoundDevice(Intent intent) {
@@ -226,21 +211,9 @@ public class SearchBluetoothActivity extends BluetoothActivity implements Adapte
         if (null != searchBleAdapter) {
             searchBleAdapter.setConnectedDeviceAddress(bluetoothDevice.getAddress());
         }
-        init();
         searchBleAdapter.notifyDataSetChanged();
         PrintUtil.setDefaultBluetoothDeviceAddress(getApplicationContext(), bluetoothDevice.getAddress());
         PrintUtil.setDefaultBluetoothDeviceName(getApplicationContext(), bluetoothDevice.getName());
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.tv_title:
-
-                break;
-            case R.id.tv_summary:
-                searchDeviceOrOpenBluetooth();
-                break;
-        }
-    }
 }

@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 
+import com.youth.banner.Banner;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import jh.zkj.com.yf.Fragment.Home.HomeFragment;
 import jh.zkj.com.yf.Fragment.Home.HomeWaitReceivablesFragment;
 import jh.zkj.com.yf.Fragment.Home.HomeWaitWarehouseFragment;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Mutils.GlideImageLoader;
 import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
@@ -39,10 +42,12 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
     private HomeWaitReceivablesFragment homeWaitReceivablesFragment;
     private HomeWaitWarehouseFragment homeWaitWarehouseFragment;
     private HomeAPI homeAPI;
+    private Banner banner;
 
     public HomeFragmentPresenter(HomeFragment homeFragment) {
         this.activity = (MainActivity) homeFragment.getActivity();
         this.homeFragment = homeFragment;
+
 
     }
 
@@ -97,6 +102,20 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
 //        Intent intent = new Intent(activity, EnterpriseActivity.class);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCOPE, RetailListPresenter.STATUS_SCOPE_ALL);
         activity.startActivity(intent);
+    }
+
+    @Override
+    public void initBanner() {
+        banner = homeFragment.getBanner();
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        ArrayList<Integer> list=new ArrayList<>();
+        list.add(R.mipmap.ic_launcher);
+        list.add(R.mipmap.ic_launcher);
+        list.add(R.mipmap.ic_launcher);
+        banner.setImages(list);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
     }
 
     public void getBasicMenuList() {

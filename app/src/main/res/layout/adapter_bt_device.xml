@@ -10,35 +10,34 @@
                 android:paddingRight="@dimen/dp_16"
                 android:paddingTop="@dimen/dp_8">
 
-    <TextView
-        android:id="@+id/btn_adapter_bt_has_bond"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_44">
+    <ImageView
+        android:id="@+id/txt_adapter_bt_iv"
+        android:visibility="gone"
+        android:background="@mipmap/shop_select_bg"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/dp_8"
-        android:gravity="center"
-        android:paddingBottom="@dimen/dp_8"
-        android:paddingLeft="@dimen/dp_16"
-        android:paddingRight="@dimen/dp_16"
-        android:paddingTop="@dimen/dp_8"
-        android:textColor="@color/c_333333"/>
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_12" />
 
     <TextView
+        android:layout_centerVertical="true"
+        android:text="1111111"
         android:id="@+id/txt_adapter_bt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/btn_adapter_bt_has_bond"
         android:textColor="@color/c_333333"
-        android:textSize="@dimen/sp_18"/>
+        android:textSize="@dimen/sp_14"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/txt_adapter_bt_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt_adapter_bt_name"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_toLeftOf="@id/btn_adapter_bt_has_bond"
         android:textColor="@color/c_333333"/>
-
+</RelativeLayout>
 </RelativeLayout>

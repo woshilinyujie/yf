@@ -2,11 +2,13 @@ package jh.zkj.com.yf.Mutils.print;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -113,7 +115,7 @@ public class SearchBleAdapter extends BaseAdapter {
         }
         holder.name = (TextView) convertView.findViewById(R.id.txt_adapter_bt_name);
         holder.address = (TextView) convertView.findViewById(R.id.txt_adapter_bt_address);
-        holder.bond = (TextView) convertView.findViewById(R.id.btn_adapter_bt_has_bond);
+        holder.iv = (ImageView) convertView.findViewById(R.id.txt_adapter_bt_iv);
 
         BluetoothDevice bluetoothDevice = mDevices.get(position);
         String dName = bluetoothDevice.getName() == null ? "未知设备" : bluetoothDevice.getName();
@@ -134,15 +136,15 @@ public class SearchBleAdapter extends BaseAdapter {
         }
         if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
             if (dAddress.equals(mConnectedDeviceAddress)) {
-                holder.bond.setText("已连接");
-                holder.bond.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
+                holder.iv.setVisibility(View.VISIBLE);
+                holder.name.setTextColor(Color.parseColor("#6fb1fc"));
             } else {
-                holder.bond.setText("已配对");
-                holder.bond.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
+                holder.iv.setVisibility(View.GONE);
+                holder.name.setTextColor(Color.parseColor("#333333"));
             }
         } else {
-            holder.bond.setText("未配对");
-            holder.bond.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
+            holder.iv.setVisibility(View.GONE);
+            holder.name.setTextColor(Color.parseColor("#333333"));
         }
         return convertView;
     }
@@ -150,6 +152,6 @@ public class SearchBleAdapter extends BaseAdapter {
     static class ViewHolder {
         TextView name;
         TextView address;
-        TextView bond;
+        ImageView iv;
     }
 }

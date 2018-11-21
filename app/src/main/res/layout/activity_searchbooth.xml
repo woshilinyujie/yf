@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c_f6f7fb"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <jh.zkj.com.yf.Mview.TitleLayout
+        android:id="@+id/print_search_title"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="vertical">
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white"
+        app:centerText="打印机"
+        app:centerTextColor="@color/c_333333"
+        app:centerTextSize="@dimen/sp_17"
+        app:leftImageBg="@mipmap/back_arrow"
+        app:leftImageHeightSize="@dimen/dp_20"
+        app:leftImageWidthSize="@dimen/dp_12"
+        app:leftMargin="@dimen/dp_16"
+        app:rightMargin="@dimen/dp_15"
+        app:rightText="刷新"
+        app:rightTextSize="@dimen/sp_12" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="未连接蓝牙打印机"
-            android:textSize="@dimen/sp_14"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tv_summary"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="系统蓝牙已关闭,点击开启"/>
-    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_25"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_16"
+        android:text="可用设备"
+        android:textSize="@dimen/sp_14" />
 
     <ListView
+        android:id="@+id/lv_searchblt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lv_searchblt"/>
+        android:background="@color/white"
+        android:divider="@color/c_f6f7fb"
+        android:dividerHeight="@dimen/dp_1" />
 </LinearLayout>
