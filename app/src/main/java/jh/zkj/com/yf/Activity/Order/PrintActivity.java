@@ -115,6 +115,9 @@ public class PrintActivity extends BluetoothActivity {
     private Adapter adapter;
     private OrderDetailsBean orderDetailsBean;
 
+    private boolean isShowPrice = true;
+    private boolean isShowMoney = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -286,11 +289,11 @@ public class PrintActivity extends BluetoothActivity {
                 continue;
             }
             if ("单价".equals(printStyles.get(i).getKey())) {
-
+                isShowPrice = printStyles.get(i).isOpen();
                 continue;
             }
             if ("金额".equals(printStyles.get(i).getKey())) {
-
+                isShowMoney = printStyles.get(i).isOpen();
                 continue;
             }
             if ("结算方式".equals(printStyles.get(i).getKey())) {
@@ -421,21 +424,40 @@ public class PrintActivity extends BluetoothActivity {
 
                 holder.fullName.setText(item.getSkuFullName());
 
-                holder.price.setText(String.valueOf(BigDecimalUtils.getBigDecimal(
-                        String.valueOf(item.getPrice()), 2).doubleValue()));
+                if(isShowPrice){
+                    holder.price.setVisibility(View.VISIBLE);
+                    holder.price.setText(String.valueOf(BigDecimalUtils.getBigDecimal(
+                            String.valueOf(item.getPrice()), 2).doubleValue()));
+                }else{
+                    holder.price.setVisibility(View.GONE);
+                }
+
 
                 holder.count.setText(String.valueOf((int)item.getQty()));
 
-                BigDecimal multiply = BigDecimalUtils.getBigDecimal(
-                        String.valueOf(item.getPrice()), 2).multiply(BigDecimalUtils.getBigDecimal(
-                        String.valueOf(item.getQty()), 2));
-                holder.totalPrice.setText(String.valueOf(multiply.doubleValue()));
+                if(isShowMoney){
+                    holder.totalPrice.setVisibility(View.VISIBLE);
+                    BigDecimal multiply = BigDecimalUtils.getBigDecimal(
+                            String.valueOf(item.getPrice()), 2).multiply(BigDecimalUtils.getBigDecimal(
+                            String.valueOf(item.getQty()), 2));
+                    holder.totalPrice.setText(String.valueOf(multiply.doubleValue()));
+                }else{
+                    holder.totalPrice.setVisibility(View.GONE);
+                }
+
+
             }
         }
 
         @Override
         public int getItemCount() {
-            return mArr == null ? 0 : mArr.size();
+            if(mArr == null){
+                return 0;
+            }else if(mArr.size() < 3){
+                return mArr.size();
+            }else{
+                return 2;
+            }
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
