@@ -192,10 +192,10 @@ public class OrderAPI {
      * 查询订单详情
      */
     public void getQueryOrder(String orderId, final IResultMsg<OrderDetailsBean> iResultMsg) {
-        String api = "http://192.168.68.172:3001/";
-        OkGo.<String>get(api + HttpConstant.HTTP_BASIC_SO_APP + orderId)
-//                .headers("Authorization", TOKEN)
-                .headers("Authorization", "bearer a631ac16-1781-4d88-9548-f7b05a69e10f")
+//        String api = "http://192.168.68.172:3001/";
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_SO_APP + orderId)
+                .headers("Authorization", TOKEN)
+//                .headers("Authorization", "bearer a631ac16-1781-4d88-9548-f7b05a69e10f")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
