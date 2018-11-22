@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <jh.zkj.com.yf.Mview.TitleLayout
-        android:id="@+id/phone_black"
+        android:id="@+id/print_setting_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_48"
         android:background="@color/white"

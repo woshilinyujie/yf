@@ -17,6 +17,7 @@ import ch.ielse.view.SwitchView;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Bean.PrintStyleBean;
 import jh.zkj.com.yf.Mutils.PrefUtils;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.R;
 
 /**
@@ -63,6 +64,8 @@ public class PrintSettingActivity extends MBaseActivity {
     //打印时间
     @BindView(R.id.print_setting_print_time)
     SwitchView printTime;
+    @BindView(R.id.print_setting_title)
+    TitleLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +144,13 @@ public class PrintSettingActivity extends MBaseActivity {
     }
 
     private void initListener() {
+        title.getLetfImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back();
+                finish();
+            }
+        });
     }
 
     @Override
