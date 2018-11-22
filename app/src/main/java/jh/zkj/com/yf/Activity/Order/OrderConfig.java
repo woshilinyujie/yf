@@ -2,6 +2,10 @@ package jh.zkj.com.yf.Activity.Order;
 
 import android.app.Activity;
 
+import java.util.ArrayList;
+
+import jh.zkj.com.yf.Bean.PrintStyleBean;
+
 /**
  * Created by wdefer
  * 2018/10/23
@@ -45,5 +49,25 @@ public class OrderConfig {
     public static final String STATUS_SUCCESS = "2";
     //已取消
     public static final String STATUS_CANCEL = "3";
+
+
+
+    public static ArrayList<PrintStyleBean> getDefaultPrintStyle(){
+        ArrayList<PrintStyleBean> arr = new ArrayList<>();
+        arr.add(new PrintStyleBean("客户", true));
+        arr.add(new PrintStyleBean("联系电话", true));
+//        arr.add(new PrintStyleBean("商品编号", true));
+//        arr.add(new PrintStyleBean("商品名称", true));
+        arr.add(new PrintStyleBean("业务员", true));
+        arr.add(new PrintStyleBean("制单人", true));
+        arr.add(new PrintStyleBean("单据号", true));
+        arr.add(new PrintStyleBean("单据日期", true));
+        arr.add(new PrintStyleBean("单价", true));
+        arr.add(new PrintStyleBean("金额", true));
+        arr.add(new PrintStyleBean("结算方式", true));
+        arr.add(new PrintStyleBean("备注", true));
+        arr.add(new PrintStyleBean("打印时间", true));
+        return arr;
+    }
 
 }

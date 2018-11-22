@@ -35,11 +35,12 @@ import jh.zkj.com.yf.Mview.Toast.EToast;
 public class OrderAPI {
     public String API = APIConstant.API + ":3001/";
 //    public final String TOKEN = "bearer 292f06ac-f530-4218-a991-b1440ebc3d17";
-    public String TOKEN = "bearer 7cf3dac3-6f53-4a41-86a7-07f2ab75702e";
+    public String TOKEN = "bearer " + "f3d747de-602e-4534-841b-10f662d0d1cb";
 
     public OrderAPI(Context context){
-        TOKEN = "bearer " + PrefUtils.getString(context, "erp_token", "");
+//        TOKEN = "bearer " + PrefUtils.getString(context, "erp_token", "");
 //        API = "http://192.168.68.172:3001/";
+        API = "http://192.168.68.128:3001/";
     }
 
     /**
