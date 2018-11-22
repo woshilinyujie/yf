@@ -22,11 +22,11 @@
             android:name=".Activity.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".Activity.ScanActivity"/>
         <!-- 零售详情 -->
@@ -89,11 +89,11 @@
         <activity android:name=".Activity.Order.PrintSettingActivity"/>
         <activity android:name=".Activity.Order.SearchBluetoothActivity"/>
         <activity android:name=".Activity.SplashActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
 
         </activity>
         <service android:name="jh.zkj.com.yf.Mutils.print.BtServiceOne"/>

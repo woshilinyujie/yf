@@ -92,7 +92,7 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
 
     @Override
     public void initListener() {
-        activity.getPersonalFileTitle().getRigthText().setOnClickListener(new View.OnClickListener() {
+        activity.getPersonalFileTitle().getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //点击保存

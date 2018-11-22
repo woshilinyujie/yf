@@ -46,6 +46,9 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
     //汇总金额
     @BindView(R.id.order_info_details_total)
     TextView total;
+    //汇总金额
+    @BindView(R.id.order_detail_print)
+    TextView print;
     private OrderDetailsPresenter presenter;
 
     @Override
@@ -56,11 +59,14 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
         presenter = new OrderDetailsPresenter(this);
     }
 
-    @OnClick({R.id.order_detail_receivables})
+    @OnClick({R.id.order_detail_receivables, R.id.order_detail_print})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_detail_receivables://去收款
                 presenter.toReceivables();
+                break;
+            case R.id.order_detail_print://去收款
+                presenter.toPrint();
                 break;
         }
     }
@@ -91,6 +97,10 @@ public class OrderDetailsActivity extends MBaseActivity implements OrderDetailsC
 
     public void setTotalText(String s) {
         total.setText(s);
+    }
+
+    public TextView getPrint() {
+        return print;
     }
 
     @Override

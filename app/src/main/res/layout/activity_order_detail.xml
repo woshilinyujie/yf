@@ -7,23 +7,45 @@ ps 以后来的新人不要怪我  劳资不是不会抽  是没时间抽  天�
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <jh.zkj.com.yf.Mview.TitleLayout
-        android:id="@+id/order_detail_title"
+    <RelativeLayout
+        android:id="@+id/order_detail_title_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44"
-        app:leftImageBg="@mipmap/back_arrow"
-        app:leftImageWidthSize="@dimen/dp_12"
-        app:leftImageHeightSize="@dimen/dp_20"
-        app:leftMargin="@dimen/dp_16"
-        app:centerText="零售订单"
-        app:centerTextSize="@dimen/sp_16"
-        android:background="@color/white"/>
+        android:layout_height="@dimen/dp_44">
+        <jh.zkj.com.yf.Mview.TitleLayout
+            android:id="@+id/order_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            app:leftImageBg="@mipmap/back_arrow"
+            app:leftImageWidthSize="@dimen/dp_12"
+            app:leftImageHeightSize="@dimen/dp_20"
+            app:leftMargin="@dimen/dp_16"
+            app:centerText="零售订单"
+            app:centerTextSize="@dimen/sp_16"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/order_detail_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_10"
+            android:text="蓝牙打印"
+            android:textColor="@color/c_6fb1fc"
+            android:paddingRight="@dimen/dp_8"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingBottom="@dimen/dp_6"
+            android:visibility="gone"
+            android:includeFontPadding="false"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_stroke_6fb1fc_radius_30"/>
+    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/order_detail_receivables"
-        app:layout_constraintTop_toBottomOf="@id/order_detail_title">
+        app:layout_constraintTop_toBottomOf="@id/order_detail_title_layout">
 
         <LinearLayout
             android:layout_width="match_parent"

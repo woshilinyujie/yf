@@ -56,7 +56,7 @@ public class JoinCompanyInfoActivity extends MBaseActivity {
         stdUserApplys = sendRegisterCodeNextBean.getData().getStdUserApplys();
         JoinEnterPriesAdapter adapter=new JoinEnterPriesAdapter();
         joinEnterpriseHistoryList.setAdapter(adapter);
-        joinEnterpriseHistoryTitle.getRigthText().setOnClickListener(new View.OnClickListener() {
+        joinEnterpriseHistoryTitle.getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

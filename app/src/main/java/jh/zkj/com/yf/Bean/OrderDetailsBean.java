@@ -90,6 +90,8 @@ public class OrderDetailsBean implements Serializable{
     private MemberDTOBean memberDTO = new MemberDTOBean();
     private ArrayList<DetailDTOListBean> detailDTOList;
     private ArrayList<HarvestModeBean> newCashierList;
+    //后期加入的
+    private ArrayList<HarvestModeBean> bizSoOutCashierList;
 
     public String getBizSoUuid() {
         return bizSoUuid;
@@ -417,6 +419,14 @@ public class OrderDetailsBean implements Serializable{
 
     public void setBizSoOutRemark(String bizSoOutRemark) {
         this.bizSoOutRemark = bizSoOutRemark;
+    }
+
+    public ArrayList<HarvestModeBean> getBizSoOutCashierList() {
+        return bizSoOutCashierList;
+    }
+
+    public void setBizSoOutCashierList(ArrayList<HarvestModeBean> bizSoOutCashierList) {
+        this.bizSoOutCashierList = bizSoOutCashierList;
     }
 
     public static class DetailDTOListBean implements Serializable{

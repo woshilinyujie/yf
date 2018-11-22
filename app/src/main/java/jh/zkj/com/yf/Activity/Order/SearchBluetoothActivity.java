@@ -53,7 +53,7 @@ public class SearchBluetoothActivity extends BluetoothActivity implements Adapte
         lv_searchblt.setAdapter(searchBleAdapter);
         searchDeviceOrOpenBluetooth();
         lv_searchblt.setOnItemClickListener(this);
-        title.getRigthText().setOnClickListener(new View.OnClickListener() {
+        title.getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(dialog==null)

@@ -173,7 +173,7 @@ public class TitleLayout extends RelativeLayout {
         return titleLetfImage;
     }
     //返回又tv
-    public TextView getRigthText(){
+    public TextView getRightText(){
         return titleRightText;
     }
 

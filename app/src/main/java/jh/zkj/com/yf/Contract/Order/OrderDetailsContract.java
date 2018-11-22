@@ -27,6 +27,7 @@ public class OrderDetailsContract {
 
     public interface IRetailOrderPresenter{
         void toReceivables();
+        void toPrint();
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
     }
 }

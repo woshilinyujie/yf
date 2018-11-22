@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
+import jh.zkj.com.yf.Activity.Order.PrintActivity;
 import jh.zkj.com.yf.Activity.Order.ReceivableDetailActivity;
 import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
 import jh.zkj.com.yf.Bean.OrderBean;
@@ -33,6 +34,7 @@ import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.OrderDetailsContract;
 import jh.zkj.com.yf.Mutils.BigDecimalUtils;
+import jh.zkj.com.yf.Mutils.DpUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.R;
 
@@ -44,6 +46,7 @@ import jh.zkj.com.yf.R;
 public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderPresenter {
 
     private final int REQUEST_HARVEST_MODE = 1;
+    private final int REQUEST_PRINT = 2;
 
     private final OrderDetailsActivity activity;
     private ComInfoDetailsAdapter infoAdapter;
@@ -92,7 +95,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
             }
         });
 
-        activity.getTitleLayout().getRigthText().setOnClickListener(new View.OnClickListener() {
+        activity.getTitleLayout().getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -113,6 +116,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         } else if(OrderConfig.STATUS_SUCCESS.equals(status)){
             activity.setStatusText("已收款");
             activity.setReceivablesVisibility(View.GONE);
+            activity.getPrint().setVisibility(View.VISIBLE);
         }else {
             activity.setStatusText("已取消");
             activity.setReceivablesVisibility(View.GONE);
@@ -124,6 +128,12 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         getQueryOrder(orderNum);
     }
 
+    @Override
+    public void toPrint() {
+        Intent intent = new Intent(activity, PrintActivity.class);
+        intent.putExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER, orderNum);
+        activity.startActivityForResult(intent, REQUEST_PRINT);
+    }
 
     @Override
     public void toReceivables() {

@@ -90,7 +90,7 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
 
     @Override
     public void save() {
-        activity.getCompanyTitle().getRigthText().setOnClickListener(new View.OnClickListener() {
+        activity.getCompanyTitle().getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDate();

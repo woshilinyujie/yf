@@ -65,7 +65,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
     }
 
     private void initListener() {
-        activity.getTitleLayout().getRigthText().setOnClickListener(new View.OnClickListener() {
+        activity.getTitleLayout().getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getReceivableSuccess();
