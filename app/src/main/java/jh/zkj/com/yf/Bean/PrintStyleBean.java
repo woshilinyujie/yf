@@ -11,6 +11,8 @@ public class PrintStyleBean implements Serializable {
     private String key;
     private boolean isOpen;
 
+    public PrintStyleBean(){}
+
     public PrintStyleBean(String key, boolean isOpen) {
         this.key = key;
         this.isOpen = isOpen;

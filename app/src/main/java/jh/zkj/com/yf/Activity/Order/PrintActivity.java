@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,18 +18,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.API.OrderAPI;
+import jh.zkj.com.yf.Bean.HarvestModeBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Bean.PrintStyleBean;
+import jh.zkj.com.yf.Mutils.BigDecimalUtils;
+import jh.zkj.com.yf.Mutils.DpUtils;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mutils.print.AppInfo;
 import jh.zkj.com.yf.Mutils.print.BluetoothActivity;
 import jh.zkj.com.yf.Mutils.print.BluetoothController;
@@ -102,23 +112,51 @@ public class PrintActivity extends BluetoothActivity {
     int PERMISSION_REQUEST_COARSE_LOCATION = 2;
     private ArrayList<PrintStyleBean> printStyles = new ArrayList<>();
     private OrderAPI api;
+    private Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print);
         ButterKnife.bind(this);
+        initView();
+        initData();
+        initListener();
+    }
+
+    private void initView() {
+
+    }
+
+    private void initData() {
+
         controller = new BluetoothController();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
         }
         EventBus.getDefault().register(this);
 
+        String print_setting = PrefUtils.getString(this, "print_setting", "");
+        printStyles = (ArrayList<PrintStyleBean>) JSONObject.parseArray(print_setting, PrintStyleBean.class);
+        if (printStyles == null || printStyles.size() == 0) {
+            printStyles = OrderConfig.getDefaultPrintStyle();
+        }
+        setPrintPaper();
+
+        initAdapter();
+
         String orderId = getIntent().getStringExtra(OrderConfig.TYPE_STRING_ORDER_NUMBER);
         api = new OrderAPI(this);
         getQueryOrder(orderId);
 
-        initListener();
+
+    }
+
+    private void initAdapter() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recycler.setLayoutManager(layoutManager);
+        adapter = new Adapter();
+        recycler.setAdapter(adapter);
     }
 
     private void initListener() {
@@ -194,24 +232,25 @@ public class PrintActivity extends BluetoothActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PRINT_SETTING) {
-            if (resultCode == Activity.RESULT_OK && data != null) {
+            if (resultCode == Activity.RESULT_OK) {
                 printStyles.clear();
-                ArrayList<PrintStyleBean> printOpen = (ArrayList<PrintStyleBean>) data.getSerializableExtra("print_open");
-                if(printOpen != null){
-                    printStyles.addAll(printOpen);
+                String print_setting = PrefUtils.getString(this, "print_setting", "");
+                ArrayList<PrintStyleBean> prints = (ArrayList<PrintStyleBean>) JSONObject.parseArray(print_setting, PrintStyleBean.class);
+                if (prints != null) {
+                    printStyles.addAll(prints);
                     setPrintPaper();
                 }
             }
         }
     }
 
-    public void setPrintPaper(){
-        for (int i = 0 ; i < printStyles.size(); i++){
+    public void setPrintPaper() {
+        for (int i = 0; i < printStyles.size(); i++) {
             if ("客户".equals(printStyles.get(i).getKey())) {
                 client.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
-            if("联系电话".equals(printStyles.get(i).getKey())){
+            if ("联系电话".equals(printStyles.get(i).getKey())) {
                 phone.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
@@ -223,39 +262,39 @@ public class PrintActivity extends BluetoothActivity {
 //
 //                continue;
 //            }
-            if("业务员".equals(printStyles.get(i).getKey())){
+            if ("业务员".equals(printStyles.get(i).getKey())) {
                 salesman.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
-            if("制单人".equals(printStyles.get(i).getKey())){
+            if ("制单人".equals(printStyles.get(i).getKey())) {
                 createName.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
-            if("单据号".equals(printStyles.get(i).getKey())){
+            if ("单据号".equals(printStyles.get(i).getKey())) {
                 serialNo.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
-            if("单据日期".equals(printStyles.get(i).getKey())){
+            if ("单据日期".equals(printStyles.get(i).getKey())) {
                 createTime.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
-            if("单价".equals(printStyles.get(i).getKey())){
-//                serialNo.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
-                continue;
-            }
-            if("金额".equals(printStyles.get(i).getKey())){
+            if ("单价".equals(printStyles.get(i).getKey())) {
 
                 continue;
             }
-            if("结算方式".equals(printStyles.get(i).getKey())){
+            if ("金额".equals(printStyles.get(i).getKey())) {
+
+                continue;
+            }
+            if ("结算方式".equals(printStyles.get(i).getKey())) {
                 hravestModel.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
-            if("备注".equals(printStyles.get(i).getKey())){
+            if ("备注".equals(printStyles.get(i).getKey())) {
                 remake.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
-            if("打印时间".equals(printStyles.get(i).getKey())){
+            if ("打印时间".equals(printStyles.get(i).getKey())) {
                 time.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
             }
         }
@@ -265,14 +304,14 @@ public class PrintActivity extends BluetoothActivity {
     /**
      * 使用：
      */
-    class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
+    class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-        private ArrayList<Object> mArr = new ArrayList<>();
+        private ArrayList<OrderDetailsBean.DetailDTOListBean> mArr = new ArrayList<>();
 
         //后期传入刷新
-        public void notifyData(ArrayList<Object> arr) {
+        public void notifyData(ArrayList<OrderDetailsBean.DetailDTOListBean> arr) {
             mArr.clear();
-            if(arr != null){
+            if (arr != null) {
                 mArr.addAll(arr);
             }
             notifyDataSetChanged();
@@ -280,12 +319,12 @@ public class PrintActivity extends BluetoothActivity {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_enterprise_detail, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_print, parent, false);
             return new ViewHolder(view);
         }
 
-        public Object getItem(int position){
-            if(mArr != null && mArr.size() > position){
+        public OrderDetailsBean.DetailDTOListBean getItem(int position) {
+            if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
             return null;
@@ -298,7 +337,26 @@ public class PrintActivity extends BluetoothActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            OrderDetailsBean.DetailDTOListBean item = getItem(position);
+            if (item != null) {
+                if(position == 0){
+                    holder.space.setVisibility(View.GONE);
+                }else{
+                    holder.space.setVisibility(View.VISIBLE);
+                }
 
+                holder.fullName.setText(item.getSkuFullName());
+
+                holder.price.setText(String.valueOf(BigDecimalUtils.getBigDecimal(
+                        String.valueOf(item.getPrice()), 2).doubleValue()));
+
+                holder.count.setText(String.valueOf((int)item.getQty()));
+
+                BigDecimal multiply = BigDecimalUtils.getBigDecimal(
+                        String.valueOf(item.getPrice()), 2).multiply(BigDecimalUtils.getBigDecimal(
+                        String.valueOf(item.getQty()), 2));
+                holder.totalPrice.setText(String.valueOf(multiply.doubleValue()));
+            }
         }
 
         @Override
@@ -306,7 +364,18 @@ public class PrintActivity extends BluetoothActivity {
             return mArr == null ? 0 : mArr.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder{
+        class ViewHolder extends RecyclerView.ViewHolder {
+            @BindView(R.id.print_space)
+            View space;
+            @BindView(R.id.print_count)
+            TextView count;
+            @BindView(R.id.print_price)
+            TextView price;
+            @BindView(R.id.print_total_price)
+            TextView totalPrice;
+            @BindView(R.id.print_full_name)
+            TextView fullName;
+
             private View view;
 
             public ViewHolder(View itemView) {
@@ -321,7 +390,44 @@ public class PrintActivity extends BluetoothActivity {
         api.getQueryOrder("/" + orderId, new OrderAPI.IResultMsg<OrderDetailsBean>() {
             @Override
             public void Result(OrderDetailsBean bean) {
-                if(bean != null){
+                if (bean != null) {
+                    companyName.setText(bean.getCompanyName());
+                    serialNo.setText("单据号：" + bean.getBillNo());
+                    createTime.setText("单据日期：" + bean.getCreateTime());
+                    client.setText("客户名称：" + bean.getName());
+                    phone.setText("联系电话：" + bean.getMobilePhone());
+                    totalCount.setText(String.valueOf((int) bean.getTotalQuantity()));
+                    totalPrice.setText(String.valueOf(BigDecimalUtils.getBigDecimal(
+                            String.valueOf(bean.getTotalAmount()), 2).doubleValue()));
+                    salesman.setText("业务员：" + bean.getClerkName());
+                    createName.setText("制单人：" + bean.getCreateUserName());
+                    remake.setText("备注：" + bean.getBizSoOutRemark());
+
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(System.currentTimeMillis());
+                    time.setText("打印时间：" + simpleDateFormat.format(date));
+
+                    //付款方式
+                    ArrayList<HarvestModeBean> cashierList = bean.getBizSoOutCashierList();
+                    if(cashierList != null){
+                        for (int i = 0; i < cashierList.size(); i++) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(cashierList.get(i).getCashierTypeName());
+                            sb.append("：");
+                            sb.append(BigDecimalUtils.getBigDecimal(cashierList.get(i).getAmount(), 2).doubleValue());
+                            TextView tv = new TextView(PrintActivity.this);
+                            tv.setText(sb.toString());
+                            tv.setTextSize(12);
+                            tv.setTextColor(0xff333333);
+                            tv.setIncludeFontPadding(false);
+                            tv.setPadding(0, DpUtils.dip2px(PrintActivity.this, 10f), 0, 0);
+                            hravestModel.addView(tv);
+                        }
+                    }
+
+                    //商品list
+                    ArrayList<OrderDetailsBean.DetailDTOListBean> detailDTOList = bean.getDetailDTOList();
+                    adapter.notifyData(detailDTOList);
 
                 }
             }
