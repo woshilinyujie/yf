@@ -113,6 +113,7 @@ public class PrintActivity extends BluetoothActivity {
     private ArrayList<PrintStyleBean> printStyles = new ArrayList<>();
     private OrderAPI api;
     private Adapter adapter;
+    private OrderDetailsBean orderDetailsBean;
 
     private boolean isShowPrice = true;
     private boolean isShowMoney = true;
@@ -187,10 +188,15 @@ public class PrintActivity extends BluetoothActivity {
                         controller.getmAdapter().enable();
                         MToast.makeText(this, "蓝牙被关闭请打开...", Toast.LENGTH_SHORT).show();
                     } else {
-                        MToast.makeText(this, "打印测试...", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), BtServiceOne.class);
-                        intent.setAction(PrintUtil.ACTION_PRINT_TEST);
-                        startService(intent);
+                        if(orderDetailsBean==null){
+                            MToast.makeText(this, "等待网络请求", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Intent intent = new Intent(getApplicationContext(), BtServiceOne.class);
+
+                            MToast.makeText(this, "打印测试...", Toast.LENGTH_SHORT).show();
+                            intent.setAction(PrintUtil.ACTION_PRINT_TEST);
+                            startService(intent);
+                        }
                     }
 
                 }
@@ -250,6 +256,7 @@ public class PrintActivity extends BluetoothActivity {
     public void setPrintPaper() {
         for (int i = 0; i < printStyles.size(); i++) {
             if ("客户".equals(printStyles.get(i).getKey())) {
+                if(printStyles.get(i).isOpen()){}
                 client.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
                 continue;
             }
@@ -287,6 +294,73 @@ public class PrintActivity extends BluetoothActivity {
             }
             if ("金额".equals(printStyles.get(i).getKey())) {
                 isShowMoney = printStyles.get(i).isOpen();
+                continue;
+            }
+            if ("结算方式".equals(printStyles.get(i).getKey())) {
+                hravestModel.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
+                continue;
+            }
+            if ("备注".equals(printStyles.get(i).getKey())) {
+                remake.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
+                continue;
+            }
+            if ("打印时间".equals(printStyles.get(i).getKey())) {
+                time.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
+            }
+        }
+    }
+    public void setPrintPaper(OrderDetailsBean bean,Intent intent) {
+        for (int i = 0; i < printStyles.size(); i++) {
+            if ("客户".equals(printStyles.get(i).getKey())) {
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("client",bean.getName());
+                }
+                continue;
+            }
+            if ("联系电话".equals(printStyles.get(i).getKey())) {
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("phone",bean.getMobilePhone());
+                }
+                continue;
+            }
+//            if("商品编号".equals(printStyles.get(i).getKey())){
+//
+//                continue;
+//            }
+//            if("商品名称".equals(printStyles.get(i).getKey())){
+//
+//                continue;
+//            }
+            if ("业务员".equals(printStyles.get(i).getKey())) {
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("salesman",bean.getClerkName());
+                }
+                continue;
+            }
+            if ("制单人".equals(printStyles.get(i).getKey())) {
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("createName",bean.getCreateUserName());
+                }
+                continue;
+            }
+            if ("单据号".equals(printStyles.get(i).getKey())) {
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("serialNo", bean.getBillNo());
+                }
+                continue;
+            }
+            if ("单据日期".equals(printStyles.get(i).getKey())) {
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("createTime", bean.getCreateTime());
+                }
+                continue;
+            }
+            if ("单价".equals(printStyles.get(i).getKey())) {
+
+                continue;
+            }
+            if ("金额".equals(printStyles.get(i).getKey())) {
+
                 continue;
             }
             if ("结算方式".equals(printStyles.get(i).getKey())) {
@@ -413,6 +487,7 @@ public class PrintActivity extends BluetoothActivity {
             @Override
             public void Result(OrderDetailsBean bean) {
                 if (bean != null) {
+                    orderDetailsBean = bean;
                     companyName.setText(bean.getCompanyName());
                     serialNo.setText("单据号：" + bean.getBillNo());
                     createTime.setText("单据日期：" + bean.getCreateTime());
