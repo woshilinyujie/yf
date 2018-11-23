@@ -1,14 +1,20 @@
 package jh.zkj.com.yf.Mutils.print;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import jh.zkj.com.yf.Bean.OrderDetailsBean;
+import jh.zkj.com.yf.Mutils.BigDecimalUtils;
+import jh.zkj.com.yf.Mutils.GsonUtils;
 import jh.zkj.com.yf.R;
 
 
@@ -24,20 +30,23 @@ public class PrintOrderDataMaker implements PrintDataMaker {
     private int width;
     private int height;
     Context btService;
+    Intent intent;
 
 
-    public PrintOrderDataMaker(Context btService, String qr, int width, int height) {
+    public PrintOrderDataMaker(Context btService, String qr, int width, int height, Intent intent) {
         this.qr = qr;
         this.width = width;
         this.height = height;
         this.btService = btService;
+        this.intent = intent;
     }
 
 
     @Override
     public List<byte[]> getPrintData(int type) {
         ArrayList<byte[]> data = new ArrayList<>();
-
+        String json = intent.getStringExtra("json");
+        OrderDetailsBean bean = GsonUtils.GsonToBean(json, OrderDetailsBean.class);
         try {
             PrinterWriter printer;
             printer = type == PrinterWriter58mm.TYPE_58 ? new PrinterWriter58mm(height, width) : new PrinterWriter80mm(height, width);
@@ -48,100 +57,141 @@ public class PrintOrderDataMaker implements PrintDataMaker {
             printer.setAlignLeft();
             printer.printLine();
             printer.printLineFeed();
-
-            printer.printLineFeed();
             printer.setAlignCenter();
             printer.setEmphasizedOn();
-            printer.setFontSize(1);
-            printer.print("好吃点你就多吃点");
+            printer.setFontSize(0);
+            printer.print(bean.getCompanyName());
             printer.printLineFeed();
             printer.setEmphasizedOff();
             printer.printLineFeed();
 
-            printer.printLineFeed();
-            printer.setFontSize(0);
-            printer.setAlignCenter();
-            printer.print("订单编号：" + "546545645465456454");
-            printer.printLineFeed();
-
-            printer.setAlignCenter();
-            printer.print(new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault())
-                    .format(new Date(System.currentTimeMillis())));
-            printer.printLineFeed();
-            printer.printLine();
-
-            printer.printLineFeed();
-            printer.setAlignLeft();
-            printer.print("订单状态: " + "已接单");
-            printer.printLineFeed();
-            printer.print("用户昵称: " + "周末先生");
-            printer.printLineFeed();
-            printer.print("用餐人数: " + "10人");
-            printer.printLineFeed();
-            printer.print("用餐桌号:" + "A3" + "号桌");
-            printer.printLineFeed();
-            printer.print("预定时间：" + "2017-10-1 17：00");
-            printer.printLineFeed();
-            printer.print("预留时间：30分钟");
-            printer.printLineFeed();
-            printer.print("联系方式：" + "18094111545454");
-            printer.printLineFeed();
-            printer.printLine();
-            printer.printLineFeed();
-
-            printer.setAlignLeft();
-            printer.print("备注：" + "记得留位置");
-            printer.printLineFeed();
-            printer.printLine();
-
-            printer.printLineFeed();
-
-            printer.setAlignCenter();
-            printer.print("菜品信息");
-            printer.printLineFeed();
-            printer.setAlignCenter();
-            printer.printInOneLine("菜名", "数量", "单价", 0);
-            printer.printLineFeed();
-            for (int i = 0; i < 3; i++) {
-
-                printer.printInOneLine("干锅包菜", "X" + 3, "￥" + 30, 0);
+            if (!TextUtils.isEmpty(intent.getStringExtra("serialNo"))) {
+                printer.setFontSize(0);
+                printer.setAlignLeft();
+                printer.print("单据号：" + bean.getBillNo());
                 printer.printLineFeed();
             }
+            if (!TextUtils.isEmpty(intent.getStringExtra("createTime"))) {
+                printer.setFontSize(0);
+                printer.setAlignLeft();
+                printer.print("单据日期：" + bean.getCreateTime());
+                printer.printLineFeed();
+            }
+            if (!TextUtils.isEmpty(intent.getStringExtra("client"))) {
+                printer.setFontSize(0);
+                printer.setAlignLeft();
+                printer.print("客户名称：" + bean.getName());
+                printer.printLineFeed();
+            }
+            if (!TextUtils.isEmpty(intent.getStringExtra("phone"))) {
+                printer.setFontSize(0);
+                printer.setAlignLeft();
+                printer.print("联系电话：" + bean.getMobilePhone());
+                printer.printLineFeed();
+            }
+
+            printer.setAlignCenter();
+            printer.print("----------零售订单----------");
+            printer.setAlignLeft();
+            printer.printLineFeed();
+            printer.setEmphasizedOn();
+            printer.print("商品名称");
+            printer.printLineFeed();
+            printer.setAlignLeft();
+            printer.print("单价");
+            printer.setAlignCenter();
+            printer.print("数量");
+            printer.setAlignRight();
+            printer.print("金额");
+            printer.setEmphasizedOff();
+            printer.printLineFeed();
+
+            for (int x = 0; x < bean.getDetailDTOList().size(); x++) {
+                OrderDetailsBean.DetailDTOListBean detailDTOListBean = bean.getDetailDTOList().get(x);
+                printer.setAlignLeft();
+                printer.print(detailDTOListBean.getSkuFullName());
+                printer.printLineFeed();
+                double price = detailDTOListBean.getPrice();
+                //单价
+                if (intent.getBooleanExtra("money", false)) {
+                    printer.print("" + (String.valueOf(BigDecimalUtils.getBigDecimal(
+                            String.valueOf(price), 2).doubleValue())));
+                }
+                //数量
+                printer.setAlignCenter();
+                printer.print("" + (int) (detailDTOListBean.getQty()));
+
+                if (intent.getBooleanExtra("price", false)) {
+
+                    printer.setAlignRight();
+                    BigDecimal multiply = BigDecimalUtils.getBigDecimal(
+                            String.valueOf(detailDTOListBean.getPrice()), 2).multiply(BigDecimalUtils.getBigDecimal(
+                            String.valueOf(detailDTOListBean.getQty()), 2));
+                    printer.print(String.valueOf(multiply.doubleValue()));
+                }
+                //金额
+                printer.printLineFeed();
+            }
+
+            printer.setAlignLeft();
             printer.printLineFeed();
             printer.printLine();
             printer.printLineFeed();
+            printer.print("合计");
+            printer.setAlignCenter();
+            printer.print(String.valueOf((int) bean.getTotalQuantity()));
+            printer.setAlignRight();
+            printer.print(String.valueOf(BigDecimalUtils.getBigDecimal(
+                    String.valueOf(bean.getTotalAmount()), 2).doubleValue()));
             printer.setAlignLeft();
-            printer.printInOneLine("菜品总额：", "￥" + 100, 0);
-
-
-            printer.setAlignLeft();
-            printer.printInOneLine("优惠金额：", "￥" + "0.00"
-                    , 0);
             printer.printLineFeed();
-
-            printer.setAlignLeft();
-            printer.printInOneLine("订金/退款：", "￥" + "0.00"
-                    , 0);
-            printer.printLineFeed();
-
-
-            printer.setAlignLeft();
-            printer.printInOneLine("总计金额：", "￥" + 90, 0);
-            printer.printLineFeed();
-
             printer.printLine();
+            printer.printLineFeed();
+            if (bean.getBizSoOutCashierList() != null) {
+                for (int x = 0; x < bean.getBizSoOutCashierList().size(); x++) {
+                    printer.print(bean.getBizSoOutCashierList().get(x).getCashierTypeName() + ": ");
+                    double v = BigDecimalUtils.getBigDecimal(bean.getBizSoOutCashierList().get(x).getAmount(), 2).doubleValue();
+                    printer.print(v + "");
+                }
+            }
+            printer.printLineFeed();
+            if (!TextUtils.isEmpty(intent.getStringExtra("salesman"))) {
+                printer.setFontSize(0);
+                printer.setAlignLeft();
+                printer.print("业务员：" + bean.getClerkName());
+                printer.printLineFeed();
+            }
+            if (!TextUtils.isEmpty(intent.getStringExtra("createName"))) {
+                printer.setFontSize(0);
+                printer.setAlignLeft();
+                printer.print("制单人：" + bean.getCreateUserName());
+                printer.printLineFeed();
+            }
+            if (!TextUtils.isEmpty(intent.getStringExtra("remake"))) {
+                printer.setFontSize(0);
+                printer.setAlignLeft();
+                printer.print("备注：" + bean.getBizSoOutRemark());
+                printer.printLineFeed();
+            }
+            if (!TextUtils.isEmpty(intent.getStringExtra("printtime"))) {
+                printer.setFontSize(0);
+                printer.setAlignLeft();
+                printer.print("打印时间：" + intent.getStringExtra("printtime"));
+                printer.printLineFeed();
+            }
+
+            printer.printLineFeed();
             printer.printLineFeed();
             printer.setAlignCenter();
-            printer.print("谢谢惠顾，欢迎再次光临！");
-            printer.printLineFeed();
+            printer.print("骏杭科技提供技术支持");
             printer.printLineFeed();
             printer.printLineFeed();
             printer.feedPaperCutPartial();
-            printer.printLineFeed();
-            printer.printLineFeed();
+
             data.add(printer.getDataAndClose());
             return data;
         } catch (Exception e) {
+            String s = e.toString();
             return new ArrayList<>();
         }
     }
