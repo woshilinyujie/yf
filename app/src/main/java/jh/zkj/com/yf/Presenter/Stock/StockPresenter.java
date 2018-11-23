@@ -30,7 +30,7 @@ public class StockPresenter implements StockContract.IStockPresenter {
     }
 
     private void initPresenter() {
-        titles = new String[]{"商品库存", "库存串号", "串号跟踪", "分仓库存"};
+        titles = new String[]{"商品库存", "库存序列号", "序列号跟踪", "分仓库存"};
 //        StockListFragment commodityStocks = StockListFragment.newInstance(StockListFragment.TYPE_COMMODITY_STOCKS);
         CommodityStockFragment commodityStocks = CommodityStockFragment.newInstance();
 //        StockListFragment stockNumber = StockListFragment.newInstance(StockListFragment.TYPE_STOCK_NUMBER);

@@ -109,7 +109,7 @@ ps 以后来的新人不要怪我  劳资不是不会抽  是没时间抽  天�
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="商品信息"
+                    android:text="汇总信息"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/c_a6a6a6"
                     android:paddingBottom="@dimen/dp_6"

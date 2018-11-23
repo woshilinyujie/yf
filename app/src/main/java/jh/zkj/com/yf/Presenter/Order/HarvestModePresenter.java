@@ -180,6 +180,13 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
 
                 holder.modeCashIcon.setVisibility(View.GONE);
                 holder.modeIcon.setVisibility(View.VISIBLE);
+                if("支付宝".equals(item.getCashierTypeName())){
+                    holder.modeIcon.setImageResource(R.mipmap.zhifubao);
+                }else if("微信".equals(item.getCashierTypeName())){
+                    holder.modeIcon.setImageResource(R.mipmap.weixin_model);
+                }else{
+                    holder.modeIcon.setVisibility(View.INVISIBLE);
+                }
                 holder.modeText.setText(item.getCashierTypeName());
                 holder.money.setEnabled(true);
                 if(TextUtils.isEmpty(item.getAmount())){

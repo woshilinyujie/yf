@@ -22,12 +22,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.API.APIConstant;
 import jh.zkj.com.yf.API.OrderAPI;
+import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.Order.HarvestModeActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
 import jh.zkj.com.yf.Bean.HarvestModeBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Contract.Order.RetailReceivableContract;
+import jh.zkj.com.yf.Mview.CancelDialog;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
@@ -302,28 +304,49 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         orderBean.getMemberDTO().setSex(orderBean.getSex());
         orderBean.setCreateTime(null);
         orderBean.setUpdateTime(null);
-        String json = JSON.toJSONString(orderBean);
+        final String json = JSON.toJSONString(orderBean);
 
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
-        api.getReceivableSuccess(json, new OrderAPI.IResultMsg<String>() {
+        final CancelDialog dialog = new CancelDialog(activity);
+        dialog.setCancleS("取消");
+        dialog.setSureS("确定");
+        dialog.setMsgS("请确认信息已全部正确填写\n确认后将不可修改");
+        dialog.show();
+        dialog.getSure().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void Result(String bean) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
-                activity.setResult(Activity.RESULT_OK);
-                activity.finish();
-            }
+            public void onClick(View v) {
 
-            @Override
-            public void Error(String json) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
+                if (loadingDialog == null) {
+                    loadingDialog = new LoadingDialog(activity);
                 }
+                loadingDialog.showLoading();
+                api.getReceivableSuccess(json, new OrderAPI.IResultMsg<String>() {
+                    @Override
+                    public void Result(String bean) {
+                        if(loadingDialog.isShowing()){
+                            loadingDialog.dismissLoading();
+                        }
+                        activity.setResult(Activity.RESULT_OK);
+                        activity.finish();
+                    }
+
+                    @Override
+                    public void Error(String json) {
+                        if(loadingDialog.isShowing()){
+                            loadingDialog.dismissLoading();
+                        }
+                    }
+                });
+
+                dialog.dismiss();
+
             }
         });
+        dialog.getCancle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
     }
 }

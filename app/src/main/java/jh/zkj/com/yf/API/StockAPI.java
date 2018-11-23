@@ -20,6 +20,7 @@ import jh.zkj.com.yf.Bean.SerialNoBean;
 import jh.zkj.com.yf.Bean.SerialNoTrackBean;
 import jh.zkj.com.yf.Bean.SkuStockBean;
 import jh.zkj.com.yf.Bean.commodityStockBean;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 
 /**
@@ -38,7 +39,8 @@ public class StockAPI {
     public StockAPI(Context context){
         this.context = context;
 //        TOKEN = "bearer " + PrefUtils.getString(context, "erp_token", "");
-        API = "http://192.168.68.172:3001/";
+//        API = "http://192.168.68.172:3001/";
+        TOKEN = "bearer " + PrefUtils.getString(context, "erp_token", "");
         dialog = new LoadingDialog(context);
     }
 
@@ -170,7 +172,7 @@ public class StockAPI {
 
         OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKUSTOCK_APP_STOCKPART)
                 .headers("Authorization", TOKEN)
-                .headers("warehouseName", warehouseName)
+                .params("warehouseName", warehouseName)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
