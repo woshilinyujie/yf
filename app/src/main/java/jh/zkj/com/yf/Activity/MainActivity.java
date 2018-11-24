@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -58,6 +62,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         ButterKnife.bind(this);
         presenter = new MainPresenter(this);
         presenter.initPager(homeActivityViewPage);
+        EventBus.getDefault().register(this);
 
     }
 
@@ -189,5 +194,17 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBus(String s) {
+        if (s.equals("mainfinish")) {
+            finish();
+        }
     }
 }

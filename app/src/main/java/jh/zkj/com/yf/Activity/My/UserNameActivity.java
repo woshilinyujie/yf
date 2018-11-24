@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.UserNameActivityContract;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.UserNameActivityPresenter;
 import jh.zkj.com.yf.R;
 
@@ -46,12 +48,18 @@ public class UserNameActivity extends MBaseActivity implements UserNameActivityC
                 presenter.deleteName();
                 break;
             case R.id.username_save://保存
+                presenter.modifyName();
                 break;
         }
     }
 
     public void deleteName() {
         usernameName.setText("");
+    }
+
+    @Override
+    public void showToas(String s) {
+        MToast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
     public EditText getUsernameName() {

@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide;
 
 import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.model.TResult;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +40,7 @@ import jh.zkj.com.yf.R;
  * 我的
  */
 
-public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyFragmentView{
+public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyFragmentView {
     Activity activity;
     @BindView(R.id.my_photo)
     CircleView myPhoto;
@@ -82,7 +85,9 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
         activity = getActivity();
         rootView = View.inflate(activity, R.layout.my_fragment_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         presenter = new MyFragmentPreSenter(this);
+        presenter.initDate();
         return rootView;
     }
 
@@ -92,27 +97,27 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
         unbinder.unbind();
     }
 
-    @OnClick({R.id.my_account_order, R.id.my_account_login_password,R.id.my_photo, R.id.my_account_realtve, R.id.my_phone_realtve, R.id.my_email_relative, R.id.my_exit})
+    @OnClick({R.id.my_account_order, R.id.my_account_login_password, R.id.my_photo, R.id.my_account_realtve, R.id.my_phone_realtve, R.id.my_email_relative, R.id.my_exit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_photo: //头像
                 presenter.ClickPhoto();
                 break;
             case R.id.my_account_realtve://账户名
-                Intent intent=new Intent(getActivity(), UserNameActivity.class);
+                Intent intent = new Intent(getActivity(), UserNameActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_phone_realtve://手机
-                Intent intent1=new Intent(getActivity(), PhoneActivity.class);
+                Intent intent1 = new Intent(getActivity(), PhoneActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.my_email_relative://邮箱
-                Intent intent2=new Intent(getActivity(), EmailActivity.class);
+                Intent intent2 = new Intent(getActivity(), EmailActivity.class);
                 startActivity(intent2);
                 break;
             case R.id.my_exit://退出
                 presenter.exitLogin();
-                Intent intent4=new Intent(getActivity(), LoginActivity.class);
+                Intent intent4 = new Intent(getActivity(), LoginActivity.class);
                 activity.startActivity(intent4);
                 activity.finish();
 
@@ -121,7 +126,7 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
                 presenter.startMyOrderActivity();
                 break;
             case R.id.my_account_login_password://修改登入密码
-                Intent intent3=new Intent(getActivity(), ModifyPasswordActivity.class);
+                Intent intent3 = new Intent(getActivity(), ModifyPasswordActivity.class);
                 startActivity(intent3);
                 break;
         }
@@ -142,13 +147,62 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
     }
 
     @Override
-    public void takeSuccess(TResult result,View view) {//选择照片成功回调
-        super.takeSuccess(result,view);
+    public void takeSuccess(TResult result, View view) {//选择照片成功回调
+        super.takeSuccess(result, view);
         String iconPath = result.getImage().getOriginalPath();//照片存储地址
         Glide.with(this).load(iconPath).into(myPhoto);
     }
 
-    public TakePhoto getFrameTakePhoto(){//选择照片必要参数
-        return  getTakePhoto();
+    public TakePhoto getFrameTakePhoto() {//选择照片必要参数
+        return getTakePhoto();
+    }
+
+    @Override
+    public void setUserName(String s) {
+        myAccountName.setText(s);
+    }
+
+    @Override
+    public void setName(String s) {
+        myName.setText(s);
+    }
+
+    @Override
+    public void setPhone(String s) {
+        myPhone.setText(s);
+    }
+
+    @Override
+    public void setCompanyName(String name) {
+        myCompany.setText(name);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBus(String s) {
+        if (s.equals("my_refresh_data")) {
+            presenter.initDate();
+        }
+    }
+
+    public TextView getMyCompany() {
+        return myCompany;
+    }
+
+    public TextView getMyAccountName() {
+        return myAccountName;
+    }
+
+    public TextView getMyPhone() {
+        return myPhone;
+    }
+
+    public TextView getMyName() {
+        return myName;
     }
 }

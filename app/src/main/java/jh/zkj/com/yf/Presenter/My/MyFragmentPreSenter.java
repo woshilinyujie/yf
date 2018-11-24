@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
+import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Contract.My.MyFragmentContract;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
 import jh.zkj.com.yf.Mutils.PrefUtils;
@@ -19,11 +21,14 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
     Activity activity;
     MyFragment fragment;
     private PhotoPopupWindow popupWindow;
+    MyAPI myAPI = new MyAPI();
+    private MyAPI.IResultMsg<MyBean> iResultMsg;
 
     public MyFragmentPreSenter(MyFragment fragment) {
         this.fragment = fragment;
         activity = fragment.getActivity();
     }
+
 
     @Override
     public void ClickPhoto() {
@@ -38,34 +43,34 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
 
     @Override
     public void ClickTakePhoto() {
-          popupWindow.getTake().setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                    popupWindow.initTakePhoto(fragment.getFrameTakePhoto(),null);
-                    popupWindow.Dismiss();
-              }
-          });
+        popupWindow.getTake().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.initTakePhoto(fragment.getFrameTakePhoto(), null);
+                popupWindow.Dismiss();
+            }
+        });
     }
 
     @Override
     public void ClickPhotoSelect() {
-          popupWindow.getSelect().setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  popupWindow.initSelect(fragment.getFrameTakePhoto(),null);
-                  popupWindow.Dismiss();
-              }
-          });
+        popupWindow.getSelect().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.initSelect(fragment.getFrameTakePhoto(), null);
+                popupWindow.Dismiss();
+            }
+        });
     }
 
     @Override
     public void ClickPhotoCancle() {
-         popupWindow.getCancel().setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 popupWindow.Dismiss();
-             }
-         });
+        popupWindow.getCancel().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.Dismiss();
+            }
+        });
     }
 
     @Override
@@ -77,7 +82,28 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
 
     @Override
     public void exitLogin() {
-        PrefUtils.putString(activity,"erp_token","");
+        PrefUtils.putString(activity, "erp_token", "");
+    }
+
+    @Override
+    public void initDate() {
+        if (iResultMsg == null)
+            iResultMsg = new MyAPI.IResultMsg<MyBean>() {
+                @Override
+                public void Result(MyBean bean) {
+                    String[] split = bean.getData().getSysUser().getUsername().split("_");
+                    fragment.setUserName(split[split.length - 1]);
+                    fragment.setName(bean.getData().getSysUser().getName());
+                    fragment.setCompanyName(bean.getData().getCompanyName());
+                    fragment.setPhone(bean.getData().getSysUser().getMobileNum());
+                }
+
+                @Override
+                public void Error(String json) {
+
+                }
+            };
+        myAPI.getMyInfo(activity, iResultMsg);
     }
 
 }

@@ -9,6 +9,10 @@ import org.devio.takephoto.app.TakePhoto;
 public class MyFragmentContract {
     public interface IMyFragmentView {
         TakePhoto getFrameTakePhoto();//选择照片必要参数
+        void setUserName(String s);
+        void setName(String s);
+        void setPhone(String s);
+        void setCompanyName(String name);
     }
 
     public interface IMyFragmentPresenter {
@@ -22,7 +26,7 @@ public class MyFragmentContract {
 
         void startMyOrderActivity();//我的订单
         void exitLogin();//退出登录
-
+        void initDate();
     }
 
 }

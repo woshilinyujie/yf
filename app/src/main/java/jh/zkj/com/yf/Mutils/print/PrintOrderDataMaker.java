@@ -58,11 +58,9 @@ public class PrintOrderDataMaker implements PrintDataMaker {
             printer.printLine();
             printer.printLineFeed();
             printer.setAlignCenter();
-            printer.setEmphasizedOn();
             printer.setFontSize(0);
             printer.print(bean.getCompanyName());
             printer.printLineFeed();
-            printer.setEmphasizedOff();
             printer.printLineFeed();
 
             if (!TextUtils.isEmpty(intent.getStringExtra("serialNo"))) {
@@ -90,59 +88,54 @@ public class PrintOrderDataMaker implements PrintDataMaker {
                 printer.printLineFeed();
             }
 
+            printer.setFontSize(0);
             printer.setAlignCenter();
-            printer.print("----------零售订单----------");
+            printer.print("------------零售订单------------");
             printer.setAlignLeft();
             printer.printLineFeed();
-            printer.setEmphasizedOn();
             printer.print("商品名称");
+
             printer.printLineFeed();
-            printer.setAlignLeft();
-            printer.print("单价");
             printer.setAlignCenter();
-            printer.print("数量");
-            printer.setAlignRight();
-            printer.print("金额");
-            printer.setEmphasizedOff();
-            printer.printLineFeed();
+            printer.printInOneLine("单价", "数量", "金额", 0);
 
             for (int x = 0; x < bean.getDetailDTOList().size(); x++) {
+                printer.printLineFeed();
                 OrderDetailsBean.DetailDTOListBean detailDTOListBean = bean.getDetailDTOList().get(x);
                 printer.setAlignLeft();
                 printer.print(detailDTOListBean.getSkuFullName());
                 printer.printLineFeed();
-                double price = detailDTOListBean.getPrice();
-                //单价
-                if (intent.getBooleanExtra("money", false)) {
-                    printer.print("" + (String.valueOf(BigDecimalUtils.getBigDecimal(
-                            String.valueOf(price), 2).doubleValue())));
-                }
-                //数量
                 printer.setAlignCenter();
-                printer.print("" + (int) (detailDTOListBean.getQty()));
-
-                if (intent.getBooleanExtra("price", false)) {
-
-                    printer.setAlignRight();
-                    BigDecimal multiply = BigDecimalUtils.getBigDecimal(
-                            String.valueOf(detailDTOListBean.getPrice()), 2).multiply(BigDecimalUtils.getBigDecimal(
-                            String.valueOf(detailDTOListBean.getQty()), 2));
-                    printer.print(String.valueOf(multiply.doubleValue()));
-                }
+                //单价
+                double price = detailDTOListBean.getPrice();
+                String priceS = String.valueOf(BigDecimalUtils.getBigDecimal(
+                        String.valueOf(price), 2).doubleValue());
+                //数量
+                int qty = (int) (detailDTOListBean.getQty());
                 //金额
-                printer.printLineFeed();
+                BigDecimal multiply = BigDecimalUtils.getBigDecimal(
+                        String.valueOf(detailDTOListBean.getPrice()), 2).multiply(BigDecimalUtils.getBigDecimal(
+                        String.valueOf(detailDTOListBean.getQty()), 2));
+                String money = String.valueOf(multiply.doubleValue());
+
+
+                if(intent.getBooleanExtra("money", false)&&intent.getBooleanExtra("price", false)){
+                    printer.printInOneLine(priceS, qty+"", money, 0);
+                }else if(!intent.getBooleanExtra("money", false)&&!intent.getBooleanExtra("price", false)){
+                    printer.printInOneLine(" ", qty+"", " ", 0);
+                }else if(!intent.getBooleanExtra("money", false)&&intent.getBooleanExtra("price", false)){
+                    printer.printInOneLine(" ", qty+"", priceS, 0);
+                }else{
+                    printer.printInOneLine(money, qty+"", " ", 0);
+                }
             }
 
-            printer.setAlignLeft();
+            printer.setAlignCenter();
             printer.printLineFeed();
             printer.printLine();
             printer.printLineFeed();
-            printer.print("合计");
-            printer.setAlignCenter();
-            printer.print(String.valueOf((int) bean.getTotalQuantity()));
-            printer.setAlignRight();
-            printer.print(String.valueOf(BigDecimalUtils.getBigDecimal(
-                    String.valueOf(bean.getTotalAmount()), 2).doubleValue()));
+            printer.printInOneLine("合计", String.valueOf((int) bean.getTotalQuantity()), String.valueOf(BigDecimalUtils.getBigDecimal(
+                    String.valueOf(bean.getTotalAmount()), 2).doubleValue()), 0);
             printer.setAlignLeft();
             printer.printLineFeed();
             printer.printLine();
@@ -181,7 +174,7 @@ public class PrintOrderDataMaker implements PrintDataMaker {
             }
 
             printer.printLineFeed();
-            printer.printLineFeed();
+
             printer.setAlignCenter();
             printer.print("骏杭科技提供技术支持");
             printer.printLineFeed();

@@ -57,6 +57,7 @@
 
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="@dimen/dp_6"
             android:layout_height="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_16"
@@ -134,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginRight="@dimen/dp_28"
             android:text="修改"
             android:textColor="@color/c_666666"
             android:textSize="@dimen/sp_14" />
@@ -181,8 +182,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp_24"
-            android:text="城陵陵"
+            android:layout_marginRight="@dimen/dp_28"
+            android:text="--"
             android:textColor="@color/c_666666"
             android:textSize="@dimen/sp_14" />
 
@@ -228,8 +229,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp_24"
-            android:text="134****1234"
+            android:layout_marginRight="@dimen/dp_28"
+            android:text="--"
             android:textColor="@color/c_666666"
             android:textSize="@dimen/sp_14" />
 
@@ -247,6 +248,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/my_email_relative"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"

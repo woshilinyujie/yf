@@ -33,6 +33,9 @@ import jh.zkj.com.yf.Bean.LoginERPBean;
 import jh.zkj.com.yf.Bean.ModifyCRMHeadUpBean;
 import jh.zkj.com.yf.Bean.ModifyCRMNameBean;
 import jh.zkj.com.yf.Bean.ModifyCRMNameUpBean;
+import jh.zkj.com.yf.Bean.ModifyPasswordBean;
+import jh.zkj.com.yf.Bean.ModifyPhoneBean;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Bean.RegisterBean;
 import jh.zkj.com.yf.Bean.RegisterNextBean;
 import jh.zkj.com.yf.Bean.RegisterUpBean;
@@ -627,7 +630,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>get("http://192.168.68.12:3001/" + HttpConstant.HTTP_CRM_STD_USER_APPLY + uuid).tag(context)
+        OkGo.<String>get(API+":3001/" + HttpConstant.HTTP_CRM_STD_USER_APPLY + uuid).tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .params("keywords", keywords)
                 .params("opreate", opreate)
@@ -646,8 +649,8 @@ public class MyAPI {
                             } else {
                                 showToast(context, bean.getMsg());
                             }
-                        }catch (Exception e){
-                            showToast(context,e.toString());
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
                         }
                     }
 
@@ -681,13 +684,13 @@ public class MyAPI {
                                     new TypeReference<BaseBean<CompanyBean>>() {
                                     });
 
-                            if("0".equals(bean.getCode())&&bean.getData()!=null){
+                            if ("0".equals(bean.getCode()) && bean.getData() != null) {
                                 iResultMsg.Result(bean.getData());
-                            }else{
-                                showToast(context,bean.getMsg());
+                            } else {
+                                showToast(context, bean.getMsg());
                             }
-                        }catch (Exception e){
-                            showToast(context,e.toString());
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
                         }
                     }
 
@@ -770,14 +773,14 @@ public class MyAPI {
                         String s1 = response.body().toString();
                         try {
                             ModifyCRMNameBean modifyCRMNameBean = GsonUtils.GsonToBean(s1, ModifyCRMNameBean.class);
-                            if (modifyCRMNameBean.getCode() == 0 &&modifyCRMNameBean.isData()) {
+                            if (modifyCRMNameBean.getCode() == 0 && modifyCRMNameBean.isData()) {
                                 iResultMsg.Result(modifyCRMNameBean);
                             } else {
                                 showToast(context, modifyCRMNameBean.getMsg());
                             }
                             iResultMsg.Result(modifyCRMNameBean);
-                        }catch (Exception e){
-                            showToast(context,e.toString());
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
                         }
                     }
                 });
@@ -809,7 +812,7 @@ public class MyAPI {
                             dialog.dismissLoading();
                         String s1 = response.body().toString();
                         ModifyCRMNameBean modifyCRMNameBean = GsonUtils.GsonToBean(s1, ModifyCRMNameBean.class);
-                        if (modifyCRMNameBean.getCode() == 0 &&modifyCRMNameBean.isData()) {
+                        if (modifyCRMNameBean.getCode() == 0 && modifyCRMNameBean.isData()) {
                             iResultMsg.Result(modifyCRMNameBean);
                         } else {
                             showToast(context, modifyCRMNameBean.getMsg());
@@ -820,7 +823,9 @@ public class MyAPI {
     }
 
 
-    /**上传头像
+    /**
+     * 上传头像
+     *
      * @param context
      * @param path
      * @param iResultMsg
@@ -841,10 +846,158 @@ public class MyAPI {
                         String s = response.body().toString();
                         try {
                             UpFileBean upFileBean = GsonUtils.GsonToBean(s, UpFileBean.class);
-                            if (upFileBean.getCode() == 0 &&upFileBean.getData()!=null) {
+                            if (upFileBean.getCode() == 0 && upFileBean.getData() != null) {
                                 iResultMsg.Result(upFileBean);
                             } else {
                                 showToast(context, upFileBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param context
+     * @param oldPassword
+     * @param newPassword
+     * @param iResultMsg
+     */
+    public void modifyPassword(final Context context, String oldPassword, String newPassword, final IResultMsg<ModifyPasswordBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        String erp_token = PrefUtils.getString(context, "erp_token", "");
+        OkGo.<String>get(API + ":3001/erp/basic/user/app/center/update/password")
+                .params("access_token", erp_token)
+                .params("oldPassword", oldPassword)
+                .params("newPassword1", newPassword)
+                .params("newPassword2", newPassword)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String s = response.body().toString();
+                        try {
+                            ModifyPasswordBean modifyPasswordBean = GsonUtils.GsonToBean(s, ModifyPasswordBean.class);
+                            if (modifyPasswordBean.getCode() == 0 && modifyPasswordBean.isData()) {
+                                iResultMsg.Result(modifyPasswordBean);
+                            } else {
+                                showToast(context, modifyPasswordBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 修改用户名
+     *
+     * @param context
+     * @param name
+     * @param iResultMsg
+     */
+    public void modifyUserName(final Context context, String name, final IResultMsg<ModifyPasswordBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        String erp_token = PrefUtils.getString(context, "erp_token", "");
+        OkGo.<String>get(API + ":3001/erp/basic/user/app/center/update/username")
+                .params("access_token", erp_token)
+                .params("username", name)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String s = response.body().toString();
+                        try {
+                            ModifyPasswordBean modifyPasswordBean = GsonUtils.GsonToBean(s, ModifyPasswordBean.class);
+                            if (modifyPasswordBean.getCode() == 0 && modifyPasswordBean.isData()) {
+                                iResultMsg.Result(modifyPasswordBean);
+                            } else {
+                                showToast(context, modifyPasswordBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 修改手机号
+     *
+     * @param context
+     * @param phone
+     * @param code
+     * @param iResultMsg
+     */
+    public void modifyPhone(final Context context, String phone, String code, final IResultMsg<ModifyPhoneBean> iResultMsg) {
+        String erp_token = PrefUtils.getString(context, "erp_token", "");
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get(API + ":3001/erp/basic/user/app/center/update/mobilenum").tag(context)
+                .headers("smsCode", "true")
+                .params("access_token", erp_token)
+                .params("smsCode", code)
+                .params("mobileNum", phone)
+                .params("smsPhone", phone)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String s = response.body().toString();
+                        try {
+                            ModifyPhoneBean modifyPhoneBean = GsonUtils.GsonToBean(s, ModifyPhoneBean.class);
+                            if (modifyPhoneBean.getCode() == 0 && modifyPhoneBean.isData()) {
+                                iResultMsg.Result(modifyPhoneBean);
+                            } else {
+                                showToast(context, modifyPhoneBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                    }
+                });
+    }
+
+    public void getMyInfo(final Context context, final IResultMsg<MyBean> iResultMsg) {
+        String erp_token = PrefUtils.getString(context, "erp_token", "");
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get(API + ":3001/erp/basic/user/erploginuser").tag(context)
+                .params("access_token", erp_token)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String s = response.body().toString();
+                        try {
+                            MyBean myBean = GsonUtils.GsonToBean(s, MyBean.class);
+                            if(myBean.getCode()==0&&myBean.getData()!=null){
+                                iResultMsg.Result(myBean);
+                                PrefUtils.putString(context,"erp_json",s);
+                            }else{
+                                showToast(context,myBean.getMsg());
                             }
                         }catch (Exception e){
                             showToast(context,e.toString());
