@@ -146,11 +146,11 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
 
         //后期传入刷新
         public void notifyData(ArrayList<SkuStockBean.ListBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
 
         @Override
@@ -223,7 +223,7 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
     //**********************************************************************************************
 
     private void getSkuStockList(String s) {
-        api.getSkuStockList("", new OrderAPI.IResultMsg<SkuStockBean>() {
+        api.getSkuStockList(s, new OrderAPI.IResultMsg<SkuStockBean>() {
             @Override
             public void Result(SkuStockBean bean) {
                 ArrayList<SkuStockBean.ListBean> list = bean.getList();

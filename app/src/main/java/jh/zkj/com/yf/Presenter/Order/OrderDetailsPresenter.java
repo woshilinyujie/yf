@@ -379,6 +379,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         if (OrderConfig.STATUS_UN_SUCCESS.equals(status)) {
             comDetails.add(new ComDetailBean("备注", bean.getRemark()));
         } else if (OrderConfig.STATUS_SUCCESS.equals(status)) {
+            comDetails.add(1, new ComDetailBean("收款单号", bean.getBizSoOutBillNo()));
             comDetails.add(new ComDetailBean("收款人", bean.getCashierName()));
             comDetails.add(new ComDetailBean("收款详情", ""));
             comDetails.add(new ComDetailBean("收款时间", bean.getCashierTime()));
