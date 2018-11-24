@@ -39,6 +39,7 @@ import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Bean.PrintStyleBean;
 import jh.zkj.com.yf.Mutils.BigDecimalUtils;
 import jh.zkj.com.yf.Mutils.DpUtils;
+import jh.zkj.com.yf.Mutils.GsonUtils;
 import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mutils.print.AppInfo;
 import jh.zkj.com.yf.Mutils.print.BluetoothActivity;
@@ -193,8 +194,8 @@ public class PrintActivity extends BluetoothActivity {
                             MToast.makeText(this, "等待网络请求", Toast.LENGTH_SHORT).show();
                         }else{
                             Intent intent = new Intent(getApplicationContext(), BtServiceOne.class);
-
-                            MToast.makeText(this, "打印测试...", Toast.LENGTH_SHORT).show();
+                            setPrintPaper(orderDetailsBean,intent);
+                            MToast.makeText(this, "打印中...", Toast.LENGTH_SHORT).show();
                             intent.setAction(PrintUtil.ACTION_PRINT_TEST);
                             startService(intent);
                         }
@@ -309,8 +310,12 @@ public class PrintActivity extends BluetoothActivity {
                 time.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
             }
         }
+        if(adapter!=null)
+        adapter.notifyDataSetChanged();
     }
     public void setPrintPaper(OrderDetailsBean bean,Intent intent) {
+        String s = GsonUtils.GsonString(bean);
+        intent.putExtra("json",s);
         for (int i = 0; i < printStyles.size(); i++) {
             if ("客户".equals(printStyles.get(i).getKey())) {
                 if(printStyles.get(i).isOpen()){
@@ -357,24 +362,37 @@ public class PrintActivity extends BluetoothActivity {
                 continue;
             }
             if ("单价".equals(printStyles.get(i).getKey())) {
-
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("price", true);
+                }
                 continue;
             }
             if ("金额".equals(printStyles.get(i).getKey())) {
-
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("money", true);
+                }
                 continue;
             }
             if ("结算方式".equals(printStyles.get(i).getKey())) {
-                hravestModel.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("pay", true);
+                }
                 continue;
             }
             if ("备注".equals(printStyles.get(i).getKey())) {
-                remake.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
+                if(printStyles.get(i).isOpen()){
+                    intent.putExtra("remake", bean.getBizSoOutRemark());
+                }
                 continue;
             }
             if ("打印时间".equals(printStyles.get(i).getKey())) {
-                time.setVisibility(printStyles.get(i).isOpen() ? View.VISIBLE : View.GONE);
+                if(printStyles.get(i).isOpen()){
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(System.currentTimeMillis());
+                    intent.putExtra("printtime", simpleDateFormat.format(date));
+                }
             }
+
         }
     }
 
@@ -424,7 +442,6 @@ public class PrintActivity extends BluetoothActivity {
                 }
 
                 holder.fullName.setText(item.getSkuFullName());
-
                 if(isShowPrice){
                     holder.price.setVisibility(View.VISIBLE);
                     holder.price.setText(String.valueOf(BigDecimalUtils.getBigDecimal(

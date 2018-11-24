@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <jh.zkj.com.yf.Mview.TitleLayout
         app:rightText="设置"
@@ -157,32 +157,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="------------------------- 零售 -------------------------"
+                    android:text="------------------------------- 零售 -------------------------------"
                     android:layout_marginTop="@dimen/dp_16"
                     android:includeFontPadding="false"
                     android:textSize="@dimen/sp_12"
                     android:singleLine="true"
                     android:textColor="@color/c_333333" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="商品名称"
                     android:includeFontPadding="false"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/c_333333" />
-
                 <LinearLayout
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="bottom">
 
+
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="数量"
+                        android:text="单价"
                         android:gravity="left"
                         android:includeFontPadding="false"
                         android:textSize="@dimen/sp_12"
@@ -192,8 +194,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="单价"
-                        android:gravity="right"
+                        android:text="数量"
+                        android:gravity="center"
                         android:paddingRight="@dimen/dp_10"
                         android:includeFontPadding="false"
                         android:textSize="@dimen/sp_12"

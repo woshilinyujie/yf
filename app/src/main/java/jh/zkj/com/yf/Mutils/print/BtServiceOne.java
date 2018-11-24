@@ -25,13 +25,12 @@ public class BtServiceOne extends IntentService {
             return;
         }
         if (intent.getAction().equals(PrintUtil.ACTION_PRINT_TEST)) {
-            printTest();
+            printTest(intent);
         }
-
     }
 
-    private void printTest() {
-        PrintOrderDataMaker printOrderDataMaker = new PrintOrderDataMaker(this, "", PrinterWriter58mm.TYPE_58, PrinterWriter.HEIGHT_PARTING_DEFAULT);
+    private void printTest(Intent intent) {
+        PrintOrderDataMaker printOrderDataMaker = new PrintOrderDataMaker(this, "", PrinterWriter58mm.TYPE_58, PrinterWriter.HEIGHT_PARTING_DEFAULT,intent);
         ArrayList<byte[]> printData = (ArrayList<byte[]>) printOrderDataMaker.getPrintData(PrinterWriter58mm.TYPE_58);
         PrintQueue.getQueue(getApplicationContext()).add(printData);
 
