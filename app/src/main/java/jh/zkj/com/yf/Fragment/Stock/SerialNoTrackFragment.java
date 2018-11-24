@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Fragment.Stock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -71,9 +72,14 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
         return mainView;
     }
 
-    @OnClick({R.id.serial_no_track_clear_img})
+    @OnClick({R.id.serial_no_track_scan, R.id.serial_no_track_clear_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            //扫码
+            case R.id.serial_no_track_scan: {
+                presenter.openScan();
+                break;
+            }
             //清空edittext
             case R.id.serial_no_track_clear_img: {
                 setSearchText("");
@@ -122,5 +128,12 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
 
     public LinearLayout getHistoryLayout(){
         return historyLayout;
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.onActivityResult(requestCode, resultCode, data);
     }
 }

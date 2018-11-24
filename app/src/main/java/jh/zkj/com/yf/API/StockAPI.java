@@ -1,6 +1,7 @@
 package jh.zkj.com.yf.API;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -22,6 +23,7 @@ import jh.zkj.com.yf.Bean.SkuStockBean;
 import jh.zkj.com.yf.Bean.commodityStockBean;
 import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 
 /**
  * Created by wdefer
@@ -75,14 +77,26 @@ public class StockAPI {
                         BaseBean<commodityStockBean> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<commodityStockBean>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
+
                         iResultMsg.Error(response.body());
                     }
                 });
@@ -122,14 +136,25 @@ public class StockAPI {
                         BaseBean<SerialNoBean> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<SerialNoBean>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
 
                         iResultMsg.Error(response.body());
                     }
@@ -152,14 +177,25 @@ public class StockAPI {
                         BaseBean<ArrayList<SerialNoTrackBean>> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<ArrayList<SerialNoTrackBean>>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
 
                         iResultMsg.Error(response.body());
                     }
@@ -182,14 +218,25 @@ public class StockAPI {
                         BaseBean<SkuStockBean> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<SkuStockBean>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
 
                         iResultMsg.Error(response.body());
                     }
@@ -211,14 +258,25 @@ public class StockAPI {
                         BaseBean<ArrayList<FilterCompanyBean>> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<ArrayList<FilterCompanyBean>>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
 
                         iResultMsg.Error(response.body());
                     }
@@ -240,14 +298,25 @@ public class StockAPI {
                         BaseBean<ArrayList<FilterClassifyBean>> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<ArrayList<FilterClassifyBean>>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
 
                         iResultMsg.Error(response.body());
                     }
@@ -269,14 +338,25 @@ public class StockAPI {
                         BaseBean<ArrayList<FilterBrandBean>> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<ArrayList<FilterBrandBean>>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
 
                         iResultMsg.Error(response.body());
                     }
@@ -298,14 +378,25 @@ public class StockAPI {
                         BaseBean<ArrayList<FilterProductBean>> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<ArrayList<FilterProductBean>>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
 
                         iResultMsg.Error(response.body());
                     }
@@ -327,14 +418,25 @@ public class StockAPI {
                         BaseBean<ArrayList<FilterBaseWarehouseBean>> baseBean = JSON.parseObject(response.body(),
                                 new TypeReference<BaseBean<ArrayList<FilterBaseWarehouseBean>>>() {});
 
-                        iResultMsg.Result(baseBean.getData());
+                        if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
+                            iResultMsg.Result(baseBean.getData());
+                        }else{
+                            if (!TextUtils.isEmpty(baseBean.getMsg())){
+                                MToast.makeText(context, baseBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        if(dialog.isShowing())
+                        if(dialog.isShowing()){
                             dialog.dismissLoading();
+                        }
+
+                        if (!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context, response.body(), MToast.LENGTH_SHORT).show();
+                        }
 
                         iResultMsg.Error(response.body());
                     }

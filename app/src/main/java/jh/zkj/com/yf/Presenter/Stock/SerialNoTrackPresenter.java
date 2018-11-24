@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Presenter.Stock;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -26,9 +27,11 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.AppConfig;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.API.StockAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
 import jh.zkj.com.yf.Activity.Stock.StockConfig;
 import jh.zkj.com.yf.Adapter.StockRecyclerAdapter;
@@ -47,6 +50,8 @@ import jh.zkj.com.yf.R;
  * use
  */
 public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTrackPresenter {
+
+    private static final int REQUEST_SCAN = 1;
 
     private SerialNoTrackFragment fragment;
     private MainActivity activity;
@@ -93,23 +98,8 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                 //回车键
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String searchText = fragment.getSearch().getText().toString();
-                    if(!TextUtils.isEmpty(searchText)){
-                        String searchHistory = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, "");
-                        ArrayList<String> strings = (ArrayList<String>) JSON.parseArray(searchHistory, String.class);
-                        if(strings == null){
-                            strings = new ArrayList<>();
-                        }
-                        for (int i = 0 ; i < strings.size() ; i++){
-                            if(searchText.equals(strings.get(i))){
-                                strings.remove(i);
-                                break;
-                            }
-                        }
-                        strings.add(0, searchText);
-                        PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, JSON.toJSONString(strings));
-                    }
 
-
+                    putSearchSP(searchText);
                     getSerialNoTrack(searchText);
                 }
                 return true;
@@ -118,11 +108,10 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
 
     }
 
-
     private void initHistory() {
         String historyText = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, "");
         ArrayList<String> arr = (ArrayList<String>) JSONObject.parseArray(historyText, String.class);
-        if(arr == null){
+        if (arr == null) {
             return;
         }
 
@@ -192,8 +181,8 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             position = i;
         }
 
-        for (int i = 0; i < position ; i++){
-            if(arr.size() - 1 > position){
+        for (int i = 0; i < position; i++) {
+            if (arr.size() - 1 > position) {
                 arr.remove(position);
             }
         }
@@ -209,6 +198,24 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         recycler.setAdapter(adapter);
     }
 
+    private void putSearchSP(String searchText) {
+        if (!TextUtils.isEmpty(searchText)) {
+            String searchHistory = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, "");
+            ArrayList<String> strings = (ArrayList<String>) JSON.parseArray(searchHistory, String.class);
+            if (strings == null) {
+                strings = new ArrayList<>();
+            }
+            for (int i = 0; i < strings.size(); i++) {
+                if (searchText.equals(strings.get(i))) {
+                    strings.remove(i);
+                    break;
+                }
+            }
+            strings.add(0, searchText);
+            PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, JSON.toJSONString(strings));
+        }
+    }
+
     @Override
     public void clearFindEt() {
         fragment.setSearchText("");
@@ -219,6 +226,31 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
 //        popup.showAtLocation(fragment.getMainView(), Gravity.CENTER, 0, 0);
     }
 
+    @Override
+    public void openScan() {
+        Intent intent = new Intent(activity, ScanActivity.class);
+        fragment.startActivityForResult(intent, REQUEST_SCAN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SCAN) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    String searchText = data.getStringExtra(AppConfig.RESULT_STRING_SCAN_NUMBER);
+                    if(popup != null){
+                        popup.reset();
+                    }
+
+                    putSearchSP(searchText);
+
+                    fragment.getSearch().setText(searchText);
+
+                    getSerialNoTrack(searchText);
+                }
+            }
+        }
+    }
 
     /**
      * 使用：
@@ -229,11 +261,11 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
 
         //后期传入刷新
         public void notifyData(ArrayList<SerialNoTrackBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
 
         @Override
@@ -257,7 +289,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             SerialNoTrackBean item = getItem(position);
-            if(item != null){
+            if (item != null) {
                 holder.date.setText(item.getCreateTime());
                 holder.from.setText("从：" + item.getFromPlace());
                 holder.to.setText("到：" + item.getToPlace());
@@ -307,7 +339,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                 if (beans != null && beans.size() > 0) {
                     historyLayout.setVisibility(View.GONE);
                     adapter.notifyData(beans);
-                }else{
+                } else {
                     historyLayout.setVisibility(View.VISIBLE);
                     initHistory();
                 }

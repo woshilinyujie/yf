@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jh.zkj.com.yf.Contract.Stock.SerialNoContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Presenter.Stock.CommodityPresenter;
 import jh.zkj.com.yf.Presenter.Stock.SerialNoPresenter;
@@ -31,7 +32,7 @@ import jh.zkj.com.yf.R;
  * 2018/11/15
  * use 库存序列号
  */
-public class StockSerialNoFragment extends MBaseFragment {
+public class StockSerialNoFragment extends MBaseFragment implements SerialNoContract.ISerialNoView {
     //筛选
     @BindView(R.id.serial_on_stoke_filter)
     ImageView mCommStockFilter;
@@ -83,9 +84,15 @@ public class StockSerialNoFragment extends MBaseFragment {
         return mainView;
     }
 
-    @OnClick({R.id.serial_on_stoke_clear_img, R.id.serial_on_stoke_filter})
+    @OnClick({R.id.serial_on_stoke_scan, R.id.serial_on_stoke_clear_img, R.id.serial_on_stoke_filter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            //清空edittext
+            case R.id.serial_on_stoke_scan: {
+                presenter.openScan();
+                break;
+            }
+
             //清空edittext
             case R.id.serial_on_stoke_clear_img: {
                 setSearchText("");

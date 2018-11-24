@@ -2,9 +2,12 @@ package jh.zkj.com.yf.Presenter;
 
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
+import jh.zkj.com.yf.API.AppConfig;
 import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Contract.ScanContract;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -25,7 +28,11 @@ public class ScanPresenter implements QRCodeView.Delegate {
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-        activity.setScanText(result);
+        Intent intent = new Intent();
+        intent.putExtra(AppConfig.RESULT_STRING_SCAN_NUMBER, result);
+        activity.setResult(Activity.RESULT_OK, intent);
+        activity.finish();
+//        activity.setScanText(result);
     }
 
     @Override

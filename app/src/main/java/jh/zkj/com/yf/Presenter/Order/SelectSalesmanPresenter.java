@@ -54,7 +54,6 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     private Gson gson;
     private ArrayList<SalesmanBean.RecordsBean> salesmanList = new ArrayList<>();
     private ArrayList<SalesmanBean.RecordsBean> selectSalesmans = new ArrayList<>();
-    private LoadingDialog loadingDialog;
 
     //页码
     private int pageNum = 1;
@@ -100,6 +99,7 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     }
 
     private void initPresenter() {
+        activity.getEmpty().setContent("没有找到相关信息");
         activity.getSearch().setHint("业务员姓名");
         api = new OrderAPI(activity);
         gson = new Gson();
@@ -240,25 +240,28 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         @Override
         public void Result(SalesmanBean beans) {
 
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
-
             activity.getRefresh().finishRefreshing();
             if(beans != null){
                 isMore = true;
                 salesmanList = beans.getRecords();
-                //查看有无已选
-                for (SalesmanBean.RecordsBean selectBean :  selectSalesmans){
-                    for (SalesmanBean.RecordsBean bean : salesmanList){
-                        if(selectBean.getUuid().equals(bean.getUuid())){
-                            bean.setSelect(true);
-                            break;
+                if(salesmanList != null && salesmanList.size() > 0){
+                    //查看有无已选
+                    for (SalesmanBean.RecordsBean selectBean :  selectSalesmans){
+                        for (SalesmanBean.RecordsBean bean : salesmanList){
+                            if(selectBean.getUuid().equals(bean.getUuid())){
+                                bean.setSelect(true);
+                                break;
+                            }
                         }
                     }
+                    adapter.notifyData(salesmanList);
+                    activity.getRefresh().setEnableLoadmore(true);
+                    activity.getEmpty().setVisibility(View.GONE);
+                }else{
+                    activity.getRefresh().setEnableLoadmore(false);
+                    activity.getEmpty().setVisibility(View.VISIBLE);
                 }
 
-                adapter.notifyData(salesmanList);
             }
         }
 
@@ -266,9 +269,6 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
         public void Error(String json) {
             activity.getRefresh().finishRefreshing();
 
-            if(loadingDialog.isShowing()){
-                loadingDialog.dismissLoading();
-            }
             if (BuildConfig.DEBUG) {
                 if (BuildConfig.DEBUG) {
                     Log.e("wdefer", "error json == " + json);
@@ -281,10 +281,6 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     private OrderAPI.IResultMsg<SalesmanBean> loadMoreMsg = new OrderAPI.IResultMsg<SalesmanBean>() {
         @Override
         public void Result(SalesmanBean bean) {
-
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
 
             activity.getRefresh().finishLoadmore();
             if(bean != null){
@@ -312,9 +308,6 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
 
         @Override
         public void Error(String json) {
-            if(loadingDialog.isShowing()){
-                loadingDialog.dismissLoading();
-            }
             activity.getRefresh().finishLoadmore();
             if (BuildConfig.DEBUG) {
                 if (BuildConfig.DEBUG) {
@@ -325,11 +318,6 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
     };
 
     public void getSalesmanList(String key, int pageNum, int pageSize, OrderAPI.IResultMsg<SalesmanBean> msg) {
-
-        if(loadingDialog == null){
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
 
         api.getSalesmanInfo(key, pageNum, pageSize, msg);
     }

@@ -8,8 +8,10 @@ package jh.zkj.com.yf.Contract.My;
 public class MyOrderContract {
 
     public interface IMyRetailFindView {
+        void refreshFragment();
     }
 
     public interface IMyRetailFindPresenter {
+        void refreshFragment();
     }
 }

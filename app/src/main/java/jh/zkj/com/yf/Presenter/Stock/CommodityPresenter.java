@@ -75,6 +75,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     }
 
     private void initData() {
+        fragment.getEmpty().setContent("没有找到相关信息");
+
         popup = new StockFilterPopup(activity);
         popup.setWarehouseHide(View.GONE);
         listView.setDivider(null);
@@ -243,13 +245,19 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                             }
                         }
                     }
-                }
-                try {
-                    listAdapter = new StockListAdapter<>(listView,
-                            activity, nodes, 0, true);
-                    listView.setAdapter(listAdapter);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    try {
+                        listAdapter = new StockListAdapter<>(listView,
+                                activity, nodes, 0, true);
+                        listView.setAdapter(listAdapter);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    fragment.getRefresh().setEnableLoadmore(true);
+                    fragment.getEmpty().setVisibility(View.GONE);
+
+                }else{
+                    fragment.getRefresh().setEnableLoadmore(false);
+                    fragment.getEmpty().setVisibility(View.VISIBLE);
                 }
             }
         }

@@ -27,13 +27,14 @@ public class MyOrderActivity extends MBaseActivity implements MyOrderContract.IM
     ViewPager viewPager;
     @BindView(R.id.my_order_search)
     EditText search;
+    private MyOrderPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order);
         ButterKnife.bind(this);
-        MyOrderPresenter presenter = new MyOrderPresenter(this);
+        presenter = new MyOrderPresenter(this);
     }
 
     public ViewPager getViewPager() {
@@ -46,5 +47,10 @@ public class MyOrderActivity extends MBaseActivity implements MyOrderContract.IM
 
     public EditText getSearch() {
         return search;
+    }
+
+    @Override
+    public void refreshFragment() {
+        presenter.refreshFragment();
     }
 }

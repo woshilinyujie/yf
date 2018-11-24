@@ -58,6 +58,8 @@
                 android:background="@null"
                 android:imeOptions="actionSearch"
                 android:layout_toRightOf="@id/comm_stock_search_img"
+                android:layout_toLeftOf="@id/comm_stock_clear_img"
+                android:layout_marginRight="@dimen/dp_4"
                 android:layout_marginLeft="@dimen/dp_4"/>
 
         </RelativeLayout>
@@ -93,13 +95,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- 放recycler或者多级listView -->
-            <ListView
-                android:id="@+id/comm_stock_list"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:divider="@null"/>
+                android:layout_height="match_parent">
+
+                <!-- 放recycler或者多级listView -->
+                <ListView
+                    android:id="@+id/comm_stock_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:divider="@null"/>
+
+                <jh.zkj.com.yf.Mview.EmptyView
+                    android:id="@+id/comm_stock_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
 
         </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 

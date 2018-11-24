@@ -146,11 +146,11 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
 
         //后期传入刷新
         public void notifyData(ArrayList<CompanyBean.CrmCompanysBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
 
         @Override

@@ -1,6 +1,7 @@
 package jh.zkj.com.yf.Presenter.Stock;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -30,10 +31,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jh.zkj.com.yf.API.AppConfig;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.API.StockAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
+import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
 import jh.zkj.com.yf.Activity.Stock.StockConfig;
 import jh.zkj.com.yf.Bean.FilterBaseWarehouseBean;
@@ -59,6 +62,7 @@ import jh.zkj.com.yf.R;
 public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
 
     private static final int REQUEST_FILTER_LIST = 1;
+    private static final int REQUEST_SCAN = 2;
 
     private StockSerialNoFragment fragment;
     private MainActivity activity;
@@ -207,21 +211,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchText = fragment.getSearch().getText().toString();
                     pageNum = 1;
-                    if(!TextUtils.isEmpty(searchText)){
-                        String searchHistory = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, "");
-                        ArrayList<String> strings = (ArrayList<String>) JSON.parseArray(searchHistory, String.class);
-                        if(strings == null){
-                            strings = new ArrayList<>();
-                        }
-                        for (int i = 0 ; i < strings.size() ; i++){
-                            if(searchText.equals(strings.get(i))){
-                                strings.remove(i);
-                                break;
-                            }
-                        }
-                        strings.add(0, searchText);
-                        PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, JSON.toJSONString(strings));
-                    }
+                    putSearchSP(searchText);
                     getSerialNoList(searchText
                             , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                             , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
@@ -306,6 +296,24 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
         });
     }
 
+    private void putSearchSP(String searchText) {
+        if(!TextUtils.isEmpty(searchText)){
+            String searchHistory = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, "");
+            ArrayList<String> strings = (ArrayList<String>) JSON.parseArray(searchHistory, String.class);
+            if(strings == null){
+                strings = new ArrayList<>();
+            }
+            for (int i = 0 ; i < strings.size() ; i++){
+                if(searchText.equals(strings.get(i))){
+                    strings.remove(i);
+                    break;
+                }
+            }
+            strings.add(0, searchText);
+            PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, JSON.toJSONString(strings));
+        }
+    }
+
     //recyclerView兼容跟多形式的嵌套布局 相比listview来说坑会少一些 方便后期维护
     private void initRecyclerAdapter() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
@@ -326,25 +334,54 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == FilterListPresenter.REQUEST_COMPANY){
-            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
-            filterBean.setComBean((FilterCompanyBean) bean);
-        }else if(resultCode == FilterListPresenter.REQUEST_WAREHOUSE){
-            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
-            filterBean.setWarehouseBean((FilterBaseWarehouseBean) bean);
-        }else if(resultCode == FilterListPresenter.REQUEST_CLASSIFICATION){
-            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
-            filterBean.setClassifyBean((FilterClassifyBean) bean);
-        }else if(resultCode == FilterListPresenter.REQUEST_BRAND){
-            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
-            filterBean.setBrandBean((FilterBrandBean) bean);
-        }else if(resultCode == FilterListPresenter.REQUEST_MODEL){
-            Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
-            filterBean.setProductBean((FilterProductBean) bean);
-        }
+    public void openScan() {
+        Intent intent = new Intent(activity, ScanActivity.class);
+        fragment.startActivityForResult(intent, REQUEST_SCAN);
+    }
 
-        popup.setData(filterBean);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_FILTER_LIST){
+            if(resultCode == FilterListPresenter.REQUEST_COMPANY){
+                Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+                filterBean.setComBean((FilterCompanyBean) bean);
+            }else if(resultCode == FilterListPresenter.REQUEST_WAREHOUSE){
+                Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+                filterBean.setWarehouseBean((FilterBaseWarehouseBean) bean);
+            }else if(resultCode == FilterListPresenter.REQUEST_CLASSIFICATION){
+                Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+                filterBean.setClassifyBean((FilterClassifyBean) bean);
+            }else if(resultCode == FilterListPresenter.REQUEST_BRAND){
+                Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+                filterBean.setBrandBean((FilterBrandBean) bean);
+            }else if(resultCode == FilterListPresenter.REQUEST_MODEL){
+                Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+                filterBean.setProductBean((FilterProductBean) bean);
+            }
+            popup.setData(filterBean);
+        }else if(requestCode == REQUEST_SCAN){
+            if(resultCode == Activity.RESULT_OK){
+                if(data != null){
+                    searchText = data.getStringExtra(AppConfig.RESULT_STRING_SCAN_NUMBER);
+                    if(popup != null){
+                        popup.reset();
+                    }
+
+                    putSearchSP(searchText);
+
+                    fragment.getSearch().setText(searchText);
+
+                    pageNum = 1;
+                    getSerialNoList(searchText
+                            , ""
+                            , ""
+                            , ""
+                            , ""
+                            , ""
+                            , pageNum, pageSize, refreshMsg);
+                }
+            }
+        }
     }
 
     /**

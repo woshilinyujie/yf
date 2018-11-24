@@ -24,7 +24,9 @@ import com.alibaba.fastjson.TypeReference;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +48,7 @@ import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.RetailOrderContract;
 import jh.zkj.com.yf.Mutils.BigDecimalUtils;
 import jh.zkj.com.yf.Mutils.GsonUtils;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
@@ -74,7 +77,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     //下单bean  用于记录各种数据 下单时候可以一口气传过去
     private RetailOrderBean orderBean;
     private OrderAPI api;
-    private LoadingDialog loadingDialog;
     private String total;
     private String count;
     private ClientInfoBean.RecordsBean recordsBean;
@@ -272,11 +274,12 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
         //后期传入刷新
         public void notifyData(ArrayList<CommodityInfoBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
+
         }
 
         public ArrayList<CommodityInfoBean> getData() {
@@ -420,9 +423,13 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                 holder.addImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        item.addCount();
-                        notifyDataSetChanged();
-                        setTotalLayout();
+                        if(item.getCount() < (int)Double.valueOf(item.getStockQty()).doubleValue()){
+                            item.addCount();
+                            notifyDataSetChanged();
+                            setTotalLayout();
+                        }else{
+                            MToast.makeText(activity, "商品数量不能超过库存", MToast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
@@ -456,15 +463,24 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                                     holder.num.setSelection(2);
                                     item.setCount(Integer.valueOf("0"));
                                 }else{
-                                    item.setCount(Integer.valueOf(num));
+                                    if(Integer.valueOf(num) <= (int)Double.valueOf(item.getStockQty()).doubleValue()){
+                                        item.setCount(Integer.valueOf(num));
+                                    }else{
+                                        holder.num.setText(String.valueOf(item.getCount()));
+                                        holder.num.setSelection(String.valueOf(item.getCount()).length());
+                                        MToast.makeText(activity, "商品数量不能超过库存", MToast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                 }
                             }
+
                             if (item.getPrice().multiply(new BigDecimal(item.getCount())).doubleValue() > 0) {
                                 holder.totalPrice.setText(item.getPrice().multiply(new BigDecimal(item.getCount())).toString());
                             } else {
                                 holder.totalPrice.setText("0");
                             }
                             setTotalLayout();
+
                         }
                     }
 
@@ -536,7 +552,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     }
 
 
-    //******************************************************************************************
+    //**********************************************************************************************
     public void getCreateOrder(boolean isDetail) {
         CreateOrderBean createOrderBean = new CreateOrderBean();
 
@@ -561,9 +577,18 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
 //        createOrderBean.setName(orderBean.getClient().getName());
 //        createOrderBean.setMobilePhone(orderBean.getClient().getMobilePhone());
+
         //客户
         createOrderBean.setName(activity.getClientName().getText().toString().trim());
         createOrderBean.setMobilePhone(activity.getClientPhone().getText().toString().trim());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
+        //获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+        createOrderBean.setBizDate(simpleDateFormat.format(date));
+
+        //所属公司
+        String erp_token = PrefUtils.getString(activity, "erp_token", "");
+        createOrderBean.setAscriptionCompanyUuid(erp_token);
 
         createOrderBean.setRemark(activity.getRemark().getText().toString());
         for (CommodityInfoBean bean : comList) {
@@ -588,11 +613,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             }
         }
 
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
-
         if (isDetail) {
             api.getCreateOrder(GsonUtils.GsonString(createOrderBean), toDetailMsg);
         } else {
@@ -604,9 +624,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     OrderAPI.IResultMsg<String> toSubmitMsg = new OrderAPI.IResultMsg<String>() {
         @Override
         public void Result(String json) {
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
 
             if (!TextUtils.isEmpty(json)) {
                 Intent intent = new Intent(activity, RetailOrderSubmitActivity.class);
@@ -618,9 +635,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
         @Override
         public void Error(String json) {
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
             if (!TextUtils.isEmpty(json)) {
                 if (BuildConfig.DEBUG) {
                     Log.e("okgo request json", json);
@@ -632,9 +646,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     OrderAPI.IResultMsg<String> toDetailMsg = new OrderAPI.IResultMsg<String>() {
         @Override
         public void Result(String json) {
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
             if (!TextUtils.isEmpty(json)) {
                 Intent intent = new Intent(activity, RetailReceivableActivity.class);
                 intent.putExtra(OrderConfig.TYPE_STRING_ORDER_TOTAL, total);
@@ -646,9 +657,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
         @Override
         public void Error(String json) {
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
 
             if (!TextUtils.isEmpty(json)) {
                 if (BuildConfig.DEBUG) {

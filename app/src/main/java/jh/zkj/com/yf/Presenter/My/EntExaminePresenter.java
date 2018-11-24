@@ -108,11 +108,11 @@ public class EntExaminePresenter implements EntExamineFragmentContract.EntExamin
 
         //后期传入刷新
         public void notifyData(ArrayList<EntExamineListBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
 
         //清空
