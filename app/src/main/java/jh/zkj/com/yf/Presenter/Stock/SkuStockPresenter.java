@@ -65,6 +65,8 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
         popup = new StockFilterPopup(activity);
         initRecyclerAdapter();
 
+        fragment.getEmpty().setContent("没有找到相关信息");
+
         api = new StockAPI(activity);
         getSkuStockList("");
     }
@@ -148,6 +150,7 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
         public void notifyData(ArrayList<SkuStockBean.ListBean> arr) {
             mArr.clear();
             if (arr != null) {
+
                 mArr.addAll(arr);
             }
             notifyDataSetChanged();
@@ -229,8 +232,9 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
                 ArrayList<SkuStockBean.ListBean> list = bean.getList();
                 if(list != null && list.size() > 0){
                     adapter.notifyData(list);
+                    fragment.getEmpty().setVisibility(View.GONE);
                 }else{
-
+                    fragment.getEmpty().setVisibility(View.VISIBLE);
                 }
             }
 

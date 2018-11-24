@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Contract.Order.SelectCommodityContract;
+import jh.zkj.com.yf.Mview.EmptyView;
 import jh.zkj.com.yf.Presenter.Order.SelectCommodityPresenter;
 import jh.zkj.com.yf.R;
 
@@ -40,6 +41,9 @@ public class SelectCommodityActivity extends AppCompatActivity implements Select
     //搜索
     @BindView(R.id.search_edit)
     EditText search;
+    //搜索
+    @BindView(R.id.select_commodity_empty)
+    EmptyView empty;
     private SelectCommodityPresenter presenter;
 
     @Override
@@ -87,6 +91,10 @@ public class SelectCommodityActivity extends AppCompatActivity implements Select
     @Override
     public void setStoreName(String s) {
         storeName.setText(s);
+    }
+
+    public EmptyView getEmpty() {
+        return empty;
     }
 
     @Override

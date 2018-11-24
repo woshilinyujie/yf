@@ -57,7 +57,6 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
     //总金额
     private String total;
     private OrderAPI api;
-    private LoadingDialog loadingDialog;
 
     public RetailReceivablePresenter(RetailReceivableActivity activity) {
         this.activity = activity;
@@ -258,18 +257,11 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
     //**********************************************************************************************
     //查询详情
     public void getQueryOrder(final String orderNum) {
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
 
         api.getQueryOrder("/" + orderNum, new OrderAPI.IResultMsg<OrderDetailsBean>() {
 
             @Override
             public void Result(OrderDetailsBean bean) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
                 if(bean != null){
                     orderBean = bean;
                     setData();
@@ -278,9 +270,6 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
 
             @Override
             public void Error(String json) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
             }
         });
     }
@@ -315,25 +304,15 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
             @Override
             public void onClick(View v) {
 
-                if (loadingDialog == null) {
-                    loadingDialog = new LoadingDialog(activity);
-                }
-                loadingDialog.showLoading();
                 api.getReceivableSuccess(json, new OrderAPI.IResultMsg<String>() {
                     @Override
                     public void Result(String bean) {
-                        if(loadingDialog.isShowing()){
-                            loadingDialog.dismissLoading();
-                        }
                         activity.setResult(Activity.RESULT_OK);
                         activity.finish();
                     }
 
                     @Override
                     public void Error(String json) {
-                        if(loadingDialog.isShowing()){
-                            loadingDialog.dismissLoading();
-                        }
                     }
                 });
 

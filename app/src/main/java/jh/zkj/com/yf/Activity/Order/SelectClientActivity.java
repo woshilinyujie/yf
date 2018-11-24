@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.Order.SelectClientContract;
+import jh.zkj.com.yf.Mview.EmptyView;
 import jh.zkj.com.yf.Presenter.Order.SelectClientPresenter;
 import jh.zkj.com.yf.R;
 
@@ -30,6 +31,8 @@ public class SelectClientActivity extends MBaseActivity implements SelectClientC
     TwinklingRefreshLayout refresh;
     @BindView(R.id.search_edit)
     EditText search;
+    @BindView(R.id.select_client_empty)
+    EmptyView empty;
     private SelectClientPresenter presenter;
 
     @Override
@@ -60,5 +63,9 @@ public class SelectClientActivity extends MBaseActivity implements SelectClientC
 
     public TwinklingRefreshLayout getRefreshLayout(){
         return refresh;
+    }
+
+    public EmptyView getEmpty() {
+        return empty;
     }
 }

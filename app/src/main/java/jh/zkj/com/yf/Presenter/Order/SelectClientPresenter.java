@@ -51,7 +51,6 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     private RecyclerView recycler;
     private SelectClientAdapter adapter;
     private OrderAPI api;
-    private LoadingDialog loadingDialog;
 
     //客户信息list
     private ArrayList<ClientInfoBean.RecordsBean> clientList = new ArrayList<>();
@@ -122,6 +121,7 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     }
 
     private void initData() {
+        activity.getEmpty().setContent("没有找到相关信息");
         activity.getSearch().setHint("客户姓名/手机号/会员号/证件号");
         refreshLayout = activity.getRefreshLayout();
         api = new OrderAPI(activity);
@@ -260,25 +260,26 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
         @Override
         public void Result(ClientInfoBean beans) {
 
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
-
             refreshLayout.finishRefreshing();
             clientList = beans.getRecords();
 
-            setSelectBean();
-            isMore = true;
-            adapter.notifyData(clientList);
+            if(clientList != null && clientList.size() > 0){
+                setSelectBean();
+                isMore = true;
+                adapter.notifyData(clientList);
+                refreshLayout.setEnableLoadmore(true);
+                activity.getEmpty().setVisibility(View.GONE);
+            }else{
+                refreshLayout.setEnableLoadmore(false);
+                activity.getEmpty().setVisibility(View.VISIBLE);
+            }
+
         }
 
         @Override
         public void Error(String json) {
             if (BuildConfig.DEBUG) {
                 Log.e("wdefer", "error json == " + json);
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismissLoading();
-                }
             }
         }
     };
@@ -287,10 +288,6 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
     private OrderAPI.IResultMsg<ClientInfoBean> loadMoreMsg = new OrderAPI.IResultMsg<ClientInfoBean>() {
         @Override
         public void Result(ClientInfoBean beans) {
-
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
 
             refreshLayout.finishLoadmore();
 
@@ -312,9 +309,6 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
 
         @Override
         public void Error(String json) {
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismissLoading();
-            }
             if (BuildConfig.DEBUG) {
                 Log.e("wdefer", "error json == " + json);
 
@@ -324,11 +318,6 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
 
 
     private void getClientInfo(String wordKey, int pageNum, int pageSize, OrderAPI.IResultMsg<ClientInfoBean> resultMsg) {
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
-
         api.getClientInfo(wordKey, pageNum, pageSize, resultMsg);
 
     }

@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Mview.EmptyView;
 import jh.zkj.com.yf.Presenter.Stock.CommodityPresenter;
 import jh.zkj.com.yf.R;
 
@@ -52,6 +53,9 @@ public class CommodityStockFragment extends MBaseFragment {
     //抽屉listview
     @BindView(R.id.comm_stock_title_layout)
     RelativeLayout titleLayout;
+    //empty
+    @BindView(R.id.comm_stock_empty)
+    EmptyView empty;
 
     @BindView(R.id.comm_stock_msg_layout)
     LinearLayout msgLayout;
@@ -125,6 +129,10 @@ public class CommodityStockFragment extends MBaseFragment {
 
     public RelativeLayout getTitleLayout() {
         return titleLayout;
+    }
+
+    public EmptyView getEmpty() {
+        return empty;
     }
 
     @Override

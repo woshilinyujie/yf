@@ -19,6 +19,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import jh.zkj.com.yf.Contract.Stock.SkuStockContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Mview.EmptyView;
 import jh.zkj.com.yf.Presenter.Stock.SerialNoTrackPresenter;
 import jh.zkj.com.yf.Presenter.Stock.SkuStockPresenter;
 import jh.zkj.com.yf.R;
@@ -45,6 +46,8 @@ public class SkuStockFragment extends MBaseFragment implements SkuStockContract.
     LinearLayout msgLayout;
     @BindView(R.id.sku_stock_title_layout)
     RelativeLayout titleLayout;
+    @BindView(R.id.sku_stock_empty)
+    EmptyView empty;
     private Unbinder bind;
     private SkuStockPresenter presenter;
     private View mainView;
@@ -110,5 +113,9 @@ public class SkuStockFragment extends MBaseFragment implements SkuStockContract.
 
     public RelativeLayout getTitleLayout(){
         return titleLayout;
+    }
+
+    public EmptyView getEmpty() {
+        return empty;
     }
 }

@@ -81,7 +81,7 @@
             android:id="@+id/child_warehouse_average"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="平均成本价"
+            android:text="总成本"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/c_666666"
             android:includeFontPadding="false"

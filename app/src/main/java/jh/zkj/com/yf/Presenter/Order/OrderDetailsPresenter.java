@@ -59,7 +59,6 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     private String total;
     //单号
     private String orderNum;
-    private LoadingDialog loadingDialog;
 
 
     public OrderDetailsPresenter(OrderDetailsActivity activity) {
@@ -166,11 +165,11 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
         //后期传入刷新
         public void notifyData(ArrayList<ComDetailBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
 
         @Override
@@ -324,18 +323,11 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     //查询详情
     public void getQueryOrder(String orderNum) {
 
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
 
         api.getQueryOrder("/" + orderNum, new OrderAPI.IResultMsg<OrderDetailsBean>() {
 
             @Override
             public void Result(OrderDetailsBean bean) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
                 if (bean != null) {
                     orderBean = bean;
                     ArrayList<ComDetailBean> detailList = createDetailList(bean, status);
@@ -356,9 +348,6 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
             @Override
             public void Error(String json) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
                 if (BuildConfig.DEBUG && !TextUtils.isEmpty(json)) {
                     Log.e("okgo request json", json);
                 }

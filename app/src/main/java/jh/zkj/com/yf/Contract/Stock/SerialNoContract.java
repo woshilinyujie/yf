@@ -14,6 +14,7 @@ public class SerialNoContract {
     public interface ISerialNoPresenter{
         void clearFindEt();
         void showFilterPopup();
+        void openScan();
         void onActivityResult(int requestCode, int resultCode, Intent data);
     }
 }

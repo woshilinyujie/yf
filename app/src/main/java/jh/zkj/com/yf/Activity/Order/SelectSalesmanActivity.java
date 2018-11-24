@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.Order.SelectSalesmanContract;
+import jh.zkj.com.yf.Mview.EmptyView;
 import jh.zkj.com.yf.Presenter.Order.SelectSalesmanPresenter;
 import jh.zkj.com.yf.R;
 
@@ -33,6 +34,9 @@ public class SelectSalesmanActivity extends MBaseActivity implements SelectSales
     //recycler
     @BindView(R.id.select_salesman_refresh)
     TwinklingRefreshLayout refresh;
+    //recycler
+    @BindView(R.id.select_salesman_empty)
+    EmptyView empty;
     private SelectSalesmanPresenter presenter;
 
     @Override
@@ -65,5 +69,9 @@ public class SelectSalesmanActivity extends MBaseActivity implements SelectSales
 
     public EditText getSearch() {
         return search;
+    }
+
+    public EmptyView getEmpty() {
+        return empty;
     }
 }

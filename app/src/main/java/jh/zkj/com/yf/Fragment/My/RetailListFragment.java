@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Contract.My.RetailListContract;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.Mview.EmptyView;
 import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
@@ -30,6 +31,8 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
     RecyclerView recyclerView;
     @BindView(R.id.retail_list_refresh)
     TwinklingRefreshLayout refresh;
+    @BindView(R.id.retail_list_empty)
+    EmptyView empty;
     private RetailListPresenter presenter;
     private String status;
     private View mainView;
@@ -60,9 +63,11 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
         return mainView;
     }
 
+    //该方法方法可能会在刷新时调用 如果某一fragment还未被加载 presenter会为null
     @Override
     public void clickSearch(String s) {
-        presenter.clickSearch(s);
+        if(presenter != null)
+            presenter.clickSearch(s);
     }
 
     @Override
@@ -86,6 +91,10 @@ public class RetailListFragment extends MBaseFragment implements RetailListContr
 
     public String getScope() {
         return scope;
+    }
+
+    public EmptyView getEmpty() {
+        return empty;
     }
 
     @Override

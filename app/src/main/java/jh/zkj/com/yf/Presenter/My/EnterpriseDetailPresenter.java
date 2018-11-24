@@ -95,11 +95,11 @@ public class EnterpriseDetailPresenter {
 
         //后期传入刷新
         public void notifyData(ArrayList<EnterpriseDetailBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
 
         @Override

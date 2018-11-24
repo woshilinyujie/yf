@@ -87,6 +87,9 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                     List<OrderListBean.DataBean.RecordsBean> records1 = orderListBean.getData().getRecords();
                     if (records1.size() > 0) {
                         dateList.addAll(records1);
+                        fragment.getEmpty().setVisibility(View.GONE);
+                    }else{
+                        fragment.getEmpty().setVisibility(View.VISIBLE);
                     }
                     sendEmptyMessageDelayed(2, 500);
                     break;
@@ -98,7 +101,6 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
     };
     private OrderAPI.IResultMsgOne iResultMsg;
     private String searchText = "";
-    private LoadingDialog loadingDialog;
     private OrderCancelPopup cancelDialog;
 
     public RetailListPresenter(RetailListFragment fragment) {
@@ -152,18 +154,12 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
         iResultMsg = new OrderAPI.IResultMsgOne<OrderListBean>() {
             @Override
             public void Result(OrderListBean bean, int flag) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismissLoading();
-                }
                 orderListBean = bean;
                 handler.sendEmptyMessage(flag);
             }
 
             @Override
             public void Error(String json, int flag) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismissLoading();
-                }
                 if (flag == 0) {
                     twinklingRefreshLayout.finishRefreshing();
                 } else {
@@ -184,14 +180,16 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ORDER_DETAILS) {
             if (resultCode == Activity.RESULT_OK) {
-                searchText = "";
-                getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
+//                searchText = "";
+//                getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
+                ((MyOrderActivity)fragment.getActivity()).refreshFragment();
             }
         }
         if (requestCode == REQUEST_ORDER_HARVEST_MODE) {
             if (resultCode == Activity.RESULT_OK) {
-                searchText = "";
-                getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
+//                searchText = "";
+//                getMyOrderList(searchText, pageNum, pageSize, 1, iResultMsg);
+                ((MyOrderActivity)fragment.getActivity()).refreshFragment();
             }
         }
     }
@@ -354,10 +352,6 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
 
     //**********************************************************************************************
     public void getMyOrderList(String keyword, int pageNum, int pageSize, int flag, OrderAPI.IResultMsgOne iResultMsg) {
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(fragment.getContext());
-        }
-        loadingDialog.showLoading();
         orderAPI.getMyOrderList(fragment.getStatus(), keyword, pageNum, pageSize, flag, scope, iResultMsg);
     }
 

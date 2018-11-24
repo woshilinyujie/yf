@@ -26,10 +26,22 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/select_client_recycler"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/select_client_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <jh.zkj.com.yf.Mview.EmptyView
+                android:id="@+id/select_client_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
     </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
 

@@ -34,7 +34,6 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
     private final ReceivableDetailActivity activity;
     private RecyclerView recycler;
     private Adapter adapter;
-    private LoadingDialog loadingDialog;
     private OrderAPI api;
 
     public ReceivableDetailPresenter(ReceivableDetailActivity activity) {
@@ -79,11 +78,11 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
 
         //后期传入刷新
         public void notifyData(ArrayList<ReceivableTypeBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
 
         @Override
@@ -141,17 +140,10 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
     //******************************************************************************************
     //获取收款方式
     public void getCashierTypeDetail(String uuid, String bizSoOutUuid) {
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
 
         api.getCashierTypeDetail(uuid, bizSoOutUuid, new OrderAPI.IResultMsg<ArrayList<ReceivableTypeBean>>() {
             @Override
             public void Result(ArrayList<ReceivableTypeBean> bean) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
                 if(bean != null){
                     adapter.notifyData(bean);
                 }else{
@@ -161,9 +153,6 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
 
             @Override
             public void Error(String json) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
             }
         });
     }

@@ -32,6 +32,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jh.zkj.com.yf.API.AppConfig;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Bean.HarvestModeBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
@@ -141,7 +142,7 @@ public class PrintActivity extends BluetoothActivity {
         }
         EventBus.getDefault().register(this);
 
-        String print_setting = PrefUtils.getString(this, "print_setting", "");
+        String print_setting = PrefUtils.getString(this, AppConfig.SP_STRING_PRINT_SETTING, "");
         printStyles = (ArrayList<PrintStyleBean>) JSONObject.parseArray(print_setting, PrintStyleBean.class);
         if (printStyles == null || printStyles.size() == 0) {
             printStyles = OrderConfig.getDefaultPrintStyle();
@@ -244,7 +245,7 @@ public class PrintActivity extends BluetoothActivity {
         if (requestCode == REQUEST_PRINT_SETTING) {
             if (resultCode == Activity.RESULT_OK) {
                 printStyles.clear();
-                String print_setting = PrefUtils.getString(this, "print_setting", "");
+                String print_setting = PrefUtils.getString(this, AppConfig.SP_STRING_PRINT_SETTING, "");
                 ArrayList<PrintStyleBean> prints = (ArrayList<PrintStyleBean>) JSONObject.parseArray(print_setting, PrintStyleBean.class);
                 if (prints != null) {
                     printStyles.addAll(prints);

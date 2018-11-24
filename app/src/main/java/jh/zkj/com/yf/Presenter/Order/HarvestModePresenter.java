@@ -56,7 +56,6 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
     private ArrayList<HarvestModeBean> modeList = new ArrayList<>();
     //请求服务端获取的支付方式
     private ArrayList<HarvestModeBean> modeBean = new ArrayList<>();
-    private LoadingDialog loadingDialog;
 
     public HarvestModePresenter(HarvestModeActivity activity) {
         this.activity = activity;
@@ -142,11 +141,11 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
 
         //后期传入刷新
         public void notifyData(ArrayList<HarvestModeBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
 
         public ArrayList<HarvestModeBean> getmArr(){
@@ -275,17 +274,11 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
     //******************************************************************************************
     //获取收款方式
     public void getCashierType(String orderId) {
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
 
         api.getCashierType(orderId, new OrderAPI.IResultMsg<ArrayList<HarvestModeBean>>() {
             @Override
             public void Result(ArrayList<HarvestModeBean> bean) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
+
                 modeBean = bean;
                 //返回的数据可能会出现没有“现金”的情况
                 boolean has = false;
@@ -320,9 +313,6 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
 
             @Override
             public void Error(String json) {
-                if(loadingDialog.isShowing()){
-                    loadingDialog.dismissLoading();
-                }
             }
         });
     }

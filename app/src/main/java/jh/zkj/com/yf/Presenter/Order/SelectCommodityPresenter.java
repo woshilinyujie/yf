@@ -40,6 +40,7 @@ import jh.zkj.com.yf.Bean.CommodityInfoBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.SelectCommodityContract;
 import jh.zkj.com.yf.Mview.LoadingDialog;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -62,7 +63,6 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
     private ArrayList<CommodityInfoBean> commodityList = new ArrayList<>();
     private ArrayList<CommodityInfoBean> records = new ArrayList<>();
-    private LoadingDialog loadingDialog;
     private String searchText = "";
 
     //    private ArrayList<CommodityInfoBean> serialList = new ArrayList<>();
@@ -74,6 +74,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     }
 
     private void initPresenter() {
+        activity.getEmpty().setContent("没有找到相关信息");
         recycler = activity.getRecycler();
         refreshLayout = activity.getRefreshLayout();
         if(activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY) != null){
@@ -231,21 +232,25 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                     holder.addOrScan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            item.addCount();
-                            for (CommodityInfoBean bean : commodityList){
-                                //该商品已经存在了  那就不用管它了  已确认绝对不会为空
-                                if(!TextUtils.isEmpty(item.getUuid()) && !TextUtils.isEmpty(item.getWarehouseUuid())){
-                                    if(item.getUuid().equals(bean.getUuid()) &&
-                                            item.getWarehouseUuid().equals(bean.getWarehouseUuid())){
-                                        setTotalCount();
-                                        notifyDataSetChanged();
-                                        return;
+                            if(item.getCount() < (int)Double.valueOf(item.getStockQty()).doubleValue()){
+                                item.addCount();
+                                for (CommodityInfoBean bean : commodityList){
+                                    //该商品已经存在了  那就不用管它了  已确认绝对不会为空
+                                    if(!TextUtils.isEmpty(item.getUuid()) && !TextUtils.isEmpty(item.getWarehouseUuid())){
+                                        if(item.getUuid().equals(bean.getUuid()) &&
+                                                item.getWarehouseUuid().equals(bean.getWarehouseUuid())){
+                                            setTotalCount();
+                                            notifyDataSetChanged();
+                                            return;
+                                        }
                                     }
                                 }
+                                commodityList.add(item);
+                                setTotalCount();
+                                notifyDataSetChanged();
+                            }else{
+                                MToast.makeText(activity, "商品数量不能超过库存", MToast.LENGTH_SHORT).show();
                             }
-                            commodityList.add(item);
-                            setTotalCount();
-                            notifyDataSetChanged();
                         }
                     });
 
@@ -350,23 +355,26 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
         @Override
         public void Result(CommodityBean bean) {
             refreshLayout.finishRefreshing();
-            if(loadingDialog.isShowing()){
-                loadingDialog.dismissLoading();
-            }
             if(bean != null){
                 records = bean.getRecords();
-                refreshLayout.setEnableLoadmore(true);
-                setSelectComList(records);
-                isMore = true;
-                adapter.notifyData(records);
+                if(records != null && records.size() > 0){
+                    refreshLayout.setEnableLoadmore(true);
+                    setSelectComList(records);
+                    isMore = true;
+                    adapter.notifyData(records);
+
+                    refreshLayout.setEnableLoadmore(true);
+                    activity.getEmpty().setVisibility(View.GONE);
+                }else{
+                    refreshLayout.setEnableLoadmore(false);
+                    activity.getEmpty().setVisibility(View.VISIBLE);
+                }
+
             }
         }
 
         @Override
         public void Error(String json) {
-            if(loadingDialog.isShowing()){
-                loadingDialog.dismissLoading();
-            }
             if(BuildConfig.DEBUG){
                 Log.e("wdefer" , "error json == " + json);
             }
@@ -377,9 +385,6 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     private OrderAPI.IResultMsg<CommodityBean> loadMoreMsg =  new OrderAPI.IResultMsg<CommodityBean>(){
         @Override
         public void Result(CommodityBean bean) {
-            if(loadingDialog.isShowing()){
-                loadingDialog.dismissLoading();
-            }
             refreshLayout.finishLoadmore();
             if(bean != null){
                 if(bean.getRecords() != null && bean.getRecords().size() > 0){
@@ -399,9 +404,6 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
         @Override
         public void Error(String json) {
-            if(loadingDialog.isShowing()){
-                loadingDialog.dismissLoading();
-            }
             if(BuildConfig.DEBUG){
                 Log.e("wdefer" , "error json == " + json);
             }
@@ -410,10 +412,6 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
     //获取商品列表
     private void getCommodityList(String keyWord, int page, int size, OrderAPI.IResultMsg<CommodityBean> msg){
-        if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
-        }
-        loadingDialog.showLoading();
         api.getSearchCommodity(keyWord, page, size, msg);
 
     }

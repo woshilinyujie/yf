@@ -108,4 +108,12 @@ public class MyOrderPresenter implements MyOrderContract.IMyRetailFindPresenter 
         }
 
     }
+
+    @Override
+    public void refreshFragment() {
+        activity.getSearch().setText("");
+        for (Fragment fragment : fragments){
+            ((RetailListFragment)fragment).clickSearch("");
+        }
+    }
 }

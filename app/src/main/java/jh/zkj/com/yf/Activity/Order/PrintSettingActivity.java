@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.ielse.view.SwitchView;
+import jh.zkj.com.yf.API.AppConfig;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Bean.PrintStyleBean;
 import jh.zkj.com.yf.Mutils.PrefUtils;
@@ -82,7 +83,7 @@ public class PrintSettingActivity extends MBaseActivity {
     }
 
     private void initData() {
-        String print_setting = PrefUtils.getString(this, "print_setting", "");
+        String print_setting = PrefUtils.getString(this, AppConfig.SP_STRING_PRINT_SETTING, "");
         ArrayList<PrintStyleBean> printStyles = (ArrayList<PrintStyleBean>) JSONObject.parseArray(print_setting, PrintStyleBean.class);
         if (printStyles == null || printStyles.size() == 0) {
             printStyles = OrderConfig.getDefaultPrintStyle();
@@ -178,7 +179,7 @@ public class PrintSettingActivity extends MBaseActivity {
         arr.add(new PrintStyleBean("备注", remark.isOpened()));
         arr.add(new PrintStyleBean("打印时间", printTime.isOpened()));
 
-        PrefUtils.putString(this, "print_setting", JSON.toJSONString(arr));
+        PrefUtils.putString(this, AppConfig.SP_STRING_PRINT_SETTING, JSON.toJSONString(arr));
 
         setResult(Activity.RESULT_OK);
         finish();
