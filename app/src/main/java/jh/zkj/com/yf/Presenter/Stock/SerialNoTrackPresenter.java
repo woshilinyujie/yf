@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,6 +64,9 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
     private StockAPI api;
     private LinearLayout historyLayout;
     private LinearLayout history;
+    private int drawables[] = {R.mipmap.stock_dot_0, R.mipmap.stock_dot_1, R.mipmap.stock_dot_2
+            , R.mipmap.stock_dot_3, R.mipmap.stock_dot_4, R.mipmap.stock_dot_5, R.mipmap.stock_dot_6
+            , R.mipmap.stock_dot_7, R.mipmap.stock_dot_8, R.mipmap.stock_dot_9};
 
     public SerialNoTrackPresenter(SerialNoTrackFragment fragment) {
         this.fragment = fragment;
@@ -257,10 +261,10 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
      */
     class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-        private ArrayList<SerialNoTrackBean> mArr = new ArrayList<>();
+        private ArrayList<SerialNoTrackBean.DetailsBean> mArr = new ArrayList<>();
 
         //后期传入刷新
-        public void notifyData(ArrayList<SerialNoTrackBean> arr) {
+        public void notifyData(ArrayList<SerialNoTrackBean.DetailsBean> arr) {
             mArr.clear();
             if (arr != null) {
                 mArr.addAll(arr);
@@ -274,7 +278,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             return new ViewHolder(view);
         }
 
-        public SerialNoTrackBean getItem(int position) {
+        public SerialNoTrackBean.DetailsBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
@@ -288,15 +292,21 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            SerialNoTrackBean item = getItem(position);
+            SerialNoTrackBean.DetailsBean item = getItem(position);
             if (item != null) {
-                holder.date.setText(item.getCreateTime());
-                holder.from.setText("从：" + item.getFromPlace());
-                holder.to.setText("到：" + item.getToPlace());
-                holder.operating.setText(item.getFullName());
-                holder.billNo.setText("单据号：" + item.getBillNo());
-                holder.name.setText("操作人：" + item.getCreateUserName());
-                holder.price.setText("￥" + BigDecimalUtils.getBigDecimal(item.getPrice(), 2).doubleValue());
+                holder.date.setText(item.getBiz_date());
+                holder.from.setText("从：" + item.getSource_type());
+                holder.to.setText("到：" + item.getTarget_type());
+                holder.operating.setText(item.getSku_full_name());
+                holder.billNo.setText("单据号：" + item.getBill_no());
+                holder.name.setText("操作人：" + item.getCreate_user_name());
+                holder.price.setText("￥" + BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2).doubleValue());
+                holder.dot.setImageResource(drawables[item.getColorType()]);
+                if(position == 0){
+                    holder.space.setVisibility(View.VISIBLE);
+                }else{
+                    holder.space.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -320,6 +330,10 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             TextView name;
             @BindView(R.id.number_track_price)
             TextView price;
+            @BindView(R.id.number_track_dot)
+            ImageView dot;
+            @BindView(R.id.number_track_title_space)
+            View space;
 
             private View view;
 
@@ -333,12 +347,22 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
 
     //**********************************************************************************************
     private void getSerialNoTrack(String s) {
-        api.getSerialNoTrack(s, new OrderAPI.IResultMsg<ArrayList<SerialNoTrackBean>>() {
+        api.getSerialNoTrack(s, new OrderAPI.IResultMsg<SerialNoTrackBean>() {
             @Override
-            public void Result(ArrayList<SerialNoTrackBean> beans) {
-                if (beans != null && beans.size() > 0) {
+            public void Result(SerialNoTrackBean bean) {
+                if (bean != null && bean.getDetails() != null && bean.getDetails().size() > 0) {
                     historyLayout.setVisibility(View.GONE);
-                    adapter.notifyData(beans);
+                    int color_type = -1;
+                    String uuid = "";
+                    for (int i = 0 ; i < bean.getDetails().size() ; i++){
+                        if(!bean.getDetails().get(i).getSerial_info_uuid().equals(uuid)) {
+                            uuid = bean.getDetails().get(i).getSerial_info_uuid();
+                            ++color_type;
+                        }
+                        bean.getDetails().get(i).setColorType(color_type);
+                    }
+
+                    adapter.notifyData(bean.getDetails());
                 } else {
                     historyLayout.setVisibility(View.VISIBLE);
                     initHistory();

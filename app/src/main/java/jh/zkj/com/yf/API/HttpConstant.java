@@ -41,7 +41,7 @@ public class HttpConstant {
     //序列号查询
     public static String HTTP_BIZ_SERIAL_NO_LIST = "erp/biz/stock/manage/serial/stockSerial";
     //序列号追踪
-    public static String HTTP_BIZ_SERIAL_NO_TRACK = "erp/biz/stock/manage/serial/track";
+    public static String HTTP_BIZ_SERIAL_NO_TRACK = "report/skuStock/app/serial/track";
     //公司下拉选择
     public static String HTTP_BASIC_DATA_COMPANY = "erp/basic/data/company";
     //商品分类下拉选择

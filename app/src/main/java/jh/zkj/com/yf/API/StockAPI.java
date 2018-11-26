@@ -34,8 +34,9 @@ public class StockAPI {
 
     private final Context context;
     public String API = APIConstant.API + ":3001/";
+//    String api = "http://192.168.68.172:3001/";
 
-    public String TOKEN = "bearer edc3e08f-ba6f-4e86-aa82-6f38d412bc52";
+    public String TOKEN = "bearer 4976b2ee-3fa7-4261-8f84-022001b676f5";
     private final LoadingDialog dialog;
 
     public StockAPI(Context context){
@@ -59,6 +60,7 @@ public class StockAPI {
     public void getCommodityList(String skuFullName, String classifyUuid, String companyUuid, String brandUuid
             , String skuUuid, int pageNumber, int pageSize, final OrderAPI.IResultMsg<commodityStockBean> iResultMsg){
         dialog.showLoading();
+
         OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKUSTOCK_APP)
                 .headers("Authorization", TOKEN)
                 .params("skuFullName", skuFullName)
@@ -162,11 +164,12 @@ public class StockAPI {
     }
 
     //序列号追踪
-    public void getSerialNoTrack(String serial, final OrderAPI.IResultMsg<ArrayList<SerialNoTrackBean>> iResultMsg){
+    public void getSerialNoTrack(String serial, final OrderAPI.IResultMsg<SerialNoTrackBean> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SERIAL_NO_TRACK)
+        OkGo.<String>get(API/*api*/ + HttpConstant.HTTP_BIZ_SERIAL_NO_TRACK)
                 .headers("Authorization", TOKEN)
+//                .headers("Authorization", "bearer 4976b2ee-3fa7-4261-8f84-022001b676f5")
                 .params("serial", serial)
                 .execute(new StringCallback() {
                     @Override
@@ -174,8 +177,8 @@ public class StockAPI {
                         if(dialog.isShowing())
                             dialog.dismissLoading();
 
-                        BaseBean<ArrayList<SerialNoTrackBean>> baseBean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<ArrayList<SerialNoTrackBean>>>() {});
+                        BaseBean<SerialNoTrackBean> baseBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<SerialNoTrackBean>>() {});
 
                         if(APIConstant.REQUEST_SUCCESS.equals(baseBean.getCode())){
                             iResultMsg.Result(baseBean.getData());

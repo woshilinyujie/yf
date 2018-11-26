@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,8 +29,10 @@ import jh.zkj.com.yf.Activity.Order.HarvestModeActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
 import jh.zkj.com.yf.Bean.HarvestModeBean;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
 import jh.zkj.com.yf.Contract.Order.RetailReceivableContract;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.CancelDialog;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.Mview.Toast.MToast;
@@ -293,6 +297,19 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         orderBean.getMemberDTO().setSex(orderBean.getSex());
         orderBean.setCreateTime(null);
         orderBean.setUpdateTime(null);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
+        //获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+        orderBean.setBizDate(simpleDateFormat.format(date));
+
+        //所属公司
+        String erp_json = PrefUtils.getString(activity, "erp_json", "");
+        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
+        if(myBean != null && myBean.getData().getSysUser() != null){
+            orderBean.setAscriptionCompanyUuid(myBean.getData().getSysUser().getAscriptionCompanyUuid());
+        }
+
         final String json = JSON.toJSONString(orderBean);
 
         final CancelDialog dialog = new CancelDialog(activity);

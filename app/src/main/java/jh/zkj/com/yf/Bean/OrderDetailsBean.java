@@ -88,6 +88,7 @@ public class OrderDetailsBean implements Serializable{
     //付款详情备注
     private String bizSoOutRemark;
     private String bizSoOutBillNo;
+    private String ascriptionCompanyUuid;
     private MemberDTOBean memberDTO = new MemberDTOBean();
     private ArrayList<DetailDTOListBean> detailDTOList;
     private ArrayList<HarvestModeBean> newCashierList;
@@ -436,6 +437,14 @@ public class OrderDetailsBean implements Serializable{
 
     public void setBizSoOutBillNo(String bizSoOutBillNo) {
         this.bizSoOutBillNo = bizSoOutBillNo;
+    }
+
+    public String getAscriptionCompanyUuid() {
+        return ascriptionCompanyUuid;
+    }
+
+    public void setAscriptionCompanyUuid(String ascriptionCompanyUuid) {
+        this.ascriptionCompanyUuid = ascriptionCompanyUuid;
     }
 
     public static class DetailDTOListBean implements Serializable{
