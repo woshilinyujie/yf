@@ -44,6 +44,7 @@ import jh.zkj.com.yf.Bean.FilterBrandBean;
 import jh.zkj.com.yf.Bean.FilterClassifyBean;
 import jh.zkj.com.yf.Bean.FilterCompanyBean;
 import jh.zkj.com.yf.Bean.FilterProductBean;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Bean.SerialNoBean;
 import jh.zkj.com.yf.Bean.StockFilterBean;
 import jh.zkj.com.yf.BuildConfig;
@@ -104,11 +105,19 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     private void initData() {
         initRecyclerAdapter();
         initHistory();
-        initListener();
         filterBean.cleanBean();
         popup.setData(filterBean);
         refresh.setEnableLoadmore(false);
         refresh.setEnableRefresh(false);
+
+        String erp_json = PrefUtils.getString(activity, "erp_json", "");
+        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
+        if(myBean != null){
+            filterBean.createCompany();
+            filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
+            filterBean.getComBean().setName(myBean.getData().getCompanyName());
+            filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
+        }
 
         api = new StockAPI(activity);
     }

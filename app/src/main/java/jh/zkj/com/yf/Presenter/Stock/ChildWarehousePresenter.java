@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -46,7 +47,9 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
 
         activity.getName().setText("仓库：" + SkuListBean.getName());
         activity.getNumber().setText("总数量：" + SkuListBean.getQty());
-        activity.getTotal().setText("总金额：" + BigDecimalUtils.getBigDecimal(String.valueOf(SkuListBean.getPrice()), 2).doubleValue());
+//        BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(String.valueOf(SkuListBean.getPrice()), 2);
+//        String totalAmount = BigDecimalUtils.fmtMicrometer(bigDecimal.toString());
+//        activity.getTotal().setText("总金额：" + totalAmount);
         initAdapter(SkuListBean.getSkuFullNameList());
     }
 
@@ -60,6 +63,23 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
         adapter = new ChildWarehouseAdapter();
         recycler.setAdapter(adapter);
 
+        BigDecimal totalAmount = null;
+        for(int i = 0; i < list.size(); i++){
+            BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal("" + list.get(i).getPrice(), 2);
+            BigDecimal multiply = bigDecimal.multiply(BigDecimalUtils.getBigDecimal(String.valueOf(list.get(i).getQty()), 2));
+            if(totalAmount != null){
+                totalAmount = totalAmount.add(multiply);
+            }else {
+                totalAmount = multiply;
+            }
+            String total = BigDecimalUtils.fmtMicrometer(multiply.toString());
+            list.get(i).setTotal(total);
+        }
+
+        if(totalAmount != null){
+            String total = BigDecimalUtils.fmtMicrometer(totalAmount.toString());
+            activity.getTotal().setText("总金额：" + total);
+        }
         adapter.notifyData(list);
     }
 
@@ -104,7 +124,7 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
             if(item != null){
                 holder.fullName.setText(item.getSku_full_name());
                 holder.number.setText(String.valueOf(item.getQty()));
-                holder.price.setText("￥" + BigDecimalUtils.getBigDecimal("" + item.getPrice(), 2).doubleValue());
+                holder.price.setText("￥" + item.getTotal());
             }
         }
 
