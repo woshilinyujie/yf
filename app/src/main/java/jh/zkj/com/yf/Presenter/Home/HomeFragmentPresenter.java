@@ -62,9 +62,7 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
         HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(activity.getSupportFragmentManager(), fragments);
         homeFragment.getHomeFragmentViewpager().setAdapter(adapter);
         homeFragment.getHomeFragmentTab().setViewPager(homeFragment.getHomeFragmentViewpager());
-
         homeAPI = new HomeAPI();
-        getBasicMenuList();
     }
 
     @Override
@@ -118,26 +116,6 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
         banner.start();
     }
 
-    public void getBasicMenuList() {
-        homeAPI.getBasicMenuList(new OrderAPI.IResultMsg<HomeMenuBean>() {
-            @Override
-            public void Result(HomeMenuBean bean) {
-                if(bean != null){
-                    ArrayList<HomeMenuBean.MenusBean.ChildrenBeanX> children = bean.getMenus().getChildren();
-                    for (int i = 0; i < children.size(); i++){
-                        setMenuStatus(children.get(i).getChildren());
-                    }
-                }else{
-
-                }
-            }
-
-            @Override
-            public void Error(String json) {
-
-            }
-        });
-    }
 
     //设置menu状态
     private void setMenuStatus(ArrayList<HomeMenuBean.MenusBean.ChildrenBeanX.ChildrenBean> menus) {

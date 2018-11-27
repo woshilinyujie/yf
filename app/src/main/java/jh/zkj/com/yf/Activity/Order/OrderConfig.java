@@ -37,12 +37,8 @@ public class OrderConfig {
     public static final String TYPE_STRING_BILL_UUID = "billUuid";
     //付款方式备注
     public static final String TYPE_STRING_OUT_REMARK = "outRemark";
-
-
     //选择客户取消客户
     public static final int RESULT_CLIENT_LIST_CLEAR = Activity.RESULT_FIRST_USER;
-
-
     //未收款
     public static final String STATUS_UN_SUCCESS = "1";
     //已收款
@@ -51,8 +47,7 @@ public class OrderConfig {
     public static final String STATUS_CANCEL = "3";
 
 
-
-    public static ArrayList<PrintStyleBean> getDefaultPrintStyle(){
+    public static ArrayList<PrintStyleBean> getDefaultPrintStyle() {
         ArrayList<PrintStyleBean> arr = new ArrayList<>();
         arr.add(new PrintStyleBean("客户", true));
         arr.add(new PrintStyleBean("联系电话", true));

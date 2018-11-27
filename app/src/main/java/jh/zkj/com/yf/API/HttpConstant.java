@@ -24,8 +24,6 @@ public class HttpConstant {
     public static String HTTP_BIZ_SO_CANCEL_ORDER = "erp/biz/so/app/cancel";
     //收款方式详情
     public static String HTTP_BIZ_SO_RECEIVABLE_DETAIL = "erp/biz/soOut/app";
-    //首页上方的按钮
-    public static String HTTP_BASIC_MENU_LIST = "erp/basic/menu/list";
     //审核列表
     public static String HTTP_CRM_STD_USER_APPLY = "crm/stdUserApply";
     //企业信息

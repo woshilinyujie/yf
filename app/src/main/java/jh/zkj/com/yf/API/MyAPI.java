@@ -630,7 +630,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>get(API+":3001/" + HttpConstant.HTTP_CRM_STD_USER_APPLY + uuid).tag(context)
+        OkGo.<String>get(API + ":3001/" + HttpConstant.HTTP_CRM_STD_USER_APPLY + uuid).tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .params("keywords", keywords)
                 .params("opreate", opreate)
@@ -993,14 +993,14 @@ public class MyAPI {
                         String s = response.body().toString();
                         try {
                             MyBean myBean = GsonUtils.GsonToBean(s, MyBean.class);
-                            if(myBean.getCode()==0&&myBean.getData()!=null){
+                            if (myBean.getCode() == 0 && myBean.getData() != null) {
                                 iResultMsg.Result(myBean);
-                                PrefUtils.putString(context,"erp_json",s);
-                            }else{
-                                showToast(context,myBean.getMsg());
+                                PrefUtils.putString(context, "erp_json", s);
+                            } else {
+                                showToast(context, myBean.getMsg());
                             }
-                        }catch (Exception e){
-                            showToast(context,e.toString());
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
                         }
                     }
                 });

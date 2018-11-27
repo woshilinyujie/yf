@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -16,6 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.API.HttpConstant;
+import jh.zkj.com.yf.API.MyAPI;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Mview.MainViewPager;
@@ -54,8 +57,6 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     MainViewPager homeActivityViewPage;
     private MainPresenter presenter;
     private long exitTime;
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -63,7 +64,6 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         presenter = new MainPresenter(this);
         presenter.initPager(homeActivityViewPage);
         EventBus.getDefault().register(this);
-
     }
 
     @OnClick({R.id.home_activity_home_page_linear, R.id.main_activity_home_price_list_linear, R.id.main_activity_analyse_linear, R.id.main_activity_my_linear, R.id.main_activity_order})
@@ -72,14 +72,26 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
             case R.id.home_activity_home_page_linear://首页
                 presenter.selectHome();
                 break;
-            case R.id.main_activity_home_price_list_linear://报价单
-                presenter.selectPriceList();
+            case R.id.main_activity_home_price_list_linear://库存
+                if(presenter.priceListP){
+                    presenter.selectPriceList();
+                }else{
+                    MToast.makeText(this,"没有权限",Toast.LENGTH_SHORT).show();
+                }
             break;
             case R.id.main_activity_order://开单
-                presenter.selectOpenBill();
+                if(presenter.openBillP){
+                    presenter.selectOpenBill();
+                }else{
+                    MToast.makeText(this,"没有权限",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.main_activity_analyse_linear://分析
-                presenter.selectAnalyseList();
+                if(presenter.analyseListP){
+                    presenter.selectAnalyseList();
+                }else{
+                    MToast.makeText(this,"没有权限",Toast.LENGTH_SHORT).show();
+                }
             break;
             case R.id.main_activity_my_linear://我的
                 presenter.selectMy();
@@ -207,4 +219,5 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
             finish();
         }
     }
+
 }

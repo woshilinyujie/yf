@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.youth.banner.Banner;
 
@@ -23,6 +24,7 @@ import jh.zkj.com.yf.Activity.Order.PrintActivity;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureViewpager;
 import jh.zkj.com.yf.Mview.SwitchText;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
 import jh.zkj.com.yf.Presenter.Home.HomeFragmentPresenter;
 import jh.zkj.com.yf.R;
@@ -35,8 +37,6 @@ public class HomeFragment extends MBaseFragment {
     Context context;
     @BindView(R.id.home_fragment_scan)
     ImageView homeFragmentScan;
-
-
     @BindView(R.id.home_fragment_severs)
     ImageView homeFragmentSevers;
     @BindView(R.id.home_fragment_msg)
@@ -72,8 +72,9 @@ public class HomeFragment extends MBaseFragment {
     SwitchText homeFragmentSwitchText;
     @BindView(R.id.banner)
     Banner banner;
-
-
+    public boolean priceListP = false;//库存权限
+    public boolean openBillP = false;//下单权限
+    public boolean soSelect = false;//零售查询
     private View rootView;
     private HomeFragmentPresenter presenter;
 
@@ -127,12 +128,18 @@ public class HomeFragment extends MBaseFragment {
             case R.id.home_fragment_common_menu_more://常用更多
                 break;
             case R.id.home_fragment_common_menu_one://常用1
-                presenter.toRetailOrder();
+                if(openBillP){
+                    presenter.toRetailOrder();
+                }else{
+                    MToast.makeText(getActivity(),"没有权限", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.home_fragment_common_menu_two://常用2
-//                Intent intent = new Intent(getActivity(), PrintActivity.class);
-//                startActivity(intent);
-                presenter.toRetail();
+                if(soSelect){
+                    presenter.toRetail();
+                }else{
+                    MToast.makeText(getActivity(),"没有权限", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.home_fragment_common_menu_three://常用3
                 break;

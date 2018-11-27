@@ -8,8 +8,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Contract.MainContract;
 import jh.zkj.com.yf.Fragment.Analyse.AnalyseFragment;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
@@ -27,6 +29,12 @@ import jh.zkj.com.yf.R;
 public class MainPresenter implements MainContract.IMainPresenter {
     MainActivity activity;
     private ArrayList<MBaseFragment> fragments;
+    private MyAPI.IResultMsg<MyBean> iResultMsg;
+    MyAPI myAPI = new MyAPI();
+    public boolean priceListP = false;//库存权限
+    public boolean openBillP = false;//下单权限
+    public boolean analyseListP = false;//分析权限
+    private HomeFragment homeFragment;
 
     public MainPresenter(MainActivity activity) {
         this.activity = activity;
@@ -35,7 +43,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
     @Override
     public void initPager(MainViewPager pager) {
         fragments = new ArrayList<>();
-        fragments.add(HomeFragment.newInstance());
+        homeFragment = HomeFragment.newInstance();
+        fragments.add(homeFragment);
 //        fragments.add(PriceListFragment.newInstance());
         fragments.add(StockFragment.newInstance());
         fragments.add(AnalyseFragment.newInstance());
@@ -45,6 +54,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         MainFragmentPagerAdapter adapter = new MainFragmentPagerAdapter(activity.getSupportFragmentManager(), fragments);
         pager.setAdapter(adapter);
         selectHome();
+        initDate();
     }
 
     @Override
@@ -107,7 +117,6 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
 
-
     public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
         List<MBaseFragment> fragments;
@@ -126,5 +135,35 @@ public class MainPresenter implements MainContract.IMainPresenter {
         public int getCount() {
             return fragments != null ? fragments.size() : 0;
         }
+    }
+
+
+    public void initDate() {
+        if (iResultMsg == null)
+            iResultMsg = new MyAPI.IResultMsg<MyBean>() {
+                @Override
+                public void Result(MyBean bean) {
+                    if (bean.getData().getPermissions() != null && bean.getData().getPermissions().size() > 0) {
+                        for (int x = 0; x < bean.getData().getPermissions().size(); x++) {
+                            if (bean.getData().getPermissions().get(x).equals("erp_app_stockSelect")) {//库存
+                                priceListP=true;
+                            } else if (bean.getData().getPermissions().get(x).equals("erp_app_soApp")) {//下单
+                                openBillP=true;
+                                homeFragment.openBillP=true;
+                            } else if (bean.getData().getPermissions().get(x).equals("erp_app_operationAnalysis")) {//分析
+                                analyseListP=true;
+                            }else if(bean.getData().getPermissions().get(x).equals("erp_app_soSelect")){
+                                homeFragment.soSelect=true;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void Error(String json) {
+
+                }
+            };
+        myAPI.getMyInfo(activity, iResultMsg);
     }
 }
