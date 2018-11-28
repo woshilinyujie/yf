@@ -361,9 +361,13 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                         }
                         bean.getDetails().get(i).setColorType(color_type);
                     }
+                    fragment.getTitleLayout().setVisibility(View.VISIBLE);
+                    fragment.setSerialNo("序列号：" + bean.getSerials());
+                    fragment.setSerialNoName("商品名称：" + bean.getSku_full_name());
 
                     adapter.notifyData(bean.getDetails());
                 } else {
+                    fragment.getTitleLayout().setVisibility(View.GONE);
                     historyLayout.setVisibility(View.VISIBLE);
                     initHistory();
                 }

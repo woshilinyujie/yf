@@ -37,6 +37,8 @@ public class OrderConfig {
     public static final String TYPE_STRING_BILL_UUID = "billUuid";
     //付款方式备注
     public static final String TYPE_STRING_OUT_REMARK = "outRemark";
+    //库存序列号
+    public static final String TYPE_STRING_SERIAL_NO_BEAN = "serialNoBean";
 
 
     //选择客户取消客户

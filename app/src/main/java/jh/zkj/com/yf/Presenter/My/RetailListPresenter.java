@@ -87,8 +87,10 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
                     List<OrderListBean.DataBean.RecordsBean> records1 = orderListBean.getData().getRecords();
                     if (records1.size() > 0) {
                         dateList.addAll(records1);
+                        recyclerView.setVisibility(View.VISIBLE);
                         fragment.getEmpty().setVisibility(View.GONE);
                     }else{
+                        recyclerView.setVisibility(View.GONE);
                         fragment.getEmpty().setVisibility(View.VISIBLE);
                     }
                     sendEmptyMessageDelayed(2, 500);

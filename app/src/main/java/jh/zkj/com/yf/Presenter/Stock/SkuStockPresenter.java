@@ -232,8 +232,10 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
                 ArrayList<SkuStockBean.ListBean> list = bean.getList();
                 if(list != null && list.size() > 0){
                     adapter.notifyData(list);
+                    recycler.setVisibility(View.VISIBLE);
                     fragment.getEmpty().setVisibility(View.GONE);
                 }else{
+                    recycler.setVisibility(View.GONE);
                     fragment.getEmpty().setVisibility(View.VISIBLE);
                 }
             }

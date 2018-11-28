@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * 2018/11/17
  * use
  */
-public class SerialNoBean {
+public class SerialNoBean implements Serializable{
 
     /**
      * records : [{"uuid":"163cc95454124fe3b5c6e1cc7f25507c","name":"iPhone X","fullName":"iPhone X 白","stockAge":"0","stockQty":"1","warehouseUuid":"6b064ee2c14144f1ab0a9989f4fe18c5","warehouseName":"仓库01","serialNo":"2345454345","firstInTime":"2018-10-31 20:21:04","currentStockAge":"14","exceedStockAge":"0","stockPrice":"1000.00000000"}]
@@ -22,7 +23,7 @@ public class SerialNoBean {
     private int size;
     private int current;
     private int pages;
-    private ArrayList<RecordsBean> records;
+    private ArrayList<CommodityInfoBean> records;
 
     public int getTotal() {
         return total;
@@ -56,16 +57,16 @@ public class SerialNoBean {
         this.pages = pages;
     }
 
-    public ArrayList<RecordsBean> getRecords() {
+    public ArrayList<CommodityInfoBean> getRecords() {
         return records;
     }
 
-    public void setRecords(ArrayList<RecordsBean> records) {
+    public void setRecords(ArrayList<CommodityInfoBean> records) {
         this.records = records;
     }
 
-    public static class RecordsBean {
-        /**
+   /* public static class RecordsBean implements Serializable{
+        *//**
          * uuid : 163cc95454124fe3b5c6e1cc7f25507c
          * name : iPhone X
          * fullName : iPhone X 白
@@ -78,7 +79,7 @@ public class SerialNoBean {
          * currentStockAge : 14
          * exceedStockAge : 0
          * stockPrice : 1000.00000000
-         */
+         *//*
 
         private String uuid;
         private String name;
@@ -188,5 +189,5 @@ public class SerialNoBean {
         public void setStockPrice(String stockPrice) {
             this.stockPrice = stockPrice;
         }
-    }
+    }*/
 }

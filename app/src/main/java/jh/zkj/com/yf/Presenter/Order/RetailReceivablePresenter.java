@@ -304,11 +304,11 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
         orderBean.setBizDate(simpleDateFormat.format(date));
 
         //所属公司
-        String erp_json = PrefUtils.getString(activity, "erp_json", "");
-        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
-        if(myBean != null && myBean.getData().getSysUser() != null){
-            orderBean.setAscriptionCompanyUuid(myBean.getData().getSysUser().getAscriptionCompanyUuid());
-        }
+//        String erp_json = PrefUtils.getString(activity, "erp_json", "");
+//        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
+//        if(myBean != null && myBean.getData().getSysUser() != null){
+//            orderBean.setAscriptionCompanyUuid(myBean.getData().getSysUser().getAscriptionCompanyUuid());
+//        }
 
         final String json = JSON.toJSONString(orderBean);
 

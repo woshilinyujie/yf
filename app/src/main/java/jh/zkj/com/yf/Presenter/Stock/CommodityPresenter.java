@@ -63,6 +63,7 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     private int pageSize = 10;
     private String searchText = "";
     private StockFilterBean filterBean = new StockFilterBean();
+    private MyBean myBean;
 
 
     public CommodityPresenter(CommodityStockFragment fragment){
@@ -84,19 +85,12 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         popup.setWarehouseHide(View.GONE);
         listView.setDivider(null);
         listView.setBackgroundColor(0xffffffff);
-        filterBean.cleanBean();
-        popup.setData(filterBean);
-
 //        initAdapter();
 
         String erp_json = PrefUtils.getString(activity, "erp_json", "");
-        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
-        if(myBean != null){
-            filterBean.createCompany();
-            filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
-            filterBean.getComBean().setName(myBean.getData().getCompanyName());
-            filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
-        }
+        myBean = JSON.parseObject(erp_json, MyBean.class);
+        resetPopup();
+
         api = new StockAPI(fragment.getContext());
         pageNum = 1;
         getCommodityList(""
@@ -174,13 +168,13 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                     }
                     //重置
                     case StockFilterPopup.CLICK_TYPE_RESET:{
-                        popup.reset();
-                        filterBean.cleanBean();
+                        resetPopup();
                         break;
                     }
                     //确认
                     case StockFilterPopup.CLICK_TYPE_CONFIRM:{
                         popup.dismiss();
+                        fragment.getCommodity().setText(filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getName());
                         pageNum = 1;
                         getCommodityList(searchText
                                 , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
@@ -195,6 +189,19 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         });
     }
 
+    //重置（初始化）popup  保证公司必须存在
+    private void resetPopup(){
+        popup.reset();
+        filterBean.cleanBean();
+        if(myBean != null){
+            filterBean.createCompany();
+            filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
+            filterBean.getComBean().setName(myBean.getData().getCompanyName());
+            filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
+        }
+        popup.setData(filterBean);
+        fragment.getCommodity().setText(myBean.getData().getCompanyName());
+    }
 
 
     @Override
@@ -264,10 +271,12 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                         e.printStackTrace();
                     }
                     fragment.getRefresh().setEnableLoadmore(true);
+                    listView.setVisibility(View.VISIBLE);
                     fragment.getEmpty().setVisibility(View.GONE);
 
                 }else{
                     fragment.getRefresh().setEnableLoadmore(false);
+                    listView.setVisibility(View.GONE);
                     fragment.getEmpty().setVisibility(View.VISIBLE);
                 }
             }

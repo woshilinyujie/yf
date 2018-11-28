@@ -88,12 +88,18 @@
         android:layout_height="@dimen/dp_1"
         android:background="@color/c_f6f7fb"/>
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/select_salesman_refresh"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <jh.zkj.com.yf.Mview.EmptyView
+            android:id="@+id/select_salesman_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/select_salesman_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -102,15 +108,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-            <jh.zkj.com.yf.Mview.EmptyView
-                android:id="@+id/select_salesman_empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
-        </RelativeLayout>
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
-
-
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </RelativeLayout>
 
 </LinearLayout>

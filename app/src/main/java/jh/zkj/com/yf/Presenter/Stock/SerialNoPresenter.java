@@ -4,6 +4,7 @@ package jh.zkj.com.yf.Presenter.Stock;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,10 +36,12 @@ import jh.zkj.com.yf.API.AppConfig;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.API.StockAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
 import jh.zkj.com.yf.Activity.Stock.StockConfig;
+import jh.zkj.com.yf.Bean.CommodityInfoBean;
 import jh.zkj.com.yf.Bean.FilterBaseWarehouseBean;
 import jh.zkj.com.yf.Bean.FilterBrandBean;
 import jh.zkj.com.yf.Bean.FilterClassifyBean;
@@ -78,9 +81,10 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     private StockFilterBean filterBean = new StockFilterBean();
     private TwinklingRefreshLayout refresh;
     private String searchText;
-    private ArrayList<SerialNoBean.RecordsBean> records;
+    private ArrayList<CommodityInfoBean> records;
     private int pageNum = 1;
     private int pageSize = 10;
+    private MyBean myBean;
 
     public SerialNoPresenter(StockSerialNoFragment fragment) {
         this.fragment = fragment;
@@ -105,19 +109,12 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     private void initData() {
         initRecyclerAdapter();
         initHistory();
-        filterBean.cleanBean();
-        popup.setData(filterBean);
         refresh.setEnableLoadmore(false);
         refresh.setEnableRefresh(false);
 
         String erp_json = PrefUtils.getString(activity, "erp_json", "");
-        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
-        if(myBean != null){
-            filterBean.createCompany();
-            filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
-            filterBean.getComBean().setName(myBean.getData().getCompanyName());
-            filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
-        }
+        myBean = JSON.parseObject(erp_json, MyBean.class);
+        resetPopup();
 
         api = new StockAPI(activity);
     }
@@ -282,14 +279,14 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                     }
                     //重置
                     case StockFilterPopup.CLICK_TYPE_RESET: {
-                        popup.reset();
-                        filterBean.cleanBean();
+                        resetPopup();
                         break;
                     }
                     //确认
                     case StockFilterPopup.CLICK_TYPE_CONFIRM: {
                         popup.dismiss();
                         pageNum = 1;
+                        fragment.getCommodity().setText(filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getName());
                         getSerialNoList(searchText
                                 , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                                 , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
@@ -303,6 +300,20 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 }
             }
         });
+    }
+
+    //重置（初始化）popup  保证公司必须存在
+    private void resetPopup(){
+        popup.reset();
+        filterBean.cleanBean();
+        if(myBean != null){
+            filterBean.createCompany();
+            filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
+            filterBean.getComBean().setName(myBean.getData().getCompanyName());
+            filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
+        }
+        popup.setData(filterBean);
+        fragment.getCommodity().setText(filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getName());
     }
 
     private void putSearchSP(String searchText) {
@@ -398,10 +409,10 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
      */
     class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-        private ArrayList<SerialNoBean.RecordsBean> mArr = new ArrayList<>();
+        private ArrayList<CommodityInfoBean> mArr = new ArrayList<>();
 
         //后期传入刷新
-        public void notifyData(ArrayList<SerialNoBean.RecordsBean> arr) {
+        public void notifyData(ArrayList<CommodityInfoBean> arr) {
             if (arr != null) {
                 mArr.clear();
                 mArr.addAll(arr);
@@ -415,7 +426,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
             return new ViewHolder(view);
         }
 
-        public SerialNoBean.RecordsBean getItem(int position) {
+        public CommodityInfoBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
@@ -429,7 +440,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            SerialNoBean.RecordsBean item = getItem(position);
+            final CommodityInfoBean item = getItem(position);
             if(item != null){
                 holder.name.setText(item.getFullName());
                 holder.serialNo.setText(item.getSerialNo());
@@ -444,6 +455,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(fragment.getContext(), RetailOrderActivity.class);
+                        intent.putExtra(OrderConfig.TYPE_STRING_SERIAL_NO_BEAN, item);
                         fragment.startActivity(intent);
                     }
                 });

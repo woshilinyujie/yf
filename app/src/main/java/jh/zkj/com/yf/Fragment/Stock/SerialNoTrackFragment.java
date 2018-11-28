@@ -36,9 +36,7 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
     //search
     @BindView(R.id.serial_no_track_search)
     EditText search;
-    //商店名
-    @BindView(R.id.serial_no_track_text)
-    TextView commodity;
+//``
     //recycler
     @BindView(R.id.serial_no_track_recycler)
     RecyclerView recycler;
@@ -54,6 +52,15 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
     //历史记录Layout
     @BindView(R.id.serial_no_track_history_layout)
     LinearLayout historyLayout;
+    //title
+    @BindView(R.id.serial_no_title)
+    LinearLayout titleLayout;
+    //序列号
+    @BindView(R.id.serial_no_num)
+    TextView serialNo;
+    //商品名字
+    @BindView(R.id.serial_no_name)
+    TextView serialNoName;
 
     private Unbinder bind;
     private SerialNoTrackPresenter presenter;
@@ -102,9 +109,9 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
         return search;
     }
 
-    public TextView getCommodity() {
-        return commodity;
-    }
+//    public TextView getCommodity() {
+//        return commodity;
+//    }
 
     public RecyclerView getRecyclerView() {
         return recycler;
@@ -130,6 +137,17 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
         return historyLayout;
     }
 
+    public LinearLayout getTitleLayout() {
+        return titleLayout;
+    }
+
+    public void setSerialNo(String s) {
+        serialNo.setText(s);
+    }
+
+    public void setSerialNoName(String s) {
+        serialNoName.setText(s);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

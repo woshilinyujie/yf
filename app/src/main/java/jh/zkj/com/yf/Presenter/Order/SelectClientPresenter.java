@@ -268,9 +268,11 @@ public class SelectClientPresenter implements SelectClientContract.ISelectClient
                 isMore = true;
                 adapter.notifyData(clientList);
                 refreshLayout.setEnableLoadmore(true);
+                recycler.setVisibility(View.VISIBLE);
                 activity.getEmpty().setVisibility(View.GONE);
             }else{
                 refreshLayout.setEnableLoadmore(false);
+                recycler.setVisibility(View.GONE);
                 activity.getEmpty().setVisibility(View.VISIBLE);
             }
 
