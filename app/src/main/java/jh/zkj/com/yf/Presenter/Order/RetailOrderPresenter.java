@@ -42,6 +42,7 @@ import jh.zkj.com.yf.Activity.Order.SelectSalesmanActivity;
 import jh.zkj.com.yf.Bean.ClientInfoBean;
 import jh.zkj.com.yf.Bean.CommodityInfoBean;
 import jh.zkj.com.yf.Bean.CreateOrderBean;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Bean.RetailOrderBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.BuildConfig;
@@ -233,7 +234,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             this.count = String.valueOf(count);
             activity.setTotalCount(String.valueOf(count));
             this.total = total.toString();
-            activity.setTotalMoney(total.toString());
+            activity.setTotalMoney(BigDecimalUtils.fmtMicrometer(total.toString()));
         } else {
             this.count = "";
             this.total = "";
@@ -587,8 +588,11 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         createOrderBean.setBizDate(simpleDateFormat.format(date));
 
         //所属公司
-        String erp_token = PrefUtils.getString(activity, "erp_token", "");
-        createOrderBean.setAscriptionCompanyUuid(erp_token);
+        String erp_json = PrefUtils.getString(activity, "erp_json", "");
+        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
+        if(myBean != null && myBean.getData().getSysUser() != null){
+            createOrderBean.setAscriptionCompanyUuid(myBean.getData().getSysUser().getAscriptionCompanyUuid());
+        }
 
         createOrderBean.setRemark(activity.getRemark().getText().toString());
         for (CommodityInfoBean bean : comList) {

@@ -101,7 +101,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="商品分类"
+            android:text="商品名称"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/c_666666"
             android:includeFontPadding="false"

@@ -241,8 +241,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
             holder.userName.setText("下单人：" + item.getCreateUserName());
 
             BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(String.valueOf(item.getTotalAmount()), 2);
-            String totalAmount = BigDecimalUtils.formatToNumber(bigDecimal);
-
+            String totalAmount = BigDecimalUtils.fmtMicrometer(bigDecimal.toString());
             holder.moneyTop.setText(totalAmount + "元");
 
             holder.moneyBottom.setText(totalAmount + "元");

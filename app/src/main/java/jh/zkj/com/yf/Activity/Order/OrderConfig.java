@@ -44,7 +44,7 @@ public class OrderConfig {
     //已收款
     public static final String STATUS_SUCCESS = "2";
     //已取消
-    public static final String STATUS_CANCEL = "3";
+    public static final String STATUS_CANCEL = "0";
 
 
     public static ArrayList<PrintStyleBean> getDefaultPrintStyle() {

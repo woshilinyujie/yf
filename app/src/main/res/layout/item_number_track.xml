@@ -27,9 +27,9 @@
             android:layout_centerHorizontal="true"/>
 
         <ImageView
+            android:id="@+id/number_track_dot"
             android:layout_width="@dimen/dp_14"
-            android:layout_height="@dimen/dp_14"
-            android:src="@drawable/shape_oval_solid_6fb1fc_solid_ffffff"/>
+            android:layout_height="@dimen/dp_14"/>
     </RelativeLayout>
 
     <TextView

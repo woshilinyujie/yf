@@ -59,6 +59,10 @@ public class StockFilterBean implements Serializable{
         this.productBean = productBean;
     }
 
+    public void createCompany(){
+        comBean = new FilterCompanyBean();
+    }
+
     public void cleanBean(){
         comBean = null;
         warehouseBean = null;

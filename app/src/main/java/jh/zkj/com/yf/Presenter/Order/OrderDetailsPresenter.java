@@ -277,13 +277,13 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
                 BigDecimal price = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2);
 
-                holder.price.setText(BigDecimalUtils.formatToNumber(price));
+                holder.price.setText(BigDecimalUtils.fmtMicrometer(price.toString()));
 
                 holder.commodityNum.setText(String.valueOf(item.getNum()));
 
                 BigDecimal totalPrice = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2).multiply(new BigDecimal(item.getNum()));
 
-                holder.totalPrice.setText(BigDecimalUtils.formatToNumber(totalPrice));
+                holder.totalPrice.setText(BigDecimalUtils.fmtMicrometer(totalPrice.toString()));
             }
         }
 
@@ -339,7 +339,8 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
                             count += DTObean.getNum();
                         }
                         activity.setTotalNumText("" + count);
-                        activity.setTotalText(total + " 元");
+                        String totalPrice = BigDecimalUtils.fmtMicrometer(total);
+                        activity.setTotalText(totalPrice + " 元");
                         infoAdapter.notifyData(orderBean.getDetailDTOList());
                     }
                 }
@@ -362,7 +363,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         comDetails.add(new ComDetailBean("客户姓名", bean.getName()));
         comDetails.add(new ComDetailBean("手机号码", bean.getMobilePhone()));
         comDetails.add(new ComDetailBean("下单人", bean.getCreateUserName()));
-        comDetails.add(new ComDetailBean("下单时间", bean.getBizDate()));
+        comDetails.add(new ComDetailBean("下单时间", bean.getCreateTime()));
         comDetails.add(new ComDetailBean("业务员", bean.getClerkName()));
 
         if (OrderConfig.STATUS_UN_SUCCESS.equals(status)) {

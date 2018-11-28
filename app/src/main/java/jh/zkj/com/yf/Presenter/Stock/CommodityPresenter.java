@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -29,6 +30,7 @@ import jh.zkj.com.yf.Bean.FilterBrandBean;
 import jh.zkj.com.yf.Bean.FilterClassifyBean;
 import jh.zkj.com.yf.Bean.FilterCompanyBean;
 import jh.zkj.com.yf.Bean.FilterProductBean;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.Bean.StockFilterBean;
 import jh.zkj.com.yf.Bean.TreeListBean;
@@ -38,6 +40,7 @@ import jh.zkj.com.yf.Contract.Stock.CommodityContract;
 import jh.zkj.com.yf.Fragment.Stock.CommodityStockFragment;
 import jh.zkj.com.yf.Fragment.Stock.StockListFragment;
 import jh.zkj.com.yf.Mutils.DpUtils;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.StockFilterPopup;
 
 /**
@@ -86,6 +89,14 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
 
 //        initAdapter();
 
+        String erp_json = PrefUtils.getString(activity, "erp_json", "");
+        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
+        if(myBean != null){
+            filterBean.createCompany();
+            filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
+            filterBean.getComBean().setName(myBean.getData().getCompanyName());
+            filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
+        }
         api = new StockAPI(fragment.getContext());
         pageNum = 1;
         getCommodityList(""

@@ -101,6 +101,8 @@ public class SkuStockBean implements Serializable{
             private String sku_full_name;
             private int price;
             private int qty;
+            //本地字段
+            private String total;
 
             public String getSku_full_name() {
                 return sku_full_name;
@@ -124,6 +126,14 @@ public class SkuStockBean implements Serializable{
 
             public void setQty(int qty) {
                 this.qty = qty;
+            }
+
+            public String getTotal() {
+                return total;
+            }
+
+            public void setTotal(String total) {
+                this.total = total;
             }
         }
     }
