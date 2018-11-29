@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
+import jh.zkj.com.yf.Activity.Order.OrderScanActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderSubmitActivity;
 import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
@@ -78,6 +79,8 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     public static final int REQUEST_SELECT_RECEIVABLES = 5;
     //选择公司
     public static final int REQUEST_FILTER_LIST = 6;
+    //扫码
+    public static final int REQUEST_SCAN = 7;
 
 
     private RetailOrderActivity activity;
@@ -237,6 +240,26 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     adapter.notifyData(orderBean.getComList());
                     setTotalLayout();
                 }
+            }else if(resultCode == Activity.RESULT_FIRST_USER){
+                //扫码
+                if (data != null) {
+                    CommodityInfoBean bean = (CommodityInfoBean) data.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_SCAN);
+                    boolean isHas = false;
+                    if(orderBean.getComList() != null){
+                        for (int i = 0 ; i < orderBean.getComList().size(); i++){
+                            if (bean.getSerialNo().equals(orderBean.getComList().get(i).getSerialNo())){
+                                isHas = true;
+                                break;
+                            }
+                        }
+                        if(!isHas){
+                            orderBean.getComList().add(bean);
+                        }
+                        adapter.notifyData(orderBean.getComList());
+                        setTotalLayout();
+                    }
+
+                }
             }
         } else if (requestCode == REQUEST_SELECT_SUBMIT) {
             //再开一单
@@ -262,6 +285,28 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
                     filterBean.setComBean((FilterCompanyBean) bean);
                     activity.setCompany(filterBean.getComBean().getName());
+                }
+            }
+        } else if (requestCode == REQUEST_SCAN) {
+            //扫码
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    CommodityInfoBean bean = (CommodityInfoBean) data.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_SCAN);
+                    boolean isHas = false;
+                    if(orderBean.getComList() != null){
+                        for (int i = 0 ; i < orderBean.getComList().size(); i++){
+                            if (bean.getSerialNo().equals(orderBean.getComList().get(i).getSerialNo())){
+                                isHas = true;
+                                break;
+                            }
+                        }
+                        if(!isHas){
+                            orderBean.getComList().add(bean);
+                        }
+                        adapter.notifyData(orderBean.getComList());
+                        setTotalLayout();
+                    }
+
                 }
             }
         }
@@ -321,6 +366,13 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         intent.putExtra(StockConfig.TYPE_STRING_FILTER_STATUS, StockConfig.STATUS_TYPE_COMPANY);
         intent.putExtra(StockConfig.TYPE_STRING_FILTER_DATA, filterBean);
         activity.startActivityForResult(intent, REQUEST_FILTER_LIST);
+    }
+
+    @Override
+    public void openScan() {
+        Intent intent = new Intent(activity, OrderScanActivity.class);
+        intent.putExtra(OrderConfig.TYPE_STRING_COMPANY_BEAN, filterBean.getComBean());
+        activity.startActivityForResult(intent, REQUEST_SCAN);
     }
 
     /**

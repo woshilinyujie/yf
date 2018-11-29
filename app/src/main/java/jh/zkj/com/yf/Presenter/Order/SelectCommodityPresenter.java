@@ -155,8 +155,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
         if(requestCode == REQUEST_SCAN){
             if(resultCode == Activity.RESULT_OK){
                 if(data != null){
-                    commodityList.add((CommodityInfoBean) data.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_SCAN));
-                    activity.setResult(Activity.RESULT_OK, data);
+                    activity.setResult(Activity.RESULT_FIRST_USER, data);
                     activity.finish();
                 }
             }

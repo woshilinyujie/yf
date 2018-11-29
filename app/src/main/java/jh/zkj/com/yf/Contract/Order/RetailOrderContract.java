@@ -32,6 +32,8 @@ public class RetailOrderContract {
         void startSelectClientActivity();
         //选择公司
         void openSelectCompany();
+        //扫码
+        void openScan();
         //
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
     }
