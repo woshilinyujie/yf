@@ -41,14 +41,16 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
     private String startData;
     private String conpanyCode;
     private String shopName;
+    private String CompanyUuid;
 
-    public static ShopManAnalyseSalseFragment newInstance(String shopName, String startData, String endData, String conpanyCode) {
+    public static ShopManAnalyseSalseFragment newInstance(String shopName, String startData, String endData, String conpanyCode,String CompanyUuid) {
         ShopManAnalyseSalseFragment fragment = new ShopManAnalyseSalseFragment();
         Bundle bundle = new Bundle();
         bundle.putString("endData", endData);
         bundle.putString("startData", startData);
         bundle.putString("conpanyCode", conpanyCode);
         bundle.putString("shopName", shopName);
+        bundle.putString("CompanyUuid", CompanyUuid);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -60,6 +62,7 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
         startData = getArguments().getString("startData");
         conpanyCode = getArguments().getString("conpanyCode");
         shopName = getArguments().getString("shopName");
+        CompanyUuid = getArguments().getString("CompanyUuid");
     }
 
     @Override
@@ -67,7 +70,7 @@ public class ShopManAnalyseSalseFragment extends MBaseFragment {
         rootView = View.inflate(getActivity(), R.layout.shop_man_analyse_salse_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         present = new ShopManAnalyseSalseFragmentPresenter(this);
-        present.getLinCharData(shopName, conpanyCode, startData, endData, "", "", "");
+        present.getLinCharData(shopName, conpanyCode, startData, endData, "", "", "",CompanyUuid,"clerk");
         return rootView;
     }
 

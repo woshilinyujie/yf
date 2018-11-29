@@ -160,8 +160,8 @@ public class OrderAPI {
         if(loadingDialog != null){
             loadingDialog.showLoading();
         }
-
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_MEMBER_INFO)
+        String interfaceVersion=PrefUtils.getString(context,"interfaceVersion",null);
+        OkGo.<String>get(API + "erp/basic/member/selector/"+interfaceVersion+"/biz")
                 .headers("Authorization", TOKEN)
                 .params("keywords", keyWord)
                 .params("pageNum", pageNum)

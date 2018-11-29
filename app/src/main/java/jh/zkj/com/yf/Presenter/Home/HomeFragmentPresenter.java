@@ -21,6 +21,7 @@ import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
+import jh.zkj.com.yf.Activity.System.SystemActivity;
 import jh.zkj.com.yf.Bean.HomeMenuBean;
 import jh.zkj.com.yf.Contract.Home.HomeContract;
 import jh.zkj.com.yf.Fragment.Home.HomeFragment;
@@ -97,7 +98,6 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
     @Override
     public void toRetail() {
         Intent intent = new Intent(activity, MyOrderActivity.class);
-//        Intent intent = new Intent(activity, EnterpriseActivity.class);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCOPE, RetailListPresenter.STATUS_SCOPE_ALL);
         activity.startActivity(intent);
     }
@@ -114,6 +114,12 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
         banner.setImages(list);
         //banner设置方法全部调用完毕时最后调用
         banner.start();
+    }
+
+    @Override
+    public void toSystem() {
+        Intent intent = new Intent(activity, SystemActivity.class);
+        activity.startActivity(intent);
     }
 
 

@@ -54,7 +54,6 @@ public class MainPresenter implements MainContract.IMainPresenter {
         MainFragmentPagerAdapter adapter = new MainFragmentPagerAdapter(activity.getSupportFragmentManager(), fragments);
         pager.setAdapter(adapter);
         selectHome();
-        initDate();
     }
 
     @Override
@@ -143,6 +142,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
             iResultMsg = new MyAPI.IResultMsg<MyBean>() {
                 @Override
                 public void Result(MyBean bean) {
+                    initPager(activity.getViewPager());
                     if (bean.getData().getPermissions() != null && bean.getData().getPermissions().size() > 0) {
                         for (int x = 0; x < bean.getData().getPermissions().size(); x++) {
                             if (bean.getData().getPermissions().get(x).equals("erp_app_stockSelect")) {//库存

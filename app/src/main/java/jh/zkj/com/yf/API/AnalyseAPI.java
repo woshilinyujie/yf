@@ -34,7 +34,7 @@ public class AnalyseAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(API+":3001/erp/basic/data/company").tag(context)
+        OkGo.<String>get(API+":3001/"+HttpConstant.HTTP_BASIC_DATA_COMPANY).tag(context)
                .params("access_token",TOKEN)
                 .params("type","company")
                 .execute(new StringCallback() {
@@ -74,7 +74,7 @@ public class AnalyseAPI {
      * @param type       qty销量  sale_amount销售额  profit利润
      */
     public void LineDate(final Context context, String type, String companyCode, String startDate, String endDate
-    , String classifyUuid , String  brandUuid, String  skuName,final IResultMsg<LineDataBean> iResultMsg){
+    , String classifyUuid , String  brandUuid, String  skuName,String companyUuid,String searchType,final IResultMsg<LineDataBean> iResultMsg){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
         if (dialog == null)
             dialog = new LoadingDialog(context);
@@ -91,6 +91,8 @@ public class AnalyseAPI {
         OkGo.<String>get(API+":3001/report/analysis/graph/statistics").tag(context)
                 .params("access_token",TOKEN)
                 .params("companyCode",companyCode)
+                .params("companyUuid",companyUuid)
+                .params("searchType",searchType)
                 .params("startDate",startDate)
                 .params("endDate",endDate)
                 .params("classifyUuid",classifyUuid)
@@ -192,7 +194,7 @@ public class AnalyseAPI {
      */
     public  void getClassify(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(API+":3001/erp/basic/data/classify").tag(context)
+        OkGo.<String>get(API+":3001/"+HttpConstant.HTTP_BASIC_DATA_CLASSIFY).tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -216,7 +218,7 @@ public class AnalyseAPI {
      */
     public  void getBrand(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(API+":3001/erp/basic/data/brand").tag(context)
+        OkGo.<String>get(API+":3001/"+HttpConstant.HTTP_BASIC_DATA_BRAND).tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -240,7 +242,7 @@ public class AnalyseAPI {
      */
     public  void getProduct(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(API+":3001/erp/basic/data/product").tag(context)
+        OkGo.<String>get(API+":3001/"+HttpConstant.HTTP_BASIC_DATA_PRODUCT).tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override

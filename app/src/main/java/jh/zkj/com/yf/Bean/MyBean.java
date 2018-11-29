@@ -9,7 +9,7 @@ import java.util.List;
 public class MyBean {
 
     /**
-     * data : {"sysUser":{"topCompanyCode":"510674","createTime":[2018,11,24,19,13,2],"createUserUuid":null,"updateTime":[2018,11,26,15,51,24],"updateUserUuid":"6eaceaf37899448f938d5a8e7a251d12","sysRemark":"系统初始化","validFlag":1,"version":12,"uuid":"6eaceaf37899448f938d5a8e7a251d12","ascriptionCompanyUuid":"8abdd01264a141f4bd7ec72456fd360d","username":"jh-erp-3c_code_android_18900000000","password":"$2a$10$ej7Mkr.4H5204AdtFl.hA.j8bZy4U1ZFGrzM5hekGfWK5QkP4/Cki","name":"刘小龙","mobileNum":"18900000000","idCard":"","headImg":null,"searchDays":null,"soClerkFlag":1,"poClerkFlag":1,"serviceEngFlag":1,"updateOtherBillFlag":1,"viewSupplierFlag":1,"viewCostFlag":1,"viewWsPriceFlag":1,"viewSoPriceFlag":1,"basicUserUuid":"defca0f97e70400f9d7f3ad1902f4308","enableFlag":1,"remark":null,"id":20181124191302256,"companyUuid":"8abdd01264a141f4bd7ec72456fd360d"},"permissions":["erp_app_operationAnalysis","erp_app_stockSelect","erp_app_stockManage","erp_app_statisticalAnalysis"],"roleUuid":["1234702388f44458878abbe250f1e12e"],"roleName":["超级管理员"],"topCompanyUuid":"8abdd01264a141f4bd7ec72456fd360d","topCompanyCode":"510674","companyUuid":"8abdd01264a141f4bd7ec72456fd360d","companyCode":"510674","dbName":"dev_01","from":"APP","topCompnayName":"我我有限公司","companyName":"我我有限公司"}
+     * data : {"sysUser":{"usernameApp":"aipo","uuid":"1117473336a5483abff6b1aa928ef321","ascriptionCompanyUuid":"738d83b7443544b69dfcd89b4a5d61b2","username":"jh-erp-3c_android_17777777777","password":"$2a$10$rZWXXYtCuACoC0SICBK8ReRHMEdKco8yFPl.L7kwAD9MUXzCMVJCO","name":"爱魄","mobileNum":"17777777777","idCard":"360722199604096015","headImg":null,"searchDays":null,"soClerkFlag":0,"poClerkFlag":0,"serviceEngFlag":0,"updateOtherBillFlag":0,"viewSupplierFlag":0,"viewCostFlag":0,"viewWsPriceFlag":0,"viewSoPriceFlag":0,"basicUserUuid":"c7e5f4e5ecb245d4bc84ab8cd28a3e23","enableFlag":1,"remark":null,"id":20181129104752885,"companyUuid":"738d83b7443544b69dfcd89b4a5d61b2","topCompanyCode":"90372","createTime":[2018,11,29,10,47,52],"createUserUuid":"317367f28f4842fc8039a7bd917d0854","updateTime":[2018,11,29,10,47,52],"updateUserUuid":"317367f28f4842fc8039a7bd917d0854","sysRemark":"ERP审批CRM的数据","validFlag":1,"version":2},"permissions":["erp_app_soSelect_print","erp_app_soSelect_audit","erp_app_soApp_imp","erp_app_soSelect_exp","erp_app_sale","erp_app_operationAnalysis_crud_delete","erp_app_operationAnalysis_crud_view","erp_app_operationAnalysis_exp","erp_app_stockManage_print","erp_app_stockManage_crud_create","erp_app_sale_crud_create","erp_app_soSelect","erp_app_statisticalAnalysis_crud_delete","erp_app_stockSelect_crud_view","erp_app_soApp_print","erp_app_operationAnalysis","erp_app_soSelect_imp","erp_app_operationAnalysis_crud_create","erp_app_operationAnalysis_imp","erp_app_statisticalAnalysis_print","erp_app_stockSelect_print","erp_app_stockSelect_exp","erp_app_soApp_audit","erp_app_stockManage_crud_update","erp_app_statisticalAnalysis_exp","erp_app_stockSelect_crud_delete","erp_app_soApp_exp","erp_app_stockManage_imp","erp_app_sale_crud_view","erp_app_soApp_crud_update","erp_app_sale_imp","erp_app_stockSelect_unaudit","erp_app_stockManage_crud_view","erp_app_soSelect_unaudit","erp_app_soApp","erp_app_sale_crud_delete","erp_app_operationAnalysis_unaudit","erp_app_stockManage_crud_delete","erp_app_soApp_crud_create","erp_app_sale_audit","erp_app_stockSelect","erp_app_soSelect_crud_delete","erp_app_sale_unaudit","erp_app_stockManage","erp_app_stockManage_unaudit","erp_app_soSelect_crud_view","erp_app_statisticalAnalysis","erp_app_operationAnalysis_audit","erp_app_soSelect_crud_update","erp_app_statisticalAnalysis_imp","erp_app_stockSelect_audit","erp_app_stockSelect_crud_create","erp_app_sale_exp","erp_app_stockManage_exp","erp_app_operationAnalysis_crud_update","erp_app_statisticalAnalysis_unaudit","erp_app_stockSelect_crud_update","erp_app_statisticalAnalysis_audit","erp_app_soApp_unaudit","erp_app_statisticalAnalysis_crud_update","erp_app_sale_crud_update","erp_app_sale_print","erp_app_statisticalAnalysis_crud_create","erp_app_soApp_crud_view","erp_app_statisticalAnalysis_crud_view","erp_app_soSelect_crud_create","erp_app_operationAnalysis_print","erp_app_stockSelect_imp","erp_app_stockManage_audit","erp_app_soApp_crud_delete"],"roleUuid":["2c85ff41077d4a18b656bc8d921db78f"],"roleName":["超级管理员"],"topCompanyUuid":"738d83b7443544b69dfcd89b4a5d61b2","topCompanyCode":"90372","companyUuid":"738d83b7443544b69dfcd89b4a5d61b2","companyCode":"90372","dbName":"dev_02","from":"android","topCompnayName":"总公司","companyName":"总公司"}
      * msg : success
      * code : 0
      */
@@ -44,18 +44,18 @@ public class MyBean {
 
     public static class DataBean {
         /**
-         * sysUser : {"topCompanyCode":"510674","createTime":[2018,11,24,19,13,2],"createUserUuid":null,"updateTime":[2018,11,26,15,51,24],"updateUserUuid":"6eaceaf37899448f938d5a8e7a251d12","sysRemark":"系统初始化","validFlag":1,"version":12,"uuid":"6eaceaf37899448f938d5a8e7a251d12","ascriptionCompanyUuid":"8abdd01264a141f4bd7ec72456fd360d","username":"jh-erp-3c_code_android_18900000000","password":"$2a$10$ej7Mkr.4H5204AdtFl.hA.j8bZy4U1ZFGrzM5hekGfWK5QkP4/Cki","name":"刘小龙","mobileNum":"18900000000","idCard":"","headImg":null,"searchDays":null,"soClerkFlag":1,"poClerkFlag":1,"serviceEngFlag":1,"updateOtherBillFlag":1,"viewSupplierFlag":1,"viewCostFlag":1,"viewWsPriceFlag":1,"viewSoPriceFlag":1,"basicUserUuid":"defca0f97e70400f9d7f3ad1902f4308","enableFlag":1,"remark":null,"id":20181124191302256,"companyUuid":"8abdd01264a141f4bd7ec72456fd360d"}
-         * permissions : ["erp_app_operationAnalysis","erp_app_stockSelect","erp_app_stockManage","erp_app_statisticalAnalysis"]
-         * roleUuid : ["1234702388f44458878abbe250f1e12e"]
+         * sysUser : {"usernameApp":"aipo","uuid":"1117473336a5483abff6b1aa928ef321","ascriptionCompanyUuid":"738d83b7443544b69dfcd89b4a5d61b2","username":"jh-erp-3c_android_17777777777","password":"$2a$10$rZWXXYtCuACoC0SICBK8ReRHMEdKco8yFPl.L7kwAD9MUXzCMVJCO","name":"爱魄","mobileNum":"17777777777","idCard":"360722199604096015","headImg":null,"searchDays":null,"soClerkFlag":0,"poClerkFlag":0,"serviceEngFlag":0,"updateOtherBillFlag":0,"viewSupplierFlag":0,"viewCostFlag":0,"viewWsPriceFlag":0,"viewSoPriceFlag":0,"basicUserUuid":"c7e5f4e5ecb245d4bc84ab8cd28a3e23","enableFlag":1,"remark":null,"id":20181129104752885,"companyUuid":"738d83b7443544b69dfcd89b4a5d61b2","topCompanyCode":"90372","createTime":[2018,11,29,10,47,52],"createUserUuid":"317367f28f4842fc8039a7bd917d0854","updateTime":[2018,11,29,10,47,52],"updateUserUuid":"317367f28f4842fc8039a7bd917d0854","sysRemark":"ERP审批CRM的数据","validFlag":1,"version":2}
+         * permissions : ["erp_app_soSelect_print","erp_app_soSelect_audit","erp_app_soApp_imp","erp_app_soSelect_exp","erp_app_sale","erp_app_operationAnalysis_crud_delete","erp_app_operationAnalysis_crud_view","erp_app_operationAnalysis_exp","erp_app_stockManage_print","erp_app_stockManage_crud_create","erp_app_sale_crud_create","erp_app_soSelect","erp_app_statisticalAnalysis_crud_delete","erp_app_stockSelect_crud_view","erp_app_soApp_print","erp_app_operationAnalysis","erp_app_soSelect_imp","erp_app_operationAnalysis_crud_create","erp_app_operationAnalysis_imp","erp_app_statisticalAnalysis_print","erp_app_stockSelect_print","erp_app_stockSelect_exp","erp_app_soApp_audit","erp_app_stockManage_crud_update","erp_app_statisticalAnalysis_exp","erp_app_stockSelect_crud_delete","erp_app_soApp_exp","erp_app_stockManage_imp","erp_app_sale_crud_view","erp_app_soApp_crud_update","erp_app_sale_imp","erp_app_stockSelect_unaudit","erp_app_stockManage_crud_view","erp_app_soSelect_unaudit","erp_app_soApp","erp_app_sale_crud_delete","erp_app_operationAnalysis_unaudit","erp_app_stockManage_crud_delete","erp_app_soApp_crud_create","erp_app_sale_audit","erp_app_stockSelect","erp_app_soSelect_crud_delete","erp_app_sale_unaudit","erp_app_stockManage","erp_app_stockManage_unaudit","erp_app_soSelect_crud_view","erp_app_statisticalAnalysis","erp_app_operationAnalysis_audit","erp_app_soSelect_crud_update","erp_app_statisticalAnalysis_imp","erp_app_stockSelect_audit","erp_app_stockSelect_crud_create","erp_app_sale_exp","erp_app_stockManage_exp","erp_app_operationAnalysis_crud_update","erp_app_statisticalAnalysis_unaudit","erp_app_stockSelect_crud_update","erp_app_statisticalAnalysis_audit","erp_app_soApp_unaudit","erp_app_statisticalAnalysis_crud_update","erp_app_sale_crud_update","erp_app_sale_print","erp_app_statisticalAnalysis_crud_create","erp_app_soApp_crud_view","erp_app_statisticalAnalysis_crud_view","erp_app_soSelect_crud_create","erp_app_operationAnalysis_print","erp_app_stockSelect_imp","erp_app_stockManage_audit","erp_app_soApp_crud_delete"]
+         * roleUuid : ["2c85ff41077d4a18b656bc8d921db78f"]
          * roleName : ["超级管理员"]
-         * topCompanyUuid : 8abdd01264a141f4bd7ec72456fd360d
-         * topCompanyCode : 510674
-         * companyUuid : 8abdd01264a141f4bd7ec72456fd360d
-         * companyCode : 510674
-         * dbName : dev_01
-         * from : APP
-         * topCompnayName : 我我有限公司
-         * companyName : 我我有限公司
+         * topCompanyUuid : 738d83b7443544b69dfcd89b4a5d61b2
+         * topCompanyCode : 90372
+         * companyUuid : 738d83b7443544b69dfcd89b4a5d61b2
+         * companyCode : 90372
+         * dbName : dev_02
+         * from : android
+         * topCompnayName : 总公司
+         * companyName : 总公司
          */
 
         private SysUserBean sysUser;
@@ -169,44 +169,40 @@ public class MyBean {
 
         public static class SysUserBean {
             /**
-             * topCompanyCode : 510674
-             * createTime : [2018,11,24,19,13,2]
-             * createUserUuid : null
-             * updateTime : [2018,11,26,15,51,24]
-             * updateUserUuid : 6eaceaf37899448f938d5a8e7a251d12
-             * sysRemark : 系统初始化
-             * validFlag : 1
-             * version : 12
-             * uuid : 6eaceaf37899448f938d5a8e7a251d12
-             * ascriptionCompanyUuid : 8abdd01264a141f4bd7ec72456fd360d
-             * username : jh-erp-3c_code_android_18900000000
-             * password : $2a$10$ej7Mkr.4H5204AdtFl.hA.j8bZy4U1ZFGrzM5hekGfWK5QkP4/Cki
-             * name : 刘小龙
-             * mobileNum : 18900000000
-             * idCard :
+             * usernameApp : aipo
+             * uuid : 1117473336a5483abff6b1aa928ef321
+             * ascriptionCompanyUuid : 738d83b7443544b69dfcd89b4a5d61b2
+             * username : jh-erp-3c_android_17777777777
+             * password : $2a$10$rZWXXYtCuACoC0SICBK8ReRHMEdKco8yFPl.L7kwAD9MUXzCMVJCO
+             * name : 爱魄
+             * mobileNum : 17777777777
+             * idCard : 360722199604096015
              * headImg : null
              * searchDays : null
-             * soClerkFlag : 1
-             * poClerkFlag : 1
-             * serviceEngFlag : 1
-             * updateOtherBillFlag : 1
-             * viewSupplierFlag : 1
-             * viewCostFlag : 1
-             * viewWsPriceFlag : 1
-             * viewSoPriceFlag : 1
-             * basicUserUuid : defca0f97e70400f9d7f3ad1902f4308
+             * soClerkFlag : 0
+             * poClerkFlag : 0
+             * serviceEngFlag : 0
+             * updateOtherBillFlag : 0
+             * viewSupplierFlag : 0
+             * viewCostFlag : 0
+             * viewWsPriceFlag : 0
+             * viewSoPriceFlag : 0
+             * basicUserUuid : c7e5f4e5ecb245d4bc84ab8cd28a3e23
              * enableFlag : 1
              * remark : null
-             * id : 20181124191302256
-             * companyUuid : 8abdd01264a141f4bd7ec72456fd360d
+             * id : 20181129104752885
+             * companyUuid : 738d83b7443544b69dfcd89b4a5d61b2
+             * topCompanyCode : 90372
+             * createTime : [2018,11,29,10,47,52]
+             * createUserUuid : 317367f28f4842fc8039a7bd917d0854
+             * updateTime : [2018,11,29,10,47,52]
+             * updateUserUuid : 317367f28f4842fc8039a7bd917d0854
+             * sysRemark : ERP审批CRM的数据
+             * validFlag : 1
+             * version : 2
              */
 
-            private String topCompanyCode;
-            private Object createUserUuid;
-            private String updateUserUuid;
-            private String sysRemark;
-            private int validFlag;
-            private int version;
+            private String usernameApp;
             private String uuid;
             private String ascriptionCompanyUuid;
             private String username;
@@ -229,55 +225,21 @@ public class MyBean {
             private Object remark;
             private long id;
             private String companyUuid;
+            private String topCompanyCode;
+            private String createUserUuid;
+            private String updateUserUuid;
+            private String sysRemark;
+            private int validFlag;
+            private int version;
             private List<Integer> createTime;
             private List<Integer> updateTime;
 
-            public String getTopCompanyCode() {
-                return topCompanyCode;
+            public String getUsernameApp() {
+                return usernameApp;
             }
 
-            public void setTopCompanyCode(String topCompanyCode) {
-                this.topCompanyCode = topCompanyCode;
-            }
-
-            public Object getCreateUserUuid() {
-                return createUserUuid;
-            }
-
-            public void setCreateUserUuid(Object createUserUuid) {
-                this.createUserUuid = createUserUuid;
-            }
-
-            public String getUpdateUserUuid() {
-                return updateUserUuid;
-            }
-
-            public void setUpdateUserUuid(String updateUserUuid) {
-                this.updateUserUuid = updateUserUuid;
-            }
-
-            public String getSysRemark() {
-                return sysRemark;
-            }
-
-            public void setSysRemark(String sysRemark) {
-                this.sysRemark = sysRemark;
-            }
-
-            public int getValidFlag() {
-                return validFlag;
-            }
-
-            public void setValidFlag(int validFlag) {
-                this.validFlag = validFlag;
-            }
-
-            public int getVersion() {
-                return version;
-            }
-
-            public void setVersion(int version) {
-                this.version = version;
+            public void setUsernameApp(String usernameApp) {
+                this.usernameApp = usernameApp;
             }
 
             public String getUuid() {
@@ -454,6 +416,54 @@ public class MyBean {
 
             public void setCompanyUuid(String companyUuid) {
                 this.companyUuid = companyUuid;
+            }
+
+            public String getTopCompanyCode() {
+                return topCompanyCode;
+            }
+
+            public void setTopCompanyCode(String topCompanyCode) {
+                this.topCompanyCode = topCompanyCode;
+            }
+
+            public String getCreateUserUuid() {
+                return createUserUuid;
+            }
+
+            public void setCreateUserUuid(String createUserUuid) {
+                this.createUserUuid = createUserUuid;
+            }
+
+            public String getUpdateUserUuid() {
+                return updateUserUuid;
+            }
+
+            public void setUpdateUserUuid(String updateUserUuid) {
+                this.updateUserUuid = updateUserUuid;
+            }
+
+            public String getSysRemark() {
+                return sysRemark;
+            }
+
+            public void setSysRemark(String sysRemark) {
+                this.sysRemark = sysRemark;
+            }
+
+            public int getValidFlag() {
+                return validFlag;
+            }
+
+            public void setValidFlag(int validFlag) {
+                this.validFlag = validFlag;
+            }
+
+            public int getVersion() {
+                return version;
+            }
+
+            public void setVersion(int version) {
+                this.version = version;
             }
 
             public List<Integer> getCreateTime() {

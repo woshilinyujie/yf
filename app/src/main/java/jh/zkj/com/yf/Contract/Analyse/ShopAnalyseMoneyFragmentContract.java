@@ -15,7 +15,7 @@ public class ShopAnalyseMoneyFragmentContract {
     }
     public  interface ShopAnalyseMoneyFragmentPresent{
         void getLinCharData(String shopName,String companyCode,String startDate, String endDate
-                , String classifyUuid , String  brandUuid, String  skuName);
+                , String classifyUuid , String  brandUuid, String  skuName,String companyUuid,String searchType);
         void getPieCharData(String shopName,String companyCode,String startDate, String endDate
                 , String classifyUuid , String  brandUuid, String  skuName);
         void initChart(LineDataBean bean);

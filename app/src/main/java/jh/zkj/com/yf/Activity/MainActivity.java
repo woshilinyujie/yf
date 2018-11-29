@@ -62,7 +62,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         presenter = new MainPresenter(this);
-        presenter.initPager(homeActivityViewPage);
+        presenter.initDate();
         EventBus.getDefault().register(this);
     }
 
@@ -141,7 +141,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     }
 
     @Override
-    public ViewPager getViewPager() {
+    public MainViewPager getViewPager() {
         return homeActivityViewPage;
     }
 

@@ -20,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jh.zkj.com.yf.Activity.My.MyOrderActivity;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.PrintActivity;
 import jh.zkj.com.yf.Fragment.MBaseFragment;
 import jh.zkj.com.yf.Mview.MeasureViewpager;
@@ -27,6 +29,7 @@ import jh.zkj.com.yf.Mview.SwitchText;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
 import jh.zkj.com.yf.Presenter.Home.HomeFragmentPresenter;
+import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
 /**
@@ -120,28 +123,34 @@ public class HomeFragment extends MBaseFragment {
                 presenter.scanClick();
                 break;
             case R.id.home_fragment_severs://客服
+                MToast.makeText(context, "功能正在开发中，敬请期待", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.home_fragment_msg://消息
+                MToast.makeText(context, "功能正在开发中，敬请期待", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.home_fragment_search://收索
+                Intent intent = new Intent(context, MyOrderActivity.class);
+                intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCOPE, RetailListPresenter.STATUS_SCOPE_MY);
+                context.startActivity(intent);
                 break;
             case R.id.home_fragment_common_menu_more://常用更多
                 break;
             case R.id.home_fragment_common_menu_one://常用1
-                if(openBillP){
+                if (openBillP) {
                     presenter.toRetailOrder();
-                }else{
-                    MToast.makeText(getActivity(),"没有权限", Toast.LENGTH_SHORT).show();
+                } else {
+                    MToast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.home_fragment_common_menu_two://常用2
-                if(soSelect){
+                if (soSelect) {
                     presenter.toRetail();
-                }else{
-                    MToast.makeText(getActivity(),"没有权限", Toast.LENGTH_SHORT).show();
+                } else {
+                    MToast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.home_fragment_common_menu_three://常用3
+                presenter.toSystem();
                 break;
             case R.id.home_fragment_common_menu_four://常用4
                 break;

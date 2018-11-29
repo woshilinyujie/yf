@@ -20,7 +20,7 @@ public class MainContract {
         TextView getHomePageTv();
         TextView getPriceListTv();
         TextView getAnalyseListTv();
-        ViewPager getViewPager();
+        MainViewPager getViewPager();
         TextView getMyTv();
         void setHomePageIvBg(int resource);
         void setPriceListBg(int resource);

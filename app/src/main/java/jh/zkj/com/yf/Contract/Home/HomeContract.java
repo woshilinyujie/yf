@@ -18,5 +18,6 @@ public class HomeContract {
         void toRetailOrder();//零售下单
         void toRetail();//零售查询
         void initBanner();
+        void toSystem();
     }
 }

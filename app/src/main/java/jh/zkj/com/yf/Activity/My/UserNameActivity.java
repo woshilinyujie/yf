@@ -31,12 +31,18 @@ public class UserNameActivity extends MBaseActivity implements UserNameActivityC
     @BindView(R.id.username_save)
     Button usernameSave;
     private UserNameActivityPresenter presenter;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_name);
         ButterKnife.bind(this);
+        name = getIntent().getStringExtra("name");
+        if(!TextUtils.isEmpty(name)){
+            usernameName.setText(name);
+            usernameName.setSelection(name.length());
+        }
         presenter = new UserNameActivityPresenter(this);
 
     }

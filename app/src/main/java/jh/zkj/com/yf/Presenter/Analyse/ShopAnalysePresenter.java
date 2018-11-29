@@ -38,6 +38,7 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
     private String startDate;
     private String endDate;
     private String CompanyCode;
+    private String CompanyUuid;
     private  String shopName;
     private String classify;
     private String brand;
@@ -66,12 +67,13 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
 
 
     @Override
-    public void initViewpager(String shopName,String CompanyCode) {
+    public void initViewpager(String shopName,String CompanyCode,String CompanyUuid) {
         this.CompanyCode=CompanyCode;
+        this.CompanyUuid=CompanyUuid;
         fragments = new ArrayList<>();
-        shopAnalyseSalseFragment = ShopAnalyseSalseFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
-        shopAnalyseSalseMoneyFragment = ShopAnalyseSalseMoneyFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
-        shopAnalyseProfitFragment = ShopAnalyseProfitFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode);
+        shopAnalyseSalseFragment = ShopAnalyseSalseFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode,CompanyUuid);
+        shopAnalyseSalseMoneyFragment = ShopAnalyseSalseMoneyFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode,CompanyUuid);
+        shopAnalyseProfitFragment = ShopAnalyseProfitFragment.newInstance(shopName,popupWindow.getMonthStartTime(),popupWindow.getMonthEndTime(),CompanyCode,CompanyUuid);
         ShopAnalysePureProfitFragment shopAnalysePureProfitFragment = ShopAnalysePureProfitFragment.newInstance();
         fragments.add(shopAnalyseSalseFragment);
         fragments.add(shopAnalyseSalseMoneyFragment);
@@ -112,8 +114,8 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
             popupWindow.setSelectDateListener(new SelectShopDateOneListener() {
                 @Override
                 public void SelectShopDate(String date1, String date2, String classify, String brand, String modle) {
-                    shopAnalyseSalseFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle);
-                    shopAnalyseSalseMoneyFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle);
+                    shopAnalyseSalseFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle,CompanyUuid,"store");
+                    shopAnalyseSalseMoneyFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle,CompanyUuid,"store");
                 }
             });
         }
@@ -129,8 +131,8 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
             shopPopupWindow.setSelectShopListener(new SelectShopListener() {
                 @Override
                 public void SelectShop(ShopNameBean.DataBean bean) {
-                    shopAnalyseSalseFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle);
-                    shopAnalyseSalseMoneyFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle);
+                    shopAnalyseSalseFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle,bean.getUuid(),"store");
+                    shopAnalyseSalseMoneyFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle,bean.getUuid(),"store");
 
                 }
             });
@@ -144,9 +146,10 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
             public void Result(ShopNameBean bean) {
                 if(bean!=null){
                     initDate(bean);
-                    initViewpager(bean.getData().get(0).getName(),bean.getData().get(0).getCode());
+                    initViewpager(bean.getData().get(0).getName(),bean.getData().get(0).getCode(),bean.getData().get(0).getUuid());
                     activity.setShopAnalyseSelectShop(bean.getData().get(0).getName());
                     shopName=bean.getData().get(0).getName();
+                    CompanyUuid=bean.getData().get(0).getUuid();
                 }
             }
 

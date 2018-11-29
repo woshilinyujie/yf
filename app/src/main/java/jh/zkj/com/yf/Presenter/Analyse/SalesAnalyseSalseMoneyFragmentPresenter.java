@@ -93,18 +93,22 @@ public class SalesAnalyseSalseMoneyFragmentPresenter implements SalesAnalyseSals
                     case "1":
                         aggType="brand_uuid";
                         fragment.setSalesSalesMoneySelectTvTx("品牌");
+                        fragment.setSalesSalesMoneyName("品牌");
                         break;
                     case "2":
                         aggType="classify_uuid";
                         fragment.setSalesSalesMoneySelectTvTx("分类");
+                        fragment.setSalesSalesMoneyName("分类");
                         break;
                     case "3":
                         aggType="sku_name";
                         fragment.setSalesSalesMoneySelectTvTx("型号");
+                        fragment.setSalesSalesMoneyName("型号");
                         break;
                     case "4":
                         aggType="sku_full_name";
                         fragment.setSalesSalesMoneySelectTvTx("商品全称");
+                        fragment.setSalesSalesMoneyName("商品全称");
                         break;
 
                 }
@@ -151,9 +155,15 @@ public class SalesAnalyseSalseMoneyFragmentPresenter implements SalesAnalyseSals
     public void setPieChart(PieDataBean bean,PieChart pieChart, Map<String, Integer> pieValues, String title, boolean showLegend) {
         pieChart.setUsePercentValues(true);//设置使用百分比（后续有详细介绍）
         pieChart.getDescription().setEnabled(false);//设置描述
+        int rightOffsets = 0;
+        if (DpUtils.getScreenWith(context) > 1100) {
+            rightOffsets = 20;
+        } else {
+            rightOffsets = 25;
+        }
         pieChart.setExtraOffsets(0,
                 0,
-                DpUtils.dip2px(context, 20),
+                DpUtils.dip2px(context, rightOffsets),
                 15); //设置边距
         pieChart.setDragDecelerationFrictionCoef(0.95f);//设置摩擦系数（值越小摩擦系数越大）
         pieChart.setRotationEnabled(false);//是否可以旋转
@@ -176,11 +186,15 @@ public class SalesAnalyseSalseMoneyFragmentPresenter implements SalesAnalyseSals
         pieChart.setEntryLabelTextSize(0);
         //图例设置
         Legend legend = pieChart.getLegend();
-        legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
-        legend.setTextSize(15);
+        if (DpUtils.getScreenWith(context) > 1100) {
+            legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
+        } else {
+            legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 75));
+        }
+        legend.setTextSize(10);
         legend.setFormSize(15);
         legend.setTextColor(Color.parseColor("#a6a6a6"));
-        legend.setYEntrySpace(25);//legend间距
+        legend.setYEntrySpace(20);//legend间距
         legend.setEnabled(true);//是否显示图例
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);//图例相对于图表横向的位置
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);//图例相对于图表纵向的位置
@@ -204,7 +218,13 @@ public class SalesAnalyseSalseMoneyFragmentPresenter implements SalesAnalyseSals
             Integer integer = pieValues.get(x + "");
             //倒数第二个/s后面的数据为上下行间距距
             //最后一个/s后面的数据为y距
-            entries.add(new PieEntry(Float.valueOf(integer), (int)(bean.getData().get(x).getTarget_data())+"，"+df.format((bean.getData().get(x).getTarget_data()/count)*100)+"%/s" +bean.getData().get(x).getName()+ "/s" +
+            String companyName;
+            if(bean.getData().get(x).getName().length()>10){
+                companyName=bean.getData().get(x).getName().substring(0,10)+"...";
+            }else{
+                companyName=bean.getData().get(x).getName();
+            }
+            entries.add(new PieEntry(Float.valueOf(integer), df.format(bean.getData().get(x).getTarget_data())+"，"+df.format((bean.getData().get(x).getTarget_data()/count)*100)+"%/s" +companyName+ "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 2)
                     , x+""));
@@ -270,7 +290,7 @@ public class SalesAnalyseSalseMoneyFragmentPresenter implements SalesAnalyseSals
                 inspect = convertView.findViewById(R.id.shop_analyse_sales_item3_inspect);
                 id.setText(position+1  + "");
                 company.setText(dataBean.getName());
-                sales.setText((int)(dataBean.getTarget_data())+"");
+                sales.setText(df.format(dataBean.getTarget_data())+"");
             } else {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item4, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
@@ -279,7 +299,7 @@ public class SalesAnalyseSalseMoneyFragmentPresenter implements SalesAnalyseSals
                 inspect = convertView.findViewById(R.id.shop_analyse_sales_item3_inspect);
                 id.setText(position+1  + "");
                 company.setText(dataBean.getName());
-                sales.setText((int)(dataBean.getTarget_data())+"");
+                sales.setText(df.format(dataBean.getTarget_data())+"");
             }
             inspect.setOnClickListener(new View.OnClickListener() {
                 @Override

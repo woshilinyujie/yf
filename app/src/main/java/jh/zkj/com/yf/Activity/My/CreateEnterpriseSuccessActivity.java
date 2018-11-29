@@ -32,21 +32,19 @@ public class CreateEnterpriseSuccessActivity extends MBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_enterprise_success);
         ButterKnife.bind(this);
-
         initView();
         initData();
         initListener();
-
     }
 
     @OnClick({R.id.create_enterprise_success_login, R.id.create_enterprise_success_break})
-    public void onViewClicked(View view){
-        switch (view.getId()){
-            case R.id.create_enterprise_success_login:{
-                if(registerBean != null){
-                    Intent intent=new Intent(this, LoginActivity.class);
-                    intent.putExtra("uuid",registerBean.getData().getUuid());
-                    intent.putExtra("phone",phone);
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.create_enterprise_success_login: {
+                if (registerBean != null) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.putExtra("uuid", registerBean.getData().getUuid());
+                    intent.putExtra("phone", phone);
                     startActivity(intent);
                     EventBus.getDefault().post("RegisterFinish");
 //                    setResult(Activity.RESULT_FIRST_USER);
@@ -54,7 +52,7 @@ public class CreateEnterpriseSuccessActivity extends MBaseActivity {
                 }
                 break;
             }
-            case R.id.create_enterprise_success_break:{
+            case R.id.create_enterprise_success_break: {
                 setResult(Activity.RESULT_OK);
                 finish();
                 break;
@@ -62,16 +60,18 @@ public class CreateEnterpriseSuccessActivity extends MBaseActivity {
         }
     }
 
-    private void initView() {}
+    private void initView() {
+    }
 
     private void initData() {
-        registerBean = (RegisterBean)getIntent().getSerializableExtra("RegisterBean");
+        registerBean = (RegisterBean) getIntent().getSerializableExtra("RegisterBean");
         phone = getIntent().getStringExtra("phone");
 
-        if(registerBean != null){
+        if (registerBean != null) {
             code.setText(registerBean.getData().getCode());
         }
     }
 
-    private void initListener() {}
+    private void initListener() {
+    }
 }

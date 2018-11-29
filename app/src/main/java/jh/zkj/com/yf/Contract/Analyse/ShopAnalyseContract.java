@@ -17,7 +17,7 @@ public class ShopAnalyseContract {
     }
     public  interface ShopAnalysePresent{
         void initDate(ShopNameBean bean);
-        void initViewpager(String shopName,String ConmanyCode);
+        void initViewpager(String shopName,String ConmanyCode,String CompanyUuid);
         void selectShop(View view);//店铺选择
         void selectData(View view);//时间选择
         void setInfoListener();//选择的时间和商品信息监听

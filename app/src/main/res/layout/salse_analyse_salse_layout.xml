@@ -84,11 +84,12 @@
                     android:layout_width="@dimen/dp_1"
                     android:layout_height="match_parent"/>
                 <TextView
+                    android:id="@+id/sales_sales_name"
                     android:paddingLeft="@dimen/dp_10"
                     android:gravity="center_vertical"
                     android:textColor="@color/c_333333"
                     android:textSize="@dimen/sp_12"
-                    android:text="公司名称"
+                    android:text="品牌"
                     android:layout_weight="5"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />

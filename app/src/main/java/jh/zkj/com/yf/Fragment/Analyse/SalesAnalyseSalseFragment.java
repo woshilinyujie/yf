@@ -33,6 +33,8 @@ public class SalesAnalyseSalseFragment extends MBaseFragment {
     MeasureListView salesSalesTableList;
     @BindView(R.id.sales_sales_select_tv)
     TextView salesSalesSelectTv;
+    @BindView(R.id.sales_sales_name)
+    TextView salesSalesName;
     private View rootView;
     private Unbinder unbinder;
     private SalesAnalyseSalseFragmentPresenter present;
@@ -104,5 +106,8 @@ public class SalesAnalyseSalseFragment extends MBaseFragment {
     }
     public void setSalesSalesMoneySelectTvTx(String s){
         salesSalesSelectTv.setText(s);
+    }
+    public  void setSalesSalesName(String s){
+        salesSalesName.setText(s);
     }
 }

@@ -2,6 +2,7 @@ package jh.zkj.com.yf.Presenter.My;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 
 import jh.zkj.com.yf.API.MyAPI;
@@ -91,8 +92,12 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
             iResultMsg = new MyAPI.IResultMsg<MyBean>() {
                 @Override
                 public void Result(MyBean bean) {
-                    String[] split = bean.getData().getSysUser().getUsername().split("_");
-                    fragment.setUserName(split[split.length - 1]);
+                    if(!TextUtils.isEmpty(bean.getData().getSysUser().getUsernameApp())){
+                        fragment.setUserName(bean.getData().getSysUser().getUsernameApp());
+                    }else{
+                        String[] split = bean.getData().getSysUser().getUsername().split("_");
+                        fragment.setUserName(split[split.length - 1]);
+                    }
                     fragment.setName(bean.getData().getSysUser().getName());
                     fragment.setCompanyName(bean.getData().getCompanyName());
                     fragment.setPhone(bean.getData().getSysUser().getMobileNum());

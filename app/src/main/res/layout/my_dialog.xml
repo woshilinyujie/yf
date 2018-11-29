@@ -21,7 +21,7 @@
             android:layout_marginRight="@dimen/dp_56"
             android:layout_marginTop="@dimen/dp_20"
             android:gravity="center"
-            android:text="已通知管理员已将您加入企业"
+            android:text="申请提交成功，请等待管理员审核通过后可进行登录"
             android:textColor="@color/c_030303"
             android:textSize="@dimen/sp_16" />
 

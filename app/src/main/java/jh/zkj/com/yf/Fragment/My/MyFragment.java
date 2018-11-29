@@ -105,6 +105,7 @@ public class MyFragment extends MBaseFragment implements MyFragmentContract.IMyF
                 break;
             case R.id.my_account_realtve://账户名
                 Intent intent = new Intent(getActivity(), UserNameActivity.class);
+            intent.putExtra("name",myAccountName.getText());
                 startActivity(intent);
                 break;
             case R.id.my_phone_realtve://手机

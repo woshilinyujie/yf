@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_6"
-                    android:text="总销售量：98"
+                    android:text="总销售额："
                     android:textColor="@color/c_333333"
                     android:textSize="@dimen/sp_13" />
 
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_6"
-                    android:text="分公司销售量"
+                    android:text="分公司销售额"
                     android:textColor="@color/c_333333"
                     android:textSize="@dimen/sp_13" />
 

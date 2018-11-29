@@ -1,6 +1,7 @@
 package jh.zkj.com.yf.Presenter.My;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -139,6 +141,9 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
 
     @Override
     public void selectAddress() {
+
+        InputMethodManager imm=(InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(activity.getCompanyAddress().getWindowToken(), 0);
 
         /**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
