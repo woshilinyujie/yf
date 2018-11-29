@@ -59,7 +59,7 @@ public class OrderScanPresenter implements QRCodeView.Delegate{
         if(BuildConfig.DEBUG){
             activity.setScanText(result);
         }
-        getCommodityList(result, 0, 0);
+        getCommodityList(result, 1, 1);
     }
 
     @Override
@@ -86,6 +86,7 @@ public class OrderScanPresenter implements QRCodeView.Delegate{
             public void Result(CommodityBean data) {
                 if(data != null && data.getRecords() != null && data.getRecords().size() > 0){
                     Intent intent = new Intent();
+                    data.getRecords().get(0).setCount(1);
                     intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCAN, data.getRecords().get(0));
                     activity.setResult(Activity.RESULT_OK, intent);
                     activity.finish();
