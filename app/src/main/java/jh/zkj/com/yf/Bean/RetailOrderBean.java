@@ -45,4 +45,8 @@ public class RetailOrderBean {
         comList.clear();
         comList.addAll(beanList);
     }
+
+    public void createCommodityBean(){
+        comList.add(new CommodityInfoBean());
+    }
 }

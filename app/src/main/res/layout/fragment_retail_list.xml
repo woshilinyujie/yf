@@ -4,26 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <jh.zkj.com.yf.Mview.EmptyView
+        android:id="@+id/retail_list_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
         android:id="@+id/retail_list_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-            <RelativeLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/retail_list_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/retail_list_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-                <jh.zkj.com.yf.Mview.EmptyView
-                    android:id="@+id/retail_list_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"/>
-            </RelativeLayout>
+                android:layout_height="match_parent"/>
 
     </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 

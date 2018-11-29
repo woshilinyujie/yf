@@ -256,9 +256,11 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
                     }
                     adapter.notifyData(salesmanList);
                     activity.getRefresh().setEnableLoadmore(true);
+                    recycler.setVisibility(View.VISIBLE);
                     activity.getEmpty().setVisibility(View.GONE);
                 }else{
                     activity.getRefresh().setEnableLoadmore(false);
+                    recycler.setVisibility(View.GONE);
                     activity.getEmpty().setVisibility(View.VISIBLE);
                 }
 

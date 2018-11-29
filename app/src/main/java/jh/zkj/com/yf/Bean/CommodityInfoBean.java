@@ -49,6 +49,8 @@ public class CommodityInfoBean implements Serializable{
     //单价
     private BigDecimal price = new BigDecimal("-1");
 
+    private String stockPrice;
+
     public String getName() {
         return name;
     }
@@ -168,5 +170,13 @@ public class CommodityInfoBean implements Serializable{
 
     public void setStockQty(String stockQty) {
         this.stockQty = stockQty;
+    }
+
+    public String getStockPrice() {
+        return stockPrice;
+    }
+
+    public void setStockPrice(String stockPrice) {
+        this.stockPrice = stockPrice;
     }
 }

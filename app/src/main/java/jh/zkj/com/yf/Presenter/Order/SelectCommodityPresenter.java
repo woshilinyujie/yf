@@ -364,9 +364,11 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                     adapter.notifyData(records);
 
                     refreshLayout.setEnableLoadmore(true);
+                    recycler.setVisibility(View.VISIBLE);
                     activity.getEmpty().setVisibility(View.GONE);
                 }else{
                     refreshLayout.setEnableLoadmore(false);
+                    recycler.setVisibility(View.GONE);
                     activity.getEmpty().setVisibility(View.VISIBLE);
                 }
 
@@ -420,13 +422,19 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     private void setSelectComList(ArrayList<CommodityInfoBean> records) {
         for (CommodityInfoBean infoBean : commodityList){
             for (CommodityInfoBean record : records){
+                //串号为空匹配uuid和仓库
                 if(TextUtils.isEmpty(infoBean.getSerialNo())){
                     if(infoBean.getUuid().equals(record.getUuid())
                             && infoBean.getWarehouseUuid().equals(record.getWarehouseUuid())){
                         record.setCount(infoBean.getCount());
                         record.setPrice(infoBean.getPrice());
                     }
-                }
+                }/*else{
+                    if(infoBean.getSerialNo().equals(record.getSerialNo())){
+                        record.setCount(infoBean.getCount());
+                        record.setPrice(infoBean.getPrice());
+                    }
+                }*/
             }
         }
         setTotalCount();

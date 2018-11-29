@@ -90,12 +90,18 @@
             android:layout_height="@dimen/dp_1"
             app:layout_constraintTop_toBottomOf="@id/stock_msg_layout"/>
 
-        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-            android:id="@+id/comm_stock_refresh"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <jh.zkj.com.yf.Mview.EmptyView
+                android:id="@+id/comm_stock_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+
+            <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+                android:id="@+id/comm_stock_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -107,17 +113,9 @@
                     android:background="@color/white"
                     android:divider="@null"/>
 
-                <jh.zkj.com.yf.Mview.EmptyView
-                    android:id="@+id/comm_stock_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"/>
+            </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
-            </RelativeLayout>
-
-
-        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
-
+        </RelativeLayout>
 
     </LinearLayout>
 

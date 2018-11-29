@@ -45,6 +45,7 @@ import jh.zkj.com.yf.Bean.CreateOrderBean;
 import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Bean.RetailOrderBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
+import jh.zkj.com.yf.Bean.SerialNoBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.RetailOrderContract;
 import jh.zkj.com.yf.Mutils.BigDecimalUtils;
@@ -92,6 +93,16 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     private void initData() {
         orderBean = new RetailOrderBean();
         api = new OrderAPI(activity);
+
+        CommodityInfoBean serialNoBean = (CommodityInfoBean)
+                activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_SERIAL_NO_BEAN);
+
+        if(serialNoBean != null){
+            serialNoBean.setCount(1);
+            ArrayList<CommodityInfoBean> arr = new ArrayList<>();
+            arr.add(serialNoBean);
+            orderBean.addComList(arr);
+        }
     }
 
     private void initAdapter() {
@@ -102,6 +113,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         //嵌套scrollview需要禁止滑动
         recyclerView.setNestedScrollingEnabled(false);
 
+        adapter.notifyData(orderBean.getComList());
     }
 
 
@@ -192,7 +204,6 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                 if (data != null) {
                     orderBean.addComList((ArrayList<CommodityInfoBean>) data.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY));
                     adapter.notifyData(orderBean.getComList());
-                    adapter.notifyDataSetChanged();
                     setTotalLayout();
                 }
             }
@@ -591,7 +602,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         String erp_json = PrefUtils.getString(activity, "erp_json", "");
         MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
         if(myBean != null && myBean.getData().getSysUser() != null){
-            createOrderBean.setAscriptionCompanyUuid(myBean.getData().getSysUser().getAscriptionCompanyUuid());
+            createOrderBean.setAscriptionCompanyUuid(myBean.getData().getSysUser().getCompanyUuid());
         }
 
         createOrderBean.setRemark(activity.getRemark().getText().toString());
@@ -605,10 +616,10 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                 MToast.makeText(activity, "请输入商品单价", MToast.LENGTH_SHORT).show();
                 return;
             }
-            if (bean.getPrice().doubleValue() == 0) {
-                MToast.makeText(activity, "请正确输入商品单价", MToast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (bean.getPrice().doubleValue() == 0) {
+//                MToast.makeText(activity, "请正确输入商品单价", MToast.LENGTH_SHORT).show();
+//                return;
+//            }
             listBean.setPrice(bean.getPrice().toString());
             listBean.setWarehouseUuid(bean.getWarehouseUuid());
             listBean.setSerialNo(bean.getSerialNo());
