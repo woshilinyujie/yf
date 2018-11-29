@@ -66,7 +66,7 @@ ps 以后来的新人不要怪我  劳资不是不会抽  是没时间抽  天�
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_16"
-                    android:text="订单信息"
+                    android:text="单据信息"
                     android:textColor="@color/c_a6a6a6"
                     android:textSize="@dimen/sp_14"
                     android:includeFontPadding="false"

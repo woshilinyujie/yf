@@ -107,13 +107,14 @@ public class OrderAPI {
     /**
      * 搜索商品
      */
-    public void getSearchCommodity(String keyWord, int pageNum, int pageSize, final IResultMsg<CommodityBean> iResultMsg) {
+    public void getSearchCommodity(String companyUuid, String keyWord, int pageNum, int pageSize, final IResultMsg<CommodityBean> iResultMsg) {
         if(loadingDialog != null){
             loadingDialog.showLoading();
         }
 
         OkGo.<String>get(API + HttpConstant.HTTP_BASIC_PRODUCT_KEYWORDS)
                 .headers("Authorization", TOKEN)
+                .params("companyUuid", companyUuid)
                 .params("keywords", keyWord)
                 .params("pageNum", pageNum)
                 .params("pageSize", pageSize)
@@ -366,8 +367,9 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_GET_CASHIER_TYPE_COMPANY + orderId)
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_GET_CASHIER_TYPE_COMPANY /*+ orderId*/)
                 .headers("Authorization", TOKEN)
+                .params("enableFlag", 1)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {

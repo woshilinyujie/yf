@@ -17,6 +17,7 @@ import jh.zkj.com.yf.Activity.Order.OrderScanActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.CommodityBean;
+import jh.zkj.com.yf.Bean.FilterCompanyBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -32,11 +33,25 @@ public class OrderScanPresenter implements QRCodeView.Delegate{
     private static final int CAMERA_CODE = 1;//相机权限code
 
     private OrderAPI api;
+    private FilterCompanyBean companyBean;
 
     public OrderScanPresenter(OrderScanActivity activity) {
         this.activity = activity;
+        initView();
+        initData();
+        initListener();
+    }
+
+    private void initView() {
+
+    }
+
+    private void initData() {
+        companyBean = (FilterCompanyBean) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_COMPANY_BEAN);
         api = new OrderAPI(activity);
     }
+
+    private void initListener() {}
 
 
     @Override
@@ -65,15 +80,18 @@ public class OrderScanPresenter implements QRCodeView.Delegate{
     //****************************************************************************************************************
     //获取商品列表
     private void getCommodityList(String keyWord, int page, int size){
-        api.getSearchCommodity(keyWord, page, size, new OrderAPI.IResultMsg<CommodityBean>() {
+        api.getSearchCommodity(companyBean == null ? "" : companyBean.getUuid()
+                , keyWord, page, size, new OrderAPI.IResultMsg<CommodityBean>() {
             @Override
             public void Result(CommodityBean data) {
                 if(data != null && data.getRecords() != null && data.getRecords().size() > 0){
-
                     Intent intent = new Intent();
                     intent.putExtra(OrderConfig.TYPE_STRING_ORDER_SCAN, data.getRecords().get(0));
                     activity.setResult(Activity.RESULT_OK, intent);
                     activity.finish();
+                }else{
+                    MToast.makeText(activity,"该商品不存在", MToast.LENGTH_SHORT).show();
+                    activity.setSpotDelay(500);
                 }
             }
 
@@ -82,7 +100,7 @@ public class OrderScanPresenter implements QRCodeView.Delegate{
                 if(BuildConfig.DEBUG){
                     Log.e("wdefer" , "error json == " + json);
                 }
-                MToast.makeText(activity,"识别失败 请重试", MToast.LENGTH_SHORT);
+                MToast.makeText(activity,"识别失败 请重试", MToast.LENGTH_SHORT).show();
                 activity.setSpotDelay(500);
             }
         });

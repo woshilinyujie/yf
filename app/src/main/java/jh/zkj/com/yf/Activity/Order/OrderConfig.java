@@ -39,6 +39,8 @@ public class OrderConfig {
     public static final String TYPE_STRING_OUT_REMARK = "outRemark";
     //库存序列号
     public static final String TYPE_STRING_SERIAL_NO_BEAN = "serialNoBean";
+    //公司bean
+    public static final String TYPE_STRING_COMPANY_BEAN = "companyBean";
 
 
     //选择客户取消客户

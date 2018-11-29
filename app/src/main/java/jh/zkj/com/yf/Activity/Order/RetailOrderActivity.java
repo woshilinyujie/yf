@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Activity.Order;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -64,6 +65,9 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
     //总金额layout
     @BindView(R.id.retail_order_total_layout)
     RelativeLayout totalLayout;
+    //总金额layout
+    @BindView(R.id.retail_company)
+    TextView company;
     //    @BindView(R.id.main_activity_home_page)
 //    FrameLayout fragmentLayout;
     private RetailOrderPresenter presenter;
@@ -79,7 +83,7 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
 
     @OnClick({R.id.retail_order_title, R.id.retail_order_receivable, R.id.retail_order_success
             , R.id.retail_order_add_commodity, R.id.retail_user_salesman_add_layout
-            , R.id.retail_order_select_client})
+            , R.id.retail_order_select_client, R.id.retail_company_layout})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.retail_order_title:
@@ -99,6 +103,9 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
                 break;
             case R.id.retail_order_select_client:
                 presenter.startSelectClientActivity();
+                break;
+            case R.id.retail_company_layout:
+                presenter.openSelectCompany();
                 break;
         }
     }
@@ -138,6 +145,10 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
 
     public void setSalesman(String s) {
         salesman.setText(s);
+    }
+
+    public void setCompany(String s) {
+        company.setText(s);
     }
 
     @Override

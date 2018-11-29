@@ -6,4 +6,17 @@ package jh.zkj.com.yf.Presenter.System;
  * use 角色
  */
 public class RoleManagePresenter {
+    public RoleManagePresenter(){
+        initView();
+        initData();
+        initListener();
+
+
+    }
+
+    private void initView() {}
+
+    private void initData() {}
+
+    private void initListener() {}
 }

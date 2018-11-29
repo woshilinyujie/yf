@@ -51,21 +51,24 @@ public class StockAPI {
      * 商品库存
      * @param classifyUuid 商品分类
      * @param companyUuid 公司uuid
+     * @param companyCode 公司code
      * @param brandUuid 品牌uuid
      * @param skuUuid 型号uuid
      * @param pageNumber 页码
      * @param pageSize 每页展示数
      * @param iResultMsg msg
      */
-    public void getCommodityList(String skuFullName, String classifyUuid, String companyUuid, String brandUuid
-            , String skuUuid, int pageNumber, int pageSize, final OrderAPI.IResultMsg<commodityStockBean> iResultMsg){
+    public void getCommodityList(String skuFullName, String classifyUuid, String companyUuid
+            , String companyCode, String brandUuid, String skuUuid, int pageNumber, int pageSize
+            , final OrderAPI.IResultMsg<commodityStockBean> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKUSTOCK_APP)
+        OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKU_STOCK_APP)
                 .headers("Authorization", TOKEN)
                 .params("skuFullName", skuFullName)
                 .params("classifyUuid", classifyUuid)
                 .params("companyUuid", companyUuid)
+                .params("companyCode", companyCode)
                 .params("brandUuid", brandUuid)
                 .params("skuUuid", skuUuid)
                 .params("pageNumber", pageNumber)
@@ -109,21 +112,23 @@ public class StockAPI {
      * @param keywords 搜索关键字
      * @param classifyUuid 商品分类
      * @param companyUuid 公司uuid
+     * @param companyCode 公司code
      * @param brandUuid 品牌uuid
      * @param skuUuid 型号uuid
      * @param warehouseUuid 仓库uuid
      * @param iResultMsg msg
      */
     public void getSerialNoList(String keywords, String classifyUuid, String companyUuid
-            , String brandUuid, String skuUuid, String warehouseUuid
+            , String companyCode, String brandUuid, String skuUuid, String warehouseUuid
             , int pageNum, int pageSize, final OrderAPI.IResultMsg<SerialNoBean> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SERIAL_NO_LIST)
+        OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SERIAL_SERIAL_STOCK_SERIAL)
                 .headers("Authorization", TOKEN)
                 .params("keywords", keywords)
                 .params("classifyUuid", classifyUuid)
                 .params("companyUuid", companyUuid)
+                .params("companyCode", companyCode)
                 .params("brandUuid", brandUuid)
                 .params("skuUuid", skuUuid)
                 .params("pageNum", pageNum)
@@ -209,7 +214,7 @@ public class StockAPI {
     public void getSkuStockList(String warehouseName, final OrderAPI.IResultMsg<SkuStockBean> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKUSTOCK_APP_STOCKPART)
+        OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKU_STOCK_APP_STOCK_PART)
                 .headers("Authorization", TOKEN)
                 .params("warehouseName", warehouseName)
                 .execute(new StringCallback() {

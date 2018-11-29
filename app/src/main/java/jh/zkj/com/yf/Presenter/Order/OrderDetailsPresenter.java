@@ -359,7 +359,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     private ArrayList<ComDetailBean> createDetailList(OrderDetailsBean bean, String status) {
 
         ArrayList<ComDetailBean> comDetails = new ArrayList<>();
-        comDetails.add(new ComDetailBean("订单编号", bean.getBillNo()));
+        comDetails.add(new ComDetailBean("单据编号", bean.getBillNo()));
         comDetails.add(new ComDetailBean("客户姓名", bean.getName()));
         comDetails.add(new ComDetailBean("手机号码", bean.getMobilePhone()));
         comDetails.add(new ComDetailBean("下单人", bean.getCreateUserName()));

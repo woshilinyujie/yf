@@ -712,7 +712,7 @@ public class MyAPI {
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
         OkGo.<String>get(API + ":3001/"
-                + (flag ? HttpConstant.HTTP_CRM_OPERRATOR_AUDIT : HttpConstant.HTTP_CRM_OPERRATOR_UN_AUDIT)
+                + (flag ? HttpConstant.HTTP_CRM_OPERATOR_AUDIT : HttpConstant.HTTP_CRM_OPERATOR_UN_AUDIT)
                 + uuid)
                 .tag(context)
                 .headers("Authorization", "Bearer " + crm_token)

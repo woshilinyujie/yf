@@ -40,6 +40,8 @@ public class CreateOrderBean {
     private String remark;
     private String uuid;
     private String ascriptionCompanyUuid;
+    private String ascriptionCompanyCode;
+    private String ascriptionCompanyName;
     private String bizDate = "";
     private String memberUuid;
     private String identNo;
@@ -253,6 +255,22 @@ public class CreateOrderBean {
         DetailListBean newDetailListBean = new DetailListBean();
         newDetailList.add(newDetailListBean);
         return newDetailList.size() - 1;
+    }
+
+    public String getAscriptionCompanyCode() {
+        return ascriptionCompanyCode;
+    }
+
+    public void setAscriptionCompanyCode(String ascriptionCompanyCode) {
+        this.ascriptionCompanyCode = ascriptionCompanyCode;
+    }
+
+    public String getAscriptionCompanyName() {
+        return ascriptionCompanyName;
+    }
+
+    public void setAscriptionCompanyName(String ascriptionCompanyName) {
+        this.ascriptionCompanyName = ascriptionCompanyName;
     }
 
     public class DetailListBean {

@@ -221,7 +221,7 @@ public class RetailListPresenter implements RetailListContract.IRetailPresenter 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             final OrderListBean.DataBean.RecordsBean item = getItem(position);
-            holder.order.setText(item.getBillNo());
+            holder.order.setText("单据号：" + item.getBillNo());
             int color;
             if (OrderConfig.STATUS_UN_SUCCESS.equals(fragment.getStatus())) {
                 color = context.getResources().getColor(R.color.c_6fb1fc);

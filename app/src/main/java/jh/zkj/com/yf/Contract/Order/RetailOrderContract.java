@@ -30,6 +30,8 @@ public class RetailOrderContract {
         void startSelectSalesmanActivity();
         //选择客户
         void startSelectClientActivity();
+        //选择公司
+        void openSelectCompany();
         //
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
     }

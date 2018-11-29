@@ -95,7 +95,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         pageNum = 1;
         getCommodityList(""
                 , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                 , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                 , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                 , pageNum, pageSize, refreshMsg);
@@ -112,7 +113,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                     searchText = fragment.getSearch().getText().toString();
                     getCommodityList(searchText
                             , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                             , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                             , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                             , pageNum, pageSize, refreshMsg);
@@ -127,7 +129,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                 pageNum = 1;
                 getCommodityList(searchText
                         , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                         , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                         , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                         , pageNum, pageSize, refreshMsg);
@@ -138,7 +141,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                 pageNum ++;
                 getCommodityList(searchText
                         , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                         , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                         , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                         , pageNum, pageSize, loadMoreMsg);
@@ -178,7 +182,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                         pageNum = 1;
                         getCommodityList(searchText
                                 , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                                 , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                                 , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                                 , pageNum, pageSize, refreshMsg);
@@ -193,14 +198,15 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     private void resetPopup(){
         popup.reset();
         filterBean.cleanBean();
+        fragment.getCommodity().setText("");
         if(myBean != null){
             filterBean.createCompany();
             filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
             filterBean.getComBean().setName(myBean.getData().getCompanyName());
             filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
+            fragment.getCommodity().setText(myBean.getData().getCompanyName());
         }
         popup.setData(filterBean);
-        fragment.getCommodity().setText(myBean.getData().getCompanyName());
     }
 
 
@@ -331,11 +337,12 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         }
     };
 
-    public void getCommodityList(String skuFullName, String classifyUuid, String companyUuid, String brandUuid
-            , String skuUuid, int pageNumber, int pageSize, OrderAPI.IResultMsg<commodityStockBean> msg) {
+    public void getCommodityList(String skuFullName, String classifyUuid, String companyUuid
+            , String companyCode, String brandUuid, String skuUuid, int pageNumber, int pageSize
+            , OrderAPI.IResultMsg<commodityStockBean> msg) {
         fragment.getRefresh().setEnableLoadmore(true);
 
-        api.getCommodityList(skuFullName, classifyUuid, companyUuid, brandUuid, skuUuid, pageNumber, pageSize
-                , msg);
+        api.getCommodityList(skuFullName, classifyUuid, companyUuid, companyCode, brandUuid
+                , skuUuid, pageNumber, pageSize, msg);
     }
 }
