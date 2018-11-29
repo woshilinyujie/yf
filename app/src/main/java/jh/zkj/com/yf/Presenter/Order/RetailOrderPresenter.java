@@ -39,13 +39,17 @@ import jh.zkj.com.yf.Activity.Order.RetailReceivableActivity;
 import jh.zkj.com.yf.Activity.Order.SelectClientActivity;
 import jh.zkj.com.yf.Activity.Order.SelectCommodityActivity;
 import jh.zkj.com.yf.Activity.Order.SelectSalesmanActivity;
+import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
+import jh.zkj.com.yf.Activity.Stock.StockConfig;
 import jh.zkj.com.yf.Bean.ClientInfoBean;
 import jh.zkj.com.yf.Bean.CommodityInfoBean;
 import jh.zkj.com.yf.Bean.CreateOrderBean;
+import jh.zkj.com.yf.Bean.FilterCompanyBean;
 import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Bean.RetailOrderBean;
 import jh.zkj.com.yf.Bean.SalesmanBean;
 import jh.zkj.com.yf.Bean.SerialNoBean;
+import jh.zkj.com.yf.Bean.StockFilterBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.RetailOrderContract;
 import jh.zkj.com.yf.Mutils.BigDecimalUtils;
@@ -53,6 +57,7 @@ import jh.zkj.com.yf.Mutils.GsonUtils;
 import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.LoadingDialog;
 import jh.zkj.com.yf.Mview.Toast.MToast;
+import jh.zkj.com.yf.Presenter.Stock.FilterListPresenter;
 import jh.zkj.com.yf.R;
 //import jh.zkj.com.yf.Fragment.Retail.RetailOrderFragment;
 
@@ -71,6 +76,8 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     public static final int REQUEST_SELECT_SUBMIT = 4;
     //提交并收款
     public static final int REQUEST_SELECT_RECEIVABLES = 5;
+    //选择公司
+    public static final int REQUEST_FILTER_LIST = 6;
 
 
     private RetailOrderActivity activity;
@@ -82,6 +89,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     private String total;
     private String count;
     private ClientInfoBean.RecordsBean recordsBean;
+    private StockFilterBean filterBean = new StockFilterBean();
 
     public RetailOrderPresenter(RetailOrderActivity activity) {
         this.activity = activity;
@@ -94,15 +102,37 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         orderBean = new RetailOrderBean();
         api = new OrderAPI(activity);
 
-        CommodityInfoBean serialNoBean = (CommodityInfoBean)
+        SerialNoBean.ContentBean serialNoBean = (SerialNoBean.ContentBean)
                 activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_SERIAL_NO_BEAN);
 
         if(serialNoBean != null){
-            serialNoBean.setCount(1);
-            ArrayList<CommodityInfoBean> arr = new ArrayList<>();
-            arr.add(serialNoBean);
-            orderBean.addComList(arr);
+            orderBean.createCommodityBean();
+            orderBean.getComList().get(0).setName(serialNoBean.getSku_full_name());
+            orderBean.getComList().get(0).setFullName(serialNoBean.getSku_full_name());
+            orderBean.getComList().get(0).setWarehouseUuid(serialNoBean.getWarehouse_uuid());
+            orderBean.getComList().get(0).setWarehouseName(serialNoBean.getWarehouse_name());
+            orderBean.getComList().get(0).setSerialNo(serialNoBean.getSerial01());
+//            orderBean.getComList().get(0).setStockAge(String.valueOf(serialNoBean.getStock_age()));
+//            orderBean.getComList().get(0).setStockQty(serialNoBean.getStock_qty());
+            orderBean.getComList().get(0).setExceedStockAge(serialNoBean.getExceed_stock_age());
+            orderBean.getComList().get(0).setCurrentStockAge(serialNoBean.getCurrent_stock_age());
+            orderBean.getComList().get(0).setCount(1);
+//            ArrayList<CommodityInfoBean> arr = new ArrayList<>();
+//            arr.add(serialNoBean);
+//            orderBean.addComList(arr);
         }
+
+        String erp_json = PrefUtils.getString(activity, "erp_json", "");
+        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
+        if(myBean != null && myBean.getData() != null){
+            filterBean.createCompany();
+            filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
+            filterBean.getComBean().setName(myBean.getData().getCompanyName());
+            filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
+            activity.setCompany(myBean.getData().getCompanyName());
+//            adasdasd
+        }
+
     }
 
     private void initAdapter() {
@@ -143,6 +173,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     public void startSelectCommodityActivity() {
         Intent intent = new Intent(activity, SelectCommodityActivity.class);
         intent.putExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY, orderBean.getComList());
+        intent.putExtra(OrderConfig.TYPE_STRING_COMPANY_BEAN, filterBean.getComBean());
         activity.startActivityForResult(intent, REQUEST_SELECT_COMMODITY);
     }
 
@@ -224,6 +255,15 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             if (resultCode == Activity.RESULT_OK) {
                 activity.finish();
             }
+        } else if (requestCode == REQUEST_FILTER_LIST) {
+            //提交并收款
+            if (resultCode == FilterListPresenter.REQUEST_COMPANY) {
+                if(data != null){
+                    Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
+                    filterBean.setComBean((FilterCompanyBean) bean);
+                    activity.setCompany(filterBean.getComBean().getName());
+                }
+            }
         }
     }
 
@@ -275,6 +315,13 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         }
     }
 
+    @Override
+    public void openSelectCompany() {
+        Intent intent = new Intent(activity, FilterListActivity.class);
+        intent.putExtra(StockConfig.TYPE_STRING_FILTER_STATUS, StockConfig.STATUS_TYPE_COMPANY);
+        intent.putExtra(StockConfig.TYPE_STRING_FILTER_DATA, filterBean);
+        activity.startActivityForResult(intent, REQUEST_FILTER_LIST);
+    }
 
     /**
      * 使用：
@@ -322,7 +369,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
 
             if (item != null) {
                 ischange = true;
-                holder.comName.setText(item.getName());
+                holder.comName.setText(item.getFullName());
                 holder.num.setText(String.valueOf(item.getCount()));
                 holder.count.setText(String.valueOf(item.getCount()));
                 holder.serial.setText(item.getSerialNo());
@@ -599,10 +646,10 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         createOrderBean.setBizDate(simpleDateFormat.format(date));
 
         //所属公司
-        String erp_json = PrefUtils.getString(activity, "erp_json", "");
-        MyBean myBean = JSON.parseObject(erp_json, MyBean.class);
-        if(myBean != null && myBean.getData().getSysUser() != null){
-            createOrderBean.setAscriptionCompanyUuid(myBean.getData().getSysUser().getCompanyUuid());
+        if(filterBean != null && filterBean.getComBean() != null){
+            createOrderBean.setAscriptionCompanyUuid(filterBean.getComBean().getUuid());
+            createOrderBean.setAscriptionCompanyCode(filterBean.getComBean().getCode());
+            createOrderBean.setAscriptionCompanyName(filterBean.getComBean().getName());
         }
 
         createOrderBean.setRemark(activity.getRemark().getText().toString());

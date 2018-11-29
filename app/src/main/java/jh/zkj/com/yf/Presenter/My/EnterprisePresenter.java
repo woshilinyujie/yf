@@ -175,7 +175,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             final CompanyBean.CrmCompanysBean item = getItem(position);
             if (item != null) {
-                holder.code.setText("企业代码：" + item.getBusinessCode());
+                holder.code.setText("企业代码：" + item.getCode());
                 holder.name.setText(item.getName());
                 if (item.getApplyNums() == 0) {
                     holder.dotNum.setVisibility(View.GONE);

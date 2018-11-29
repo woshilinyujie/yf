@@ -34,9 +34,11 @@ import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderScanActivity;
 import jh.zkj.com.yf.Activity.Order.SelectCommodityActivity;
 import jh.zkj.com.yf.Activity.ScanActivity;
+import jh.zkj.com.yf.Activity.Stock.StockConfig;
 import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.CommodityBean;
 import jh.zkj.com.yf.Bean.CommodityInfoBean;
+import jh.zkj.com.yf.Bean.FilterCompanyBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Order.SelectCommodityContract;
 import jh.zkj.com.yf.Mview.LoadingDialog;
@@ -64,27 +66,36 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     private ArrayList<CommodityInfoBean> commodityList = new ArrayList<>();
     private ArrayList<CommodityInfoBean> records = new ArrayList<>();
     private String searchText = "";
+    //我知道 你们后来的人想问我 为什么有特喵的这么多公司bean  我只想说 你还是太小看我们产品加需求的能力了兄弟啊
+    private FilterCompanyBean companyBean;
 
     //    private ArrayList<CommodityInfoBean> serialList = new ArrayList<>();
 
     public SelectCommodityPresenter(SelectCommodityActivity activity) {
         this.activity = activity;
-        initPresenter();
+        initView();
+        initData();
         initListener();
     }
 
-    private void initPresenter() {
-        activity.getEmpty().setContent("没有找到相关信息");
+    private void initView() {
         recycler = activity.getRecycler();
         refreshLayout = activity.getRefreshLayout();
-        if(activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY) != null){
-            commodityList = (ArrayList<CommodityInfoBean>) activity.getIntent().getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY);
+    }
+
+    private void initData() {
+        activity.getEmpty().setContent("没有找到相关信息");
+        Intent intent = activity.getIntent();
+        if(intent.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY) != null){
+            commodityList = (ArrayList<CommodityInfoBean>) intent.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY);
         }
         api = new OrderAPI(activity);
         initAdapter();
 
         pageNum = 1;
-        getCommodityList(searchText, pageNum, pageSize, refreshMsg);
+        companyBean = (FilterCompanyBean) intent.getSerializableExtra(OrderConfig.TYPE_STRING_COMPANY_BEAN);
+        activity.setStoreName(companyBean.getName());
+        getCommodityList(companyBean.getUuid(), searchText, pageNum, pageSize, refreshMsg);
     }
 
     private void initAdapter() {
@@ -107,7 +118,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     pageNum = 1;
                     searchText = activity.getSearch().getText().toString();
-                    getCommodityList(searchText, pageNum, pageSize, refreshMsg);
+                    getCommodityList(companyBean.getUuid(), searchText, pageNum, pageSize, refreshMsg);
                 }
                 return true;
             }
@@ -119,14 +130,14 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 refreshLayout.setEnableLoadmore(true);
                 pageNum = 1;
-                getCommodityList(searchText, pageNum, pageSize, refreshMsg);
+                getCommodityList(companyBean.getUuid(), searchText, pageNum, pageSize, refreshMsg);
             }
 
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 pageNum ++;
-                getCommodityList(searchText, pageNum, pageSize, loadMoreMsg);
+                getCommodityList(companyBean.getUuid(), searchText, pageNum, pageSize, loadMoreMsg);
             }
         });
     }
@@ -288,6 +299,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(activity, OrderScanActivity.class);
+                            intent.putExtra(OrderConfig.TYPE_STRING_COMPANY_BEAN, companyBean);
                             activity.startActivityForResult(intent, REQUEST_SCAN);
                         }
                     });
@@ -413,8 +425,8 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     };
 
     //获取商品列表
-    private void getCommodityList(String keyWord, int page, int size, OrderAPI.IResultMsg<CommodityBean> msg){
-        api.getSearchCommodity(keyWord, page, size, msg);
+    private void getCommodityList(String companyUuid, String keyWord, int page, int size, OrderAPI.IResultMsg<CommodityBean> msg){
+        api.getSearchCommodity(companyUuid, keyWord, page, size, msg);
 
     }
 

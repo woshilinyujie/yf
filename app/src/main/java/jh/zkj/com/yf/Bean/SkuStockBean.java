@@ -99,7 +99,7 @@ public class SkuStockBean implements Serializable{
              */
 
             private String sku_full_name;
-            private int price;
+            private double price;
             private int qty;
             //本地字段
             private String total;
@@ -112,11 +112,11 @@ public class SkuStockBean implements Serializable{
                 this.sku_full_name = sku_full_name;
             }
 
-            public int getPrice() {
+            public double getPrice() {
                 return price;
             }
 
-            public void setPrice(int price) {
+            public void setPrice(double price) {
                 this.price = price;
             }
 

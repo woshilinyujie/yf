@@ -81,7 +81,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     private StockFilterBean filterBean = new StockFilterBean();
     private TwinklingRefreshLayout refresh;
     private String searchText;
-    private ArrayList<CommodityInfoBean> records;
+    private ArrayList<SerialNoBean.ContentBean> records;
     private int pageNum = 1;
     private int pageSize = 10;
     private MyBean myBean;
@@ -185,7 +185,8 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                     pageNum = 1;
                     getSerialNoList(searchText
                             , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                             , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                             , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                             , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
@@ -221,6 +222,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                     getSerialNoList(searchText
                             , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                             , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                             , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                             , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                             , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
@@ -237,6 +239,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 getSerialNoList(searchText
                         , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                         , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                         , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                         , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                         , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
@@ -249,6 +252,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 getSerialNoList(searchText
                         , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                         , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                         , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                         , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                         , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
@@ -290,6 +294,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                         getSerialNoList(searchText
                                 , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                                 , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                                 , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                                 , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                                 , filterBean.isEmptyWarehouseBean() ? "" : filterBean.getWarehouseBean().getUuid() //仓库
@@ -398,6 +403,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                             , ""
                             , ""
                             , ""
+                            , ""
                             , pageNum, pageSize, refreshMsg);
                 }
             }
@@ -409,10 +415,10 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
      */
     class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-        private ArrayList<CommodityInfoBean> mArr = new ArrayList<>();
+        private ArrayList<SerialNoBean.ContentBean> mArr = new ArrayList<>();
 
         //后期传入刷新
-        public void notifyData(ArrayList<CommodityInfoBean> arr) {
+        public void notifyData(ArrayList<SerialNoBean.ContentBean> arr) {
             if (arr != null) {
                 mArr.clear();
                 mArr.addAll(arr);
@@ -426,7 +432,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
             return new ViewHolder(view);
         }
 
-        public CommodityInfoBean getItem(int position) {
+        public SerialNoBean.ContentBean getItem(int position) {
             if (mArr != null && mArr.size() > position) {
                 return mArr.get(position);
             }
@@ -440,16 +446,16 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            final CommodityInfoBean item = getItem(position);
+            final SerialNoBean.ContentBean item = getItem(position);
             if(item != null){
-                holder.name.setText(item.getFullName());
-                holder.serialNo.setText(item.getSerialNo());
-                holder.warehouse.setText(item.getWarehouseName());
-                holder.purchasePrice.setText(item.getStockPrice());
-                holder.costPrice.setText(item.getStockPrice());
-                holder.totalLibraryAge.setText(item.getCurrentStockAge());
-                holder.nowLibraryAge.setText(item.getStockAge());
-                holder.transcendLibraryAge.setText(item.getExceedStockAge());
+                holder.name.setText(item.getSku_full_name());
+                holder.serialNo.setText(item.getSerial01());
+                holder.warehouse.setText(item.getWarehouse_name());
+                holder.purchasePrice.setText(item.getStock_price());
+                holder.costPrice.setText(item.getStock_cost());
+                holder.totalLibraryAge.setText(item.getCurrent_stock_age());
+//                holder.nowLibraryAge.setText(item.getStock_age());
+                holder.transcendLibraryAge.setText(item.getExceed_stock_age());
 
                 holder.orderBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -509,11 +515,11 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     //**********************************************************************************************
 
     public void getSerialNoList(String keywords, String classifyUuid, String companyUuid
-            , String brandUuid, String skuUuid, String warehouseUuid
+            , String companyCode, String brandUuid, String skuUuid, String warehouseUuid
             , int pageNum, int pageSize, OrderAPI.IResultMsg<SerialNoBean> msg) {
         refresh.setEnableLoadmore(true);
-        api.getSerialNoList(keywords, classifyUuid, companyUuid, brandUuid, skuUuid, warehouseUuid
-                , pageNum, pageSize, msg);
+        api.getSerialNoList(keywords, classifyUuid, companyUuid, companyCode, brandUuid
+                , skuUuid, warehouseUuid, pageNum, pageSize, msg);
     }
 
     OrderAPI.IResultMsg<SerialNoBean> refreshMsg = new OrderAPI.IResultMsg<SerialNoBean>() {
@@ -521,7 +527,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
         public void Result(SerialNoBean bean) {
             if (bean != null) {
                 refresh.finishRefreshing();
-                records = bean.getRecords();
+                records = bean.getContent();
                 if(records != null && records.size() > 0){
                     adapter.notifyData(records);
                     historyLayout.setVisibility(View.GONE);
@@ -547,8 +553,8 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
         public void Result(SerialNoBean bean) {
             refresh.finishLoadmore();
             if (bean != null) {
-                if(bean.getRecords() != null && bean.getRecords().size() > 0){
-                    records.addAll(bean.getRecords());
+                if(bean.getContent() != null && bean.getContent().size() > 0){
+                    records.addAll(bean.getContent());
                     adapter.notifyData(records);
                 }else{
                     refresh.setEnableLoadmore(false);

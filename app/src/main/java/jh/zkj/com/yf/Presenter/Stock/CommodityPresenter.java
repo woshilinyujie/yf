@@ -48,7 +48,7 @@ import jh.zkj.com.yf.Mview.StockFilterPopup;
  * 2018/11/15
  * use 商品库存
  */
-public class CommodityPresenter implements CommodityContract.ICommodityPresenter {
+public class CommodityPresenter implements CommodityContract.ICommodityPresenter{
     private static final int REQUEST_FILTER_LIST = 1;
 
     private CommodityStockFragment fragment;
@@ -66,7 +66,7 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     private MyBean myBean;
 
 
-    public CommodityPresenter(CommodityStockFragment fragment) {
+    public CommodityPresenter(CommodityStockFragment fragment){
         this.fragment = fragment;
         activity = (MainActivity) fragment.getActivity();
         initView();
@@ -95,7 +95,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         pageNum = 1;
         getCommodityList(""
                 , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                 , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                 , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                 , pageNum, pageSize, refreshMsg);
@@ -112,7 +113,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                     searchText = fragment.getSearch().getText().toString();
                     getCommodityList(searchText
                             , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                            , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                             , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                             , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                             , pageNum, pageSize, refreshMsg);
@@ -127,7 +129,8 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                 pageNum = 1;
                 getCommodityList(searchText
                         , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                         , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                         , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                         , pageNum, pageSize, refreshMsg);
@@ -135,10 +138,11 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                pageNum++;
+                pageNum ++;
                 getCommodityList(searchText
                         , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                        , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                         , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                         , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                         , pageNum, pageSize, loadMoreMsg);
@@ -149,16 +153,16 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         popup.setListener(new StockFilterPopup.Listener() {
             @Override
             public void onItemClick(int position) {
-                switch (position) {
+                switch (position){
                     //公司
                     case StockConfig.STATUS_TYPE_COMPANY:
-                        //仓库
+                    //仓库
                     case StockConfig.STATUS_TYPE_WAREHOUSE:
-                        //商品分类
+                    //商品分类
                     case StockConfig.STATUS_TYPE_CLASSIFICATION:
-                        //品牌
+                    //品牌
                     case StockConfig.STATUS_TYPE_BRAND:
-                        //型号
+                    //型号
                     case StockConfig.STATUS_TYPE_MODEL: {
                         Intent intent = new Intent(activity, FilterListActivity.class);
                         intent.putExtra(StockConfig.TYPE_STRING_FILTER_STATUS, position);
@@ -167,18 +171,19 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                         break;
                     }
                     //重置
-                    case StockFilterPopup.CLICK_TYPE_RESET: {
+                    case StockFilterPopup.CLICK_TYPE_RESET:{
                         resetPopup();
                         break;
                     }
                     //确认
-                    case StockFilterPopup.CLICK_TYPE_CONFIRM: {
+                    case StockFilterPopup.CLICK_TYPE_CONFIRM:{
                         popup.dismiss();
                         fragment.getCommodity().setText(filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getName());
                         pageNum = 1;
                         getCommodityList(searchText
                                 , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
-                                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司
+                                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司uuid
+                                , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getCode() //公司code
                                 , filterBean.isEmptyBrandBean() ? "" : filterBean.getBrandBean().getUuid() //品牌
                                 , filterBean.isEmptyProductBean() ? "" : filterBean.getProductBean().getUuid() //型号
                                 , pageNum, pageSize, refreshMsg);
@@ -190,17 +195,18 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     }
 
     //重置（初始化）popup  保证公司必须存在
-    private void resetPopup() {
+    private void resetPopup(){
         popup.reset();
         filterBean.cleanBean();
-        if (myBean != null) {
+        fragment.getCommodity().setText("");
+        if(myBean != null){
             filterBean.createCompany();
             filterBean.getComBean().setCode(myBean.getData().getCompanyCode());
             filterBean.getComBean().setName(myBean.getData().getCompanyName());
             filterBean.getComBean().setUuid(myBean.getData().getCompanyUuid());
-            popup.setData(filterBean);
-            fragment.getCommodity().setText(filterBean.getComBean().getName());
+            fragment.getCommodity().setText(myBean.getData().getCompanyName());
         }
+        popup.setData(filterBean);
     }
 
 
@@ -216,19 +222,19 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_FILTER_LIST && data != null) {
-            if (resultCode == FilterListPresenter.REQUEST_COMPANY) {
+        if(requestCode == REQUEST_FILTER_LIST && data != null){
+            if(resultCode == FilterListPresenter.REQUEST_COMPANY){
                 Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
                 filterBean.setComBean((FilterCompanyBean) bean);
             }/*else if(resultCode == FilterListPresenter.REQUEST_WAREHOUSE){
                 Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
-            }*/ else if (resultCode == FilterListPresenter.REQUEST_CLASSIFICATION) {
+            }*/else if(resultCode == FilterListPresenter.REQUEST_CLASSIFICATION){
                 Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
                 filterBean.setClassifyBean((FilterClassifyBean) bean);
-            } else if (resultCode == FilterListPresenter.REQUEST_BRAND) {
+            }else if(resultCode == FilterListPresenter.REQUEST_BRAND){
                 Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
                 filterBean.setBrandBean((FilterBrandBean) bean);
-            } else if (resultCode == FilterListPresenter.REQUEST_MODEL) {
+            }else if(resultCode == FilterListPresenter.REQUEST_MODEL){
                 Serializable bean = data.getSerializableExtra(StockConfig.TYPE_STRING_FILTER_DATA);
                 filterBean.setProductBean((FilterProductBean) bean);
             }
@@ -241,7 +247,7 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
     private OrderAPI.IResultMsg<commodityStockBean> refreshMsg = new OrderAPI.IResultMsg<commodityStockBean>() {
         @Override
         public void Result(commodityStockBean bean) {
-            if (bean != null) {
+            if(bean != null){
                 fragment.getRefresh().finishRefreshing();
                 nodes.clear();
                 //父节点
@@ -249,16 +255,16 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                 //子节点
                 int cCount = 0;
                 ArrayList<commodityStockBean.ContentBean> content = bean.getContent();
-                if (content != null && content.size() > 0) {
-                    for (int i = 0; i < content.size(); i++) {
+                if(content != null && content.size() > 0){
+                    for (int i = 0 ; i < content.size() ; i++){
                         cCount = fCount;
-                        nodes.add(new CommodityTreeBean(fCount, cCount, content.get(i).getName(), (long) content.get(i).getQty()));
+                        nodes.add(new CommodityTreeBean(fCount, cCount, content.get(i).getName(), (long)content.get(i).getQty()));
                         fCount++;
-                        if (content.get(i).getWarehouseList() != null && content.get(i).getWarehouseList().size() > 0) {
-                            for (int j = 0; j < content.get(i).getWarehouseList().size(); j++) {
+                        if(content.get(i).getWarehouseList() != null && content.get(i).getWarehouseList().size() > 0){
+                            for (int j = 0 ; j < content.get(i).getWarehouseList().size() ; j++){
                                 nodes.add(new CommodityTreeBean(fCount, cCount
                                         , content.get(i).getWarehouseList().get(j).getWarehouse_name()
-                                        , (long) content.get(i).getWarehouseList().get(j).getQty()));
+                                        , (long)content.get(i).getWarehouseList().get(j).getQty()));
                                 fCount++;
                             }
                         }
@@ -274,7 +280,7 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
                     listView.setVisibility(View.VISIBLE);
                     fragment.getEmpty().setVisibility(View.GONE);
 
-                } else {
+                }else{
                     fragment.getRefresh().setEnableLoadmore(false);
                     listView.setVisibility(View.GONE);
                     fragment.getEmpty().setVisibility(View.VISIBLE);
@@ -292,27 +298,27 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         @Override
         public void Result(commodityStockBean bean) {
             fragment.getRefresh().finishLoadmore();
-            if (bean != null) {
+            if(bean != null){
                 //父节点
                 int fCount = nodes.get(nodes.size() - 1).getId();
                 //子节点
                 int cCount = nodes.get(nodes.size() - 1).getPid();
                 ArrayList<commodityStockBean.ContentBean> content = bean.getContent();
-                if (content != null && content.size() > 0) {
-                    for (int i = 0; i < content.size(); i++) {
+                if(content != null && content.size() > 0){
+                    for (int i = 0 ; i < content.size() ; i++){
                         cCount = fCount;
-                        nodes.add(new CommodityTreeBean(fCount, cCount, content.get(i).getName(), (long) content.get(i).getQty()));
+                        nodes.add(new CommodityTreeBean(fCount, cCount, content.get(i).getName(), (long)content.get(i).getQty()));
                         fCount++;
-                        if (content.get(i).getWarehouseList() != null && content.get(i).getWarehouseList().size() > 0) {
-                            for (int j = 0; j < content.get(i).getWarehouseList().size(); j++) {
+                        if(content.get(i).getWarehouseList() != null && content.get(i).getWarehouseList().size() > 0){
+                            for (int j = 0 ; j < content.get(i).getWarehouseList().size() ; j++){
                                 nodes.add(new CommodityTreeBean(fCount, cCount
                                         , content.get(i).getWarehouseList().get(j).getWarehouse_name()
-                                        , (long) content.get(i).getWarehouseList().get(j).getQty()));
+                                        , (long)content.get(i).getWarehouseList().get(j).getQty()));
                                 fCount++;
                             }
                         }
                     }
-                } else {
+                }else{
                     fragment.getRefresh().setEnableLoadmore(false);
                 }
                 try {
@@ -331,11 +337,12 @@ public class CommodityPresenter implements CommodityContract.ICommodityPresenter
         }
     };
 
-    public void getCommodityList(String skuFullName, String classifyUuid, String companyUuid, String brandUuid
-            , String skuUuid, int pageNumber, int pageSize, OrderAPI.IResultMsg<commodityStockBean> msg) {
+    public void getCommodityList(String skuFullName, String classifyUuid, String companyUuid
+            , String companyCode, String brandUuid, String skuUuid, int pageNumber, int pageSize
+            , OrderAPI.IResultMsg<commodityStockBean> msg) {
         fragment.getRefresh().setEnableLoadmore(true);
 
-        api.getCommodityList(skuFullName, classifyUuid, companyUuid, brandUuid, skuUuid, pageNumber, pageSize
-                , msg);
+        api.getCommodityList(skuFullName, classifyUuid, companyUuid, companyCode, brandUuid
+                , skuUuid, pageNumber, pageSize, msg);
     }
 }

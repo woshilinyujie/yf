@@ -95,7 +95,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
     }
 
     private void setData() {
-        activity.setOrder("订单编号：" + orderBean.getBillNo());
+        activity.setOrder("单据编号：" + orderBean.getBillNo());
         if(OrderConfig.STATUS_UN_SUCCESS.equals(status)){
             activity.setOrderStatus("未收款");
         }else if (OrderConfig.STATUS_SUCCESS.equals(status)){
@@ -211,7 +211,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
             final HarvestModeBean item = getItem(position);
             if (item != null){
                 holder.mode.setText("收款方式" + (position + 1));
-                holder.modeText.setText(item.getCashierTypeName());
+                holder.modeText.setText(item.getName());
                 holder.money.setText(item.getAmount());
                 if(position == mArr.size() - 1){
                     holder.remakeLayout.setVisibility(View.VISIBLE);
