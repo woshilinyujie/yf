@@ -166,7 +166,7 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
 
             @Override
             public void Error(String json) {
-                
+
             }
         });
     }
