@@ -210,7 +210,7 @@ public class MyBean {
             private String name;
             private String mobileNum;
             private String idCard;
-            private Object headImg;
+            private String headImg;
             private Object searchDays;
             private int soClerkFlag;
             private int poClerkFlag;
@@ -298,11 +298,11 @@ public class MyBean {
                 this.idCard = idCard;
             }
 
-            public Object getHeadImg() {
+            public String  getHeadImg() {
                 return headImg;
             }
 
-            public void setHeadImg(Object headImg) {
+            public void setHeadImg(String headImg) {
                 this.headImg = headImg;
             }
 

@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/update"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="@dimen/x260"
+        android:layout_width="@dimen/dp_260"
         android:layout_height="wrap_content"
+        android:background="@drawable/shape_solid_ffffff_radius_4"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y12"
+            android:layout_marginTop="@dimen/dp_12"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -23,16 +23,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="当前网络类型为："
-                android:textColor="@color/important_text"
-                android:textSize="@dimen/x14" />
+                android:textColor="@color/c_333333"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/txt_net_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4G"
-                android:textColor="@color/extrude_text"
-                android:textSize="@dimen/x16" />
+                android:textColor="@color/c_ff0000"
+                android:textSize="@dimen/sp_16" />
 
         </LinearLayout>
 
@@ -42,42 +42,46 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="是否继续更新"
-            android:textColor="@color/important_text"
-            android:textSize="@dimen/x14" />
+            android:textColor="@color/c_333333"
+            android:textSize="@dimen/sp_14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/dp_12"
+            android:background="@color/c_999999" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/x12"
-            android:layout_marginLeft="@dimen/x10"
-            android:layout_marginRight="@dimen/x10"
-            android:layout_marginTop="@dimen/x12"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:id="@+id/btn_cancel"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/y30"
+                android:layout_height="@dimen/dp_40"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_update_shape"
                 android:gravity="center"
                 android:text="否"
-                android:textColor="@color/extrude_text"
-                android:textSize="@dimen/x13" />
+                android:textColor="@color/c_333333"
+                android:textSize="@dimen/sp_13" />
 
-            <Button
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/c_999999" />
+
+            <TextView
                 android:id="@+id/btn_ok"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/y30"
-                android:layout_marginLeft="@dimen/x4"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginLeft="@dimen/dp_4"
                 android:layout_weight="1"
-                android:background="@drawable/btn_update_cancel_shape"
                 android:gravity="center"
                 android:text="是"
-                android:textColor="@color/white"
-                android:textSize="@dimen/x13" />
+                android:textColor="@color/c_6fb1fc"
+                android:textSize="@dimen/sp_13" />
         </LinearLayout>
 
     </LinearLayout>

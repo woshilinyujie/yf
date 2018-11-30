@@ -1,4 +1,4 @@
-package com.hzgeek.jinwanlicai.service;
+package jh.zkj.com.yf.Mutils;
 
 import android.app.DownloadManager;
 import android.app.Service;
@@ -12,11 +12,10 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
-import com.hzgeek.jinwanlicai.utils.Toast;
-
-import com.hzgeek.jinwanlicai.utils.UpdateApk;
 
 import java.io.File;
+
+import jh.zkj.com.yf.Mview.Toast.MToast;
 
 public class UpdateService extends Service {
 
@@ -35,7 +34,7 @@ public class UpdateService extends Service {
     /**
      * 下载路径，如果不定义自己的路径，6.0的手机不自动安装
      */
-    private String DOWNLOADPATH = "/jinwanlicai/";
+    private String DOWNLOADPATH = "/yf/";
 
     /**
      * 初始化下载器
@@ -61,8 +60,8 @@ public class UpdateService extends Service {
         // 显示下载界面
         down.setVisibleInDownloadsUi(true);
         // 设置下载后文件存放的位置
-        down.setDestinationInExternalPublicDir(DOWNLOADPATH, "jinwanlicai.apk");
-        down.setTitle("金碗理财正在下载中...");
+        down.setDestinationInExternalPublicDir(DOWNLOADPATH, "yf.apk");
+        down.setTitle("正在下载中...");
         // 将下载请求放入队列
         manager.enqueue(down);
         //注册下载广播
@@ -81,10 +80,10 @@ public class UpdateService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        downApkUrl = intent.getStringExtra(UpdateApk.DOWNLOAD_APK_URL);
+        downApkUrl = intent.getStringExtra("downApkUrl");
         //判断sd卡是否存在
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + DOWNLOADPATH + "jinwanlicai.apk";
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + DOWNLOADPATH + "yf.apk";
             File file = new File(path);
             if (file.exists()) {
                 file.delete();
@@ -94,7 +93,7 @@ public class UpdateService extends Service {
                 initDownManager();
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "下载失败", Toast.LENGTH_SHORT).show();
+                MToast.makeText(getApplicationContext(), "下载失败", MToast.LENGTH_SHORT).show();
             }
         }
 
@@ -129,7 +128,7 @@ public class UpdateService extends Service {
                     installAPK(manager.getUriForDownloadedFile(downId), context);
                     //installAPK(context);
                 } else {
-                    Toast.makeText(context, "下载失败", Toast.LENGTH_SHORT).show();
+                    MToast.makeText(context, "下载失败", MToast.LENGTH_SHORT).show();
                 }
                 //停止服务并关闭广播
                 UpdateService.this.stopSelf();
@@ -153,7 +152,7 @@ public class UpdateService extends Service {
                 intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intents);
             } else {
-                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + DOWNLOADPATH + "jinwanlicai.apk");
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + DOWNLOADPATH + "yf.apk");
                 if (file.exists()) {
                     openFile(file, context);
                 }
@@ -161,11 +160,11 @@ public class UpdateService extends Service {
         }
 
         private void installAPK(Context context) {
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + DOWNLOADPATH + "jinwanlicai.apk");
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + DOWNLOADPATH + "yf.apk");
             if (file.exists()) {
                 openFile(file, context);
             } else {
-                Toast.makeText(context, "下载失败", Toast.LENGTH_SHORT).show();
+                MToast.makeText(context, "下载失败", MToast.LENGTH_SHORT).show();
             }
         }
     }
@@ -184,7 +183,7 @@ public class UpdateService extends Service {
                 context.startActivity(intent);
             } catch (Exception var5) {
                 var5.printStackTrace();
-                Toast.makeText(context, "没有找到打开此类文件的程序", Toast.LENGTH_SHORT).show();
+                MToast.makeText(context, "没有找到打开此类文件的程序", MToast.LENGTH_SHORT).show();
             }
         } else {
             // TODO: 2017/9/25 0025 解决android7.0解析apk文件失败的问题

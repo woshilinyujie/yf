@@ -140,7 +140,7 @@ public class ShopAnalyseSalseProfitFragmentPresenter implements ShopAnalyseMoney
             yValues.add(new Entry(i, value));
             countAll= (int) (countAll+bean.getData().get(i).getTarget_data());
         }
-        fragment.setSalesProfitAllTx("总销量："+countAll);
+        fragment.setSalesProfitAllTx("总利润："+countAll);
 
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");

@@ -1,4 +1,4 @@
-package com.hzgeek.jinwanlicai.view;
+package jh.zkj.com.yf.Mview;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,8 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.hzgeek.jinwanlicai.R;
-
+import jh.zkj.com.yf.R;
 
 
 public class CheckNetTypeDialog extends Dialog implements View.OnClickListener {
@@ -18,7 +17,7 @@ public class CheckNetTypeDialog extends Dialog implements View.OnClickListener {
     private TextView txtNetType;//网络类型
 
     public CheckNetTypeDialog(Context context) {
-        this(context, R.style.UpdateDialog);
+        this(context, R.style.ActionSheetDialogStyle);
     }
 
     public CheckNetTypeDialog(Context context, @StyleRes int themeResId) {
@@ -31,8 +30,8 @@ public class CheckNetTypeDialog extends Dialog implements View.OnClickListener {
     private void init() {
 
         View view = inflater.inflate(R.layout.check_net_type_dialog, null);
-        Button btnOk = (Button) view.findViewById(R.id.btn_ok);
-        Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+        TextView btnOk = view.findViewById(R.id.btn_ok);
+        TextView btnCancel = view.findViewById(R.id.btn_cancel);
         txtNetType = (TextView) view.findViewById(R.id.txt_net_type);
         btnOk.setOnClickListener(this);
         btnCancel.setOnClickListener(this);

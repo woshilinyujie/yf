@@ -118,7 +118,6 @@
             android:textSize="@dimen/sp_14" />
 
         <EditText
-
             android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:id="@+id/personal_file_login_name"
             android:textCursorDrawable="@null"

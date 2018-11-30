@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bin.david.form.data.column.Column;
 import com.github.mikephil.charting.animation.Easing;
@@ -43,6 +44,7 @@ import jh.zkj.com.yf.Contract.Analyse.ShopAnalyseMoneyFragmentContract;
 import jh.zkj.com.yf.Fragment.Analyse.ShopAnalyseSalseMoneyFragment;
 import jh.zkj.com.yf.Mutils.DpUtils;
 import jh.zkj.com.yf.Mview.MyMarkerView;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -145,7 +147,7 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
             yValues.add(new Entry(i, value));
             countAll= (int) (countAll+bean.getData().get(i).getTarget_data());
         }
-        fragment.setSalesMoneyAllTx("总销量："+countAll);
+        fragment.setSalesMoneyAllTx("总销售额："+countAll);
 
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");
@@ -288,6 +290,7 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
         pieChart.setEntryLabelTextSize(0);
         //图例设置
         Legend legend = pieChart.getLegend();
+        MToast.makeText(context,DpUtils.getScreenWith(context)+"", Toast.LENGTH_SHORT).show();
         if (DpUtils.getScreenWith(context) > 1100) {
             legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
         } else {

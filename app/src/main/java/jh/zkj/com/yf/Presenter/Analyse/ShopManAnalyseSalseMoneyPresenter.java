@@ -144,7 +144,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
             yValues.add(new Entry(i, value));
             countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
         }
-        fragment.setShopManSalesMoneyAll("总销量：" + countAll);
+        fragment.setShopManSalesMoneyAll("总销售额：" + countAll);
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");
         //用y轴的集合来设置参数

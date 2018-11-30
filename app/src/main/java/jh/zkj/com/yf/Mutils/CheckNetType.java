@@ -1,21 +1,13 @@
-package com.hzgeek.jinwanlicai.utils;
+package jh.zkj.com.yf.Mutils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
-import android.util.Log;
-import com.hzgeek.jinwanlicai.utils.Toast;
-
-import com.hzgeek.jinwanlicai.Application.AppContext;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
+
+import jh.zkj.com.yf.Appliction.MAppliction;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 
 /**
  * Author: HouShengLi
@@ -31,7 +23,7 @@ public class CheckNetType {
      * @return
      */
     public static boolean isWifiAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) AppContext.getInstance()
+        ConnectivityManager connectivityManager = (ConnectivityManager) MAppliction.getInstance()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected() && networkInfo
@@ -49,7 +41,7 @@ public class CheckNetType {
             ConnectivityManager connectivity = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
             if (connectivity == null) {
-                Toast.makeText(context, "FUCK YOU,MAN!无法连接网络", Toast.LENGTH_SHORT).show();
+                MToast.makeText(context, "FUCK YOU,MAN!无法连接网络", MToast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -64,7 +56,7 @@ public class CheckNetType {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Toast.makeText(context, "无法连接网络", Toast.LENGTH_SHORT).show();
+        MToast.makeText(context, "无法连接网络", MToast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -136,50 +128,6 @@ public class CheckNetType {
         return df.format(len) + "\n" + unit + "/s";
     }
 
-    /**
-     * 获取运营商
-     *
-     * @return
-     */
-    public static String getProvider() {
-        String provider = "未知";
-        try {
-            TelephonyManager telephonyManager = (TelephonyManager) AppContext
-                    .getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-            String IMSI = telephonyManager.getSubscriberId();
-            Log.v("tag", "getProvider.IMSI:" + IMSI);
-            if (IMSI == null) {
-                if (TelephonyManager.SIM_STATE_READY == telephonyManager
-                        .getSimState()) {
-                    String operator = telephonyManager.getSimOperator();
-                    Log.v("tag", "getProvider.operator:" + operator);
-                    if (operator != null) {
-                        if (operator.equals("46000")
-                                || operator.equals("46002")
-                                || operator.equals("46007")) {
-                            provider = "中国移动";
-                        } else if (operator.equals("46001")) {
-                            provider = "中国联通";
-                        } else if (operator.equals("46003")) {
-                            provider = "中国电信";
-                        }
-                    }
-                }
-            } else {
-                if (IMSI.startsWith("46000") || IMSI.startsWith("46002")
-                        || IMSI.startsWith("46007")) {
-                    provider = "中国移动";
-                } else if (IMSI.startsWith("46001")) {
-                    provider = "中国联通";
-                } else if (IMSI.startsWith("46003")) {
-                    provider = "中国电信";
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return provider;
-    }
 
     /**
      * 获取网络类型
@@ -244,7 +192,7 @@ public class CheckNetType {
     private static int getNetworkClass() {
         int networkType = NETWORK_TYPE_UNKNOWN;
         try {
-            final NetworkInfo network = ((ConnectivityManager) AppContext
+            final NetworkInfo network = ((ConnectivityManager) MAppliction
                     .getInstance()
                     .getSystemService(Context.CONNECTIVITY_SERVICE))
                     .getActiveNetworkInfo();
@@ -254,7 +202,7 @@ public class CheckNetType {
                 if (type == ConnectivityManager.TYPE_WIFI) {
                     networkType = NETWORK_TYPE_WIFI;
                 } else if (type == ConnectivityManager.TYPE_MOBILE) {
-                    TelephonyManager telephonyManager = (TelephonyManager) AppContext
+                    TelephonyManager telephonyManager = (TelephonyManager)MAppliction
                             .getInstance().getSystemService(
                                     Context.TELEPHONY_SERVICE);
                     networkType = telephonyManager.getNetworkType();
@@ -278,7 +226,7 @@ public class CheckNetType {
      * @return
      */
     public static boolean checkSimState() {
-        TelephonyManager tm = (TelephonyManager) AppContext.getInstance()
+        TelephonyManager tm = (TelephonyManager) MAppliction.getInstance()
                 .getSystemService(Context.TELEPHONY_SERVICE);
         if (tm.getSimState() == TelephonyManager.SIM_STATE_ABSENT
                 || tm.getSimState() == TelephonyManager.SIM_STATE_UNKNOWN) {
@@ -292,7 +240,7 @@ public class CheckNetType {
      * 获取imei
      */
     public static String getImei() {
-        TelephonyManager mTelephonyMgr = (TelephonyManager) AppContext
+        TelephonyManager mTelephonyMgr = (TelephonyManager) MAppliction
                 .getInstance().getSystemService(Context.TELEPHONY_SERVICE);
         String imei = mTelephonyMgr.getDeviceId();
         if (imei == null) {
@@ -305,7 +253,7 @@ public class CheckNetType {
      */
 
     public static String getPhoneImsi() {
-        TelephonyManager mTelephonyMgr = (TelephonyManager) AppContext
+        TelephonyManager mTelephonyMgr = (TelephonyManager)MAppliction
                 .getInstance().getSystemService(Context.TELEPHONY_SERVICE);
         return mTelephonyMgr.getSubscriberId();
     }

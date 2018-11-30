@@ -787,7 +787,7 @@ public class MyAPI {
     }
 
     /**
-     * 改头像
+     * crm改头像
      *
      * @param context
      * @param iResultMsg
@@ -859,7 +859,39 @@ public class MyAPI {
     }
 
     /**
-     * 修改密码
+     * erp修改头像
+     *
+     */
+    public void modifyHead(final Context context, String path, final IResultMsg<ModifyPasswordBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        String erp_token = PrefUtils.getString(context, "erp_token", "");
+        OkGo.<String>get(API + ":3001/erp/basic/user/app/center/update/headImg")
+                .params("access_token", erp_token)
+                .params("headImg", path)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String s = response.body().toString();
+                        try {
+                            ModifyPasswordBean modifyPasswordBean = GsonUtils.GsonToBean(s, ModifyPasswordBean.class);
+                            if (modifyPasswordBean.getCode() == 0 && modifyPasswordBean.isData()) {
+                                iResultMsg.Result(modifyPasswordBean);
+                            } else {
+                                showToast(context, modifyPasswordBean.getMsg());
+                            }
+                        } catch (Exception e) {
+                            showToast(context, e.toString());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * erp修改密码
      *
      * @param context
      * @param oldPassword
@@ -897,7 +929,7 @@ public class MyAPI {
     }
 
     /**
-     * 修改用户名
+     * erp修改用户名
      *
      * @param context
      * @param name

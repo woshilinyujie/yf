@@ -108,7 +108,7 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
                 }
                 String userName = activity.getPersonalFileLoginName().getText().toString();
                 String id = activity.getPersonalFileId().getText().toString();
-                String regionFullName = activity.getPersonalFileAddress().toString();
+                String regionFullName = activity.getPersonalFileAddress().getText().toString();
                 String identAddress = activity.getPersonalFileNameDetailedAddress().getText().toString();
                 myAPI.joinCompanySave(activity, phone, password, password, code, name, userName, id, sex, regionFullName, identAddress, identImgFront, identImgBack, new MyAPI.IResultMsg<JoinCompanyBean>() {
                     @Override
@@ -145,7 +145,7 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
     public void selectSexWomanMan() {
         activity.getPersonalFileSexMan().setChecked(false);
         activity.getPersonalFileSexWoman().setChecked(true);
-        sex = "2";
+        sex = "0";
     }
 
     public void showPickerView() {// 弹出选择器
@@ -154,8 +154,8 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                String tx = options1Items.get(options1).getPickerViewText() +
-                        options2Items.get(options1).get(options2) +
+                String tx = options1Items.get(options1).getPickerViewText() +"."+
+                        options2Items.get(options1).get(options2) +"."+
                         options3Items.get(options1).get(options2).get(options3);
                 activity.setAddress(tx);
                 activity.setAddressTextColor(Color.parseColor("#333333"));

@@ -150,13 +150,15 @@ public class PhotoPopupWindow extends PopupWindow {
 
     public void initSelect(TakePhoto takePhoto,View view){
         init();
+        configCompress(takePhoto);
+        configTakePhotoOption(takePhoto);
         takePhoto.onPickMultiple(1,view);
     }
     private void configCompress(TakePhoto takePhoto) {
 
         int maxSize = 102400;
-        int width = 800;
-        int height = 800;
+        int width = 600;
+        int height = 600;
         boolean showProgressBar = true;
         boolean enableRawFile = true;
         CompressConfig config;

@@ -3,6 +3,7 @@
           package="jh.zkj.com.yf">
 
     <!-- 允许程序连接到已配对的蓝牙设备 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <!-- 允许程序发现和配对蓝牙设备 -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
@@ -10,6 +11,8 @@
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!--地理位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:name=".Appliction.MAppliction"
         android:allowBackup="true"

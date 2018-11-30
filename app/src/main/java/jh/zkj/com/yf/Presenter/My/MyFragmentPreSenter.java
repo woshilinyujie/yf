@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+
 import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
+import jh.zkj.com.yf.Bean.ModifyPasswordBean;
 import jh.zkj.com.yf.Bean.MyBean;
+import jh.zkj.com.yf.Bean.UpFileBean;
 import jh.zkj.com.yf.Contract.My.MyFragmentContract;
 import jh.zkj.com.yf.Fragment.My.MyFragment;
 import jh.zkj.com.yf.Mutils.PrefUtils;
@@ -39,6 +43,31 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
         ClickTakePhoto();
         ClickPhotoSelect();
         ClickPhotoCancle();
+    }
+
+    @Override
+    public void upHeadImg(final String s) {
+        myAPI.upFile(activity, s, new MyAPI.IResultMsg<UpFileBean>() {
+            @Override
+            public void Result(UpFileBean bean) {
+                myAPI.modifyHead(activity, bean.getData(), new MyAPI.IResultMsg<ModifyPasswordBean>() {
+                    @Override
+                    public void Result(ModifyPasswordBean bean) {
+                        Glide.with(activity).load(s).into(fragment.getMyPhoto());
+                    }
+
+                    @Override
+                    public void Error(String json) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
     }
 
 
@@ -101,6 +130,9 @@ public class MyFragmentPreSenter implements MyFragmentContract.IMyFragmentPresen
                     fragment.setName(bean.getData().getSysUser().getName());
                     fragment.setCompanyName(bean.getData().getCompanyName());
                     fragment.setPhone(bean.getData().getSysUser().getMobileNum());
+                    if(!TextUtils.isEmpty(bean.getData().getSysUser().getHeadImg())){
+                        Glide.with(activity).load("http://192.168.68.13:8888/"+bean.getData().getSysUser().getHeadImg()).into(fragment.getMyPhoto());
+                    }
                 }
 
                 @Override

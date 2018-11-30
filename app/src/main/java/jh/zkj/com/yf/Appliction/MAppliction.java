@@ -21,6 +21,11 @@ import okhttp3.OkHttpClient;
  */
 
 public class MAppliction extends Application {
+    private static MAppliction instance;
+
+    public static MAppliction getInstance() {
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
