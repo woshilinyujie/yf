@@ -110,6 +110,7 @@ public class SerialNoBean implements Serializable{
         private String stock_price;
         private String stock_cost;
         private String warehouse_uuid;
+        private String sku_uuid;
         private String stock_qty;
         private String serial01;
         private String serial02;
@@ -188,6 +189,14 @@ public class SerialNoBean implements Serializable{
 
         public String getStock_qty() {
             return stock_qty;
+        }
+
+        public String getSku_uuid() {
+            return sku_uuid;
+        }
+
+        public void setSku_uuid(String sku_uuid) {
+            this.sku_uuid = sku_uuid;
         }
 
         public void setStock_qty(String stock_qty) {

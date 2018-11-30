@@ -132,6 +132,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="单据信息"
+                android:includeFontPadding="false"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/c_a6a6a6"
+                android:paddingBottom="@dimen/dp_6"
+                android:paddingLeft="@dimen/dp_16"
+                android:paddingTop="@dimen/dp_6"
+                android:background="@color/c_f6f7fb"/>
+
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/retail_company_layout"
                 android:layout_width="match_parent"
@@ -187,17 +199,9 @@
 
             </android.support.constraint.ConstraintLayout>
 
-
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="单据信息"
-                android:includeFontPadding="false"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/c_a6a6a6"
-                android:paddingBottom="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_16"
-                android:paddingTop="@dimen/dp_6"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/c_f6f7fb"/>
 
             <android.support.constraint.ConstraintLayout

@@ -60,6 +60,6 @@ public class HttpConstant {
         HTTP_BASIC_DATA_CLASSIFY="erp/basic/classify/selector/"+interfaceVersion+"/base";
         HTTP_BASIC_DATA_BRAND="erp/basic/brand/selector/"+interfaceVersion+"/base";
         HTTP_BASIC_DATA_PRODUCT="erp/basic/product/nameList/selector/"+interfaceVersion+"/biz";
-        HTTP_BASIC_BASE_WAREHOUSE_SELECT_LIST=" erp/basic/baseWarehouse/selectlist/selector/"+interfaceVersion+"/biz";
+        HTTP_BASIC_BASE_WAREHOUSE_SELECT_LIST="erp/basic/baseWarehouse/selectlist/selector/"+interfaceVersion+"/biz";
     }
 }
