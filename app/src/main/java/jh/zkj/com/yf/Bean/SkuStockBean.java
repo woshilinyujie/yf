@@ -20,6 +20,7 @@ public class SkuStockBean implements Serializable{
 
     private int totalQty;
     private double totalPrice;
+    private long date;
     private ArrayList<ListBean> list;
 
     public int getTotalQty() {
@@ -44,6 +45,14 @@ public class SkuStockBean implements Serializable{
 
     public void setList(ArrayList<ListBean> list) {
         this.list = list;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
     public static class ListBean implements Serializable{

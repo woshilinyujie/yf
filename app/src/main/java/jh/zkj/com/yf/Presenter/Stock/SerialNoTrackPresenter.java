@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -301,12 +302,14 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             SerialNoTrackBean.DetailsBean item = getItem(position);
             if (item != null) {
                 holder.date.setText(item.getBiz_date());
-                holder.from.setText("从：" + item.getSource_type());
-                holder.to.setText("到：" + item.getTarget_type());
-                holder.operating.setText(item.getSku_full_name());
+                holder.from.setText("从：" + item.getSource());
+                holder.to.setText("到：" + item.getTarget());
+                holder.operating.setText(StockConfig.getBizType(item.getBiz_type()));
                 holder.billNo.setText("单据号：" + item.getBill_no());
-                holder.name.setText("操作人：" + item.getCreate_user_name());
-                holder.price.setText("￥" + BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2).doubleValue());
+                holder.name.setText("制单人：" + item.getCreate_user_name());
+                BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2);
+                String price = BigDecimalUtils.fmtMicrometer(bigDecimal.toString());
+                holder.price.setText("¥" + price);
                 holder.dot.setImageResource(drawables[item.getColorType()]);
                 if(position == 0){
                     holder.space.setVisibility(View.VISIBLE);

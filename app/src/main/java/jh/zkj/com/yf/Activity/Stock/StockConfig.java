@@ -16,6 +16,8 @@ public class StockConfig {
     public static final int TYPE_CHILD_WAREHOUSE_STOCKS = 0x00000004;
     //分仓库存列表
     public static final String TYPE_STRING_SKU_STOCK_BEAN = "sku_stock_bean";
+    //分仓库存列表
+    public static final String TYPE_STRING_SKU_STOCK_DATE = "sku_stock_date";
     //筛选状态
     public static final String TYPE_STRING_FILTER_STATUS = "filter_status";
     //数据
@@ -36,4 +38,33 @@ public class StockConfig {
     public static final int STATUS_TYPE_BRAND = 4;
     //型号
     public static final int STATUS_TYPE_MODEL = 5;
+
+
+    public static String getBizType(String s){
+        if("PO".equals(s)){
+            return "采购订单";
+        }
+
+        if("PI".equals(s)){
+            return "采购单";
+        }
+
+        if("PR".equals(s)){
+            return "采购退货";
+        }
+
+        if("SO".equals(s)){
+            return "零售订单";
+        }
+
+        if("SS".equals(s)){
+            return "零售单";
+        }
+
+        if("SR".equals(s)){
+            return "零售退货";
+        }
+
+        return "";
+    }
 }

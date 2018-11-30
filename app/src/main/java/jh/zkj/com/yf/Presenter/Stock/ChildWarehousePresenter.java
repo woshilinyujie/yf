@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +46,16 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
     private void initData() {
         SkuStockBean.ListBean SkuListBean =
                 (SkuStockBean.ListBean) activity.getIntent().getSerializableExtra(StockConfig.TYPE_STRING_SKU_STOCK_BEAN);
+        long date = activity.getIntent().getLongExtra(StockConfig.TYPE_STRING_SKU_STOCK_DATE, 0);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        if(date > 0){
+            activity.getDate().setText("查询日期：" + sdf.format(new Date(date)));
+        }else{
+            activity.getDate().setText("查询日期：" + sdf.format(new Date(System.currentTimeMillis())));
+
+        }
+
 
         activity.getName().setText("仓库：" + SkuListBean.getName());
         activity.getNumber().setText("总数量：" + SkuListBean.getQty());
@@ -129,7 +141,7 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
             if(item != null){
                 holder.fullName.setText(item.getSku_full_name());
                 holder.number.setText(String.valueOf(item.getQty()));
-                holder.price.setText("￥" + item.getTotal());
+                holder.price.setText("¥" + item.getTotal());
             }
         }
 

@@ -59,13 +59,6 @@
         app:layout_constraintTop_toBottomOf="@id/number_track_date"
         app:layout_constraintLeft_toRightOf="@id/number_track_left_layout">
 
-        <TextView
-            android:id="@+id/number_track_operating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="采购入库"
-            android:textColor="@color/c_333333"
-            android:textSize="@dimen/sp_14"/>
 
         <TextView
             android:id="@+id/number_track_price"
@@ -75,6 +68,17 @@
             android:textColor="@color/c_333333"
             android:textSize="@dimen/sp_14"
             app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/number_track_operating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="采购入库"
+            android:textColor="@color/c_333333"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginRight="@dimen/dp_10"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/number_track_price"/>
 
         <View
             android:id="@+id/number_track_line"

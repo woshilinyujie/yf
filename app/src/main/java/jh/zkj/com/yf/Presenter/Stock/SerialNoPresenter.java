@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -53,6 +54,7 @@ import jh.zkj.com.yf.Bean.StockFilterBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.Stock.SerialNoContract;
 import jh.zkj.com.yf.Fragment.Stock.StockSerialNoFragment;
+import jh.zkj.com.yf.Mutils.BigDecimalUtils;
 import jh.zkj.com.yf.Mutils.DpUtils;
 import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.StockFilterPopup;
@@ -457,11 +459,12 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 holder.name.setText(item.getSku_full_name());
                 holder.serialNo.setText(item.getSerial01());
                 holder.warehouse.setText(item.getWarehouse_name());
-                holder.purchasePrice.setText(item.getStock_price());
-                holder.costPrice.setText(item.getStock_cost());
-                holder.totalLibraryAge.setText(item.getCurrent_stock_age());
-                holder.nowLibraryAge.setText(item.getStock_age());
-                holder.transcendLibraryAge.setText(item.getExceed_stock_age());
+                holder.purchasePrice.setText("采购价：" + BigDecimalUtils.fmtMicrometer(item.getStock_price()));
+                holder.costPrice.setText("总成本：" + BigDecimalUtils.fmtMicrometer(item.getStock_cost()));
+
+                holder.totalLibraryAge.setText("总库龄：" + item.getCurrent_stock_age());
+                holder.nowLibraryAge.setText("当前库龄：" + item.getStock_age());
+                holder.transcendLibraryAge.setText(Html.fromHtml("超库龄天数：<font color='#ff6600'>" + item.getExceed_stock_age() + "</font>"));
 
                 holder.orderBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
