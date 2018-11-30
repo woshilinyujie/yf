@@ -273,6 +273,13 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         public void onBindViewHolder(ViewHolder holder, int position) {
             OrderDetailsBean.DetailDTOListBean item = getItem(position);
             if(item != null){
+                holder.commodityPhone.setText(item.getSerialNo());
+                if(!TextUtils.isEmpty(item.getSerialNo())){
+                    holder.serialNoLayout.setVisibility(View.VISIBLE);
+                }else{
+                    holder.serialNoLayout.setVisibility(View.GONE);
+                }
+
                 holder.name.setText(item.getSkuFullName());
 
                 BigDecimal price = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2);
@@ -293,6 +300,9 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
+            //串号layout
+            @BindView(R.id.order_info_details_serial_no_layout)
+            ConstraintLayout serialNoLayout;
             //串号
             @BindView(R.id.order_info_details_commodity_phone)
             TextView commodityPhone;

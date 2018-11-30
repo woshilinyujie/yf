@@ -22,6 +22,7 @@
             android:background="@color/c_f6f7fb"/>
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/order_info_details_serial_no_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/dp_15"
