@@ -46,17 +46,17 @@ public class HarvestModeBean implements Serializable{
             this.cashierTypeName = cashierTypeName;
     }
 
-    public String getUuid() {
-        return cashierTypeUuid;
-    }
+//    public String getUuid() {
+//        return cashierTypeUuid;
+//    }
 
     public void setUuid(String uuid) {
         this.cashierTypeUuid = uuid;
     }
 
-    public String getName() {
-        return cashierTypeName;
-    }
+//    public String getName() {
+//        return cashierTypeName;
+//    }
 
     public void setName(String name) {
         this.cashierTypeName = name;

@@ -66,6 +66,7 @@
                 android:singleLine="true"
                 android:background="@null"
                 android:imeOptions="actionSearch"
+                android:hint="商品分类/品牌/型号/商品名称/序列号"
                 android:layout_toRightOf="@id/serial_no_stoke_search_img"
                 android:layout_toLeftOf="@id/serial_on_stoke_clear_img"
                 android:layout_marginRight="@dimen/dp_4"

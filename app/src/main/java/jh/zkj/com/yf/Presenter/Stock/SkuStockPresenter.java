@@ -43,6 +43,7 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
     //筛选popup
     private StockFilterPopup popup;
     private StockAPI api;
+    private SkuStockBean skuStockBean;
 
     public SkuStockPresenter(SkuStockFragment fragment) {
         this.fragment = fragment;
@@ -192,6 +193,7 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(fragment.getActivity(), ChildWarehouseActivity.class);
+                        intent.putExtra(StockConfig.TYPE_STRING_SKU_STOCK_DATE, skuStockBean.getDate());
                         intent.putExtra(StockConfig.TYPE_STRING_SKU_STOCK_BEAN, item);
                         fragment.startActivity(intent);
                     }
@@ -229,6 +231,7 @@ public class SkuStockPresenter implements SkuStockContract.ISkuStockPresenter {
         api.getSkuStockList(s, new OrderAPI.IResultMsg<SkuStockBean>() {
             @Override
             public void Result(SkuStockBean bean) {
+                skuStockBean = bean;
                 ArrayList<SkuStockBean.ListBean> list = bean.getList();
                 if(list != null && list.size() > 0){
                     adapter.notifyData(list);
