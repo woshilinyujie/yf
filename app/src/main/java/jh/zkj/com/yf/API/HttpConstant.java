@@ -37,7 +37,8 @@ public class HttpConstant {
     //分仓库存
     public static String HTTP_REPORT_SKU_STOCK_APP_STOCK_PART = "report/skuStock/app/stockPart";
     //序列号查询
-    public static String HTTP_REPORT_SERIAL_SERIAL_STOCK_SERIAL = "erp/biz/stock/manage/serial/stockSerial";
+//    public static String HTTP_REPORT_SERIAL_SERIAL_STOCK_SERIAL = "erp/biz/stock/manage/serial/stockSerial";
+    public static String HTTP_REPORT_SERIAL_SERIAL_STOCK_SERIAL = "report/skuStock/app/serial/stockSerial";
     //序列号追踪
     public static String HTTP_BIZ_SERIAL_NO_TRACK = "report/skuStock/app/serial/track";
     //公司下拉选择

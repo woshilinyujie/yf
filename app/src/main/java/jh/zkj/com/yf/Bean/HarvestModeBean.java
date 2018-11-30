@@ -21,8 +21,8 @@ public class HarvestModeBean implements Serializable{
     private String cashierTypeName;
     //后台改字段  但是后台是用post请求提交的  当转换的时候他们后台接收的是cashierTypeUuid 这个字段
     // 导致json转换的时候会有问题  所以两个都保留
-    private String uuid;
-    private String name;
+//    private String uuid;
+//    private String name;
     private int enableFlag;
     private String bankUuid;
     //本地使用 存放金额
@@ -47,21 +47,19 @@ public class HarvestModeBean implements Serializable{
     }
 
     public String getUuid() {
-        return uuid;
+        return cashierTypeUuid;
     }
 
     public void setUuid(String uuid) {
         this.cashierTypeUuid = uuid;
-        this.uuid = uuid;
     }
 
     public String getName() {
-        return name;
+        return cashierTypeName;
     }
 
     public void setName(String name) {
         this.cashierTypeName = name;
-        this.name = name;
     }
 
     public String getAmount() {

@@ -13,9 +13,9 @@ public class SerialNoBean implements Serializable{
 
 
     /**
-     * content : [{"warehouse_name":"总仓","sku_full_name":"VIVO X20 128G  玫瑰红","current_stock_age":"0","exceed_stock_age":"0","stock_age":0,"stock_price":"0","stock_cost":"0","warehouse_uuid":"33ffa4038ab4493c8b6146f95a33ac31","serial01":"111000111112","serial02":"111000111112222","serial03":"","serial04":"","serial05":"","serial06":"","serial07":"","serial08":"","serial09":"","serial10":""}]
-     * totalElements : 155
-     * totalPages : 16
+     * content : [{"warehouse_name":"三星手机专用仓","sku_full_name":"Samsung Galaxy S9 256G 5G 蓝色","current_stock_age":"0","exceed_stock_age":"0","stock_age":"0","stock_price":"0","stock_cost":"0","warehouse_uuid":"8037477570d14ff3b96358107085b117","stock_qty":"1","serial01":"987654321987654","serial02":"","serial03":"","serial04":"","serial05":"","serial06":"","serial07":"","serial08":"","serial09":"","serial10":""}]
+     * totalElements : 1
+     * totalPages : 1
      * number : 0
      * size : 10
      * summary : {}
@@ -25,7 +25,7 @@ public class SerialNoBean implements Serializable{
     private int totalPages;
     private int number;
     private int size;
-    private SummaryBean summary;
+//    private SummaryBean summary;
     private ArrayList<ContentBean> content;
 
     public int getTotalElements() {
@@ -60,13 +60,13 @@ public class SerialNoBean implements Serializable{
         this.size = size;
     }
 
-    public SummaryBean getSummary() {
-        return summary;
-    }
-
-    public void setSummary(SummaryBean summary) {
-        this.summary = summary;
-    }
+//    public SummaryBean getSummary() {
+//        return summary;
+//    }
+//
+//    public void setSummary(SummaryBean summary) {
+//        this.summary = summary;
+//    }
 
     public ArrayList<ContentBean> getContent() {
         return content;
@@ -76,21 +76,22 @@ public class SerialNoBean implements Serializable{
         this.content = content;
     }
 
-    public static class SummaryBean implements Serializable{
-    }
+//    public static class SummaryBean implements Serializable {
+//    }
 
-    public static class ContentBean implements Serializable{
+    public static class ContentBean implements Serializable {
         /**
-         * warehouse_name : 总仓
-         * sku_full_name : VIVO X20 128G  玫瑰红
+         * warehouse_name : 三星手机专用仓
+         * sku_full_name : Samsung Galaxy S9 256G 5G 蓝色
          * current_stock_age : 0
          * exceed_stock_age : 0
          * stock_age : 0
          * stock_price : 0
          * stock_cost : 0
-         * warehouse_uuid : 33ffa4038ab4493c8b6146f95a33ac31
-         * serial01 : 111000111112
-         * serial02 : 111000111112222
+         * warehouse_uuid : 8037477570d14ff3b96358107085b117
+         * stock_qty : 1
+         * serial01 : 987654321987654
+         * serial02 :
          * serial03 :
          * serial04 :
          * serial05 :
@@ -105,11 +106,11 @@ public class SerialNoBean implements Serializable{
         private String sku_full_name;
         private String current_stock_age;
         private String exceed_stock_age;
-//        private int stock_age;
+        private String stock_age;
         private String stock_price;
         private String stock_cost;
         private String warehouse_uuid;
-//        private String stock_qty;
+        private String stock_qty;
         private String serial01;
         private String serial02;
         private String serial03;
@@ -153,13 +154,13 @@ public class SerialNoBean implements Serializable{
             this.exceed_stock_age = exceed_stock_age;
         }
 
-//        public int getStock_age() {
-//            return stock_age;
-//        }
-//
-//        public void setStock_age(int stock_age) {
-//            this.stock_age = stock_age;
-//        }
+        public String getStock_age() {
+            return stock_age;
+        }
+
+        public void setStock_age(String stock_age) {
+            this.stock_age = stock_age;
+        }
 
         public String getStock_price() {
             return stock_price;
@@ -185,13 +186,13 @@ public class SerialNoBean implements Serializable{
             this.warehouse_uuid = warehouse_uuid;
         }
 
-//        public String getStock_qty() {
-//            return stock_qty;
-//        }
-//
-//        public void setStock_qty(String stock_qty) {
-//            this.stock_qty = stock_qty;
-//        }
+        public String getStock_qty() {
+            return stock_qty;
+        }
+
+        public void setStock_qty(String stock_qty) {
+            this.stock_qty = stock_qty;
+        }
 
         public String getSerial01() {
             return serial01;

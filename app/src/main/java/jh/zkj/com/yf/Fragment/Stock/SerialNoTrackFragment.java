@@ -79,7 +79,7 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
         return mainView;
     }
 
-    @OnClick({R.id.serial_no_track_scan, R.id.serial_no_track_clear_img})
+    @OnClick({R.id.serial_no_track_scan, R.id.serial_no_track_clear_img, R.id.serial_no_track_delete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //扫码
@@ -90,6 +90,11 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
             //清空edittext
             case R.id.serial_no_track_clear_img: {
                 setSearchText("");
+                break;
+            }
+            //删除历史
+            case R.id.serial_no_track_delete: {
+                presenter.deleteHistory();
                 break;
             }
         }

@@ -211,7 +211,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
             final HarvestModeBean item = getItem(position);
             if (item != null){
                 holder.mode.setText("收款方式" + (position + 1));
-                holder.modeText.setText(item.getName());
+                holder.modeText.setText(item.getCashierTypeName());
                 holder.money.setText(item.getAmount());
                 if(position == mArr.size() - 1){
                     holder.remakeLayout.setVisibility(View.VISIBLE);

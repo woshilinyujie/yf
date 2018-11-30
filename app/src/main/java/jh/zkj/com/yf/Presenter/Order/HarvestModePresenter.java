@@ -179,14 +179,14 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
 
                 holder.modeCashIcon.setVisibility(View.GONE);
                 holder.modeIcon.setVisibility(View.VISIBLE);
-                if("支付宝".equals(item.getName())){
+                if("支付宝".equals(item.getCashierTypeName())){
                     holder.modeIcon.setImageResource(R.mipmap.zhifubao);
-                }else if("微信".equals(item.getName())){
+                }else if("微信".equals(item.getCashierTypeName())){
                     holder.modeIcon.setImageResource(R.mipmap.weixin_model);
                 }else{
                     holder.modeIcon.setVisibility(View.INVISIBLE);
                 }
-                holder.modeText.setText(item.getName());
+                holder.modeText.setText(item.getCashierTypeName());
                 holder.money.setEnabled(true);
                 if(TextUtils.isEmpty(item.getAmount())){
                     holder.select.setImageBitmap(gray);
@@ -283,7 +283,7 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                 //返回的数据可能会出现没有“现金”的情况
                 boolean has = false;
                 for(int i = 0 ; i < bean.size() ;i++){
-                    if("现金".equals(bean.get(i).getName())){
+                    if("现金".equals(bean.get(i).getCashierTypeName())){
                         has = true;
                         topBean = bean.remove(i);
                         break;
@@ -300,7 +300,7 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                 if(modeList != null){
                     for (int i = 0 ; i < modeList.size(); i++){
                         for (int j = 0 ; j < bean.size(); j++){
-                            if(modeList.get(i).getName().equals(bean.get(j).getName())){
+                            if(modeList.get(i).getCashierTypeName().equals(bean.get(j).getCashierTypeName())){
                                 bean.get(j).setAmount(modeList.get(i).getAmount());
                                 break;
                             }

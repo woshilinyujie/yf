@@ -15,6 +15,7 @@ public class SerialNoTrackContract {
         void clearFindEt();
         void showFilterPopup();
         void openScan();
+        void deleteHistory();
         void onActivityResult(int requestCode, int resultCode, Intent data);
     }
 }
