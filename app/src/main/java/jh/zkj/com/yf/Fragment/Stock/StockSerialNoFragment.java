@@ -84,10 +84,11 @@ public class StockSerialNoFragment extends MBaseFragment implements SerialNoCont
         return mainView;
     }
 
-    @OnClick({R.id.serial_on_stoke_scan, R.id.serial_on_stoke_clear_img, R.id.serial_on_stoke_filter})
+    @OnClick({R.id.serial_on_stoke_scan, R.id.serial_on_stoke_clear_img
+            , R.id.serial_on_stoke_filter, R.id.serial_on_stoke_delete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            //清空edittext
+            //扫码
             case R.id.serial_on_stoke_scan: {
                 presenter.openScan();
                 break;
@@ -101,6 +102,11 @@ public class StockSerialNoFragment extends MBaseFragment implements SerialNoCont
 
             case R.id.serial_on_stoke_filter: {
                 presenter.showFilterPopup();
+                break;
+            }
+            //删除按钮
+            case R.id.serial_on_stoke_delete: {
+                presenter.deleteHistory();
                 break;
             }
         }

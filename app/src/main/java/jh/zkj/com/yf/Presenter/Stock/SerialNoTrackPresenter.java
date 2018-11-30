@@ -237,6 +237,12 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
     }
 
     @Override
+    public void deleteHistory() {
+        PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, "");
+        initHistory();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SCAN) {
             if (resultCode == Activity.RESULT_OK) {

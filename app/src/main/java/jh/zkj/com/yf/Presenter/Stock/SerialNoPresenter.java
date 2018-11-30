@@ -122,10 +122,10 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     private void initHistory() {
         String historyText = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, "");
         ArrayList<String> arr = (ArrayList<String>) JSONObject.parseArray(historyText, String.class);
+        history.removeAllViews();
         if(arr == null){
             return;
         }
-        history.removeAllViews();
         WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
@@ -365,6 +365,12 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     }
 
     @Override
+    public void deleteHistory() {
+        PrefUtils.putString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, "");
+        initHistory();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_FILTER_LIST){
             if(resultCode == FilterListPresenter.REQUEST_COMPANY){
@@ -454,7 +460,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 holder.purchasePrice.setText(item.getStock_price());
                 holder.costPrice.setText(item.getStock_cost());
                 holder.totalLibraryAge.setText(item.getCurrent_stock_age());
-//                holder.nowLibraryAge.setText(item.getStock_age());
+                holder.nowLibraryAge.setText(item.getStock_age());
                 holder.transcendLibraryAge.setText(item.getExceed_stock_age());
 
                 holder.orderBtn.setOnClickListener(new View.OnClickListener() {

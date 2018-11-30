@@ -138,6 +138,7 @@
                         android:text="搜索历史"
                         android:layout_centerVertical="true"/>
                     <ImageView
+                        android:id="@+id/serial_no_track_delete"
                         android:layout_width="@dimen/dp_14"
                         android:layout_height="@dimen/dp_14"
                         android:layout_alignParentRight="true"

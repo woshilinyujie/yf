@@ -29,15 +29,16 @@ public class HttpConstant {
     //企业信息
     public static String HTTP_CRM_COMPANY_INFO = "crm/crmCompany/company/info";
     //企业 接受审核
-    public static String HTTP_CRM_OPERRATOR_AUDIT = "crm/stdUserApply/operrator/audit";
+    public static String HTTP_CRM_OPERATOR_AUDIT = "crm/stdUserApply/operrator/audit";
     //企业 拒绝审核
-    public static String HTTP_CRM_OPERRATOR_UN_AUDIT = "crm/stdUserApply/operrator/unaudit";
+    public static String HTTP_CRM_OPERATOR_UN_AUDIT = "crm/stdUserApply/operrator/unaudit";
     //商品库存
-    public static String HTTP_REPORT_SKUSTOCK_APP = "report/skuStock/app";
+    public static String HTTP_REPORT_SKU_STOCK_APP = "report/skuStock/app";
     //分仓库存
-    public static String HTTP_REPORT_SKUSTOCK_APP_STOCKPART = "report/skuStock/app/stockPart";
+    public static String HTTP_REPORT_SKU_STOCK_APP_STOCK_PART = "report/skuStock/app/stockPart";
     //序列号查询
-    public static String HTTP_BIZ_SERIAL_NO_LIST = "erp/biz/stock/manage/serial/stockSerial";
+//    public static String HTTP_REPORT_SERIAL_SERIAL_STOCK_SERIAL = "erp/biz/stock/manage/serial/stockSerial";
+    public static String HTTP_REPORT_SERIAL_SERIAL_STOCK_SERIAL = "report/skuStock/app/serial/stockSerial";
     //序列号追踪
     public static String HTTP_BIZ_SERIAL_NO_TRACK = "report/skuStock/app/serial/track";
     //公司下拉选择
