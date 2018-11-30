@@ -107,10 +107,11 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             ReceivableTypeBean item = getItem(position);
             if(item != null){
-                holder.type.setText("收款方式" + position);
+//                holder.type.setText("收款方式" + position);
                 holder.content.setText(item.getCashierTypeName());
                 BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(item.getAmount(), 2);
-                holder.price.setText(bigDecimal.toString() + "\u3000元");
+
+                holder.price.setText(BigDecimalUtils.fmtMicrometer(bigDecimal.toString()) + "\u3000元");
             }
         }
 
@@ -122,8 +123,8 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
         class ViewHolder extends RecyclerView.ViewHolder {
             @BindView(R.id.receivable_detail_price)
             TextView price;
-            @BindView(R.id.receivable_detail_type)
-            TextView type;
+//            @BindView(R.id.receivable_detail_type)
+//            TextView type;
             @BindView(R.id.receivable_detail_content)
             TextView content;
             private View view;
@@ -145,14 +146,27 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
             @Override
             public void Result(ArrayList<ReceivableTypeBean> bean) {
                 if(bean != null){
-                    adapter.notifyData(bean);
-                }else{
+                    boolean has = false;
+                    for (int i = 0; i < bean.size(); i++){
+                        if("现金".equals(bean.get(i).getCashierTypeName())){
+                            has = true;
+                            break;
+                        }
+                    }
 
+                    if(!has){
+                        ReceivableTypeBean moneyBean = new ReceivableTypeBean();
+                        moneyBean.setCashierTypeName("现金");
+                        moneyBean.setAmount("0");
+                        bean.add(0, moneyBean);
+                    }
+                    adapter.notifyData(bean);
                 }
             }
 
             @Override
             public void Error(String json) {
+                
             }
         });
     }
