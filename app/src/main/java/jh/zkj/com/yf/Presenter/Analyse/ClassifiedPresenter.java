@@ -46,7 +46,7 @@ public class ClassifiedPresenter implements ClassifiedContract.ClassifiedPresent
         String json = activity.getIntent().getStringExtra("json");
         switch (flag) {
             case "classified":
-                activity.setTitle("商品品牌");
+                activity.setTitle("商品分类");
                 if(TextUtils.isEmpty(json)){
                     api.getClassify(activity, new AnalyseAPI.IResultMsg<ArticleBean>() {
                         @Override
@@ -72,7 +72,7 @@ public class ClassifiedPresenter implements ClassifiedContract.ClassifiedPresent
                 }
                 break;
             case "brand":
-                activity.setTitle("商品型号");
+                activity.setTitle("商品品牌");
                 if(TextUtils.isEmpty(json)){
                     api.getBrand(activity, new AnalyseAPI.IResultMsg<ArticleBean>() {
                         @Override
@@ -98,7 +98,7 @@ public class ClassifiedPresenter implements ClassifiedContract.ClassifiedPresent
                 }
                 break;
             case "model":
-                activity.setTitle("单据类型");
+                activity.setTitle("商品型号");
                 if(TextUtils.isEmpty(json)){
                     api.getProduct(activity, new AnalyseAPI.IResultMsg<ArticleBean>() {
                         @Override
