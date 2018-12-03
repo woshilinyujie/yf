@@ -188,7 +188,7 @@ public class FindSerialNoPresenter {
                             activity.setResult(Activity.RESULT_OK, intent);
                             activity.finish();
                         }else{
-                            MToast.makeText(activity,"该商品不存在", MToast.LENGTH_SHORT).show();
+                            MToast.makeText(activity,"该商品不存在或不在所选公司仓库中", MToast.LENGTH_SHORT).show();
                         }
                     }
 
