@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import jh.zkj.com.yf.Fragment.MBaseFragment;
+import jh.zkj.com.yf.R;
 
 /**
  * Created by linyujie on 18/10/16.
@@ -27,7 +28,7 @@ public class SalesAnalyseProfitFragment extends MBaseFragment{
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        return null;
+        View inflate = View.inflate(getActivity(), R.layout.sales_analyse_profit_layout, null);
+        return inflate;
     }
 }

@@ -41,4 +41,8 @@ public class EnterpriseDetailActivity extends MBaseActivity {
     public TitleLayout getEnterpriseDetailTitle() {
         return enterpriseDetailTitle;
     }
+
+    public ImageView getLicense() {
+        return license;
+    }
 }

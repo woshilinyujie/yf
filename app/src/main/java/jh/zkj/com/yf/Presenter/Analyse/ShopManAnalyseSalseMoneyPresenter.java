@@ -144,7 +144,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
             yValues.add(new Entry(i, value));
             countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
         }
-        fragment.setShopManSalesMoneyAll("总销量：" + countAll);
+        fragment.setShopManSalesMoneyAll("总销售额：" + countAll);
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");
         //用y轴的集合来设置参数
@@ -258,7 +258,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         if (DpUtils.getScreenWith(context) > 1100) {
             rightOffsets = 20;
         } else {
-            rightOffsets = 25;
+            rightOffsets = 28;
         }
         pieChart.setExtraOffsets(0,
                 0,
@@ -279,8 +279,8 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         pieChart.setTransparentCircleAlpha(110);
         pieChart.setDrawCenterText(false);
         pieChart.setCenterTextSize(0);
-        pieChart.setScaleX(0.9f);
-        pieChart.setScaleY(0.9f);
+        pieChart.setScaleX(0.95f);
+        pieChart.setScaleY(0.95f);
         pieChart.setCenterTextSizePixels(0);
         pieChart.setEntryLabelTextSize(0);
         //图例设置
@@ -288,7 +288,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         if (DpUtils.getScreenWith(context) > 1100) {
             legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
         } else {
-            legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 75));
+            legend.setXOffset((float) (DpUtils.getScreenWith(context)/4.7));
         }
         legend.setTextSize(10);
         legend.setFormSize(15);

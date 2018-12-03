@@ -86,7 +86,7 @@ public class LoginOneFragment extends MBaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (loginCompanyCode.getText().toString().length() < 4 || loginPhone.getText().toString().length() < 11||loginPassword.getText().toString().length()<6) {
+                if (loginCompanyCode.getText().toString().length() < 4 || loginPhone.getText().toString().length() < 1||loginPassword.getText().toString().length()<6) {
                     loginOneBtn.setBackgroundResource(R.drawable.shape_radius_4_e6e6e6);
                     loginOneBtn.setEnabled(false);
                 } else {

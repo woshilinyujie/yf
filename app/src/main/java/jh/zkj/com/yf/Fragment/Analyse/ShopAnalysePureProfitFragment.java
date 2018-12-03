@@ -31,7 +31,7 @@ public class ShopAnalysePureProfitFragment extends MBaseFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView =View.inflate(getActivity(), R.layout.shop_analyse_pure_profit_layout,null);
-        return null;
+        rootView =View.inflate(getActivity(), R.layout.sales_analyse_profit_layout,null);
+        return rootView;
     }
 }

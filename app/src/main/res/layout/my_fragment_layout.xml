@@ -172,7 +172,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_44"
-            android:text="用户名"
+            android:text="姓名"
             android:textColor="@color/c_333333"
             android:textSize="@dimen/sp_14" />
 

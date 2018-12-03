@@ -17,7 +17,7 @@ public class MyFragmentContract {
 
     public interface IMyFragmentPresenter {
         void ClickPhoto();//点击换头像
-
+        void upHeadImg(String s);//上传头像
         void ClickTakePhoto();//点击拍照
 
         void ClickPhotoSelect();//相册选择

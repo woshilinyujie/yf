@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="销售趋势"
+                android:text="利润趋势"
                 android:textColor="@color/c_a6a6a6"
                 android:textSize="@dimen/sp_14" />
 
@@ -149,7 +149,7 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/c_333333"
                     android:textSize="@dimen/sp_12"
-                    android:text="销量"
+                    android:text="利润"
                     android:layout_weight="2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />

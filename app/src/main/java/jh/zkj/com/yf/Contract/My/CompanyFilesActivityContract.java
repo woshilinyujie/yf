@@ -19,6 +19,7 @@ public class CompanyFilesActivityContract {
         void save(); //保存
         boolean calibrate();//校验
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
+        void setPhoto(String s);
     }
 
 }

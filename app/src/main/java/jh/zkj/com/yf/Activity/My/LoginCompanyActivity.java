@@ -78,6 +78,8 @@ public class LoginCompanyActivity extends MBaseActivity implements LoginCompanyA
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_forget://忘记密码
+                Intent intent1 = new Intent(this, ForgetCrmPasswordActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.login_back:
                 finish();

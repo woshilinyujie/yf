@@ -89,6 +89,9 @@ public class LoginActivity extends MBaseActivity implements LoginActivityContrac
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_forget://忘记密码
+                Intent intent2=new Intent(this,ForgetCrmPasswordActivity.class);
+                intent2.putExtra("flag","erp");
+                startActivity(intent2);
                 break;
             case R.id.login_enterprise://加入企业
                 Intent intent=new Intent(this,JoinCompanyCodeActivity.class);

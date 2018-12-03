@@ -1,5 +1,6 @@
 package jh.zkj.com.yf.Activity.My;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,6 +21,7 @@ import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Bean.ModifyPhoneBean;
 import jh.zkj.com.yf.Bean.SendCodeBean;
+import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.MDialog;
 import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.R;
@@ -142,7 +144,9 @@ public class PhoneActivity extends MBaseActivity {
                             @Override
                             public void onClick(View v) {
                                 dialog.dismiss();
-                                EventBus.getDefault().post("my_refresh_data");
+                                PrefUtils.putString(PhoneActivity.this,"erp_token","");
+                                EventBus.getDefault().post("mainfinish");
+                                startActivity(new Intent(PhoneActivity.this,LoginActivity.class));
                                 finish();
                             }
                         });
