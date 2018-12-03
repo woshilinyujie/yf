@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Order.FindSerialNoActivity">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/find_serial_on_back"
+            android:layout_width="@dimen/dp_12"
+            android:layout_height="@dimen/dp_20"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:src="@mipmap/back_arrow"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:layout_marginRight="@dimen/dp_35"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_toLeftOf="@id/search_scan"
+            android:layout_toRightOf="@id/find_serial_on_back"
+            android:background="@drawable/shape_radius_30_f2f2f2"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <ImageView
+                android:id="@+id/find_serial_on_img"
+                android:layout_width="@dimen/dp_12"
+                android:layout_height="@dimen/dp_12"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:background="@mipmap/search"/>
+
+            <EditText
+                android:id="@+id/find_serial_on_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_32"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_4"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_toRightOf="@id/find_serial_on_img"
+                android:background="@drawable/shape_radius_30_f2f2f2"
+                android:gravity="center_vertical"
+                android:hint="请输入至少后5位序列号"
+                android:imeOptions="actionSearch"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:textColor="@color/c_a6a6a6"
+                android:textSize="@dimen/sp_12"
+                android:inputType="number"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <jh.zkj.com.yf.Mview.EmptyView
+            android:id="@+id/find_serial_on_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/find_serial_on_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/find_serial_on_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/c_f6f7fb"/>
+
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

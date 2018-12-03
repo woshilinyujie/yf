@@ -84,7 +84,7 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
     @OnClick({R.id.retail_order_title, R.id.retail_order_receivable, R.id.retail_order_success
             , R.id.retail_order_add_commodity, R.id.retail_user_salesman_add_layout
             , R.id.retail_order_select_client, R.id.retail_company_layout
-            , R.id.retail_order_scan})
+            , R.id.retail_order_serial_no_layout, R.id.retail_order_find_serial_no})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.retail_order_title:
@@ -108,8 +108,11 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
             case R.id.retail_company_layout:
                 presenter.openSelectCompany();
                 break;
-            case R.id.retail_order_scan:
+            case R.id.retail_order_serial_no_layout:
                 presenter.openScan();
+                break;
+            case R.id.retail_order_find_serial_no:
+                presenter.openFindSerialNo();
                 break;
         }
     }

@@ -559,6 +559,53 @@ public class OrderAPI {
 
     }
 
+    public void getSerialInfoList(String companyUuid, String keywords, int page, int size, final OrderAPI.IResultMsg<CommodityBean> iResultMsg) {
+        if(loadingDialog != null){
+            loadingDialog.showLoading();
+        }
+
+        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_PRODUCT_KEYWORDS)
+                .headers("Authorization", TOKEN)
+                .params("companyUuid", companyUuid)
+                .params("keywords", keywords)
+                .params("pageNum", page)
+                .params("pageSize", size)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if(loadingDialog.isShowing()){
+                            loadingDialog.dismissLoading();
+                        }
+
+                        BaseBean<CommodityBean> comInfoBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<CommodityBean>>() {});
+
+                        if (APIConstant.REQUEST_SUCCESS.equals(comInfoBean.getCode())) {
+                            iResultMsg.Result(comInfoBean.getData());
+                        } else {
+                            if(!TextUtils.isEmpty(comInfoBean.getMsg())){
+                                MToast.makeText(context, comInfoBean.getMsg(), MToast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+
+                        if(loadingDialog.isShowing()){
+                            loadingDialog.dismissLoading();
+                        }
+
+                        iResultMsg.Error(response.body());
+
+                        if(!TextUtils.isEmpty(response.body())){
+                            MToast.makeText(context,response.body(), MToast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 
     public interface IResultMsg<T> {
         void Result(T bean);

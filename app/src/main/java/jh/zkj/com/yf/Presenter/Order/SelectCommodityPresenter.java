@@ -94,6 +94,9 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
 
         pageNum = 1;
         companyBean = (FilterCompanyBean) intent.getSerializableExtra(OrderConfig.TYPE_STRING_COMPANY_BEAN);
+        if(companyBean == null){
+            companyBean = new FilterCompanyBean();
+        }
         activity.setStoreName(companyBean.getName());
         getCommodityList(companyBean.getUuid(), searchText, pageNum, pageSize, refreshMsg);
     }

@@ -34,6 +34,8 @@ public class RetailOrderContract {
         void openSelectCompany();
         //扫码
         void openScan();
+        //查询序列号
+        void openFindSerialNo();
         //
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
     }

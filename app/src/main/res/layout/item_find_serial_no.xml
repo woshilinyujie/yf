@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_44"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/find_serial_on"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:paddingLeft="@dimen/dp_16"
+        android:layout_centerVertical="true"
+        android:text="11111"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/c_333333"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/c_f6f7fb"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
