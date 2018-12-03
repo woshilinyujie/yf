@@ -146,8 +146,8 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
     //日期选择初始化
     public void initPickerView() {
         //默认日期
-        shopSelectBegin.setText(DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime()));
-        shopSelectEnd.setText(DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis()));
+        shopSelectBegin.setText(DateUtil.getInstance().dateFormat(System.currentTimeMillis()-6*24*60*60*1000));
+        shopSelectEnd.setText(DateUtil.getInstance().dateFormat(System.currentTimeMillis()));
         pvTime = new TimePickerBuilder(context, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -351,11 +351,11 @@ public class AnalyseSelectPopupWindow extends PopupWindow {
         this.replaceListener=replaceListener;
     }
     public String getMonthEndTime() {
-        return DateUtil.getInstance().getDayOrMonthOrYear(System.currentTimeMillis());
+        return DateUtil.getInstance().dateFormat(System.currentTimeMillis());
     }
 
     public String getMonthStartTime() {
-        return DateUtil.getInstance().getDayOrMonthOrYear(DateUtil.getInstance().getBeginDayOfMonth().getTime());
+        return DateUtil.getInstance().dateFormat(System.currentTimeMillis()-6*24*60*60*1000);
     }
 
     public void setclassifiedJson(String json, String name, String classifieduuid) {

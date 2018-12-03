@@ -148,11 +148,13 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
     public LineData setLineData(LineDataBean bean, int count, float range) {
         int countAll = 0;
         // y轴的数据
+        int g=0;
         ArrayList<Entry> yValues = new ArrayList<Entry>();
-        for (int i = 0; i < count; i++) {
+        for (int i =count-1; i >= 0; i--) {
             float value = (float) bean.getData().get(i).getTarget_data();
-            yValues.add(new Entry(i, value));
-            countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
+            yValues.add(new Entry(g, value));
+            g++;
+            countAll= (int) (countAll+bean.getData().get(i).getTarget_data());
         }
         fragment.setShopManSalesAll("总销量：" + countAll);
         // y轴的数据集合
@@ -187,8 +189,10 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
         xl.setAvoidFirstLastClipping(false);
 //
         String[] valueArry = new String[count];
-        for (int x = 0; x < count; x++) {
-            valueArry[x] = bean.getData().get(x).getBiz_date();
+        int h=0;
+        for(int x=count-1;x>=0;x--){
+            valueArry[h]=bean.getData().get(x).getBiz_date();
+            h++;
         }
 
         final Map<Integer, String> xMap = new HashMap<>();
@@ -318,9 +322,9 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
 
     //设置饼图数据
     private void setPieChartData(PieDataBean bean, PieChart pieChart, Map<String, Integer> pieValues) {
-        int count = 0;
+        double count = 0;
         for (int i = 0; i < bean.getData().size(); i++) {
-            count = (int) (count + bean.getData().get(i).getTarget_data());
+            count =  (count + bean.getData().get(i).getTarget_data());
         }
         entries = new ArrayList<PieEntry>();
         for (int x = 0; x < pieValues.size(); x++) {
@@ -328,8 +332,8 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
             //倒数第二个/s后面的数据为上下行间距距
             //最后一个/s后面的数据为y距
             String companyName;
-            if(bean.getData().get(x).getName().length()>10){
-                companyName=bean.getData().get(x).getName().substring(0,10)+"...";
+            if(bean.getData().get(x).getName().length()>9){
+                companyName=bean.getData().get(x).getName().substring(0,9)+"...";
             }else{
                 companyName=bean.getData().get(x).getName();
             }

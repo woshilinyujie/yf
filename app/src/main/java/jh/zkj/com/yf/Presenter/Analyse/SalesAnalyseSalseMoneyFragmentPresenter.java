@@ -209,9 +209,9 @@ public class SalesAnalyseSalseMoneyFragmentPresenter implements SalesAnalyseSals
 
     //设置饼图数据
     private void setPieChartData(PieDataBean bean,PieChart pieChart, Map<String, Integer> pieValues) {
-        int count=0;
+        double count=0;
         for(int i=0;i<bean.getData().size();i++){
-            count= (int) (count+bean.getData().get(i).getTarget_data());
+            count= (count+bean.getData().get(i).getTarget_data());
         }
         entries = new ArrayList<PieEntry>();
         for(int x=0 ;x<pieValues.size();x++){
@@ -219,8 +219,8 @@ public class SalesAnalyseSalseMoneyFragmentPresenter implements SalesAnalyseSals
             //倒数第二个/s后面的数据为上下行间距距
             //最后一个/s后面的数据为y距
             String companyName;
-            if(bean.getData().get(x).getName().length()>10){
-                companyName=bean.getData().get(x).getName().substring(0,10)+"...";
+            if(bean.getData().get(x).getName().length()>9){
+                companyName=bean.getData().get(x).getName().substring(0,9)+"...";
             }else{
                 companyName=bean.getData().get(x).getName();
             }
