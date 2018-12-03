@@ -145,7 +145,7 @@ public class PrintSettingActivity extends MBaseActivity {
     }
 
     private void initListener() {
-        title.getLetfImage().setOnClickListener(new View.OnClickListener() {
+        title.getLeftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 back();

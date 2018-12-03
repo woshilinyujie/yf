@@ -121,6 +121,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             orderBean.getComList().get(0).setStockAge(String.valueOf(serialNoBean.getStock_age()));
             orderBean.getComList().get(0).setStockQty(serialNoBean.getStock_qty());
             orderBean.getComList().get(0).setUuid(serialNoBean.getSku_uuid());
+            orderBean.getComList().get(0).setSerialUuid(serialNoBean.getUuid());
             orderBean.getComList().get(0).setExceedStockAge(serialNoBean.getExceed_stock_age());
             orderBean.getComList().get(0).setCurrentStockAge(serialNoBean.getCurrent_stock_age());
             orderBean.getComList().get(0).setCount(1);
@@ -590,7 +591,8 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                                     }else{
                                         holder.num.setText(String.valueOf(item.getCount()));
                                         holder.num.setSelection(String.valueOf(item.getCount()).length());
-                                        MToast.makeText(activity, "商品数量不能超过库存", MToast.LENGTH_SHORT).show();
+                                        MToast.makeText(activity, "商品" + item.getFullName() + "在仓库"
+                                                + item.getWarehouseName() + "中库存不足", MToast.LENGTH_SHORT).show();
                                         return;
                                     }
                                 }
@@ -722,6 +724,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             listBean.setSkuUuid(bean.getUuid());
             listBean.setQty(bean.getCount());
             listBean.setNum(bean.getCount());
+
             if (bean.getPrice().doubleValue() == -1) {
                 MToast.makeText(activity, "请输入商品单价", MToast.LENGTH_SHORT).show();
                 return;
@@ -733,6 +736,8 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             listBean.setPrice(bean.getPrice().toString());
             listBean.setWarehouseUuid(bean.getWarehouseUuid());
             listBean.setSerialNo(bean.getSerialNo());
+            listBean.setSerialInfoUuid(bean.getSerialUuid());
+
             for (int i = 0; i < salesmanList.size(); i++) {
                 listBean.addClerkUuid(salesmanList.get(i).getUuid(), i);
             }

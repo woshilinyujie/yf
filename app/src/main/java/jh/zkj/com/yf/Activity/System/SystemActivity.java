@@ -35,7 +35,7 @@ public class SystemActivity extends MBaseActivity {
     }
 
     private void initListener() {
-        systemTitle.getLetfImage().setOnClickListener(new View.OnClickListener() {
+        systemTitle.getLeftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

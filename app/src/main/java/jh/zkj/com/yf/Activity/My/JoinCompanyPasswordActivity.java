@@ -49,7 +49,7 @@ public class JoinCompanyPasswordActivity extends MBaseActivity {
     }
 
     private void initLintener() {
-        title.getLetfImage().setOnClickListener(new View.OnClickListener() {
+        title.getLeftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

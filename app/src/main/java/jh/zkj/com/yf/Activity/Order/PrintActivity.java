@@ -173,6 +173,13 @@ public class PrintActivity extends BluetoothActivity {
                 startActivityForResult(intent, REQUEST_PRINT_SETTING);
             }
         });
+
+        printTitle.getLeftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @OnClick({R.id.print_select, R.id.print_sure})

@@ -169,7 +169,7 @@ public class TitleLayout extends RelativeLayout {
     }
 
     //返回左iv
-    public ImageView getLetfImage(){
+    public ImageView getLeftImage(){
         return titleLetfImage;
     }
     //返回又tv

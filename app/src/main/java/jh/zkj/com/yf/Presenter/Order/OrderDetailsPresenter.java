@@ -87,7 +87,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
     private void initView() {
 
-        activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
+        activity.getTitleLayout().getLeftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 activity.finish();

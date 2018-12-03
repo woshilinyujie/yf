@@ -42,7 +42,7 @@ public class FindSerialNoPresenter {
     private final FindSerialNoActivity activity;
     private EditText search;
     private RecyclerView recycler;
-    private TwinklingRefreshLayout refresh;
+//    private TwinklingRefreshLayout refresh;
     private EmptyView empty;
     private OrderAPI api;
     private Adapter adapter;
@@ -58,7 +58,7 @@ public class FindSerialNoPresenter {
     private void initView() {
         search = activity.getSearch();
         recycler = activity.getRecycler();
-        refresh = activity.getRefresh();
+//        refresh = activity.getRefresh();
         empty = activity.getEmpty();
     }
 
@@ -159,13 +159,11 @@ public class FindSerialNoPresenter {
 
     //**********************************************************************************************
     private void getSerialInfoList(String companyUuid, String keywords, int page, int size) {
-        api.getSerialInfoList(companyUuid, keywords, page, size, new OrderAPI.IResultMsg<CommodityBean>() {
+        api.getSerialInfoList(companyUuid, keywords, page, size, new OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>>() {
             @Override
-            public void Result(CommodityBean bean) {
-                if (bean != null) {
-                    if (bean.getRecords() != null || bean.getRecords().size() > 0) {
-                        adapter.notifyData(bean.getRecords());
-                    }
+            public void Result(ArrayList<CommodityInfoBean> bean) {
+                if (bean != null && bean.size() > 0) {
+                    adapter.notifyData(bean);
                 }
             }
 

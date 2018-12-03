@@ -40,6 +40,8 @@ public class CommodityInfoBean implements Serializable{
     private String exceedStockAge;
     //uuid不可能空  空了就叫服务端返回空字符串
     private String uuid;
+    private String serialUuid;
+
     //商品数量
     private String qty;
     //库存
@@ -178,5 +180,13 @@ public class CommodityInfoBean implements Serializable{
 
     public void setStockPrice(String stockPrice) {
         this.stockPrice = stockPrice;
+    }
+
+    public String getSerialUuid() {
+        return serialUuid;
+    }
+
+    public void setSerialUuid(String serialUuid) {
+        this.serialUuid = serialUuid;
     }
 }

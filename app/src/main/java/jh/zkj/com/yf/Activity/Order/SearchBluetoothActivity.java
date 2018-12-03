@@ -63,6 +63,13 @@ public class SearchBluetoothActivity extends BluetoothActivity implements Adapte
                 searchDeviceOrOpenBluetooth();
             }
         });
+
+        title.getLeftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

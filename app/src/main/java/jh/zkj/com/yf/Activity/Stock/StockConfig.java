@@ -46,7 +46,7 @@ public class StockConfig {
         }
 
         if("PI".equals(s)){
-            return "采购单";
+            return "采购入库";
         }
 
         if("PR".equals(s)){
@@ -58,7 +58,7 @@ public class StockConfig {
         }
 
         if("SS".equals(s)){
-            return "零售单";
+            return "零售";
         }
 
         if("SR".equals(s)){

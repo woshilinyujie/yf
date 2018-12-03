@@ -106,7 +106,7 @@ public class PhoneActivity extends MBaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.phone_black:
-                phoneBlack.getLetfImage().setOnClickListener(new View.OnClickListener() {
+                phoneBlack.getLeftImage().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         finish();

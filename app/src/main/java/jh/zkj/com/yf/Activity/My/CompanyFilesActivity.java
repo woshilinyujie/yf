@@ -114,7 +114,7 @@ public class CompanyFilesActivity extends PhotoActivity implements CompanyFilesA
     }
 
     public ImageView getBack(){
-        return companyTitle.getLetfImage();
+        return companyTitle.getLeftImage();
     }
 
     @Override

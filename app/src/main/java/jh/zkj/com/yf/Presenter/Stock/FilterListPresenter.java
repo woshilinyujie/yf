@@ -97,7 +97,7 @@ public class FilterListPresenter implements StockContract.IStockPresenter {
     }
 
     private void initListener() {
-        activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
+        activity.getTitleLayout().getLeftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 activity.finish();

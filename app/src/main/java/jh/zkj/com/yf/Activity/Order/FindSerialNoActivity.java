@@ -24,8 +24,8 @@ public class FindSerialNoActivity extends AppCompatActivity {
     EmptyView empty;
     @BindView(R.id.find_serial_on_recycler)
     RecyclerView recycler;
-    @BindView(R.id.find_serial_on_refresh)
-    TwinklingRefreshLayout refresh;
+//    @BindView(R.id.find_serial_on_refresh)
+//    TwinklingRefreshLayout refresh;
 
     private FindSerialNoPresenter presenter;
 
@@ -59,9 +59,9 @@ public class FindSerialNoActivity extends AppCompatActivity {
         return recycler;
     }
 
-    public TwinklingRefreshLayout getRefresh() {
-        return refresh;
-    }
+//    public TwinklingRefreshLayout getRefresh() {
+//        return refresh;
+//    }
 
     public FindSerialNoPresenter getPresenter() {
         return presenter;

@@ -106,7 +106,7 @@ public class JoinCompanyCodeActivity extends MBaseActivity implements RegisterAc
     }
 
     public ImageView getBack(){
-        return title.getLetfImage();
+        return title.getLeftImage();
     }
     @Override
     public void setSendCodeColor(String color) {
