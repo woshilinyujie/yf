@@ -66,7 +66,7 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
     }
 
     private void initListener() {
-        activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
+        activity.getTitleLayout().getLeftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activity.finish();

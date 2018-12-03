@@ -305,6 +305,7 @@ public class CreateOrderBean {
         private String warehouseUuid;
         private String serialNo;
         private int num;
+        private String serialInfoUuid;
         private String clerk01Uuid;
         private String clerk02Uuid;
         private String clerk03Uuid;
@@ -379,7 +380,15 @@ public class CreateOrderBean {
             return uuid;
         }
 
-       /* public void setUuid(String uuid) {
+        public String getSerialInfoUuid() {
+            return serialInfoUuid;
+        }
+
+        public void setSerialInfoUuid(String serialInfoUuid) {
+            this.serialInfoUuid = serialInfoUuid;
+        }
+
+      /* public void setUuid(String uuid) {
             this.uuid = uuid;
         }
 

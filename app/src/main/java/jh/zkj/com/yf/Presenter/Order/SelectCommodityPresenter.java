@@ -262,7 +262,8 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
                                 setTotalCount();
                                 notifyDataSetChanged();
                             }else{
-                                MToast.makeText(activity, "商品数量不能超过库存", MToast.LENGTH_SHORT).show();
+                                MToast.makeText(activity, "商品" + item.getFullName() + "在仓库"
+                                        + item.getWarehouseName() + "中库存不足", MToast.LENGTH_SHORT).show();
                             }
                         }
                     });

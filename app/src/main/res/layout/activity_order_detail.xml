@@ -19,7 +19,7 @@ ps 以后来的新人不要怪我  劳资不是不会抽  是没时间抽  天�
             app:leftImageWidthSize="@dimen/dp_12"
             app:leftImageHeightSize="@dimen/dp_20"
             app:leftMargin="@dimen/dp_16"
-            app:centerText="零售订单"
+            app:centerText="订单详情"
             app:centerTextSize="@dimen/sp_16"
             android:background="@color/white"/>
 

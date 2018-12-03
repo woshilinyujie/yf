@@ -127,7 +127,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
 
     private void initView() {
         recyclerView = activity.getRecyclerView();
-        activity.getTitleLayout().getLetfImage().setOnClickListener(new View.OnClickListener() {
+        activity.getTitleLayout().getLeftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 activity.finish();

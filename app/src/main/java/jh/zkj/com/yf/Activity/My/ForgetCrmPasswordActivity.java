@@ -70,7 +70,7 @@ public class ForgetCrmPasswordActivity extends MBaseActivity {
             forgetPasswordView.setVisibility(View.GONE);
             forgetPasswordCompaycode.setVisibility(View.GONE);
         }
-        forgetPasswordTitle.getLetfImage().setOnClickListener(new View.OnClickListener() {
+        forgetPasswordTitle.getLeftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

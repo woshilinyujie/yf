@@ -18,6 +18,7 @@ import java.util.List;
 import jh.zkj.com.yf.Bean.BaseBean;
 import jh.zkj.com.yf.Bean.ClientInfoBean;
 import jh.zkj.com.yf.Bean.CommodityBean;
+import jh.zkj.com.yf.Bean.CommodityInfoBean;
 import jh.zkj.com.yf.Bean.HarvestModeBean;
 import jh.zkj.com.yf.Bean.HomeMenuBean;
 import jh.zkj.com.yf.Bean.OrderDetailsBean;
@@ -559,17 +560,18 @@ public class OrderAPI {
 
     }
 
-    public void getSerialInfoList(String companyUuid, String keywords, int page, int size, final OrderAPI.IResultMsg<CommodityBean> iResultMsg) {
+    public void getSerialInfoList(String companyUuid, String keywords, int page, int size, final OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>> iResultMsg) {
         if(loadingDialog != null){
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_PRODUCT_KEYWORDS)
+        OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SERIAL_SERIAL_INFO_LIST)
                 .headers("Authorization", TOKEN)
                 .params("companyUuid", companyUuid)
-                .params("keywords", keywords)
+                .params("keyword", keywords)
                 .params("pageNum", page)
                 .params("pageSize", size)
+                .params("inStock", 1)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -577,8 +579,8 @@ public class OrderAPI {
                             loadingDialog.dismissLoading();
                         }
 
-                        BaseBean<CommodityBean> comInfoBean = JSON.parseObject(response.body(),
-                                new TypeReference<BaseBean<CommodityBean>>() {});
+                        BaseBean<ArrayList<CommodityInfoBean>> comInfoBean = JSON.parseObject(response.body(),
+                                new TypeReference<BaseBean<ArrayList<CommodityInfoBean>>>() {});
 
                         if (APIConstant.REQUEST_SUCCESS.equals(comInfoBean.getCode())) {
                             iResultMsg.Result(comInfoBean.getData());

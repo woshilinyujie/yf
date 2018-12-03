@@ -76,10 +76,10 @@
             android:layout_height="match_parent"
             android:visibility="gone"/>
 
-        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-            android:id="@+id/find_serial_on_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout-->
+            <!--android:id="@+id/find_serial_on_refresh"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/find_serial_on_recycler"
@@ -87,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/c_f6f7fb"/>
 
-        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+        <!--</com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>-->
 
     </RelativeLayout>
 

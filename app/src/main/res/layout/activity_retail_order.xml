@@ -102,8 +102,8 @@
                 android:includeFontPadding="false"
                 android:gravity="center"
                 android:textSize="@dimen/sp_14"
-                android:textColor="@color/white"
-                android:background="@color/c_6fb1fc"/>
+                android:textColor="@color/c_333333"
+                android:background="@color/white"/>
 
             <TextView
                 android:id="@+id/retail_order_success"
@@ -115,7 +115,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/sp_14"
                 android:textColor="@color/white"
-                android:background="@color/c_666fb1fc"/>
+                android:background="@color/c_6fb1fc"/>
         </LinearLayout>
 
 
@@ -174,8 +174,8 @@
                     android:paddingRight="@dimen/dp_16"
                     app:layout_constraintRight_toRightOf="parent">
                     <ImageView
-                        android:layout_width="@dimen/dp_18"
-                        android:layout_height="@dimen/dp_18"
+                        android:layout_width="@dimen/dp_6"
+                        android:layout_height="@dimen/dp_12"
                         android:src="@mipmap/right_more_arrow"/>
                 </RelativeLayout>
 
@@ -231,9 +231,9 @@
                     android:paddingRight="@dimen/dp_16"
                     app:layout_constraintRight_toRightOf="parent">
                     <ImageView
-                        android:layout_width="@dimen/dp_18"
-                        android:layout_height="@dimen/dp_18"
-                        android:src="@mipmap/circle_add_blue"/>
+                        android:layout_width="@dimen/dp_6"
+                        android:layout_height="@dimen/dp_12"
+                        android:src="@mipmap/right_more_arrow"/>
                 </RelativeLayout>
 
                 <TextView
@@ -336,7 +336,7 @@
                     <ImageView
                         android:layout_width="@dimen/dp_6"
                         android:layout_height="@dimen/dp_12"
-                        android:src="@mipmap/right_more_arrow"/>
+                        android:src="@mipmap/right_more_arrow_85"/>
 
                 </RelativeLayout>
 
