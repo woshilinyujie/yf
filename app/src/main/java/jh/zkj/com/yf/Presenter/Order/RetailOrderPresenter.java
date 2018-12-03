@@ -31,6 +31,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jh.zkj.com.yf.API.OrderAPI;
+import jh.zkj.com.yf.Activity.Order.FindSerialNoActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
 import jh.zkj.com.yf.Activity.Order.OrderScanActivity;
@@ -81,6 +82,8 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
     public static final int REQUEST_FILTER_LIST = 6;
     //扫码
     public static final int REQUEST_SCAN = 7;
+    //查询序列号
+    public static final int REQUEST_FIND_SERIAL_NO = 8;
 
 
     private RetailOrderActivity activity;
@@ -288,7 +291,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     activity.setCompany(filterBean.getComBean().getName());
                 }
             }
-        } else if (requestCode == REQUEST_SCAN) {
+        } else if (requestCode == REQUEST_SCAN || requestCode == REQUEST_FIND_SERIAL_NO) {
             //扫码
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
@@ -374,6 +377,13 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
         Intent intent = new Intent(activity, OrderScanActivity.class);
         intent.putExtra(OrderConfig.TYPE_STRING_COMPANY_BEAN, filterBean.getComBean());
         activity.startActivityForResult(intent, REQUEST_SCAN);
+    }
+
+    @Override
+    public void openFindSerialNo() {
+        Intent intent = new Intent(activity, FindSerialNoActivity.class);
+        intent.putExtra(OrderConfig.TYPE_STRING_COMPANY_BEAN, filterBean.getComBean());
+        activity.startActivityForResult(intent, REQUEST_FIND_SERIAL_NO);
     }
 
     /**
