@@ -60,7 +60,7 @@ public class PhotoPopupWindow extends PopupWindow {
         /**
          * 设置点击外边不可以消失
          */
-        setOutsideTouchable(false);
+        setOutsideTouchable(true);
 
         /**
          *设置可以触摸
@@ -192,7 +192,12 @@ public class PhotoPopupWindow extends PopupWindow {
     }
 
     public void Dismiss(){
-        backgroundAlpha((Activity) mContext, 1.0f);//0.0-1.0
         dismiss();
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        backgroundAlpha((Activity) mContext, 1.0f);//0.0-1.0
     }
 }

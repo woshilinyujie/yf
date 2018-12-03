@@ -97,4 +97,8 @@ public class ShopAnalyseProfitFragment extends MBaseFragment {
     public void setSalesProfitAllTx(String salesProfitAllTx) {
         salesProfitAll.setText(salesProfitAllTx);
     }
+
+    public ShopAnalyseSalseProfitFragmentPresenter getPresent() {
+        return present;
+    }
 }

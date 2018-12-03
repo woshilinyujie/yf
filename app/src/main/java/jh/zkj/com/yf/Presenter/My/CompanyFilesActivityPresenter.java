@@ -227,6 +227,8 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
     }
 
     public void ClickPhoto() {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(activity.getCompanyAddress().getWindowToken(), 0);
         if (popupWindow == null)
             popupWindow = new PhotoPopupWindow(activity);
         popupWindow.showPopup();

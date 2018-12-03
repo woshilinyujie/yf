@@ -177,6 +177,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         xl.setTextColor(Color.parseColor("#a6a6a6"));
         xl.setDrawLabels(true);
         xl.setAvoidFirstLastClipping(false);
+        xl.setTextSize(9);
 //
         String[] valueArry = new String[count];
         int h=0;

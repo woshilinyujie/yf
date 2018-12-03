@@ -181,7 +181,7 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
         xl.setTextColor(Color.parseColor("#a6a6a6"));
         xl.setDrawLabels(true);
         xl.setAvoidFirstLastClipping(false);
-//
+        xl.setTextSize(9);
         String[] valueArry = new String[count];
         int h=0;
         for(int x=count-1;x>=0;x--){
