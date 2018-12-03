@@ -253,6 +253,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     if(orderBean.getComList() != null){
                         for (int i = 0 ; i < orderBean.getComList().size(); i++){
                             if (bean.getSerialNo().equals(orderBean.getComList().get(i).getSerialNo())){
+                                MToast.makeText(activity, "此商品已选择，无需重新添加", MToast.LENGTH_SHORT).show();
                                 isHas = true;
                                 break;
                             }
@@ -301,6 +302,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     if(orderBean.getComList() != null){
                         for (int i = 0 ; i < orderBean.getComList().size(); i++){
                             if (bean.getSerialNo().equals(orderBean.getComList().get(i).getSerialNo())){
+                                MToast.makeText(activity, "此商品已选择，无需重新添加", MToast.LENGTH_SHORT).show();
                                 isHas = true;
                                 break;
                             }

@@ -162,7 +162,7 @@ public class FindSerialNoPresenter {
         api.getSerialInfoList(companyUuid, keywords, page, size, new OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>>() {
             @Override
             public void Result(ArrayList<CommodityInfoBean> bean) {
-                if (bean != null && bean.size() > 0) {
+                if (bean != null) {
                     adapter.notifyData(bean);
                 }
             }
@@ -188,7 +188,7 @@ public class FindSerialNoPresenter {
                             activity.setResult(Activity.RESULT_OK, intent);
                             activity.finish();
                         }else{
-                            MToast.makeText(activity,"该商品不存在", MToast.LENGTH_SHORT).show();
+                            MToast.makeText(activity,"该商品不存在或不在所选公司仓库中", MToast.LENGTH_SHORT).show();
                         }
                     }
 

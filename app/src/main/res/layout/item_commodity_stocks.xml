@@ -30,19 +30,8 @@
             android:paddingLeft="@dimen/dp_16"
             android:background="@color/white">
 
-            <TextView
-                android:id="@+id/commodity_stock_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
-                android:text="Apple iPhone6S 128G 白色"
-                android:textColor="@color/c_333333"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_centerVertical="true"
-                android:includeFontPadding="false"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
             <LinearLayout
+                android:id="@+id/commodity_stock_number_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -68,6 +57,18 @@
                     android:src="@mipmap/bottom_arrow"/>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/commodity_stock_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_14"
+                android:text="Apple iPhone6S 128G 白色"
+                android:textColor="@color/c_333333"
+                android:layout_centerVertical="true"
+                android:includeFontPadding="false"
+                android:paddingRight="@dimen/dp_5"
+                android:layout_toLeftOf="@id/commodity_stock_number_layout"/>
 
         </RelativeLayout>
 
