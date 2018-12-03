@@ -162,7 +162,7 @@ public class FindSerialNoPresenter {
         api.getSerialInfoList(companyUuid, keywords, page, size, new OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>>() {
             @Override
             public void Result(ArrayList<CommodityInfoBean> bean) {
-                if (bean != null && bean.size() > 0) {
+                if (bean != null) {
                     adapter.notifyData(bean);
                 }
             }
