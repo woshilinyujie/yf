@@ -15,6 +15,9 @@ import com.bumptech.glide.Glide;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import org.devio.takephoto.model.TResult;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +77,7 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
         setContentView(R.layout.activity_enterprise);
         ButterKnife.bind(this);
         presenter = new EnterprisePresenter(this);
+        EventBus.getDefault().register(this);
     }
 
     @OnClick({R.id.enterprise_name_img, R.id.enterprise_add,R.id.enterprise_head_img,R.id.enterprise_exit})
@@ -139,7 +143,7 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
     @Override
     public void takeSuccess(TResult result,View view) {//选择照片成功回调
         super.takeSuccess(result,view);
-        String iconPath = result.getImage().getOriginalPath();//照片存储地址
+        String iconPath = result.getImage().getCompressPath();//照片存储地址
         presenter.upFile(iconPath);
     }
 
@@ -159,8 +163,22 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         presenter.onActivityResult(requestCode, resultCode, data);
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBus(String s) {
+        if (s.equals("EnterpriseActivityFinish")) {
+            finish();
+        }
+    }
+
+
 }

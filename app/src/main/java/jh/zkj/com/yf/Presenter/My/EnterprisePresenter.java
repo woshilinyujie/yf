@@ -245,6 +245,7 @@ public class EnterprisePresenter implements EnterpriseContract.EnterprisePresent
                     if (bean.getStdUser() != null) {
                         activity.setUserName(bean.getStdUser().getName());
                         activity.setPhone(bean.getStdUser().getMobilePhone());
+                        Glide.with(activity).load("http://192.168.68.13:8888/"+bean.getStdUser().getHeadImg()).into(activity.getHeadImg());
                     }
                     if (bean.getCrmCompanys() != null && bean.getCrmCompanys().size() > 0) {
                         activity.setEmptyDisplay(View.GONE);

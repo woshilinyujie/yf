@@ -352,6 +352,7 @@
 
 
         <ImageView
+            android:scaleType="fitXY"
             android:id="@+id/company_photo_et"
             android:background="@mipmap/business"
             android:layout_marginTop="@dimen/dp_15"

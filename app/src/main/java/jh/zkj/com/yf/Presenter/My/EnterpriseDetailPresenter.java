@@ -8,8 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.microedition.khronos.opengles.GL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +69,7 @@ public class EnterpriseDetailPresenter {
             comList.add(new EnterpriseDetailBean("邮编", crmComBean.getZipCode()));
 
             adapter.notifyData(comList);
+            Glide.with(activity).load("http://192.168.68.13:8888/"+crmComBean.getBusinessLicense()).into(activity.getLicense());
         }
     }
 

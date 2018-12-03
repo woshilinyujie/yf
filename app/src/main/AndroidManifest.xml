@@ -101,6 +101,7 @@
         </activity>
         <service android:name="jh.zkj.com.yf.Mutils.print.BtServiceOne"/>
         <activity android:name=".Activity.System.SystemActivity"/>
+        <activity android:name=".Activity.My.ForgetCrmPasswordActivity"/>
     </application>
 
 </manifest>

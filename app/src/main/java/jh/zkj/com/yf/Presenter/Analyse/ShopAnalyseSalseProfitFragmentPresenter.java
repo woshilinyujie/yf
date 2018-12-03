@@ -256,7 +256,7 @@ public class ShopAnalyseSalseProfitFragmentPresenter implements ShopAnalyseMoney
         if (DpUtils.getScreenWith(context) > 1100) {
             rightOffsets = 20;
         } else {
-            rightOffsets = 25;
+            rightOffsets = 28;
         }
         pieChart.setExtraOffsets(0,
                 0,
@@ -277,8 +277,8 @@ public class ShopAnalyseSalseProfitFragmentPresenter implements ShopAnalyseMoney
         pieChart.setTransparentCircleAlpha(110);
         pieChart.setDrawCenterText(false);
         pieChart.setCenterTextSize(0);
-        pieChart.setScaleX(0.9f);
-        pieChart.setScaleY(0.9f);
+        pieChart.setScaleX(0.95f);
+        pieChart.setScaleY(0.95f);
         pieChart.setCenterTextSizePixels(0);
         pieChart.setEntryLabelTextSize(0);
         //图例设置
@@ -286,7 +286,7 @@ public class ShopAnalyseSalseProfitFragmentPresenter implements ShopAnalyseMoney
         if (DpUtils.getScreenWith(context) > 1100) {
             legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
         } else {
-            legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 75));
+            legend.setXOffset((float) (DpUtils.getScreenWith(context)/4.7));
         }
         legend.setTextSize(10);
         legend.setFormSize(15);

@@ -18,7 +18,16 @@ public class RegisterUpBean {
     String phone;
     String name;
     String industryCode;
+    String businessLicense;
     String mobileNum;
+
+    public void setBusinessLicense(String businessLicense) {
+        this.businessLicense = businessLicense;
+    }
+
+    public String getBusinessLicense() {
+        return businessLicense;
+    }
 
     public void setBusinessCode(String businessCode) {
         this.businessCode = businessCode;

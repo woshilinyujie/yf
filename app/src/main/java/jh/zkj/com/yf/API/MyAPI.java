@@ -26,6 +26,8 @@ import jh.zkj.com.yf.Bean.CheckLoginBean;
 import jh.zkj.com.yf.Bean.CommodityBean;
 import jh.zkj.com.yf.Bean.CompanyBean;
 import jh.zkj.com.yf.Bean.EntExamineListBean;
+import jh.zkj.com.yf.Bean.ForgetCRMPassWordBean;
+import jh.zkj.com.yf.Bean.ForgetupBean;
 import jh.zkj.com.yf.Bean.JoinCompanyBean;
 import jh.zkj.com.yf.Bean.JoinCompanyUpBean;
 import jh.zkj.com.yf.Bean.LoginCRMBean;
@@ -433,6 +435,7 @@ public class MyAPI {
         bean.setPhone(phone);
         bean.setZipCode(zipCode);
         bean.setBusinessCode(businessCode);
+        bean.setBusinessLicense(businessLicense);
         bean.setProductType(productType);
         bean.setRegionFullName(regionFullName);
         bean.setIndustryCode("10001");
@@ -800,14 +803,13 @@ public class MyAPI {
         ModifyCRMHeadUpBean headUpBean = new ModifyCRMHeadUpBean();
         headUpBean.setHeadImg(data);
         String s = GsonUtils.GsonString(headUpBean);
-        OkGo.<String>post(API + ":3001/crm/stdUser/set/userinfo").tag(context)
+        OkGo.<String>post(API + ":3001/crm/stdUser/set/userInfo").tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .headers("Content-Type", "application/json")
                 .upJson(s)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        iResultMsg.Error(response.toString());
                         if (dialog.isShowing())
                             dialog.dismissLoading();
                         String s1 = response.body().toString();
@@ -860,7 +862,6 @@ public class MyAPI {
 
     /**
      * erp修改头像
-     *
      */
     public void modifyHead(final Context context, String path, final IResultMsg<ModifyPasswordBean> iResultMsg) {
         if (dialog == null)
@@ -1010,6 +1011,12 @@ public class MyAPI {
                 });
     }
 
+    /**
+     * 我的信息
+     *
+     * @param context
+     * @param iResultMsg
+     */
     public void getMyInfo(final Context context, final IResultMsg<MyBean> iResultMsg) {
         String erp_token = PrefUtils.getString(context, "erp_token", "");
         if (dialog == null)
@@ -1033,6 +1040,84 @@ public class MyAPI {
                             }
                         } catch (Exception e) {
                             showToast(context, e.toString());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 忘记crm密码
+     *
+     * @param context
+     * @param code
+     * @param password
+     * @param phone
+     * @param iResultMsg
+     */
+    public void forgetCRMPassWord(final Context context, String code, String password, String phone, final IResultMsg<ForgetCRMPassWordBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        final ForgetupBean forgetupBean = new ForgetupBean();
+        forgetupBean.setMobilePhone(phone);
+        forgetupBean.setPassword(password);
+        String s = GsonUtils.GsonString(forgetupBean);
+        OkGo.<String>post(API + ":3001/crm/stdUser/notoken/sms/set/password?smsCode=" + code + "&smsPhone=" + phone).tag(context)
+                .headers("smsCode", "true")
+                .upJson(s)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String json = response.body().toString();
+                        try {
+                            ForgetCRMPassWordBean bean = GsonUtils.GsonToBean(json, ForgetCRMPassWordBean.class);
+                            if (bean.getCode() == 0) {
+                                iResultMsg.Result(bean);
+                            } else {
+                                MToast.makeText(context, bean.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            MToast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 忘记erp密码
+     *
+     * @param context
+     * @param code
+     * @param password
+     * @param phone
+     * @param iResultMsg
+     */
+    public void forgetErpPassWord(final Context context, String code, String password, String phone,String companyCode, final IResultMsg<ForgetCRMPassWordBean> iResultMsg) {
+        if (dialog == null)
+            dialog = new LoadingDialog(context);
+        dialog.showLoading();
+        OkGo.<String>get(API + ":3001/erp/basic/user/sms/set/password?smsCode=" + code + "&smsPhone=" + phone).tag(context)
+                .headers("smsCode", "true")
+                .params("password", password)
+                .params("companyCode",companyCode)
+                .params("phone", phone)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (dialog.isShowing())
+                            dialog.dismissLoading();
+                        String json = response.body().toString();
+                        try {
+                            ForgetCRMPassWordBean bean = GsonUtils.GsonToBean(json, ForgetCRMPassWordBean.class);
+                            if (bean.getCode() == 0) {
+                                iResultMsg.Result(bean);
+                            } else {
+                                MToast.makeText(context, bean.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            MToast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

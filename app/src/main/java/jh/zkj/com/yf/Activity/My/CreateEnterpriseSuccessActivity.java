@@ -47,8 +47,10 @@ public class CreateEnterpriseSuccessActivity extends MBaseActivity {
                     intent.putExtra("phone", phone);
                     startActivity(intent);
                     EventBus.getDefault().post("RegisterFinish");
-//                    setResult(Activity.RESULT_FIRST_USER);
-//                    finish();
+//                    setResult(Activity.RESULT_OK);
+                    EventBus.getDefault().post("CompanyFilesActivityFinish");
+                    EventBus.getDefault().post("EnterpriseActivityFinish");
+                    finish();
                 }
                 break;
             }

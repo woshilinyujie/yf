@@ -77,7 +77,6 @@
                     android:hint="登录名/手机号"
                     android:singleLine="true"
 
-                    android:maxLength="11"
                     android:paddingLeft="@dimen/dp_7"
                     android:textSize="@dimen/sp_14"/>
 

@@ -9,6 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.devio.takephoto.model.TResult;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,7 +29,7 @@ import jh.zkj.com.yf.R;
  * 公司档案
  */
 
-public class CompanyFilesActivity extends MBaseActivity implements CompanyFilesActivityContract.CompanyFilesActivityView {
+public class CompanyFilesActivity extends PhotoActivity implements CompanyFilesActivityContract.CompanyFilesActivityView {
     @BindView(R.id.company_title)
     TitleLayout companyTitle;
     @BindView(R.id.company_name_et)
@@ -53,6 +58,7 @@ public class CompanyFilesActivity extends MBaseActivity implements CompanyFilesA
         setContentView(R.layout.activity_company_files);
         ButterKnife.bind(this);
         presenter = new CompanyFilesActivityPresenter(this);
+        EventBus.getDefault().register(this);
     }
 
     @OnClick({R.id.company_address, R.id.company_photo_et})
@@ -62,6 +68,7 @@ public class CompanyFilesActivity extends MBaseActivity implements CompanyFilesA
                 presenter.selectAddress();
                 break;
             case R.id.company_photo_et://营业执照
+                presenter.ClickPhoto();
                 break;
         }
     }
@@ -126,8 +133,27 @@ public class CompanyFilesActivity extends MBaseActivity implements CompanyFilesA
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void takeSuccess(TResult result, View view) {
+        super.takeSuccess(result, view);
+        presenter.setPhoto(result.getImage().getCompressPath());
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         presenter.onActivityResult(requestCode, resultCode, data);
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBus(String s) {
+        if (s.equals("CompanyFilesActivityFinish")) {
+            finish();
+        }
+    }
+
 }

@@ -101,6 +101,15 @@ public class CompanyBean implements Serializable{
         private Object regionCode;
         private String identImgFront;
         private String identImgBack;
+        private String headImg;
+
+        public void setHeadImg(String headImg) {
+            this.headImg = headImg;
+        }
+
+        public String getHeadImg() {
+            return headImg;
+        }
 
         public String getName() {
             return name;

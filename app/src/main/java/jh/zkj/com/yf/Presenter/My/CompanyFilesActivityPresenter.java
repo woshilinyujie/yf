@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,9 +27,12 @@ import jh.zkj.com.yf.Activity.My.CompanyFilesActivity;
 import jh.zkj.com.yf.Activity.My.CreateEnterpriseSuccessActivity;
 import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Bean.JsonBean;
+import jh.zkj.com.yf.Bean.ModifyCRMNameBean;
 import jh.zkj.com.yf.Bean.RegisterBean;
+import jh.zkj.com.yf.Bean.UpFileBean;
 import jh.zkj.com.yf.Contract.My.CompanyFilesActivityContract;
 import jh.zkj.com.yf.Mutils.GetJsonDataUtil;
+import jh.zkj.com.yf.Mview.PhotoPopupWindow;
 
 /**
  * Created by linyujie on 18/11/1.
@@ -60,7 +64,9 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
     private String zipCode;
     private final MyAPI myAPI;
     private String password;
+    private String business;
     private String phone;
+    private PhotoPopupWindow popupWindow;
 
     public CompanyFilesActivityPresenter(final CompanyFilesActivity activity) {
         this.activity = activity;
@@ -98,15 +104,15 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
                 getDate();
                 if (calibrate()) {
                     myAPI.Register(activity, businessCode, companyDescription, address,
-                            legalPerson, contactPerson, contactPhone, zipCode, "", "jh-erp-3c"
+                            legalPerson, contactPerson, contactPhone, zipCode, business, "jh-erp-3c"
                             , regionFullName, password, phone, new MyAPI.IResultMsg<RegisterBean>() {
                                 @Override
                                 public void Result(RegisterBean bean) {
-                                    if("success".equals(bean.getMsg())){
+                                    if ("success".equals(bean.getMsg())) {
                                         activity.showToast("注册成功");
-                                        Intent intent=new Intent(activity, CreateEnterpriseSuccessActivity.class);
-                                        intent.putExtra("RegisterBean",bean);
-                                        intent.putExtra("phone",phone);
+                                        Intent intent = new Intent(activity, CreateEnterpriseSuccessActivity.class);
+                                        intent.putExtra("RegisterBean", bean);
+                                        intent.putExtra("phone", phone);
                                         activity.startActivityForResult(intent, REQUEST_CREATE_ENTERPRISE_SUCCESS);
 //                                        EventBus.getDefault().post("RegisterFinish");
 //                                        activity.finish();
@@ -142,7 +148,7 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
     @Override
     public void selectAddress() {
 
-        InputMethodManager imm=(InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(activity.getCompanyAddress().getWindowToken(), 0);
 
         /**
@@ -220,6 +226,45 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
         return detail;
     }
 
+    public void ClickPhoto() {
+        if (popupWindow == null)
+            popupWindow = new PhotoPopupWindow(activity);
+        popupWindow.showPopup();
+        ClickTakePhoto();
+        ClickPhotoSelect();
+        ClickPhotoCancle();
+    }
+
+
+    public void ClickTakePhoto() {
+        popupWindow.getTake().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.initTakePhoto(activity.getTakePhoto(), null);
+                popupWindow.Dismiss();
+            }
+        });
+    }
+
+    public void ClickPhotoSelect() {
+        popupWindow.getSelect().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.initSelect(activity.getTakePhoto(), null);
+                popupWindow.Dismiss();
+            }
+        });
+    }
+
+    public void ClickPhotoCancle() {
+        popupWindow.getCancel().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.Dismiss();
+            }
+        });
+    }
+
     public void showPickerView() {// 弹出选择器
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(activity, new OnOptionsSelectListener() {
@@ -247,11 +292,27 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == REQUEST_CREATE_ENTERPRISE_SUCCESS){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_CREATE_ENTERPRISE_SUCCESS) {
+            if (resultCode == Activity.RESULT_OK) {
                 activity.setResult(Activity.RESULT_OK);
                 activity.finish();
             }
         }
+    }
+
+    @Override
+    public void setPhoto(final String s) {
+        myAPI.upFile(activity, s, new MyAPI.IResultMsg<UpFileBean>() {
+            @Override
+            public void Result(final UpFileBean bean) {
+                Glide.with(activity).load(s).into(activity.getCompanyPhotoEt());
+                business=bean.getData();
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
     }
 }
