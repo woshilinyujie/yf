@@ -345,8 +345,8 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
                     if(orderBean.getDetailDTOList() != null){
                         int count = 0;
-                        for(OrderDetailsBean.DetailDTOListBean DTObean : orderBean.getDetailDTOList()){
-                            count += DTObean.getNum();
+                        for(OrderDetailsBean.DetailDTOListBean DTOBean : orderBean.getDetailDTOList()){
+                            count += DTOBean.getNum();
                         }
                         activity.setTotalNumText("" + count);
                         String totalPrice = BigDecimalUtils.fmtMicrometer(total);
