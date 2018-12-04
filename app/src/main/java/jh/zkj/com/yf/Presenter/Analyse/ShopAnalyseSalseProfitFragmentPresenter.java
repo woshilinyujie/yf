@@ -133,16 +133,14 @@ public class ShopAnalyseSalseProfitFragmentPresenter implements ShopAnalyseMoney
     @Override
     public LineData setLineData(LineDataBean bean, int count, float range) {
         // y轴的数据
-        int countAll=0;
-        int g=0;
+        double countAll=0;
         ArrayList<Entry> yValues = new ArrayList<Entry>();
-        for (int i =count-1; i >= 0; i--) {
+        for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
-            yValues.add(new Entry(g, value));
-            g++;
-            countAll= (int) (countAll+bean.getData().get(i).getTarget_data());
+            yValues.add(new Entry(i, value));
+            countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
         }
-        fragment.setSalesProfitAllTx("总利润："+countAll);
+        fragment.setSalesProfitAllTx("总利润："+df.format(countAll));
 
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");
@@ -176,10 +174,8 @@ public class ShopAnalyseSalseProfitFragmentPresenter implements ShopAnalyseMoney
         xl.setAvoidFirstLastClipping(false);
         xl.setTextSize(9);
         String[] valueArry = new String[count];
-        int h=0;
-        for(int x=count-1;x>=0;x--){
-            valueArry[h]=bean.getData().get(x).getBiz_date();
-            h++;
+        for (int x = 0; x < bean.getData().size(); x++) {
+            valueArry[x] = bean.getData().get(x).getBiz_date();
         }
 
         final Map<Integer, String> xMap = new HashMap<>();
