@@ -1094,14 +1094,14 @@ public class MyAPI {
      * @param phone
      * @param iResultMsg
      */
-    public void forgetErpPassWord(final Context context, String code, String password, String phone,String companyCode, final IResultMsg<ForgetCRMPassWordBean> iResultMsg) {
+    public void forgetErpPassWord(final Context context, String code, String password, String phone, String companyCode, final IResultMsg<ForgetCRMPassWordBean> iResultMsg) {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         OkGo.<String>get(API + ":3001/erp/basic/user/sms/set/password?smsCode=" + code + "&smsPhone=" + phone).tag(context)
                 .headers("smsCode", "true")
                 .params("password", password)
-                .params("companyCode",companyCode)
+                .params("companyCode", companyCode)
                 .params("phone", phone)
                 .execute(new StringCallback() {
                     @Override
