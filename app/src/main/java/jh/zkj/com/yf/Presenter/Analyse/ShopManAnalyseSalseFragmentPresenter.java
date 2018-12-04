@@ -146,15 +146,13 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
 
     @Override
     public LineData setLineData(LineDataBean bean, int count, float range) {
-        int countAll = 0;
+        double countAll = 0;
         // y轴的数据
-        int g=0;
         ArrayList<Entry> yValues = new ArrayList<Entry>();
-        for (int i =count-1; i >= 0; i--) {
+        for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
-            yValues.add(new Entry(g, value));
-            g++;
-            countAll= (int) (countAll+bean.getData().get(i).getTarget_data());
+            yValues.add(new Entry(i, value));
+            countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
         }
         fragment.setShopManSalesAll("总销量：" + countAll);
         // y轴的数据集合
@@ -187,12 +185,10 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
         xl.setTextColor(Color.parseColor("#a6a6a6"));
         xl.setDrawLabels(true);
         xl.setAvoidFirstLastClipping(false);
-//
+        xl.setTextSize(9);
         String[] valueArry = new String[count];
-        int h=0;
-        for(int x=count-1;x>=0;x--){
-            valueArry[h]=bean.getData().get(x).getBiz_date();
-            h++;
+        for (int x = 0; x < bean.getData().size(); x++) {
+            valueArry[x] = bean.getData().get(x).getBiz_date();
         }
 
         final Map<Integer, String> xMap = new HashMap<>();
@@ -337,7 +333,7 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
             }else{
                 companyName=bean.getData().get(x).getName();
             }
-            entries.add(new PieEntry(Float.valueOf(integer), (int) (bean.getData().get(x).getTarget_data()) + "，" + df.format((bean.getData().get(x).getTarget_data() / count) * 100) + "%/s" + companyName + "/s" +
+            entries.add(new PieEntry(Float.valueOf(integer),  (bean.getData().get(x).getTarget_data()) + "，" + df.format((bean.getData().get(x).getTarget_data() / count) * 100) + "%/s" + companyName + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 2)
                     , x + ""));
@@ -401,7 +397,7 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
                 id.setText(position + 1 + "");
                 company.setText(dataBean.getName());
-                sales.setText((int) (dataBean.getTarget_data()) + "");
+                sales.setText( (dataBean.getTarget_data()) + "");
             } else {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item2, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
@@ -409,7 +405,7 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
                 id.setText(position + 1 + "");
                 company.setText(dataBean.getName());
-                sales.setText((int) (dataBean.getTarget_data()) + "");
+                sales.setText((dataBean.getTarget_data()) + "");
             }
             return convertView;
         }

@@ -116,6 +116,7 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
                 public void SelectShopDate(String date1, String date2, String classify, String brand, String modle) {
                     shopAnalyseSalseFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle,CompanyUuid,"store");
                     shopAnalyseSalseMoneyFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle,CompanyUuid,"store");
+                    shopAnalyseProfitFragment.getPresent().getLinCharData(shopName,CompanyCode,date1,date2,classify,brand,modle,CompanyUuid,"store");
                 }
             });
         }
@@ -133,6 +134,8 @@ public class ShopAnalysePresenter implements ShopAnalyseContract.ShopAnalysePres
                 public void SelectShop(ShopNameBean.DataBean bean) {
                     shopAnalyseSalseFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle,bean.getUuid(),"store");
                     shopAnalyseSalseMoneyFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle,bean.getUuid(),"store");
+                    shopAnalyseProfitFragment.getPresent().getLinCharData(bean.getName(),bean.getCode(),startDate,endDate,classify,brand,modle,bean.getUuid(),"store");
+
 
                 }
             });

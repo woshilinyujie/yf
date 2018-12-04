@@ -136,17 +136,15 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
 
     @Override
     public LineData setLineData(LineDataBean bean, int count, float range) {
-        int countAll = 0;
+        double countAll = 0;
         // y轴的数据
-        int g=0;
         ArrayList<Entry> yValues = new ArrayList<Entry>();
-        for (int i =count-1; i >= 0; i--) {
+        for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
-            yValues.add(new Entry(g, value));
-            g++;
-            countAll= (int) (countAll+bean.getData().get(i).getTarget_data());
+            yValues.add(new Entry(i, value));
+            countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
         }
-        fragment.setShopManSalesMoneyAll("总销售额：" + countAll);
+        fragment.setShopManSalesMoneyAll("总销售额：" + df.format(countAll));
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");
         //用y轴的集合来设置参数
@@ -177,6 +175,7 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         xl.setTextColor(Color.parseColor("#a6a6a6"));
         xl.setDrawLabels(true);
         xl.setAvoidFirstLastClipping(false);
+        xl.setTextSize(9);
 //
         String[] valueArry = new String[count];
         int h=0;
@@ -186,8 +185,8 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         }
 
         final Map<Integer, String> xMap = new HashMap<>();
-        for (int i = 0; i < yValues.size(); i++) {
-            xMap.put((int) yValues.get(i).getX(), valueArry[i].replaceAll("-", "."));
+        for (int x = 0; x < bean.getData().size(); x++) {
+            valueArry[x] = bean.getData().get(x).getBiz_date();
         }
 
         //x轴数据格式化
