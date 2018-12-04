@@ -118,7 +118,7 @@
             android:layout_height="@dimen/dp_18"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_16"
-            android:background="@mipmap/my_order" />
+            android:background="@mipmap/save" />
 
         <TextView
             android:layout_width="wrap_content"
