@@ -82,8 +82,9 @@ public class ChildWarehousePresenter implements ChildWarehouseContract.IChildWar
 
         BigDecimal totalAmount = null;
         for(int i = 0; i < list.size(); i++){
-            BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal("" + list.get(i).getPrice(), 2);
-            BigDecimal multiply = bigDecimal.multiply(BigDecimalUtils.getBigDecimal(String.valueOf(list.get(i).getQty()), 2));
+//            BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal("" + list.get(i).getPrice(), 2);
+//            BigDecimal multiply = bigDecimal.multiply(BigDecimalUtils.getBigDecimal(String.valueOf(list.get(i).getQty()), 2));
+            BigDecimal multiply = BigDecimalUtils.getBigDecimal("" + (list.get(i).getPrice() * list.get(i).getQty()), 2);
             if(totalAmount != null){
                 totalAmount = totalAmount.add(multiply);
             }else {
