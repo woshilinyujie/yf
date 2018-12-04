@@ -478,11 +478,11 @@ public class PrintActivity extends BluetoothActivity {
         public int getItemCount() {
             if(mArr == null){
                 return 0;
-            }else if(mArr.size() < 3){
-                return mArr.size();
-            }else{
+            }/*else if(mArr.size() < 3){*/
+            return mArr.size();
+            /*}else{
                 return 2;
-            }
+            }*/
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

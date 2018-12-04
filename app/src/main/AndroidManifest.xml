@@ -102,8 +102,8 @@
         <service android:name="jh.zkj.com.yf.Mutils.print.BtServiceOne"/>
         <activity android:name=".Activity.System.SystemActivity"/>
         <activity android:name=".Activity.My.ForgetCrmPasswordActivity"/>
-        <activity android:name=".Activity.Order.FindSerialNoActivity">
-        </activity>
+        <activity android:name=".Activity.Order.FindSerialNoActivity"/>
+        <activity android:name=".Activity.Insurance.InsListActivity"/>
     </application>
 
 </manifest>
