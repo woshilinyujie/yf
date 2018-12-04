@@ -17,5 +17,21 @@ public class InsuranceListPresenter {
 
     public InsuranceListPresenter(InsListActivity activity){
         this.activity = activity;
+        initView();
+        initData();
+        initListener();
+
+    }
+
+    private void initView() {
+
+    }
+
+    private void initData() {
+
+    }
+
+    private void initListener() {
+
     }
 }
