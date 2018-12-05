@@ -85,27 +85,25 @@ public class MyOrderPresenter implements MyOrderContract.IMyRetailFindPresenter 
         fragments.add(allRetail);
         fragments.add(receivables);
         fragments.add(unReceivables);
-        if (activity != null) {
-            viewPager.setAdapter(new FragmentPagerAdapter(
-                    activity.getSupportFragmentManager()) {
-                @Override
-                public Fragment getItem(int position) {
-                    return fragments.get(position);
-                }
+        viewPager.setAdapter(new FragmentPagerAdapter(
+                activity.getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
 
-                @Override
-                public int getCount() {
-                    return fragments.size();
-                }
+            @Override
+            public int getCount() {
+                return fragments.size();
+            }
 
-                @Override
-                public CharSequence getPageTitle(int position) {
-                    return titles[position];
-                }
-            });
-            //绑定 vp
-            activity.getSlidingTab().setViewPager(activity.getViewPager());
-        }
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles[position];
+            }
+        });
+        //绑定 vp
+        activity.getSlidingTab().setViewPager(activity.getViewPager());
 
     }
 
