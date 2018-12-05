@@ -84,6 +84,7 @@ public class SelectCommodityPresenter implements SelectCommodityContract.ISelect
     }
 
     private void initData() {
+        activity.getSearch().setHint("商品分类/品牌/型号/商品名称");
         activity.getEmpty().setContent("没有找到相关信息");
         Intent intent = activity.getIntent();
         if(intent.getSerializableExtra(OrderConfig.TYPE_STRING_ORDER_COMMODITY) != null){
