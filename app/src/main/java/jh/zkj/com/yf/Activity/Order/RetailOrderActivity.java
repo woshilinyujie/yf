@@ -27,7 +27,9 @@ import jh.zkj.com.yf.R;
  * use 下单
  */
 
-public class RetailOrderActivity extends MBaseActivity implements RetailOrderContract.IRetailOrderView {
+public class
+
+RetailOrderActivity extends MBaseActivity implements RetailOrderContract.IRetailOrderView {
 
     //业务员名
     @BindView(R.id.retail_user_salesman)
@@ -82,7 +84,7 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
 
 
     @OnClick({R.id.retail_order_title, R.id.retail_order_receivable, R.id.retail_order_success
-            , R.id.retail_order_add_commodity, R.id.retail_user_salesman_add_layout
+            , R.id.retail_order_add_commodity, R.id.retail_user_salesman_layout
             , R.id.retail_order_select_client, R.id.retail_company_layout
             , R.id.retail_order_serial_no_layout, R.id.retail_order_find_serial_no})
     public void onViewClicked(View view) {
@@ -99,7 +101,7 @@ public class RetailOrderActivity extends MBaseActivity implements RetailOrderCon
             case R.id.retail_order_add_commodity:
                 presenter.startSelectCommodityActivity();
                 break;
-            case R.id.retail_user_salesman_add_layout:
+            case R.id.retail_user_salesman_layout:
                 presenter.startSelectSalesmanActivity();
                 break;
             case R.id.retail_order_select_client:

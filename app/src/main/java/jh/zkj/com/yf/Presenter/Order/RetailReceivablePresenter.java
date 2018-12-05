@@ -154,7 +154,7 @@ public class RetailReceivablePresenter implements RetailReceivableContract.IReta
                         int size = modeList.size();
                         for (int i = 0 ; i < size; i++){
                             for (int j = 0 ; j < modeList.size(); j++){
-                                if(Double.valueOf(modeList.get(j).getAmount()) == 0){
+                                if(!"现金".equals(modeList.get(j).getCashierTypeName()) && Double.valueOf(modeList.get(j).getAmount()) == 0){
                                     modeList.remove(j);
                                     break;
                                 }

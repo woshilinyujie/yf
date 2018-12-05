@@ -65,7 +65,12 @@ public class ReceivableDetailPresenter implements ReceivableDetailContract.IRece
     }
 
     private void initListener() {
-
+        activity.getTitleLayout().getLeftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
     }
 
 

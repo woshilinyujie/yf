@@ -122,6 +122,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
     }
 
     private void initHistory() {
+        adapter.clearData();
         String historyText = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_HISTORY, "");
         ArrayList<String> arr = (ArrayList<String>) JSONObject.parseArray(historyText, String.class);
         history.removeAllViews();
@@ -219,6 +220,13 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 //回车键
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchText = fragment.getSearch().getText().toString();
+                    if(TextUtils.isEmpty(searchText)){
+                        historyLayout.setVisibility(View.VISIBLE);
+                        initHistory();
+                        refresh.setEnableLoadmore(false);
+                        refresh.setEnableRefresh(false);
+                        return true;
+                    }
                     pageNum = 1;
                     putSearchSP(searchText);
                     getSerialNoList(searchText
@@ -427,11 +435,16 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
 
         //后期传入刷新
         public void notifyData(ArrayList<SerialNoBean.ContentBean> arr) {
+            mArr.clear();
             if (arr != null) {
-                mArr.clear();
                 mArr.addAll(arr);
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
+        }
+
+        public void clearData() {
+            mArr.clear();
+            notifyDataSetChanged();
         }
 
         @Override
@@ -462,8 +475,8 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                 holder.purchasePrice.setText("采购价：" + BigDecimalUtils.fmtMicrometer(item.getStock_price()));
                 holder.costPrice.setText("总成本：" + BigDecimalUtils.fmtMicrometer(item.getStock_cost()));
 
-                holder.totalLibraryAge.setText("总库龄：" + item.getCurrent_stock_age());
-                holder.nowLibraryAge.setText("当前库龄：" + item.getStock_age());
+                holder.totalLibraryAge.setText("总库龄：" + item.getStock_age());
+                holder.nowLibraryAge.setText("当前库龄：" + item.getCurrent_stock_age());
                 holder.transcendLibraryAge.setText(Html.fromHtml("超库龄天数：<font color='#ff6600'>" + item.getExceed_stock_age() + "</font>"));
 
                 holder.orderBtn.setOnClickListener(new View.OnClickListener() {

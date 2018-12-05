@@ -205,6 +205,7 @@
                 android:background="@color/c_f6f7fb"/>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/retail_user_salesman_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/dp_16"

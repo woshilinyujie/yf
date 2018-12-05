@@ -54,4 +54,8 @@ public class HarvestModeActivity extends MBaseActivity implements HarvestModeCon
     public TextView getTitleRightView() {
         return title.getRightText();
     }
+
+    public TitleLayout getTitleLayout() {
+        return title;
+    }
 }

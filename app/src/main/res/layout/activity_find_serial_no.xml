@@ -59,8 +59,7 @@
                 android:includeFontPadding="false"
                 android:singleLine="true"
                 android:textColor="@color/c_a6a6a6"
-                android:textSize="@dimen/sp_12"
-                android:inputType="number"/>
+                android:textSize="@dimen/sp_12"/>
 
         </RelativeLayout>
 
