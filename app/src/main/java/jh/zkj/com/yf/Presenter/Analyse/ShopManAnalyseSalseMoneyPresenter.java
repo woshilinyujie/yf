@@ -141,8 +141,8 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
         ArrayList<Entry> yValues = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
-            yValues.add(new Entry(i, value));
-            countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
+            yValues.add(new Entry(i, Float.parseFloat(df.format(value))));
+            countAll =(countAll + bean.getData().get(i).getTarget_data());
         }
         fragment.setShopManSalesMoneyAll("总销售额：" + df.format(countAll));
         // y轴的数据集合

@@ -144,8 +144,8 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
         ArrayList<Entry> yValues = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
-            yValues.add(new Entry(i, value));
-            countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
+            yValues.add(new Entry(i, Float.parseFloat(df.format(value))));
+            countAll = (countAll + bean.getData().get(i).getTarget_data());
         }
         fragment.setSalesMoneyAllTx("总销售额："+df.format(countAll));
 

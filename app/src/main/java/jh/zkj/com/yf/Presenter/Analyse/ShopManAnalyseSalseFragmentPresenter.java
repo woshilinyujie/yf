@@ -151,10 +151,10 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
         ArrayList<Entry> yValues = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
-            yValues.add(new Entry(i, value));
-            countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
+            yValues.add(new Entry(i, Float.parseFloat(df.format(value))));
+            countAll = (countAll + bean.getData().get(i).getTarget_data());
         }
-        fragment.setShopManSalesAll("总销量：" + countAll);
+        fragment.setShopManSalesAll("总销量：" + df.format(countAll));
         // y轴的数据集合
         LineDataSet lineDataSet = new LineDataSet(yValues, "");
         //用y轴的集合来设置参数
@@ -337,7 +337,7 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
             }else{
                 companyName=bean.getData().get(x).getName();
             }
-            entries.add(new PieEntry(Float.valueOf(integer),  (bean.getData().get(x).getTarget_data()) + "，" + df.format((bean.getData().get(x).getTarget_data() / count) * 100) + "%/s" + companyName + "/s" +
+            entries.add(new PieEntry(Float.valueOf(integer),  df.format(bean.getData().get(x).getTarget_data()) + "，" + df.format((bean.getData().get(x).getTarget_data() / count) * 100) + "%/s" + companyName + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 2)
                     , x + ""));
@@ -401,7 +401,7 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
                 id.setText(position + 1 + "");
                 company.setText(dataBean.getName());
-                sales.setText( (dataBean.getTarget_data()) + "");
+                sales.setText( df.format(dataBean.getTarget_data()) + "");
             } else {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item2, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
@@ -409,7 +409,7 @@ public class ShopManAnalyseSalseFragmentPresenter implements ShopManAnalyseSalse
                 TextView sales = convertView.findViewById(R.id.shop_analyse_sales_item1_sales);
                 id.setText(position + 1 + "");
                 company.setText(dataBean.getName());
-                sales.setText((dataBean.getTarget_data()) + "");
+                sales.setText(df.format(dataBean.getTarget_data()) + "");
             }
             return convertView;
         }
