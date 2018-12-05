@@ -144,8 +144,8 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
         ArrayList<Entry> yValues = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
             float value = (float) bean.getData().get(i).getTarget_data();
-            yValues.add(new Entry(i, value));
-            countAll = (int) (countAll + bean.getData().get(i).getTarget_data());
+            yValues.add(new Entry(i, Float.parseFloat(df.format(value))));
+            countAll = (countAll + bean.getData().get(i).getTarget_data());
         }
         fragment.setSalesMoneyAllTx("总销售额："+df.format(countAll));
 
@@ -293,8 +293,12 @@ public class ShopAnalyseSalseMoneyFragmentPresenter implements ShopAnalyseMoneyF
 
         if (DpUtils.getScreenWith(context) > 1100) {
             legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
-        } else {
+        } else if(DpUtils.getScreenWith(context) > 730){
             legend.setXOffset((float) (DpUtils.getScreenWith(context)/4.7));
+        }else {
+            pieChart.setScaleX(0.8f);
+            pieChart.setScaleY(0.8f);
+            legend.setXOffset((float) (DpUtils.getScreenWith(context)/3));
         }
         legend.setTextSize(10);
         legend.setFormSize(15);
