@@ -184,11 +184,11 @@ public class ShopManAnalyseSalseMoneyPresenter implements ShopManAnalyseSalseMon
             h++;
         }
 
-        final Map<Integer, String> xMap = new HashMap<>();
-        for (int x = 0; x < bean.getData().size(); x++) {
-            valueArry[x] = bean.getData().get(x).getBiz_date();
-        }
 
+        final Map<Integer, String> xMap = new HashMap<>();
+        for (int i = 0; i < yValues.size(); i++) {
+            xMap.put((int) yValues.get(i).getX(), valueArry[i].replaceAll("-", "."));
+        }
         //x轴数据格式化
         xl.setValueFormatter(new IAxisValueFormatter() {
             @Override
