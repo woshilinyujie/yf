@@ -107,6 +107,7 @@
 
     </RelativeLayout>
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/my_account_insurance"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"

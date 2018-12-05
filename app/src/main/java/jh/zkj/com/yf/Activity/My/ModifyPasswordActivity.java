@@ -25,8 +25,7 @@ import jh.zkj.com.yf.R;
 
 public class ModifyPasswordActivity extends MBaseActivity {
 
-    @BindView(R.id.phone_black)
-    TitleLayout phoneBlack;
+
     @BindView(R.id.modify_old_password)
     EditText modifyOldPassword;
     @BindView(R.id.modify_new_password_one)
@@ -35,6 +34,8 @@ public class ModifyPasswordActivity extends MBaseActivity {
     EditText modifyNewPasswordTwo;
     @BindView(R.id.modify_sure)
     Button modifySure;
+    @BindView(R.id.title)
+    TitleLayout title;
     private MyAPI myAPI;
 
     @Override
@@ -47,6 +48,12 @@ public class ModifyPasswordActivity extends MBaseActivity {
     }
 
     private void setListener(EditText view) {
+        title.getLeftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         view.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -85,8 +92,8 @@ public class ModifyPasswordActivity extends MBaseActivity {
             myAPI.modifyPassword(this, modifyOldPassword.getText().toString(), modifyNewPasswordOne.getText().toString(), new MyAPI.IResultMsg<ModifyPasswordBean>() {
                 @Override
                 public void Result(ModifyPasswordBean bean) {
-                    PrefUtils.putString(ModifyPasswordActivity.this,"erp_token","");
-                    final MDialog dialog=new MDialog(ModifyPasswordActivity.this);
+                    PrefUtils.putString(ModifyPasswordActivity.this, "erp_token", "");
+                    final MDialog dialog = new MDialog(ModifyPasswordActivity.this);
                     dialog.show();
                     dialog.setMsgS("修改密码成功，请重新登录");
                     dialog.setSureS("确定");
@@ -94,7 +101,7 @@ public class ModifyPasswordActivity extends MBaseActivity {
                     dialog.getSure().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(ModifyPasswordActivity.this,LoginActivity.class));
+                            startActivity(new Intent(ModifyPasswordActivity.this, LoginActivity.class));
                             EventBus.getDefault().post("mainfinish");
                             dialog.dismiss();
                             finish();

@@ -10,6 +10,7 @@
 
 
     <jh.zkj.com.yf.Mview.TitleLayout
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
         app:leftImageBg="@mipmap/back_arrow"

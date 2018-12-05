@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.My.UserNameActivityContract;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.My.UserNameActivityPresenter;
 import jh.zkj.com.yf.R;
@@ -30,6 +31,8 @@ public class UserNameActivity extends MBaseActivity implements UserNameActivityC
     ImageView usernameDelete;
     @BindView(R.id.username_save)
     Button usernameSave;
+    @BindView(R.id.title)
+    TitleLayout title;
     private UserNameActivityPresenter presenter;
     private String name;
 
@@ -39,11 +42,17 @@ public class UserNameActivity extends MBaseActivity implements UserNameActivityC
         setContentView(R.layout.activity_user_name);
         ButterKnife.bind(this);
         name = getIntent().getStringExtra("name");
-        if(!TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)) {
             usernameName.setText(name);
             usernameName.setSelection(name.length());
         }
         presenter = new UserNameActivityPresenter(this);
+        title.getLeftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
