@@ -139,9 +139,9 @@ public class PrintOrderDataMaker implements PrintDataMaker {
             printer.setAlignLeft();
             printer.printLineFeed();
             printer.printLine();
-            printer.printLineFeed();
             if (bean.getBizSoOutCashierList() != null) {
                 for (int x = 0; x < bean.getBizSoOutCashierList().size(); x++) {
+                    printer.printLineFeed();
                     printer.print(bean.getBizSoOutCashierList().get(x).getCashierTypeName() + ": ");
                     double v = BigDecimalUtils.getBigDecimal(bean.getBizSoOutCashierList().get(x).getAmount(), 2).doubleValue();
                     printer.print(v + "");
