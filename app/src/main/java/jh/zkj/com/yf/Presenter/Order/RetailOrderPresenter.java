@@ -252,7 +252,11 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     boolean isHas = false;
                     if(orderBean.getComList() != null){
                         for (int i = 0 ; i < orderBean.getComList().size(); i++){
-                            if (bean.getSerialNo().equals(orderBean.getComList().get(i).getSerialNo())){
+                            String beanSerial = bean.getSerial01() + bean.getSerial02() + bean.getSerial03();
+                            String orderBeanSerial = orderBean.getComList().get(i).getSerial01()
+                                    + orderBean.getComList().get(i).getSerial02()
+                                    + orderBean.getComList().get(i).getSerial03();
+                            if (!TextUtils.isEmpty(beanSerial) && beanSerial.equals(orderBeanSerial)){
                                 MToast.makeText(activity, "此商品已选择，无需重新添加", MToast.LENGTH_SHORT).show();
                                 isHas = true;
                                 break;
@@ -301,7 +305,12 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
                     boolean isHas = false;
                     if(orderBean.getComList() != null){
                         for (int i = 0 ; i < orderBean.getComList().size(); i++){
-                            if (bean.getSerialNo().equals(orderBean.getComList().get(i).getSerialNo())){
+
+                            String beanSerial = bean.getSerial01() + bean.getSerial02() + bean.getSerial03();
+                            String orderBeanSerial = orderBean.getComList().get(i).getSerial01()
+                                    + orderBean.getComList().get(i).getSerial02()
+                                    + orderBean.getComList().get(i).getSerial03();
+                            if (!TextUtils.isEmpty(beanSerial) && beanSerial.equals(orderBeanSerial)){
                                 MToast.makeText(activity, "此商品已选择，无需重新添加", MToast.LENGTH_SHORT).show();
                                 isHas = true;
                                 break;

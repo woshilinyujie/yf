@@ -32,8 +32,12 @@ public class CommodityInfoBean implements Serializable{
     private String stockAge;
     private String warehouseUuid;
     private String warehouseName;
-    //串号
+    //展示用串号
     private String serialNo;
+    //串号
+    private String serial01;
+    private String serial02;
+    private String serial03;
     //入库时间
     private String firstInTime;
     private String currentStockAge;
@@ -188,5 +192,29 @@ public class CommodityInfoBean implements Serializable{
 
     public void setSerialUuid(String serialUuid) {
         this.serialUuid = serialUuid;
+    }
+
+    public String getSerial01() {
+        return serial01;
+    }
+
+    public void setSerial01(String serial01) {
+        this.serial01 = serial01;
+    }
+
+    public String getSerial02() {
+        return serial02;
+    }
+
+    public void setSerial02(String serial02) {
+        this.serial02 = serial02;
+    }
+
+    public String getSerial03() {
+        return serial03;
+    }
+
+    public void setSerial03(String serial03) {
+        this.serial03 = serial03;
     }
 }

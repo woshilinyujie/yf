@@ -272,6 +272,8 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
      * 使用：
      */
     class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+        //0是搜索  1是详情
+        private int typeStatus = 0;
 
         private ArrayList<SerialNoTrackBean.DetailsBean> mArr = new ArrayList<>();
 
@@ -286,8 +288,14 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_number_track, parent, false);
-            return new ViewHolder(view);
+            if(typeStatus == 0){
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_number_track, parent, false);
+                return new ViewHolder(view);
+            }else{
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_number_track, parent, false);
+                return new ViewHolder(view);
+            }
+
         }
 
         public SerialNoTrackBean.DetailsBean getItem(int position) {
