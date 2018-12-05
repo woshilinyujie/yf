@@ -80,9 +80,9 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
         EventBus.getDefault().register(this);
     }
 
-    @OnClick({R.id.enterprise_name_img, R.id.enterprise_add,R.id.enterprise_head_img,R.id.enterprise_exit})
-    public void onViewClicked(View view){
-        switch (view.getId()){
+    @OnClick({R.id.enterprise_name_img, R.id.enterprise_add, R.id.enterprise_head_img, R.id.enterprise_exit})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.enterprise_name_img:
                 presenter.showRenameDialog();
                 break;
@@ -102,31 +102,31 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
         return headImg;
     }
 
-    public void setUserName(String s){
+    public void setUserName(String s) {
         name.setText(s);
     }
 
-    public void setPhone(String s){
+    public void setPhone(String s) {
         phone.setText(s);
     }
 
-    public void setEmptyText(CharSequence s){
+    public void setEmptyText(CharSequence s) {
         emptyText.setText(s);
     }
 
-    public void setEmptyDisplay(int visibility){
+    public void setEmptyDisplay(int visibility) {
         empty.setVisibility(visibility);
     }
 
-    public void setRecyclerDisplay(int visibility){
+    public void setRecyclerDisplay(int visibility) {
         recyclerLayout.setVisibility(visibility);
     }
 
-    public RecyclerView getRecycler(){
+    public RecyclerView getRecycler() {
         return recycler;
     }
 
-    public TwinklingRefreshLayout getRefresh(){
+    public TwinklingRefreshLayout getRefresh() {
         return refresh;
     }
 
@@ -141,8 +141,8 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
     }
 
     @Override
-    public void takeSuccess(TResult result,View view) {//选择照片成功回调
-        super.takeSuccess(result,view);
+    public void takeSuccess(TResult result, View view) {//选择照片成功回调
+        super.takeSuccess(result, view);
         String iconPath = result.getImage().getCompressPath();//照片存储地址
         presenter.upFile(iconPath);
     }
@@ -173,6 +173,7 @@ public class EnterpriseActivity extends PhotoActivity implements EnterpriseContr
         super.onActivityResult(requestCode, resultCode, data);
         presenter.onActivityResult(requestCode, resultCode, data);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventBus(String s) {
         if (s.equals("EnterpriseActivityFinish")) {

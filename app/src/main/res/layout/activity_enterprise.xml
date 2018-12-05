@@ -37,7 +37,7 @@
                 android:id="@+id/enterprise_head_img"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
-               />
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
             android:gravity="center"
             android:orientation="vertical"
             android:layout_marginTop="@dimen/dp_160">
-            
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
