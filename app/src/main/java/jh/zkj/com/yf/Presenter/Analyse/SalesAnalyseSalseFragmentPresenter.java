@@ -195,8 +195,12 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
         Legend legend = pieChart.getLegend();
         if (DpUtils.getScreenWith(context) > 1100) {
             legend.setXOffset(DpUtils.dip2px(fragment.getActivity(), 55));
-        } else {
+        } else if(DpUtils.getScreenWith(context) > 730){
             legend.setXOffset((float) (DpUtils.getScreenWith(context)/4.7));
+        }else {
+            pieChart.setScaleX(0.8f);
+            pieChart.setScaleY(0.8f);
+            legend.setXOffset((float) (DpUtils.getScreenWith(context)/3));
         }
         legend.setTextSize(10);
         legend.setFormSize(15);
@@ -231,7 +235,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
             }else{
                 companyName=bean.getData().get(x).getName();
             }
-            entries.add(new PieEntry(Float.valueOf(integer), (int)(bean.getData().get(x).getTarget_data())+"，"+df.format((bean.getData().get(x).getTarget_data()/count)*100)+"%/s" +companyName+ "/s" +
+            entries.add(new PieEntry(Float.valueOf(integer), df.format(bean.getData().get(x).getTarget_data())+"，"+df.format((bean.getData().get(x).getTarget_data()/count)*100)+"%/s" +companyName+ "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 18) + "/s" +
                     DpUtils.dip2px(fragment.getActivity(), 2)
                     , x+""));
@@ -299,7 +303,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
                 inspect = convertView.findViewById(R.id.shop_analyse_sales_item3_inspect);
                 id.setText(position+1 + "");
                 company.setText(dataBean.getName());
-                sales.setText((int)(dataBean.getTarget_data())+"");
+                sales.setText(df.format(dataBean.getTarget_data())+"");
             } else {
                 convertView = View.inflate(fragment.getActivity(), R.layout.shop_analyse_salse_item4, null);
                 TextView id = convertView.findViewById(R.id.shop_analyse_sales_item1_id);
@@ -308,7 +312,7 @@ public class SalesAnalyseSalseFragmentPresenter implements SalesAnalyseSalseFrag
                 inspect = convertView.findViewById(R.id.shop_analyse_sales_item3_inspect);
                 id.setText(position+1 + "");
                 company.setText(dataBean.getName());
-                sales.setText((int)(dataBean.getTarget_data())+"");
+                sales.setText(df.format(dataBean.getTarget_data())+"");
             }
             inspect.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -42,7 +42,7 @@ public class EntExamineActivity extends MBaseActivity implements EntExamineContr
     @OnClick({R.id.enterprise_examine_back})
     public void onViewClicked(View view) {
         if(view.getId() == R.id.enterprise_examine_back){
-
+            finish();
         }
     }
 

@@ -763,7 +763,7 @@ public class MyAPI {
         ModifyCRMNameUpBean bean = new ModifyCRMNameUpBean();
         bean.setName(name);
         String s = GsonUtils.GsonString(bean);
-        OkGo.<String>post(API + ":3001/crm/stdUser/set/userinfo").tag(context)
+        OkGo.<String>post(API + ":3001/crm/stdUser/set/userInfo").tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .headers("Content-Type", "application/json")
                 .upJson(s)
