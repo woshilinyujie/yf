@@ -470,6 +470,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="输入序列号"
+                        android:textColor="@color/c_6fb1fc"
                         android:includeFontPadding="false"
                         android:textSize="@dimen/sp_14"/>
 
@@ -493,6 +494,7 @@
                             android:text="扫序列号"
                             android:includeFontPadding="false"
                             android:textSize="@dimen/sp_14"
+                            android:textColor="@color/c_6fb1fc"
                             android:layout_centerInParent="true"/>
                     </LinearLayout>
                 </LinearLayout>

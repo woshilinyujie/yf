@@ -177,8 +177,10 @@ public class SelectSalesmanPresenter implements SelectSalesmanContract.ISelectSa
             final SalesmanBean.RecordsBean item = getItem(position);
             holder.name.setText(item.getName());
             if(item.isSelect()){
+                holder.name.setTextColor(0xff6fb1fc);
                 holder.selectImg.setImageBitmap(select);
             }else{
+                holder.name.setTextColor(0xff333333);
                 holder.selectImg.setImageBitmap(unSelect);
             }
 
