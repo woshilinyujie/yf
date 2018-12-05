@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_6"
+        android:paddingTop="@dimen/dp_6"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/ins_order_list_back"
+            android:layout_width="@dimen/dp_12"
+            android:layout_height="@dimen/dp_19"
+            android:src="@mipmap/back_arrow"
+            android:layout_centerVertical="true"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:background="@drawable/shape_radius_30_f2f2f2"
+            android:layout_toRightOf="@id/ins_order_list_back">
+
+            <ImageView
+                android:id="@+id/ins_order_list_search_img"
+                android:layout_width="@dimen/dp_10"
+                android:layout_height="@dimen/dp_10"
+                android:src="@mipmap/find"
+                android:layout_marginLeft="@dimen/dp_14"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/ins_order_list_clear_img"
+                android:layout_width="@dimen/dp_14"
+                android:layout_height="@dimen/dp_14"
+                android:src="@mipmap/clear_img"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+
+            <EditText
+                android:id="@+id/ins_order_list_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/sp_12"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:background="@null"
+                android:imeOptions="actionSearch"
+                android:hint="公司"
+                android:layout_toRightOf="@id/ins_order_list_search_img"
+                android:layout_toLeftOf="@id/ins_order_list_clear_img"
+                android:layout_marginRight="@dimen/dp_4"
+                android:layout_marginLeft="@dimen/dp_4"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout
+        android:id="@+id/ins_order_list_sliding_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36"
+        app:tl_indicator_color="@color/c_6fb1fc"
+        app:tl_indicator_height="1.5dp"
+        app:tl_indicator_width_equal_title="true"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/c_6fb1fc"
+        app:tl_textUnselectColor="@color/c_333333"
+        app:tl_textsize="16sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_height="1dp"
+        android:background="@color/white"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/ins_order_list_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

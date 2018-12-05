@@ -286,9 +286,9 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
                 holder.price.setText(BigDecimalUtils.fmtMicrometer(price.toString()));
 
-                holder.commodityNum.setText(String.valueOf(item.getNum()));
+                holder.commodityNum.setText(String.valueOf(item.getQty()));
 
-                BigDecimal totalPrice = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2).multiply(new BigDecimal(item.getNum()));
+                BigDecimal totalPrice = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2).multiply(new BigDecimal(item.getQty()));
 
                 holder.totalPrice.setText(BigDecimalUtils.fmtMicrometer(totalPrice.toString()));
             }
@@ -333,7 +333,6 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
     //查询详情
     public void getQueryOrder(String orderNum) {
 
-
         api.getQueryOrder("/" + orderNum, new OrderAPI.IResultMsg<OrderDetailsBean>() {
 
             @Override
@@ -346,7 +345,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
                     if(orderBean.getDetailDTOList() != null){
                         int count = 0;
                         for(OrderDetailsBean.DetailDTOListBean DTOBean : orderBean.getDetailDTOList()){
-                            count += DTOBean.getNum();
+                            count += DTOBean.getQty();
                         }
                         activity.setTotalNumText("" + count);
                         String totalPrice = BigDecimalUtils.fmtMicrometer(total);
