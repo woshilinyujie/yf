@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c_f6f7fb"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <jh.zkj.com.yf.Mview.TitleLayout
+        android:id="@+id/insurance_confirm_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white"
+        app:centerText="申请退款"
+        app:centerTextColor="@color/c_333333"
+        app:centerTextSize="@dimen/sp_17"
+        app:leftImageBg="@mipmap/back_arrow"
+        app:leftImageHeightSize="@dimen/dp_20"
+        app:leftImageWidthSize="@dimen/dp_12"
+        app:leftMargin="@dimen/dp_16" />
+    
+    
+    <ImageView
+        android:background="@mipmap/refund"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_67"
+        android:layout_width="@dimen/dp_65"
+        android:layout_height="@dimen/dp_65" />
+
+    <TextView
+        android:textSize="@dimen/sp_15"
+        android:layout_marginTop="@dimen/dp_37"
+        android:layout_gravity="center_horizontal"
+        android:text="退款申请已提交到保险公司"
+        android:textColor="@color/c_666666"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="@dimen/dp_2"
+        android:textSize="@dimen/sp_15"
+        android:layout_gravity="center_horizontal"
+        android:text="请关注后续退款状态"
+        android:textColor="@color/c_666666"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:background="@drawable/shape_radius_8_4987ff"
+        android:textColor="@color/white"
+        android:text="返回"
+        android:textSize="@dimen/sp_16"
+        android:layout_marginLeft="@dimen/dp_44"
+        android:layout_marginRight="@dimen/dp_44"
+        android:layout_marginTop="@dimen/dp_21"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44" />
+
+</LinearLayout>
