@@ -101,6 +101,13 @@ public class HarvestModePresenter implements HarvestModeContract.IHarvestModePre
                 activity.finish();
             }
         });
+
+        activity.getTitleLayout().getLeftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
     }
 
     private void refreshTopItem() {

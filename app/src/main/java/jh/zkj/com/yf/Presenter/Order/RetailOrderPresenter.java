@@ -690,11 +690,11 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             return;
         }
 
-        if (TextUtils.isEmpty(activity.getClientName().getText().toString().trim())
-                || TextUtils.isEmpty(activity.getClientPhone().getText().toString().trim())) {
-            MToast.makeText(activity, "请填写客户信息", MToast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (TextUtils.isEmpty(activity.getClientName().getText().toString().trim())
+//                || TextUtils.isEmpty(activity.getClientPhone().getText().toString().trim())) {
+//            MToast.makeText(activity, "请填写客户信息", MToast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         if (comList == null || comList.size() <= 0) {
             MToast.makeText(activity, "请选商品", MToast.LENGTH_SHORT).show();
@@ -725,7 +725,7 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             CreateOrderBean.DetailListBean listBean = createOrderBean.getNewDetailList().get(position);
             listBean.setSkuUuid(bean.getUuid());
             listBean.setQty(bean.getCount());
-            listBean.setNum(bean.getCount());
+            listBean.setNum(salesmanList.size());
 
             if (bean.getPrice().doubleValue() == -1) {
                 MToast.makeText(activity, "请输入商品单价", MToast.LENGTH_SHORT).show();

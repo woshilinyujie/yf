@@ -131,7 +131,7 @@ public class StockAPI {
                 .params("companyCode", companyCode)
                 .params("brandUuid", brandUuid)
                 .params("skuUuid", skuUuid)
-                .params("pageNum", pageNum)
+                .params("pageNumber", pageNum)
                 .params("pageSize", pageSize)
                 .params("warehouseUuid", warehouseUuid)
                 .execute(new StringCallback() {

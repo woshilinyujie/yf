@@ -19,6 +19,8 @@ public class ReceivableDetailActivity extends MBaseActivity implements Receivabl
     RecyclerView recycler;
     @BindView(R.id.receivable_detail_remake)
     TextView remake;
+    @BindView(R.id.receivable_detail_title)
+    TitleLayout titleLayout;
     private ReceivableDetailPresenter presenter;
 
     @Override
@@ -35,5 +37,9 @@ public class ReceivableDetailActivity extends MBaseActivity implements Receivabl
 
     public RecyclerView getRecycler() {
         return recycler;
+    }
+
+    public TitleLayout getTitleLayout() {
+        return titleLayout;
     }
 }

@@ -103,7 +103,12 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                 //回车键
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String searchText = fragment.getSearch().getText().toString();
-
+                    if (TextUtils.isEmpty(searchText)) {
+                        fragment.getTitleLayout().setVisibility(View.GONE);
+                        historyLayout.setVisibility(View.VISIBLE);
+                        initHistory();
+                        return true;
+                    }
                     putSearchSP(searchText);
                     getSerialNoTrack(searchText);
                 }

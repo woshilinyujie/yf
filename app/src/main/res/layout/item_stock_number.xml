@@ -46,16 +46,6 @@
             android:layout_marginTop="@dimen/dp_9"/>
 
         <TextView
-            android:id="@+id/stock_number_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Apple iPhone 6s 128G灰"
-            app:layout_constraintTop_toTopOf="@id/stock_number_line"
-            android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/dp_14"
-            android:textColor="@color/c_333333"/>
-
-        <TextView
             android:id="@+id/stock_number_order_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,6 +61,19 @@
             android:background="@drawable/shape_stroke_4fa3fb_radius_30"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/stock_number_line"/>
+
+        <TextView
+            android:id="@+id/stock_number_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Apple iPhone 6s 128G灰"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/dp_14"
+            android:textColor="@color/c_333333"
+            android:layout_marginRight="@dimen/dp_10"
+            app:layout_constraintTop_toTopOf="@id/stock_number_line"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/stock_number_order_btn"/>
 
         <LinearLayout
             android:id="@+id/stock_number_money_layout"

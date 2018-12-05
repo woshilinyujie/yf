@@ -104,8 +104,11 @@ public class SerialNoBean implements Serializable{
 
         private String warehouse_name;
         private String sku_full_name;
+        //当前库龄
         private String current_stock_age;
+        //超库龄天数
         private String exceed_stock_age;
+        //总库龄
         private String stock_age;
         private String stock_price;
         private String stock_cost;
