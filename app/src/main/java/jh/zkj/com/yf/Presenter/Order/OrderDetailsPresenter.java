@@ -289,7 +289,7 @@ public class OrderDetailsPresenter implements OrderDetailsContract.IRetailOrderP
 
                 holder.commodityNum.setText(String.valueOf((int)item.getQty()));
 
-                BigDecimal totalPrice = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2).multiply(new BigDecimal(item.getNum()));
+                BigDecimal totalPrice = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice() * item.getQty()), 2);
 
                 holder.totalPrice.setText(BigDecimalUtils.fmtMicrometer(totalPrice.toString()));
             }
