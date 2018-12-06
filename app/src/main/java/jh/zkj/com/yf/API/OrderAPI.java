@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.GetRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -560,19 +561,23 @@ public class OrderAPI {
 
     }
 
-    public void getSerialInfoList(String companyUuid, String keywords, int page, int size, final OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>> iResultMsg) {
+    public void getSerialInfoList(String companyUuid, String keywords, int page, int size, boolean b
+            , final OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>> iResultMsg) {
         if(loadingDialog != null){
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SERIAL_SERIAL_INFO_LIST)
+        GetRequest<String> params = OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SERIAL_SERIAL_INFO_LIST)
                 .headers("Authorization", TOKEN)
                 .params("companyUuid", companyUuid)
                 .params("keyword", keywords)
                 .params("pageNum", page)
-                .params("pageSize", size)
-                .params("inStock", 1)
-                .execute(new StringCallback() {
+                .params("pageSize", size);
+        if(b){
+            params.params("inStock", 1);
+        }
+
+        params.execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         if(loadingDialog.isShowing()){

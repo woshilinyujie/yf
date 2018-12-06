@@ -388,7 +388,7 @@ public class PrintActivity extends BluetoothActivity {
             }
             if ("备注".equals(printStyles.get(i).getKey())) {
                 if(printStyles.get(i).isOpen()){
-                    intent.putExtra("remake", bean.getBizSoOutRemark());
+                    intent.putExtra("remake", bean.getRemark());
                 }
                 continue;
             }
@@ -523,7 +523,7 @@ public class PrintActivity extends BluetoothActivity {
                             String.valueOf(bean.getTotalAmount()), 2).doubleValue()));
                     salesman.setText("业务员：" + bean.getClerkName());
                     createName.setText("制单人：" + bean.getCreateUserName());
-                    remake.setText("备注：" + bean.getBizSoOutRemark());
+                    remake.setText("备注：" + bean.getRemark());
 
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
