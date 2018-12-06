@@ -12,6 +12,7 @@ import com.umeng.commonsdk.UMConfigure;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import cn.jpush.android.api.JPushInterface;
 import jh.zkj.com.yf.API.APIConstant;
 import jh.zkj.com.yf.API.HttpConstant;
 import jh.zkj.com.yf.BuildConfig;
@@ -34,6 +35,10 @@ public class MAppliction extends Application {
 
         UMConfigure.init(this,UMConfigure.DEVICE_TYPE_PHONE,"" );
 //        initX5();
+        ////////////////////////////Jpush初始配置 start////////////////////////////
+        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);            // 初始化 JPush
+        ////////////////////////////Jpush初始配置 end/////////////////////////////
     }
 
     public void initOkGo() {

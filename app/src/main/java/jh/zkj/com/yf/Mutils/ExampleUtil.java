@@ -1,4 +1,4 @@
-package com.example.jpushdemo;
+package jh.zkj.com.yf.Mutils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
