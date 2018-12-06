@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -182,6 +183,7 @@ public class CompanyFilesActivityPresenter implements CompanyFilesActivityContra
 
                     for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
                         String CityName = jsonBean.get(i).getCityList().get(c).getName();
+                        Log.e("城市",CityName);
                         CityList.add(CityName);//添加城市
                         ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
 
