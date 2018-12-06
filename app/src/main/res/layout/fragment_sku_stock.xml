@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/c_f6f7fb"
     android:orientation="vertical">
 
@@ -11,104 +11,93 @@
         android:id="@+id/sku_stock_title_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
+        android:paddingBottom="@dimen/dp_6"
         android:paddingLeft="@dimen/dp_16"
         android:paddingRight="@dimen/dp_16"
-        android:paddingBottom="@dimen/dp_6"
         android:paddingTop="@dimen/dp_6">
 
         <ImageView
             android:id="@+id/sku_stock_filter"
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_17"
-            android:src="@mipmap/filter"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:src="@mipmap/filter"
             android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/sku_stock_scan"
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
-            android:src="@mipmap/scan"
             android:layout_centerVertical="true"
+            android:src="@mipmap/scan"
             android:visibility="gone"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/dp_4"
             android:layout_marginLeft="@dimen/dp_4"
-            android:background="@drawable/shape_radius_30_ffffff"
+            android:layout_marginRight="@dimen/dp_4"
+            android:layout_toLeftOf="@id/sku_stock_filter"
             android:layout_toRightOf="@id/sku_stock_scan"
-            android:layout_toLeftOf="@id/sku_stock_filter">
+            android:background="@drawable/shape_radius_30_ffffff">
 
             <ImageView
                 android:id="@+id/sku_stock_search_img"
                 android:layout_width="@dimen/dp_10"
                 android:layout_height="@dimen/dp_10"
-                android:src="@mipmap/find"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_14"
-                android:layout_centerVertical="true"/>
+                android:src="@mipmap/find"/>
 
             <ImageView
                 android:id="@+id/sku_stock_clear_img"
                 android:layout_width="@dimen/dp_14"
                 android:layout_height="@dimen/dp_14"
-                android:src="@mipmap/clear_img"
-                android:layout_marginRight="@dimen/dp_12"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_marginRight="@dimen/dp_12"
+                android:src="@mipmap/clear_img"/>
 
             <EditText
                 android:id="@+id/sku_stock_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/sp_12"
+                android:layout_marginLeft="@dimen/dp_4"
+                android:layout_marginRight="@dimen/dp_4"
+                android:layout_toLeftOf="@id/sku_stock_clear_img"
+                android:layout_toRightOf="@id/sku_stock_search_img"
+                android:background="@null"
+                android:hint="仓库名称"
+                android:imeOptions="actionSearch"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:background="@null"
-                android:imeOptions="actionSearch"
-                android:hint="仓库名称"
-                android:layout_toRightOf="@id/sku_stock_search_img"
-                android:layout_toLeftOf="@id/sku_stock_clear_img"
-                android:layout_marginRight="@dimen/dp_4"
-                android:layout_marginLeft="@dimen/dp_4"/>
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/sp_12"/>
 
         </RelativeLayout>
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/sku_stock_msg_layout"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:background="@color/white">
 
-        <View
+        <!-- 放recycler或者多级listView -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sku_stock_recycler"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            app:layout_constraintTop_toBottomOf="@id/stock_msg_layout"/>
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
 
-        <RelativeLayout
+        <jh.zkj.com.yf.Mview.EmptyView
+            android:id="@+id/sku_stock_empty"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
-            <!-- 放recycler或者多级listView -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/sku_stock_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"/>
-
-            <jh.zkj.com.yf.Mview.EmptyView
-                android:id="@+id/sku_stock_empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
-        </RelativeLayout>
-
-
-    </LinearLayout>
 
 </LinearLayout>

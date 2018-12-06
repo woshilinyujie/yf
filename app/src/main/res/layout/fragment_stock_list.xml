@@ -80,6 +80,7 @@
                 android:singleLine="true"
                 android:background="@null"
                 android:layout_marginLeft="@dimen/dp_4"
+                android:textCursorDrawable="@null"
                 app:layout_constraintLeft_toRightOf="@id/stock_find_img"
                 app:layout_constraintRight_toLeftOf="@id/stock_clear_img"
                 app:layout_constraintTop_toTopOf="parent"

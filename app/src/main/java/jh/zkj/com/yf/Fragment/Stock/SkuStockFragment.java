@@ -42,8 +42,6 @@ public class SkuStockFragment extends MBaseFragment implements SkuStockContract.
     //扫码
     @BindView(R.id.sku_stock_scan)
     ImageView scan;
-    @BindView(R.id.sku_stock_msg_layout)
-    LinearLayout msgLayout;
     @BindView(R.id.sku_stock_title_layout)
     RelativeLayout titleLayout;
     @BindView(R.id.sku_stock_empty)
@@ -97,10 +95,6 @@ public class SkuStockFragment extends MBaseFragment implements SkuStockContract.
 
     public RecyclerView getRecyclerView() {
         return recycler;
-    }
-
-    public LinearLayout getMsgLayout() {
-        return msgLayout;
     }
 
     public View getMainView() {
