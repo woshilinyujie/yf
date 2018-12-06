@@ -13,6 +13,20 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <!-- ############################################################################### -->
+    <!-- ##########################友盟 start ############################### -->
+    <!-- ############################################################################### -->
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- ############################################################################### -->
+    <!-- ########################## 友盟 End ############################### -->
+    <!-- ############################################################################### -->
+
+
     <application
         android:name=".Appliction.MAppliction"
         android:allowBackup="true"
@@ -102,6 +116,14 @@
         <activity android:name=".Activity.My.ForgetCrmPasswordActivity" />
         <activity android:name=".Activity.Order.FindSerialNoActivity" />
         <activity android:name=".Activity.Insurance.InsListActivity" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5c08d645b465f5714500031e"></meta-data>
+        <!-- 友盟start -->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
     </application>
 
 </manifest>

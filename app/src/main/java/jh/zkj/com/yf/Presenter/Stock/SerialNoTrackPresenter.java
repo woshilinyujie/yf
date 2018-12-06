@@ -464,7 +464,6 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         });
     }
 
-0
     private void getSerialInfoList(String keywords, int page, int size) {
         String erp_json = PrefUtils.getString(activity, "erp_json", "");
         if(TextUtils.isEmpty(erp_json)){

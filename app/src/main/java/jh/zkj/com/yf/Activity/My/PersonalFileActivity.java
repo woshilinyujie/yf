@@ -70,6 +70,12 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         personalFilePresenter = new PersonalFilePresenter(this);
+        personalFileTitle.getLeftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @OnClick({R.id.personal_file_id_back_x, R.id.personal_file_id_front_x, R.id.personal_file_sex_man, R.id.personal_file_sex_woman, R.id.personal_file_address, R.id.personal_file_id_front, R.id.personal_file_id_back})

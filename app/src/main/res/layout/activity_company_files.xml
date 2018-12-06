@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_16"
-            android:text="公司名称"
+            android:text="企业名称"
             android:textColor="@color/c_333333"
             android:textSize="@dimen/sp_14" />
 

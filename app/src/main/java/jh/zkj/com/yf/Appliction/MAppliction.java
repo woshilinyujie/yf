@@ -7,6 +7,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.tencent.smtt.sdk.QbSdk;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -30,6 +31,8 @@ public class MAppliction extends Application {
     public void onCreate() {
         super.onCreate();
         initOkGo();
+
+        UMConfigure.init(this,UMConfigure.DEVICE_TYPE_PHONE,"" );
 //        initX5();
     }
 
@@ -60,6 +63,7 @@ public class MAppliction extends Application {
             APIConstant.API = APIConstant.HTTP_ON_LINE;
         }
     }
+
 
     //x5web 初始化
 //    public void initX5() {

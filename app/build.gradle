@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
+        flavorDimensions "versionCode"
         applicationId "jh.zkj.com.yf"
         minSdkVersion 15
         targetSdkVersion 26
@@ -10,13 +11,46 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk { abiFilters "armeabi" }
     }
+
+    //签名证书
+    signingConfigs {
+//        //debug证书
+//        debug{
+//            storeFile file('debug.keystore')
+//        }
+
+        signingconfig {
+            keyAlias 'jgj2018'
+            keyPassword 'jgj2018'
+            storeFile file('jgj2018.jks')
+            storePassword 'jgj2018'
+        }
+    }
+
+    //产品特性
+    productFlavors {
+        junguanjia {
+
+        }
+
+        //自动替换AndroidManifest中的渠道号
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    //方法没有超过65535却报错的解决方法
+    dexOptions {
+        jumboMode true
+    }
 }
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -47,4 +81,7 @@ dependencies {
     implementation files('libs/sun.misc.base64decoder 2.jar')
     compile 'ch.ielse:switchbutton:1.0.1'
     compile 'com.youth.banner:banner:1.4.10'
+    implementation files('libs/umeng-analytics-7.5.4.jar')
+    implementation files('libs/umeng-common-1.5.4.jar')
+    implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
 }

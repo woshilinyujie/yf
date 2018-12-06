@@ -21,6 +21,7 @@ import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Contract.MainContract;
+import jh.zkj.com.yf.Mutils.AppVersionUtils;
 import jh.zkj.com.yf.Mview.MainViewPager;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Presenter.MainPresenter;
@@ -100,7 +101,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
     }
 
     @Override
-    public ImageView getHomePageIv() {
+    public ImageView getHomePageIv()  {
         return mainActivityHomePage;
     }
 
