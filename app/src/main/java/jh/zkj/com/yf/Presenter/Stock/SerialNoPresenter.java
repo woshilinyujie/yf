@@ -229,6 +229,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
                     }
                     pageNum = 1;
                     putSearchSP(searchText);
+                    initHistory();
                     getSerialNoList(searchText
                             , filterBean.isEmptyClassifyBean() ? "" : filterBean.getClassifyBean().getUuid() //分类
                             , filterBean.isEmptyComBean() ? "" : filterBean.getComBean().getUuid() //公司

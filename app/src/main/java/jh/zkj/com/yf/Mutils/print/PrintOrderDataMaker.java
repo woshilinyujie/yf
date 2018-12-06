@@ -163,7 +163,7 @@ public class PrintOrderDataMaker implements PrintDataMaker {
             if (!TextUtils.isEmpty(intent.getStringExtra("remake"))) {
                 printer.setFontSize(0);
                 printer.setAlignLeft();
-                printer.print("备注：" + bean.getBizSoOutRemark());
+                printer.print("备注：" + bean.getRemark());
                 printer.printLineFeed();
             }
             if (!TextUtils.isEmpty(intent.getStringExtra("printtime"))) {

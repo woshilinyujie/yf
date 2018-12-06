@@ -99,8 +99,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         initHistory();
         initRecyclerAdapter();
 
-        String erp_json = PrefUtils.getString(activity, "erp_json", "");
-        myBean = JSON.parseObject(erp_json, MyBean.class);
+
         api = new StockAPI(activity);
         orderApi = new OrderAPI(activity);
     }
@@ -120,6 +119,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                         return true;
                     }
                     putSearchSP(searchText);
+                    initHistory();
                     getSerialInfoList(searchText, 1, 50);
                 }
                 return true;
@@ -131,11 +131,11 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
     private void initHistory() {
         String historyText = PrefUtils.getString(activity, StockConfig.TYPE_STRING_SERIAL_NO_TRACK_HISTORY, "");
         ArrayList<String> arr = (ArrayList<String>) JSONObject.parseArray(historyText, String.class);
+        history.removeAllViews();
         if (arr == null) {
             return;
         }
 
-        history.removeAllViews();
         WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
@@ -354,6 +354,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                     String price = BigDecimalUtils.fmtMicrometer(bigDecimal.toString());
                     holderView.price.setText("¥" + price);
                     holderView.dot.setImageResource(drawables[item.getColorType()]);
+                    holderView.comNmae.setText(item.getSku_full_name());
                     if(position == 0){
                         holderView.space.setVisibility(View.VISIBLE);
                     }else{
@@ -387,6 +388,8 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         class ViewHolder extends RecyclerView.ViewHolder {
             @BindView(R.id.number_track_date)
             TextView date;
+            @BindView(R.id.number_track_com_name)
+            TextView comNmae;
             @BindView(R.id.number_track_operating)
             TextView operating;
             @BindView(R.id.number_track_from)
@@ -444,7 +447,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                     }
                     fragment.getTitleLayout().setVisibility(View.VISIBLE);
                     fragment.setSerialNo("序列号：" + bean.getSerials());
-                    fragment.setSerialNoName("商品名称：" + bean.getSku_full_name());
+//                    fragment.setSerialNoName("商品名称：" + bean.getSku_full_name());
 
                     adapter.notifyData(bean.getDetails());
                 } else {
@@ -461,10 +464,14 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         });
     }
 
-
+0
     private void getSerialInfoList(String keywords, int page, int size) {
+        String erp_json = PrefUtils.getString(activity, "erp_json", "");
+        if(TextUtils.isEmpty(erp_json)){
+            myBean = JSON.parseObject(erp_json, MyBean.class);
+        }
         orderApi.getSerialInfoList(myBean == null ? "" : myBean.getData().getCompanyUuid()
-                , keywords, page, size, new OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>>() {
+                , keywords, page, size, false, new OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>>() {
             @Override
             public void Result(ArrayList<CommodityInfoBean> bean) {
                 if (bean != null && bean.size() > 0) {

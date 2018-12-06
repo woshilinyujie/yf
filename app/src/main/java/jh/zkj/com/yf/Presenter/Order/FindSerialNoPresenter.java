@@ -159,7 +159,7 @@ public class FindSerialNoPresenter {
 
     //**********************************************************************************************
     private void getSerialInfoList(String companyUuid, String keywords, int page, int size) {
-        api.getSerialInfoList(companyUuid, keywords, page, size, new OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>>() {
+        api.getSerialInfoList(companyUuid, keywords, page, size, false, new OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>>() {
             @Override
             public void Result(ArrayList<CommodityInfoBean> bean) {
                 if (bean != null) {

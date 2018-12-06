@@ -59,8 +59,8 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
     @BindView(R.id.serial_no_num)
     TextView serialNo;
     //商品名字
-    @BindView(R.id.serial_no_name)
-    TextView serialNoName;
+//    @BindView(R.id.serial_no_name)
+//    TextView serialNoName;
 
     private Unbinder bind;
     private SerialNoTrackPresenter presenter;
@@ -150,9 +150,9 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
         serialNo.setText(s);
     }
 
-    public void setSerialNoName(String s) {
-        serialNoName.setText(s);
-    }
+//    public void setSerialNoName(String s) {
+//        serialNoName.setText(s);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
