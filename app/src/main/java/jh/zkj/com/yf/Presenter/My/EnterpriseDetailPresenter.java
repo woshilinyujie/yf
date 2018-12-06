@@ -64,7 +64,7 @@ public class EnterpriseDetailPresenter {
             comList.add(new EnterpriseDetailBean("所在地区", crmComBean.getRegionFullName()));
             comList.add(new EnterpriseDetailBean("详细地址", crmComBean.getAddress()));
             comList.add(new EnterpriseDetailBean("法定代表人", crmComBean.getLegalPerson()));
-            comList.add(new EnterpriseDetailBean("联系人", crmComBean.getBusinessLicense()));
+            comList.add(new EnterpriseDetailBean("联系人", crmComBean.getContactPerson()));
             comList.add(new EnterpriseDetailBean("联系电话", crmComBean.getMobileNum()));
             comList.add(new EnterpriseDetailBean("邮编", crmComBean.getZipCode()));
 

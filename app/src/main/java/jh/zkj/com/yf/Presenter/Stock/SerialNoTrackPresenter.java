@@ -33,10 +33,14 @@ import jh.zkj.com.yf.API.AppConfig;
 import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.API.StockAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.ScanActivity;
 import jh.zkj.com.yf.Activity.Stock.FilterListActivity;
 import jh.zkj.com.yf.Activity.Stock.StockConfig;
 import jh.zkj.com.yf.Adapter.StockRecyclerAdapter;
+import jh.zkj.com.yf.Bean.CommodityBean;
+import jh.zkj.com.yf.Bean.CommodityInfoBean;
+import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Bean.SerialNoTrackBean;
 import jh.zkj.com.yf.Contract.Stock.SerialNoTrackContract;
 import jh.zkj.com.yf.Fragment.Stock.SerialNoTrackFragment;
@@ -44,6 +48,7 @@ import jh.zkj.com.yf.Mutils.BigDecimalUtils;
 import jh.zkj.com.yf.Mutils.DpUtils;
 import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mview.StockFilterPopup;
+import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.R;
 
 /**
@@ -63,11 +68,13 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
     //筛选popup
     private StockFilterPopup popup;
     private StockAPI api;
+    private OrderAPI orderApi;
     private LinearLayout historyLayout;
     private LinearLayout history;
     private int drawables[] = {R.mipmap.stock_dot_0, R.mipmap.stock_dot_1, R.mipmap.stock_dot_2
             , R.mipmap.stock_dot_3, R.mipmap.stock_dot_4, R.mipmap.stock_dot_5, R.mipmap.stock_dot_6
             , R.mipmap.stock_dot_7, R.mipmap.stock_dot_8, R.mipmap.stock_dot_9};
+    private MyBean myBean;
 
     public SerialNoTrackPresenter(SerialNoTrackFragment fragment) {
         this.fragment = fragment;
@@ -92,7 +99,10 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
         initHistory();
         initRecyclerAdapter();
 
+        String erp_json = PrefUtils.getString(activity, "erp_json", "");
+        myBean = JSON.parseObject(erp_json, MyBean.class);
         api = new StockAPI(activity);
+        orderApi = new OrderAPI(activity);
     }
 
     private void initListener() {
@@ -110,7 +120,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                         return true;
                     }
                     putSearchSP(searchText);
-                    getSerialNoTrack(searchText);
+                    getSerialInfoList(searchText, 1, 50);
                 }
                 return true;
             }
@@ -183,7 +193,7 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                 @Override
                 public void onClick(View v) {
                     String text = tv.getText().toString();
-                    getSerialNoTrack(text);
+                    getSerialInfoList(text, 1, 50);
                     fragment.getSearch().setText(text);
                     fragment.getSearch().setSelection(text.length());
                 }
@@ -271,11 +281,12 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
     /**
      * 使用：
      */
-    class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
-        //0是搜索  1是详情
+    class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        //0是详情  1是搜索
         private int typeStatus = 0;
 
         private ArrayList<SerialNoTrackBean.DetailsBean> mArr = new ArrayList<>();
+        private ArrayList<CommodityInfoBean> mComArr = new ArrayList<>();
 
         //后期传入刷新
         public void notifyData(ArrayList<SerialNoTrackBean.DetailsBean> arr) {
@@ -283,17 +294,27 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             if (arr != null) {
                 mArr.addAll(arr);
             }
+            typeStatus = 0;
+            notifyDataSetChanged();
+        }
+
+        public void notifyComData(ArrayList<CommodityInfoBean> arr) {
+            mComArr.clear();
+            if (arr != null) {
+                mComArr.addAll(arr);
+            }
+            typeStatus = 1;
             notifyDataSetChanged();
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if(typeStatus == 0){
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_number_track, parent, false);
                 return new ViewHolder(view);
             }else{
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_number_track, parent, false);
-                return new ViewHolder(view);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_find_serial_no, parent, false);
+                return new ComViewHolder(view);
             }
 
         }
@@ -305,36 +326,62 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
             return null;
         }
 
-        @Override
-        public int getItemViewType(int position) {
-            return super.getItemViewType(position);
+        public CommodityInfoBean getComItem(int position) {
+            if (mComArr != null && mComArr.size() > position) {
+                return mComArr.get(position);
+            }
+            return null;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            SerialNoTrackBean.DetailsBean item = getItem(position);
-            if (item != null) {
-                holder.date.setText(item.getBiz_date());
-                holder.from.setText("从：" + item.getSource());
-                holder.to.setText("到：" + item.getTarget());
-                holder.operating.setText(StockConfig.getBizType(item.getBiz_type()));
-                holder.billNo.setText("单据号：" + item.getBill_no());
-                holder.name.setText("制单人：" + item.getCreate_user_name());
-                BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2);
-                String price = BigDecimalUtils.fmtMicrometer(bigDecimal.toString());
-                holder.price.setText("¥" + price);
-                holder.dot.setImageResource(drawables[item.getColorType()]);
-                if(position == 0){
-                    holder.space.setVisibility(View.VISIBLE);
-                }else{
-                    holder.space.setVisibility(View.GONE);
+        public int getItemViewType(int position) {
+            return typeStatus;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if(getItemViewType(position) == 0){
+                SerialNoTrackBean.DetailsBean item = getItem(position);
+                ViewHolder holderView = (ViewHolder)holder;
+                if (item != null) {
+                    holderView.date.setText(item.getBiz_date());
+                    holderView.from.setText("从：" + item.getSource());
+                    holderView.to.setText("到：" + item.getTarget());
+                    holderView.operating.setText(StockConfig.getBizType(item.getBiz_type()));
+                    holderView.billNo.setText("单据号：" + item.getBill_no());
+                    holderView.name.setText("制单人：" + item.getCreate_user_name());
+                    BigDecimal bigDecimal = BigDecimalUtils.getBigDecimal(String.valueOf(item.getPrice()), 2);
+                    String price = BigDecimalUtils.fmtMicrometer(bigDecimal.toString());
+                    holderView.price.setText("¥" + price);
+                    holderView.dot.setImageResource(drawables[item.getColorType()]);
+                    if(position == 0){
+                        holderView.space.setVisibility(View.VISIBLE);
+                    }else{
+                        holderView.space.setVisibility(View.GONE);
+                    }
+                }
+            }else{
+                final CommodityInfoBean item = getComItem(position);
+                ComViewHolder holderView = (ComViewHolder)holder;
+                if (item != null) {
+                    holderView.serialOn.setText(item.getSerialNo());
+                    holderView.view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getSerialNoTrack(item.getSerialNo());
+                        }
+                    });
                 }
             }
         }
 
         @Override
         public int getItemCount() {
-            return mArr == null ? 0 : mArr.size();
+            if(typeStatus == 0){
+                return mArr == null ? 0 : mArr.size();
+            }else{
+                return mComArr == null ? 0 : mComArr.size();
+            }
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -365,6 +412,18 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                 view = itemView;
             }
         }
+
+        class ComViewHolder extends RecyclerView.ViewHolder {
+            @BindView(R.id.find_serial_on)
+            TextView serialOn;
+            private View view;
+
+            public ComViewHolder(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+                view = itemView;
+            }
+        }
     }
 
     //**********************************************************************************************
@@ -390,6 +449,28 @@ public class SerialNoTrackPresenter implements SerialNoTrackContract.ISerialNoTr
                     adapter.notifyData(bean.getDetails());
                 } else {
                     fragment.getTitleLayout().setVisibility(View.GONE);
+                    historyLayout.setVisibility(View.VISIBLE);
+                    initHistory();
+                }
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
+    }
+
+
+    private void getSerialInfoList(String keywords, int page, int size) {
+        orderApi.getSerialInfoList(myBean == null ? "" : myBean.getData().getCompanyUuid()
+                , keywords, page, size, new OrderAPI.IResultMsg<ArrayList<CommodityInfoBean>>() {
+            @Override
+            public void Result(ArrayList<CommodityInfoBean> bean) {
+                if (bean != null && bean.size() > 0) {
+                    historyLayout.setVisibility(View.GONE);
+                    adapter.notifyComData(bean);
+                }else{
                     historyLayout.setVisibility(View.VISIBLE);
                     initHistory();
                 }
