@@ -89,7 +89,7 @@ public class SerialNoTrackFragment extends MBaseFragment implements SerialNoTrac
             }
             //清空edittext
             case R.id.serial_no_track_clear_img: {
-                setSearchText("");
+                presenter.clearFindEt();
                 break;
             }
             //删除历史

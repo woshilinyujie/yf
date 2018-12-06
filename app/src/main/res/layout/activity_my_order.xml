@@ -41,6 +41,7 @@
             android:lines="1"
             android:ellipsize="end"
             android:imeOptions="actionSearch"
+            android:textCursorDrawable="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/my_order_back"
             app:layout_constraintRight_toRightOf="parent"

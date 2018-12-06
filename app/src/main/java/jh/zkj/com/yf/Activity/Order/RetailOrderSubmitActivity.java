@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jh.zkj.com.yf.Activity.MBaseActivity;
 import jh.zkj.com.yf.Contract.Order.RetailOrderSubmitContract;
+import jh.zkj.com.yf.Mview.TitleLayout;
 import jh.zkj.com.yf.Presenter.Order.RetailOrderSubmitPresenter;
 import jh.zkj.com.yf.R;
 
@@ -27,6 +28,8 @@ public class RetailOrderSubmitActivity extends MBaseActivity implements RetailOr
     TextView again;
     @BindView(R.id.order_submit_details)
     TextView details;
+    @BindView(R.id.order_submit_title)
+    TitleLayout titleLayout;
     private RetailOrderSubmitPresenter presenter;
 
     @Override
@@ -50,6 +53,10 @@ public class RetailOrderSubmitActivity extends MBaseActivity implements RetailOr
             }
 
         }
+    }
+
+    public TitleLayout getTitleLayout() {
+        return titleLayout;
     }
 
     @Override

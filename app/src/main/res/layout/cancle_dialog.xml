@@ -15,7 +15,7 @@
             android:lineSpacingExtra="@dimen/dp_3"
             android:id="@+id/cancle_dialog_msg"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_87"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/dp_56"
             android:layout_marginRight="@dimen/dp_56"

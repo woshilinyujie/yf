@@ -3,6 +3,7 @@ package jh.zkj.com.yf.Presenter.Order;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.OrderDetailsActivity;
@@ -21,6 +22,14 @@ public class RetailOrderSubmitPresenter implements RetailOrderSubmitContract.IOr
 
     public RetailOrderSubmitPresenter(RetailOrderSubmitActivity activity){
         this.activity = activity;
+
+        activity.getTitleLayout().getRightText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RetailOrderSubmitPresenter.this.activity.setResult(Activity.RESULT_OK);
+                RetailOrderSubmitPresenter.this.activity.finish();
+            }
+        });
     }
 
     @Override

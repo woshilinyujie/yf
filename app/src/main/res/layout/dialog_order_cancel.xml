@@ -47,6 +47,7 @@
                     android:padding="@dimen/dp_10"
                     android:gravity="top"
                     android:textColor="@color/c_333333"
+                    android:textCursorDrawable="@null"
                     android:background="@color/c_f6f7fb"
                     android:includeFontPadding="false"/>
 

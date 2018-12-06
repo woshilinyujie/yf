@@ -66,6 +66,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/search_img"
             android:imeOptions="actionSearch"
+            android:textCursorDrawable="@null"
             android:singleLine="true"/>
 
     </RelativeLayout>

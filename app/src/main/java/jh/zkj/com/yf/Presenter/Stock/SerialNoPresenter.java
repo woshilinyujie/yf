@@ -360,6 +360,7 @@ public class SerialNoPresenter implements SerialNoContract.ISerialNoPresenter {
 
     @Override
     public void clearFindEt() {
+        searchText = "";
         fragment.setSearchText("");
     }
 

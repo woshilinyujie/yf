@@ -96,7 +96,7 @@ public class StockSerialNoFragment extends MBaseFragment implements SerialNoCont
 
             //清空edittext
             case R.id.serial_on_stoke_clear_img: {
-                setSearchText("");
+                presenter.clearFindEt();
                 break;
             }
 

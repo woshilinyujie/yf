@@ -80,6 +80,7 @@
             android:singleLine="true"
             android:inputType="numberDecimal"
             android:enabled="false"
+            android:textCursorDrawable="@null"
             android:lines="1"/>
 
     </RelativeLayout>

@@ -75,6 +75,7 @@
                 android:hint="商品分类/品牌/型号/商品名称/串号"
                 android:textColor="@color/c_a6a6a6"
                 android:textSize="@dimen/sp_12"
+                android:textCursorDrawable="@null"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/select_salesman_search_img"
                 android:imeOptions="actionSearch"
