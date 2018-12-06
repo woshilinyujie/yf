@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="jh.zkj.com.yf">
+    package="jh.zkj.com.yf">
 
     <!-- 允许程序连接到已配对的蓝牙设备 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <!-- 允许程序发现和配对蓝牙设备 -->
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!-- 允许程序发现和配对蓝牙设备 -->
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--地理位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -16,9 +16,9 @@
     <application
         android:name=".Appliction.MAppliction"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_a"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_a"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -26,84 +26,82 @@
             android:windowSoftInputMode="stateHidden|adjustPan">
 
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".Activity.ScanActivity"/>
+        <activity android:name=".Activity.ScanActivity" />
         <!-- 零售详情 -->
-        <activity android:name=".Activity.Order.OrderDetailsActivity"/>
+        <activity android:name=".Activity.Order.OrderDetailsActivity" />
         <!-- 零售收款 -->
-        <activity android:name=".Activity.Order.RetailReceivableActivity"/>
+        <activity android:name=".Activity.Order.RetailReceivableActivity" />
         <!-- 下单成功 -->
-        <activity android:name=".Activity.Order.RetailOrderSubmitActivity"/>
+        <activity android:name=".Activity.Order.RetailOrderSubmitActivity" />
         <!-- 零售下单 -->
-        <activity android:name=".Activity.Order.RetailOrderActivity"/>
+        <activity android:name=".Activity.Order.RetailOrderActivity" />
         <!-- 选择业务员 -->
-        <activity android:name=".Activity.Order.SelectSalesmanActivity"/>
-        <activity android:name=".Activity.My.PhotoActivity"/>
+        <activity android:name=".Activity.Order.SelectSalesmanActivity" />
+        <activity android:name=".Activity.My.PhotoActivity" />
         <!-- 库存 -》筛选 -->
-        <activity android:name=".Activity.Stock.FilterListActivity"/>
+        <activity android:name=".Activity.Stock.FilterListActivity" />
         <!--  -->
-        <activity android:name=".Activity.Order.SelectCommodityActivity"/>
+        <activity android:name=".Activity.Order.SelectCommodityActivity" />
         <!-- 我的库存 -->
-        <activity android:name=".Activity.My.MyOrderActivity"/>
-        <activity android:name=".Activity.My.UserNameActivity"/>
-        <activity android:name=".Activity.My.PhoneActivity"/>
-        <activity android:name=".Activity.My.ModifyPasswordActivity"/>
-        <activity android:name=".Activity.My.EmailActivity"/>
-        <activity android:name=".Activity.My.JoinCompanyCodeActivity"/>
-        <activity android:name=".Activity.My.PersonalFileActivity"/>
-        <activity android:name=".Activity.My.CompanyFilesActivity"/>
+        <activity android:name=".Activity.My.MyOrderActivity" />
+        <activity android:name=".Activity.My.UserNameActivity" />
+        <activity android:name=".Activity.My.PhoneActivity" />
+        <activity android:name=".Activity.My.ModifyPasswordActivity" />
+        <activity android:name=".Activity.My.EmailActivity" />
+        <activity android:name=".Activity.My.JoinCompanyCodeActivity" />
+        <activity android:name=".Activity.My.PersonalFileActivity" />
+        <activity android:name=".Activity.My.CompanyFilesActivity" />
         <!-- 分仓库存选择仓库 -->
-        <activity android:name=".Activity.Stock.ChildWarehouseActivity"/>
-        <activity android:name=".Activity.Analyse.ShopAnalyseActivity"/>
-        <activity android:name=".Activity.Analyse.ShopManAnalyseActivity"/>
-        <activity android:name=".Activity.Analyse.SalesAnalyseActivity"/>
+        <activity android:name=".Activity.Stock.ChildWarehouseActivity" />
+        <activity android:name=".Activity.Analyse.ShopAnalyseActivity" />
+        <activity android:name=".Activity.Analyse.ShopManAnalyseActivity" />
+        <activity android:name=".Activity.Analyse.SalesAnalyseActivity" />
         <!-- 选择客户 -->
-        <activity android:name=".Activity.Order.SelectClientActivity"/>
+        <activity android:name=".Activity.Order.SelectClientActivity" />
         <!-- 订单页二维码扫描 -->
-        <activity android:name=".Activity.Order.OrderScanActivity"/>
-        <activity android:name=".Activity.My.LoginActivity"/>
-        <activity android:name=".Activity.My.ForgetPassWordActivity"/>
-        <activity android:name=".Activity.My.BindPhoneActivity"/>
-        <activity android:name=".Activity.Order.HarvestModeActivity">
-        </activity>
-        <activity android:name=".Activity.Home.BasicInfoActivity">
-        </activity>
-        <activity android:name=".Activity.Home.CompanyActivity">
-        </activity>
-        <activity android:name=".Activity.Order.ReceivableDetailActivity">
-        </activity>
-        <activity android:name=".Activity.Analyse.ClassifiedActivity"/>
+        <activity android:name=".Activity.Order.OrderScanActivity" />
+        <activity android:name=".Activity.My.LoginActivity" />
+        <activity android:name=".Activity.My.ForgetPassWordActivity" />
+        <activity android:name=".Activity.My.BindPhoneActivity" />
+        <activity android:name=".Activity.Order.HarvestModeActivity"></activity>
+        <activity android:name=".Activity.Home.BasicInfoActivity"></activity>
+        <activity android:name=".Activity.Home.CompanyActivity"></activity>
+        <activity android:name=".Activity.Order.ReceivableDetailActivity"></activity>
+        <activity android:name=".Activity.Analyse.ClassifiedActivity" />
         <!-- 企业 -->
-        <activity android:name=".Activity.My.EnterpriseActivity"/>
+        <activity android:name=".Activity.My.EnterpriseActivity" />
         <!-- 企业审核 -->
-        <activity android:name=".Activity.My.EntExamineActivity"/>
+        <activity android:name=".Activity.My.EntExamineActivity" />
         <!-- 创建企业成功 -->
-        <activity android:name=".Activity.My.CreateEnterpriseSuccessActivity"/>
+        <activity android:name=".Activity.My.CreateEnterpriseSuccessActivity" />
         <!-- 企业详情 -->
-        <activity android:name=".Activity.My.EnterpriseDetailActivity"/>
-        <activity android:name=".Activity.My.JoinCompanyInfoActivity"/>
-        <activity android:name=".Activity.My.JoinCompanyPasswordActivity"/>
-        <activity android:name=".Activity.My.LoginCompanyActivity"/>
-        <activity android:name=".Activity.Order.PrintActivity"/>
-        <activity android:name=".Activity.Order.PrintSettingActivity"/>
-        <activity android:name=".Activity.Order.SearchBluetoothActivity"/>
+        <activity android:name=".Activity.My.EnterpriseDetailActivity" />
+        <activity android:name=".Activity.My.JoinCompanyInfoActivity" />
+        <activity android:name=".Activity.My.JoinCompanyPasswordActivity" />
+        <activity android:name=".Activity.My.LoginCompanyActivity" />
+        <activity android:name=".Activity.Order.PrintActivity" />
+        <activity android:name=".Activity.Order.PrintSettingActivity" />
+        <activity android:name=".Activity.Order.SearchBluetoothActivity" />
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
-        <service android:name="jh.zkj.com.yf.Mutils.print.BtServiceOne"/>
-        <activity android:name=".Activity.System.SystemActivity"/>
-        <activity android:name=".Activity.My.ForgetCrmPasswordActivity"/>
-        <activity android:name=".Activity.Order.FindSerialNoActivity"/>
-        <activity android:name=".Activity.Insurance.InsListActivity"/>
+
+        <service android:name="jh.zkj.com.yf.Mutils.print.BtServiceOne" />
+
+        <activity android:name=".Activity.System.SystemActivity" />
+        <activity android:name=".Activity.My.ForgetCrmPasswordActivity" />
+        <activity android:name=".Activity.Order.FindSerialNoActivity" />
+        <activity android:name=".Activity.Insurance.InsListActivity" />
     </application>
 
 </manifest>

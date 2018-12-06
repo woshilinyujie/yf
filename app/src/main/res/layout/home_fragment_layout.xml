@@ -221,10 +221,10 @@
 
             <ImageView
                 android:id="@+id/home_fragment_common_menu_three"
-                android:layout_width="@dimen/dp_44"
+                android:layout_width="50dp"
                 android:layout_height="@dimen/dp_44"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="@mipmap/system_setting"
+                android:background="@mipmap/jingyinfenxi"
                 app:layout_constraintLeft_toRightOf="@id/home_fragment_common_menu_two"
                 app:layout_constraintRight_toLeftOf="@id/home_fragment_common_menu_four"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -234,7 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:text="系统管理"
+                android:text="经营分析"
                 android:textColor="@color/c_333333"
                 android:textSize="@dimen/sp_12"
                 app:layout_constraintLeft_toLeftOf="@id/home_fragment_common_menu_three"
@@ -246,7 +246,7 @@
                 android:layout_width="@dimen/dp_44"
                 android:layout_height="@dimen/dp_44"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="@mipmap/msg_info"
+                android:background="@mipmap/kucunguanli"
                 app:layout_constraintLeft_toRightOf="@id/home_fragment_common_menu_three"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -256,7 +256,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:text="基础信息"
+                android:text="库存查询"
                 android:textColor="@color/c_333333"
                 android:textSize="@dimen/sp_12"
                 app:layout_constraintLeft_toLeftOf="@+id/home_fragment_common_menu_four"

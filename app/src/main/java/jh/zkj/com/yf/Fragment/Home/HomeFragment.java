@@ -20,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jh.zkj.com.yf.Activity.Analyse.ClassifiedActivity;
+import jh.zkj.com.yf.Activity.MainActivity;
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.PrintActivity;
@@ -29,6 +31,7 @@ import jh.zkj.com.yf.Mview.SwitchText;
 import jh.zkj.com.yf.Mview.Toast.MToast;
 import jh.zkj.com.yf.Mview.slidingtab.SlidingTabLayout;
 import jh.zkj.com.yf.Presenter.Home.HomeFragmentPresenter;
+import jh.zkj.com.yf.Presenter.MainPresenter;
 import jh.zkj.com.yf.Presenter.My.RetailListPresenter;
 import jh.zkj.com.yf.R;
 
@@ -37,7 +40,7 @@ import jh.zkj.com.yf.R;
  */
 
 public class HomeFragment extends MBaseFragment {
-    Context context;
+    MainActivity context;
     @BindView(R.id.home_fragment_scan)
     ImageView homeFragmentScan;
     @BindView(R.id.home_fragment_severs)
@@ -77,6 +80,7 @@ public class HomeFragment extends MBaseFragment {
     Banner banner;
     public boolean priceListP = false;//库存权限
     public boolean openBillP = false;//下单权限
+    public boolean analyseListP = false;//分析
     public boolean soSelect = false;//零售查询
     private View rootView;
     private HomeFragmentPresenter presenter;
@@ -94,7 +98,7 @@ public class HomeFragment extends MBaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = getActivity();
+        context = (MainActivity) getActivity();
         rootView = View.inflate(context, R.layout.home_fragment_layout, null);
         unbinder = ButterKnife.bind(this, rootView);
         presenter = new HomeFragmentPresenter(this);
@@ -150,11 +154,21 @@ public class HomeFragment extends MBaseFragment {
                 }
                 break;
             case R.id.home_fragment_common_menu_three://常用3
-                presenter.toSystem();
+                if (analyseListP) {
+                    context.getPresenter().selectAnalyseList();
+                } else {
+                    MToast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.home_fragment_common_menu_four://常用4
+                if (priceListP) {
+                    context.getPresenter().selectPriceList();
+                } else {
+                    MToast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.home_fragment_trumpet_more://喇叭
+
                 break;
         }
     }

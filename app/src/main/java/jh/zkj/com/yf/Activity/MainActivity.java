@@ -220,4 +220,7 @@ public class MainActivity extends MBaseActivity implements MainContract.IMainVie
         }
     }
 
+    public MainPresenter getPresenter() {
+        return presenter;
+    }
 }

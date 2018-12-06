@@ -147,11 +147,13 @@ public class MainPresenter implements MainContract.IMainPresenter {
                         for (int x = 0; x < bean.getData().getPermissions().size(); x++) {
                             if (bean.getData().getPermissions().get(x).equals("erp_app_stockSelect")) {//库存
                                 priceListP=true;
+                                homeFragment.priceListP=true;
                             } else if (bean.getData().getPermissions().get(x).equals("erp_app_soApp")) {//下单
                                 openBillP=true;
                                 homeFragment.openBillP=true;
                             } else if (bean.getData().getPermissions().get(x).equals("erp_app_operationAnalysis")) {//分析
                                 analyseListP=true;
+                                homeFragment.analyseListP=true;
                             }else if(bean.getData().getPermissions().get(x).equals("erp_app_soSelect")){
                                 homeFragment.soSelect=true;
                             }

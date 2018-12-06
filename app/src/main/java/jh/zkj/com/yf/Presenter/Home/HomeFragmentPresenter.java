@@ -1,6 +1,5 @@
 package jh.zkj.com.yf.Presenter.Home;
 
-import android.Manifest;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,10 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jh.zkj.com.yf.API.HomeAPI;
-import jh.zkj.com.yf.API.OrderAPI;
 import jh.zkj.com.yf.Activity.Home.HomeConfig;
 import jh.zkj.com.yf.Activity.MainActivity;
-import jh.zkj.com.yf.Activity.My.EnterpriseActivity;
 import jh.zkj.com.yf.Activity.My.MyOrderActivity;
 import jh.zkj.com.yf.Activity.Order.OrderConfig;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
@@ -108,9 +105,9 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
         banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
         ArrayList<Integer> list=new ArrayList<>();
-        list.add(R.mipmap.ic_launcher);
-        list.add(R.mipmap.ic_launcher);
-        list.add(R.mipmap.ic_launcher);
+        list.add(R.mipmap.ic_launcher_a);
+        list.add(R.mipmap.ic_launcher_a);
+        list.add(R.mipmap.ic_launcher_a);
         banner.setImages(list);
         //banner设置方法全部调用完毕时最后调用
         banner.start();

@@ -110,7 +110,7 @@ public class JoinCompanyPasswordActivity extends MBaseActivity {
             MToast.makeText(this, "二次密码不一致", Toast.LENGTH_SHORT).show();
             return;
         }
-        intent.putExtra("password", aesUtils.encryptData(passwordOneEt.getText().toString()));
+        intent.putExtra("password", passwordOneEt.getText().toString());
         intent.putExtra("phone", getIntent().getStringExtra("phone"));
         startActivity(intent);
     }
