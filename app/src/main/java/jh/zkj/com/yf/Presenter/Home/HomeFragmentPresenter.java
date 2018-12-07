@@ -105,9 +105,9 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
         banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
         ArrayList<Integer> list=new ArrayList<>();
-        list.add(R.mipmap.ic_launcher_a);
-        list.add(R.mipmap.ic_launcher_a);
-        list.add(R.mipmap.ic_launcher_a);
+        list.add(R.mipmap.banner1);
+        list.add(R.mipmap.banner2);
+        list.add(R.mipmap.banner3);
         banner.setImages(list);
         //banner设置方法全部调用完毕时最后调用
         banner.start();
