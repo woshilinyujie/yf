@@ -49,11 +49,6 @@ public class SplashActivity extends MBaseActivity {
         homeAPI.getVersion(this, new HomeAPI.IResultMsg<VersionBean>() {
             @Override
             public void Result(VersionBean bean) {
-                if(BuildConfig.DEBUG){
-                    HttpConstant.refreshAPI(bean.getData().getInterfaceVersion());
-                    handler.sendEmptyMessageDelayed(0, 1000);
-                    return;
-                }
 
                 if (bean.getData().getFlag() == 1) {
                     //不更新
