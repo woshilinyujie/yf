@@ -29,8 +29,7 @@
             <ImageView
                 android:id="@+id/login_logo"
                 android:layout_width="@dimen/dp_107"
-                android:layout_height="@dimen/dp_30"
-                android:src="#f00" />
+                android:layout_height="@dimen/dp_30"/>
 
             <TextView
                 android:id="@+id/login_status"

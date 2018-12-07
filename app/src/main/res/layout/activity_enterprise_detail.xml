@@ -61,8 +61,7 @@
                     android:id="@+id/enterprise_detail_license"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_60"
-                    android:layout_alignParentRight="true"
-                    android:src="#f00"/>
+                    android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
         </LinearLayout>

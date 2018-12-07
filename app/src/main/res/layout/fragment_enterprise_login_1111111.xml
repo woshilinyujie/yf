@@ -26,7 +26,6 @@
                 <ImageView
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
-                    android:src="#f00"
                     android:layout_gravity="center_vertical"/>
 
                 <EditText
@@ -58,7 +57,6 @@
                 <ImageView
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
-                    android:src="#f00"
                     android:layout_gravity="center_vertical"/>
 
                 <EditText
