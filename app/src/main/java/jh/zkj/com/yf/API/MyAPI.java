@@ -1035,8 +1035,12 @@ public class MyAPI {
                             if (myBean.getCode() == 0 && myBean.getData() != null) {
                                 iResultMsg.Result(myBean);
                                 PrefUtils.putString(context, "erp_json", s);
-                            } else {
+                            } else if(myBean.getCode() == 40001 || myBean.getCode() == 40002){
                                 showToast(context, myBean.getMsg());
+                                iResultMsg.Result(myBean);
+                                PrefUtils.putString(context, "erp_json", "");
+                            }else{
+
                             }
                         } catch (Exception e) {
                             showToast(context, e.toString());

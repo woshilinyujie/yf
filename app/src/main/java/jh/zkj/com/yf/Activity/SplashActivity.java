@@ -32,6 +32,7 @@ import jh.zkj.com.yf.API.HomeAPI;
 import jh.zkj.com.yf.API.HttpConstant;
 import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Bean.VersionBean;
+import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Mutils.CheckNetType;
 import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mutils.UpdateService;

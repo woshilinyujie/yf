@@ -10,6 +10,7 @@ import java.util.List;
 
 import jh.zkj.com.yf.API.MyAPI;
 import jh.zkj.com.yf.Activity.MainActivity;
+import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Activity.Order.RetailOrderActivity;
 import jh.zkj.com.yf.Bean.MyBean;
 import jh.zkj.com.yf.Contract.MainContract;
@@ -142,22 +143,28 @@ public class MainPresenter implements MainContract.IMainPresenter {
             iResultMsg = new MyAPI.IResultMsg<MyBean>() {
                 @Override
                 public void Result(MyBean bean) {
-                    initPager(activity.getViewPager());
-                    if (bean.getData().getPermissions() != null && bean.getData().getPermissions().size() > 0) {
-                        for (int x = 0; x < bean.getData().getPermissions().size(); x++) {
-                            if (bean.getData().getPermissions().get(x).equals("erp_app_stockSelect")) {//库存
-                                priceListP=true;
-                                homeFragment.priceListP=true;
-                            } else if (bean.getData().getPermissions().get(x).equals("erp_app_soApp")) {//下单
-                                openBillP=true;
-                                homeFragment.openBillP=true;
-                            } else if (bean.getData().getPermissions().get(x).equals("erp_app_operationAnalysis")) {//分析
-                                analyseListP=true;
-                                homeFragment.analyseListP=true;
-                            }else if(bean.getData().getPermissions().get(x).equals("erp_app_soSelect")){
-                                homeFragment.soSelect=true;
+                    if(bean.getCode() == 0){
+                        initPager(activity.getViewPager());
+                        if (bean.getData().getPermissions() != null && bean.getData().getPermissions().size() > 0) {
+                            for (int x = 0; x < bean.getData().getPermissions().size(); x++) {
+                                if (bean.getData().getPermissions().get(x).equals("erp_app_stockSelect")) {//库存
+                                    priceListP=true;
+                                    homeFragment.priceListP=true;
+                                } else if (bean.getData().getPermissions().get(x).equals("erp_app_soApp")) {//下单
+                                    openBillP=true;
+                                    homeFragment.openBillP=true;
+                                } else if (bean.getData().getPermissions().get(x).equals("erp_app_operationAnalysis")) {//分析
+                                    analyseListP=true;
+                                    homeFragment.analyseListP=true;
+                                }else if(bean.getData().getPermissions().get(x).equals("erp_app_soSelect")){
+                                    homeFragment.soSelect=true;
+                                }
                             }
                         }
+                    }else if(bean.getCode() == 40001 || bean.getCode() == 40002){
+                        Intent intent = new Intent(activity, LoginActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
                     }
                 }
 
