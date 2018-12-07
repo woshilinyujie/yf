@@ -7,7 +7,7 @@ package jh.zkj.com.yf.API;
  */
 public class APIConstant {
 //    public static String DebugDuankou = ":3001/";
-//    public static String DEGUGAPI = "192.168.68.23";
+//    public static String DEGUGAPI = "192.168.68.128";
     public static String duankou = "/api/";
     public static String API = "";
 

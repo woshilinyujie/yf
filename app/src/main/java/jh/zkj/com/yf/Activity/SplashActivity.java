@@ -166,15 +166,26 @@ public class SplashActivity extends MBaseActivity {
                 //开启下载
                 update();
             }
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             boolean hasInstallPermission = this.getPackageManager().canRequestPackageInstalls();
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                // 没有权限。
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    // 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
+                    MToast.makeText(this, "请手动打开存储权限", Toast.LENGTH_SHORT).show();
+                } else {
+                    // 申请授权
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, PERMISSION);
+                }
+            }
             //是否有安装权限
             if (!hasInstallPermission) {
-                Intent ne = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+                Uri packageURI = Uri.parse("package:"+getPackageName());
+                Intent ne = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageURI);
                 startActivityForResult(ne, 999);
             } else {
                 update();
-                ;//直接安装
+                //直接安装
             }
         } else {
             //Android6.0以下直接下载，无需动态的请求权限

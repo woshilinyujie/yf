@@ -7,9 +7,10 @@
     android:gravity="center_horizontal">
 
     <ImageView
+        android:background="@mipmap/crm_success"
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:layout_marginTop="@dimen/dp_66"/>
+        android:layout_marginTop="@dimen/dp_56"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="您的企业代码为"
             android:includeFontPadding="false"
-            android:textSize="@dimen/sp_16"
+            android:textSize="@dimen/sp_14"
             android:textStyle="bold"
             android:textColor="@color/c_333333"/>
 
@@ -58,20 +59,44 @@
         android:layout_marginTop="@dimen/dp_15"
         android:layout_marginLeft="@dimen/dp_10"
         android:textColor="@color/c_333333"/>
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_50"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您的骏管家密码为："
+            android:includeFontPadding="false"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="@dimen/dp_15"
+            android:textColor="@color/c_333333"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号后6位"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="@dimen/dp_15"
+            android:textColor="@color/c_ff0000"/>
+
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="您也可使用企业代码、帐号和密码，登录ERP系统"
+        android:text="您可以使用企业代码、手机号和骏管家密码，进行登录"
         android:includeFontPadding="false"
-        android:textSize="@dimen/sp_14"
-        android:layout_marginTop="@dimen/dp_15"
+        android:textSize="@dimen/sp_12"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
         android:textColor="@color/c_333333"/>
 
     <TextView
         android:id="@+id/create_enterprise_success_login"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
-        android:text="登录骏杭ERP"
+        android:text="登录骏管家"
         android:includeFontPadding="false"
         android:textSize="@dimen/sp_14"
         android:layout_marginTop="@dimen/dp_50"
