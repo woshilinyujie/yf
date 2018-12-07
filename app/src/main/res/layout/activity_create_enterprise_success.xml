@@ -9,7 +9,6 @@
     <ImageView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:src="#f00"
         android:layout_marginTop="@dimen/dp_66"/>
 
     <TextView
