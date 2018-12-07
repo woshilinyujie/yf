@@ -39,7 +39,6 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
 
 public class OrderAPI {
     private Context context;
-    public String API = APIConstant.API + ":3001/";
 //    public final String TOKEN = "bearer 292f06ac-f530-4218-a991-b1440ebc3d17";
     public String TOKEN = "bearer " + "f3d747de-602e-4534-841b-10f662d0d1cb";
     private LoadingDialog loadingDialog;
@@ -63,7 +62,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_USER_LIST)
+        OkGo.<String>get(APIConstant.API + ":3001/"  + HttpConstant.HTTP_BASIC_USER_LIST)
                 .headers("Authorization", TOKEN)
                 .params("name", name)
                 .params("pageNum", pageNum)
@@ -114,7 +113,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_PRODUCT_KEYWORDS)
+        OkGo.<String>get(APIConstant.API + ":3001/"+ HttpConstant.HTTP_BASIC_PRODUCT_KEYWORDS)
                 .headers("Authorization", TOKEN)
                 .params("companyUuid", companyUuid)
                 .params("keywords", keyWord)
@@ -164,7 +163,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
         String interfaceVersion=PrefUtils.getString(context,"interfaceVersion",null);
-        OkGo.<String>get(API + "erp/basic/member/selector/"+interfaceVersion+"/biz")
+        OkGo.<String>get(APIConstant.API + ":3001/" + "erp/basic/member/selector/"+interfaceVersion+"/biz")
                 .headers("Authorization", TOKEN)
                 .params("keywords", keyWord)
                 .params("pageNum", pageNum)
@@ -217,7 +216,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>post(API + HttpConstant.HTTP_BASIC_SO_APP)
+        OkGo.<String>post(APIConstant.API + ":3001/" + HttpConstant.HTTP_BASIC_SO_APP)
                 .headers("Authorization", TOKEN)
                 .upJson(json)
                 .execute(new StringCallback() {
@@ -267,7 +266,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_SO_APP + orderId)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BASIC_SO_APP + orderId)
                 .headers("Authorization", TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -317,7 +316,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BASIC_GET_ORDER_LIST)
                 .headers("Authorization", TOKEN)
                 .params("type", type)
                 .params("pageNum", pageNum)
@@ -369,7 +368,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_GET_CASHIER_TYPE_COMPANY /*+ orderId*/)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BASIC_GET_CASHIER_TYPE_COMPANY /*+ orderId*/)
                 .headers("Authorization", TOKEN)
                 .params("enableFlag", 1)
                 .execute(new StringCallback() {
@@ -418,7 +417,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>post(API + HttpConstant.HTTP_BIZ_SO_OUT_APP)
+        OkGo.<String>post(APIConstant.API + ":3001/" + HttpConstant.HTTP_BIZ_SO_OUT_APP)
                 .headers("Authorization", TOKEN)
                 .upJson(json)
                 .execute(new StringCallback() {
@@ -467,7 +466,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>delete(API + HttpConstant.HTTP_BIZ_SO_CANCEL_ORDER)
+        OkGo.<String>delete(APIConstant.API + ":3001/" + HttpConstant.HTTP_BIZ_SO_CANCEL_ORDER)
                 .headers("Authorization", TOKEN)
                 .isSpliceUrl(true)
                 .params("reason", reason)
@@ -520,7 +519,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SO_RECEIVABLE_DETAIL + uuid)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BIZ_SO_RECEIVABLE_DETAIL + uuid)
                 .headers("Authorization", TOKEN)
                 .params("bizSoOutUuid", bizSoOutUuid)
                 .execute(new StringCallback() {
@@ -567,7 +566,7 @@ public class OrderAPI {
             loadingDialog.showLoading();
         }
 
-        GetRequest<String> params = OkGo.<String>get(API + HttpConstant.HTTP_BIZ_SERIAL_SERIAL_INFO_LIST)
+        GetRequest<String> params = OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BIZ_SERIAL_SERIAL_INFO_LIST)
                 .headers("Authorization", TOKEN)
                 .params("companyUuid", companyUuid)
                 .params("keyword", keywords)

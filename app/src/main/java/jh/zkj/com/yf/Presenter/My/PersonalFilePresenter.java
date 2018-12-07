@@ -22,6 +22,7 @@ import jh.zkj.com.yf.Bean.CalibrateIdCardBean;
 import jh.zkj.com.yf.Bean.CalibrateIdCardTokenBean;
 import jh.zkj.com.yf.Bean.JoinCompanyBean;
 import jh.zkj.com.yf.Bean.JsonBean;
+import jh.zkj.com.yf.Bean.UpFileBean;
 import jh.zkj.com.yf.Contract.My.PersonalFileActivityContract;
 import jh.zkj.com.yf.Mutils.GetJsonDataUtil;
 import jh.zkj.com.yf.Mview.CancelDialog;
@@ -54,8 +55,8 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
     private String password;
     private String phone;
     private String sex = "1";
-    private String identImgFront="";
-    private String identImgBack="";
+    private String identImgFront = "";
+    private String identImgBack = "";
 
     public PersonalFilePresenter(PersonalFileActivity activity) {
         this.activity = activity;
@@ -76,11 +77,10 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
 
                 if (flag == 0) {
                     activity.setFrontIdBg(path);
-                    identImgFront = bean.getData().getValidity();
                 } else {
                     activity.setBackIdBg(path);
-                    identImgBack = bean.getData().getValidity();
                 }
+                upFile(path,flag);
             }
 
             @Override
@@ -154,8 +154,8 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                String tx = options1Items.get(options1).getPickerViewText() +"."+
-                        options2Items.get(options1).get(options2) +"."+
+                String tx = options1Items.get(options1).getPickerViewText() + "." +
+                        options2Items.get(options1).get(options2) + "." +
                         options3Items.get(options1).get(options2).get(options3);
                 activity.setAddress(tx);
                 activity.setAddressTextColor(Color.parseColor("#333333"));
@@ -316,8 +316,8 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
     }
 
     @Override
-    public void CalibrateIdCard(String fileCategory, String path,String token) {
-        myAPI.CalibrateIdCard(activity, fileCategory, path,token, calibrateIResultMsg);
+    public void CalibrateIdCard(String fileCategory, String path, String token) {
+        myAPI.CalibrateIdCard(activity, fileCategory, path, token, calibrateIResultMsg);
     }
 
     @Override
@@ -326,11 +326,12 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
             @Override
             public void Result(CalibrateIdCardTokenBean bean) {
                 String token = bean.getData().getToken();
-                if(flag==1){
-                    CalibrateIdCard("F", path,token);
-                }else{
-                    CalibrateIdCard("R", path,token);
+                if (flag == 1) {
+                    CalibrateIdCard("F", path, token);
+                } else {
+                    CalibrateIdCard("R", path, token);
                 }
+
             }
 
             @Override
@@ -340,5 +341,22 @@ public class PersonalFilePresenter implements PersonalFileActivityContract.Perso
         });
     }
 
+    public void upFile(String path, final int flag) {
+        myAPI.upFile(activity, path, new MyAPI.IResultMsg<UpFileBean>() {
+            @Override
+            public void Result(UpFileBean bean) {
+                if(flag==0){
+                    identImgFront=bean.getData();
+                }else{
+                    identImgBack=bean.getData();
+                }
+            }
+
+            @Override
+            public void Error(String json) {
+
+            }
+        });
+    }
 
 }

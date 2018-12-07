@@ -55,7 +55,7 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
  */
 
 public class MyAPI {
-    public final String API = APIConstant.API;
+//    public final String API = APIConstant.API;
     private File file;
     private LoadingDialog dialog;
 
@@ -70,7 +70,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API + ":3001/auth/oauth/token").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/auth/oauth/token").tag(context)
                 .headers("Authorization", "Basic amgtY3JtOmpoLWNybQ==")
                 .headers("device", "android")
                 .params("grant_type", "password")
@@ -112,7 +112,7 @@ public class MyAPI {
      * @param iResultMsg
      */
     public void loginCRMCalibrate(final Context context, String phone, final IResultMsg<CRMCalibrateBean> iResultMsg) {
-        OkGo.<String>get(API + ":3001/crm/crmCompany/smslogin/valid").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/crm/crmCompany/smslogin/valid").tag(context)
                 .params("phone", phone)
                 .execute(new StringCallback() {
                     @Override
@@ -143,7 +143,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API + ":3001/auth/oauth/token").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/auth/oauth/token").tag(context)
                 .headers("Authorization", "Basic amgtY3JtOmpoLWNybQ==")
                 .headers("device", "android")
                 .headers("smsCode", "true")
@@ -189,7 +189,7 @@ public class MyAPI {
      */
     public void CRMPassWord(final Context context, String password, final IResultMsg<CRMPassWordBean> iResultMsg) {
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>get(API + ":3001/crm/crmCompany/set/password").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/crm/crmCompany/set/password").tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .params("password", password)
                 .params("confirmPassword", password)
@@ -219,7 +219,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API + ":3001/auth/oauth/token").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/auth/oauth/token").tag(context)
                 .headers("Authorization", "Basic amgtZXJwLTNjOmpoLWVycC0zYw==")
                 .headers("device", "android")
                 .params("grant_type", "password")
@@ -265,7 +265,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API + ":3001/auth/oauth/token").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/auth/oauth/token").tag(context)
                 .headers("Authorization", "Basic amgtZXJwLTNjOmpoLWVycC0zYw==")
                 .headers("device", "android")
                 .headers("smsCode", "true")
@@ -444,7 +444,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>post(API + ":3001/crm/crmCompany/company/register").tag(context)
+        OkGo.<String>post(APIConstant.API+ ":3001/crm/crmCompany/company/register").tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .upJson(slist)
                 .execute(new StringCallback() {
@@ -485,7 +485,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API + ":3001/mobileCode").tag(context)
+        OkGo.<String>get(APIConstant.API+ ":3001/mobileCode").tag(context)
                 .params("mobile", phone)
                 .execute(new StringCallback() {
                     @Override
@@ -529,7 +529,7 @@ public class MyAPI {
         SendCodeNextBean bean = new SendCodeNextBean();
         bean.setMobilePhone(phone);
         String s1 = GsonUtils.GsonString(bean);
-        OkGo.<String>post(API + ":3001/crm/stdUser/notoken/beforejoincompanyvalid?smsCode=" + smsCode + "&smsPhone=" + phone).tag(context)
+        OkGo.<String>post(APIConstant.API + ":3001/crm/stdUser/notoken/beforejoincompanyvalid?smsCode=" + smsCode + "&smsPhone=" + phone).tag(context)
                 .headers("Content-Type", "application/json")
                 .headers("smsCode", "true")
                 .upJson(s1)
@@ -595,7 +595,7 @@ public class MyAPI {
         bean.setIdentImgFront(identImgFront);
         bean.setIdentImgBack(identImgBack);
         String s1 = GsonUtils.GsonString(bean);
-        OkGo.<String>post(API + ":3001/crm/stdUser/notoken/joincompany").tag(context)
+        OkGo.<String>post(APIConstant.API+ ":3001/crm/stdUser/notoken/joincompany").tag(context)
                 .upJson(s1)
                 .execute(new StringCallback() {
                     @Override
@@ -633,7 +633,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>get(API + ":3001/" + HttpConstant.HTTP_CRM_STD_USER_APPLY + uuid).tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_CRM_STD_USER_APPLY + uuid).tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .params("keywords", keywords)
                 .params("opreate", opreate)
@@ -674,7 +674,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>get(API + ":3001/" + HttpConstant.HTTP_CRM_COMPANY_INFO).tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_CRM_COMPANY_INFO).tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .execute(new StringCallback() {
                     @Override
@@ -714,7 +714,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String crm_token = PrefUtils.getString(context, "crm_token", "");
-        OkGo.<String>get(API + ":3001/"
+        OkGo.<String>get(APIConstant.API+ ":3001/"
                 + (flag ? HttpConstant.HTTP_CRM_OPERATOR_AUDIT : HttpConstant.HTTP_CRM_OPERATOR_UN_AUDIT)
                 + uuid)
                 .tag(context)
@@ -763,7 +763,7 @@ public class MyAPI {
         ModifyCRMNameUpBean bean = new ModifyCRMNameUpBean();
         bean.setName(name);
         String s = GsonUtils.GsonString(bean);
-        OkGo.<String>post(API + ":3001/crm/stdUser/set/userInfo").tag(context)
+        OkGo.<String>post(APIConstant.API+ ":3001/crm/stdUser/set/userInfo").tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .headers("Content-Type", "application/json")
                 .upJson(s)
@@ -803,7 +803,7 @@ public class MyAPI {
         ModifyCRMHeadUpBean headUpBean = new ModifyCRMHeadUpBean();
         headUpBean.setHeadImg(data);
         String s = GsonUtils.GsonString(headUpBean);
-        OkGo.<String>post(API + ":3001/crm/stdUser/set/userInfo").tag(context)
+        OkGo.<String>post(APIConstant.API+ ":3001/crm/stdUser/set/userInfo").tag(context)
                 .headers("Authorization", "Bearer " + crm_token)
                 .headers("Content-Type", "application/json")
                 .upJson(s)
@@ -837,7 +837,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         file = new File(path);
-        OkGo.<String>post(API + ":3001/thirdparty/file/upload").tag(context)
+        OkGo.<String>post(APIConstant.API + ":3001/thirdparty/file/upload").tag(context)
                 .params("file", file)
                 .execute(new StringCallback() {
                     @Override
@@ -868,7 +868,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String erp_token = PrefUtils.getString(context, "erp_token", "");
-        OkGo.<String>get(API + ":3001/erp/basic/user/app/center/update/headImg")
+        OkGo.<String>get(APIConstant.API + ":3001/erp/basic/user/app/center/update/headImg")
                 .params("access_token", erp_token)
                 .params("headImg", path)
                 .execute(new StringCallback() {
@@ -904,7 +904,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String erp_token = PrefUtils.getString(context, "erp_token", "");
-        OkGo.<String>get(API + ":3001/erp/basic/user/app/center/update/password")
+        OkGo.<String>get(APIConstant.API+ ":3001/erp/basic/user/app/center/update/password")
                 .params("access_token", erp_token)
                 .params("oldPassword", oldPassword)
                 .params("newPassword1", newPassword)
@@ -941,7 +941,7 @@ public class MyAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String erp_token = PrefUtils.getString(context, "erp_token", "");
-        OkGo.<String>get(API + ":3001/erp/basic/user/app/center/update/username")
+        OkGo.<String>get(APIConstant.API + ":3001/erp/basic/user/app/center/update/username")
                 .params("access_token", erp_token)
                 .params("username", name)
                 .execute(new StringCallback() {
@@ -978,7 +978,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API + ":3001/erp/basic/user/app/center/update/mobilenum").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/erp/basic/user/app/center/update/mobilenum").tag(context)
                 .headers("smsCode", "true")
                 .params("access_token", erp_token)
                 .params("smsCode", code)
@@ -1022,7 +1022,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API + ":3001/erp/basic/user/erploginuser").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/erp/basic/user/erploginuser").tag(context)
                 .params("access_token", erp_token)
                 .execute(new StringCallback() {
                     @Override
@@ -1062,7 +1062,7 @@ public class MyAPI {
         forgetupBean.setMobilePhone(phone);
         forgetupBean.setPassword(password);
         String s = GsonUtils.GsonString(forgetupBean);
-        OkGo.<String>post(API + ":3001/crm/stdUser/notoken/sms/set/password?smsCode=" + code + "&smsPhone=" + phone).tag(context)
+        OkGo.<String>post(APIConstant.API + ":3001/crm/stdUser/notoken/sms/set/password?smsCode=" + code + "&smsPhone=" + phone).tag(context)
                 .headers("smsCode", "true")
                 .upJson(s)
                 .execute(new StringCallback() {
@@ -1098,7 +1098,7 @@ public class MyAPI {
         if (dialog == null)
             dialog = new LoadingDialog(context);
         dialog.showLoading();
-        OkGo.<String>get(API + ":3001/erp/basic/user/sms/set/password?smsCode=" + code + "&smsPhone=" + phone).tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/erp/basic/user/sms/set/password?smsCode=" + code + "&smsPhone=" + phone).tag(context)
                 .headers("smsCode", "true")
                 .params("password", password)
                 .params("companyCode", companyCode)

@@ -33,7 +33,6 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
 public class StockAPI {
 
     private final Context context;
-    public String API = APIConstant.API + ":3001/";
 //    String api = "http://192.168.68.172:3001/";
 
     public String TOKEN = "bearer 4976b2ee-3fa7-4261-8f84-022001b676f5";
@@ -63,7 +62,7 @@ public class StockAPI {
             , final OrderAPI.IResultMsg<commodityStockBean> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKU_STOCK_APP)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_REPORT_SKU_STOCK_APP)
                 .headers("Authorization", TOKEN)
                 .params("skuFullName", skuFullName)
                 .params("classifyUuid", classifyUuid)
@@ -123,7 +122,7 @@ public class StockAPI {
             , int pageNum, int pageSize, final OrderAPI.IResultMsg<SerialNoBean> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SERIAL_SERIAL_STOCK_SERIAL)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_REPORT_SERIAL_SERIAL_STOCK_SERIAL)
                 .headers("Authorization", TOKEN)
                 .params("keywords", keywords)
                 .params("classifyUuid", classifyUuid)
@@ -172,7 +171,7 @@ public class StockAPI {
     public void getSerialNoTrack(String serial, final OrderAPI.IResultMsg<SerialNoTrackBean> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API/*api*/ + HttpConstant.HTTP_BIZ_SERIAL_NO_TRACK)
+        OkGo.<String>get(APIConstant.API + ":3001/"/*api*/ + HttpConstant.HTTP_BIZ_SERIAL_NO_TRACK)
                 .headers("Authorization", TOKEN)
 //                .headers("Authorization", "bearer 4976b2ee-3fa7-4261-8f84-022001b676f5")
                 .params("serial", serial)
@@ -214,7 +213,7 @@ public class StockAPI {
     public void getSkuStockList(String warehouseName, final OrderAPI.IResultMsg<SkuStockBean> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_REPORT_SKU_STOCK_APP_STOCK_PART)
+        OkGo.<String>get(APIConstant.API + ":3001/"+ HttpConstant.HTTP_REPORT_SKU_STOCK_APP_STOCK_PART)
                 .headers("Authorization", TOKEN)
                 .params("warehouseName", warehouseName)
                 .execute(new StringCallback() {
@@ -255,7 +254,7 @@ public class StockAPI {
     public void getFilterCompany(final OrderAPI.IResultMsg<ArrayList<FilterCompanyBean>> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_COMPANY)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BASIC_DATA_COMPANY)
                 .headers("Authorization", TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -295,7 +294,7 @@ public class StockAPI {
     public void getFilterClassify(final OrderAPI.IResultMsg<ArrayList<FilterClassifyBean>> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_CLASSIFY)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BASIC_DATA_CLASSIFY)
                 .headers("Authorization", TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -335,7 +334,7 @@ public class StockAPI {
     public void getFilterBrand(final OrderAPI.IResultMsg<ArrayList<FilterBrandBean>> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_BRAND)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BASIC_DATA_BRAND)
                 .headers("Authorization", TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -375,7 +374,7 @@ public class StockAPI {
     public void getFilterProduct(final OrderAPI.IResultMsg<ArrayList<FilterProductBean>> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_DATA_PRODUCT)
+        OkGo.<String>get(APIConstant.API + ":3001/"+ HttpConstant.HTTP_BASIC_DATA_PRODUCT)
                 .headers("Authorization", TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -415,7 +414,7 @@ public class StockAPI {
     public void getFilterBaseWarehouse(final OrderAPI.IResultMsg<ArrayList<FilterBaseWarehouseBean>> iResultMsg){
         dialog.showLoading();
 
-        OkGo.<String>get(API + HttpConstant.HTTP_BASIC_BASE_WAREHOUSE_SELECT_LIST)
+        OkGo.<String>get(APIConstant.API + ":3001/" + HttpConstant.HTTP_BASIC_BASE_WAREHOUSE_SELECT_LIST)
                 .headers("Authorization", TOKEN)
                 .execute(new StringCallback() {
                     @Override

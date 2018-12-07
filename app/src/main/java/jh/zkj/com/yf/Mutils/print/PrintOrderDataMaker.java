@@ -124,9 +124,9 @@ public class PrintOrderDataMaker implements PrintDataMaker {
                 }else if(!intent.getBooleanExtra("money", false)&&!intent.getBooleanExtra("price", false)){
                     printer.printInOneLine(" ", qty+"", " ", 0);
                 }else if(!intent.getBooleanExtra("money", false)&&intent.getBooleanExtra("price", false)){
-                    printer.printInOneLine(" ", qty+"", priceS, 0);
+                    printer.printInOneLine(priceS, qty+"", "", 0);
                 }else{
-                    printer.printInOneLine(money, qty+"", " ", 0);
+                    printer.printInOneLine("", qty+"", money, 0);
                 }
             }
 

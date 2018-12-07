@@ -61,12 +61,12 @@ public class MAppliction extends Application {
         //全局的连接超时时间
         builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
 
-
-        if (BuildConfig.DEBUG) {
-            APIConstant.API = APIConstant.HTTP_OFF_LINE;
-        } else {
-            APIConstant.API = APIConstant.HTTP_ON_LINE;
-        }
+//
+//        if (BuildConfig.DEBUG) {
+//            APIConstant.API = APIConstant.HTTP_OFF_LINE;
+//        } else {
+//            APIConstant.API = APIConstant.HTTP_ON_LINE;
+//        }
     }
 
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="jh.zkj.com.yf">
 
     <!-- 允许程序连接到已配对的蓝牙设备 -->
@@ -54,6 +55,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <!-- ############################################################################### -->
     <!-- ########################## 极光推送要求权限 End ############################### -->
     <!-- ############################################################################### -->
@@ -148,6 +150,14 @@
         <activity android:name=".Activity.My.ForgetCrmPasswordActivity" />
         <activity android:name=".Activity.Order.FindSerialNoActivity" />
         <activity android:name=".Activity.Insurance.InsListActivity" />
+
+
+
+        <service
+            android:name=".Mutils.UpdateService"
+            android:enabled="true"
+            android:exported="true" />
+
         <!-- 友盟start -->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -156,7 +166,17 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
 
-
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                tools:replace="android:resource"
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
         <!-- ############################################################################### -->
         <!-- ########################## 极光推送 Start ####################################### -->
         <!-- ############################################################################### -->

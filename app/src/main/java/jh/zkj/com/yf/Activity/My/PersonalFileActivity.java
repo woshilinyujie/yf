@@ -216,7 +216,7 @@ public class PersonalFileActivity extends PhotoActivity implements PersonalFileA
     @Override
     public void takeSuccess(TResult result, View view) {//选择照片成功回调
         super.takeSuccess(result, view);
-        String iconPath = result.getImage().getOriginalPath();//照片存储地址
+        String iconPath = result.getImage().getCompressPath();//照片存储地址
         //访问网络
         if (personalFileIdFront == view) {
             personalFilePresenter.CalibrateIdCardToken(1,iconPath);

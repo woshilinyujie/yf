@@ -21,13 +21,13 @@ import jh.zkj.com.yf.Mview.Toast.MToast;
  * use
  */
 public class HomeAPI {
-    public final String API = APIConstant.API;
+//    public final String API = APIConstant.API;
     //    public final String TOKEN = "bearer 292f06ac-f530-4218-a991-b1440ebc3d17";
     public final String TOKEN = "bearer 73677450-0871-4b41-8059-c0e4aea6348d";
 
 
     public void getVersion(final Context context, final IResultMsg<VersionBean> iResultMsg) {
-        OkGo.<String>get(API + ":3001/crm/stdProductsVersion/currentVersion").tag(context)
+        OkGo.<String>get(APIConstant.API + ":3001/crm/stdProductsVersion/currentVersion").tag(context)
                 .params("version", "1.0.0")
                 .params("productType", "jh-erp-3c")
                 .params("typeDetail", "ANDROID")
@@ -47,6 +47,16 @@ public class HomeAPI {
                             MToast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
                         }
 
+                    }
+                });
+    }
+
+    public void getApi(final IResultMsg<String> resultMsg) {
+        OkGo.<String>get("http://47.96.93.183/ddns/ip").
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        resultMsg.Result(response.body());
                     }
                 });
     }

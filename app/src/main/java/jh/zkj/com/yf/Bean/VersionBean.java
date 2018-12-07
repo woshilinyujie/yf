@@ -6,8 +6,9 @@ package jh.zkj.com.yf.Bean;
 
 public class VersionBean {
 
+
     /**
-     * data : {"uuid":"zkj-product-type-jherp-3c-app-android","productsClientUuid":"zkj-product-type-jherp-3c-for-app","type":"APP","typeDetail":"ANDROID","upgradeDate":"2018-12-08","version":"1.0.0","interfaceVersion":"10000","remark":"系统上线","flag":1,"createUserUuid":null,"createTime":"2018-11-28 13:20:21.0","updateUserUuid":null,"updateTime":"2018-11-28 13:48:37.0","sysRemark":null,"id":1}
+     * data : {"uuid":"zkj-product-type-jherp-3c-app-android","productsClientUuid":"zkj-product-type-jherp-3c-for-app","type":"APP","typeDetail":"ANDROID","upgradeDate":"2018-12-08","version":"1.0.0","interfaceVersion":"10000","remark":"系统上线","flag":1,"createUserUuid":null,"createTime":"2018-11-28 13:20:21.0","updateUserUuid":null,"updateTime":"2018-11-28 13:48:37.0","sysRemark":null,"id":1,"upgradePath":null}
      * msg : success
      * code : 0
      */
@@ -57,6 +58,7 @@ public class VersionBean {
          * updateTime : 2018-11-28 13:48:37.0
          * sysRemark : null
          * id : 1
+         * upgradePath : null
          */
 
         private String uuid;
@@ -74,6 +76,7 @@ public class VersionBean {
         private String updateTime;
         private Object sysRemark;
         private int id;
+        private String upgradePath;
 
         public String getUuid() {
             return uuid;
@@ -193,6 +196,14 @@ public class VersionBean {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public String getUpgradePath() {
+            return upgradePath;
+        }
+
+        public void setUpgradePath(String upgradePath) {
+            this.upgradePath = upgradePath;
         }
     }
 }
