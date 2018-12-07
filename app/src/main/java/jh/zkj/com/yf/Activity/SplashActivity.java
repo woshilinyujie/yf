@@ -11,6 +11,7 @@ import jh.zkj.com.yf.API.HomeAPI;
 import jh.zkj.com.yf.API.HttpConstant;
 import jh.zkj.com.yf.Activity.My.LoginActivity;
 import jh.zkj.com.yf.Bean.VersionBean;
+import jh.zkj.com.yf.BuildConfig;
 import jh.zkj.com.yf.Mutils.CheckNetType;
 import jh.zkj.com.yf.Mutils.PrefUtils;
 import jh.zkj.com.yf.Mutils.UpdateService;
@@ -48,6 +49,12 @@ public class SplashActivity extends MBaseActivity {
         homeAPI.getVersion(this, new HomeAPI.IResultMsg<VersionBean>() {
             @Override
             public void Result(VersionBean bean) {
+                if(BuildConfig.DEBUG){
+                    HttpConstant.refreshAPI(bean.getData().getInterfaceVersion());
+                    handler.sendEmptyMessageDelayed(0, 1000);
+                    return;
+                }
+
                 if (bean.getData().getFlag() == 1) {
                     //不更新
                     HttpConstant.refreshAPI(bean.getData().getInterfaceVersion());
