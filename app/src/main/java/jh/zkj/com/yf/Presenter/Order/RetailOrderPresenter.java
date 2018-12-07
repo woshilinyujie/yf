@@ -125,6 +125,9 @@ public class RetailOrderPresenter implements RetailOrderContract.IRetailOrderPre
             orderBean.getComList().get(0).setExceedStockAge(serialNoBean.getExceed_stock_age());
             orderBean.getComList().get(0).setCurrentStockAge(serialNoBean.getCurrent_stock_age());
             orderBean.getComList().get(0).setCount(1);
+            orderBean.getComList().get(0).setSerial01(serialNoBean.getSerial01());
+            orderBean.getComList().get(0).setSerial02(serialNoBean.getSerial02());
+            orderBean.getComList().get(0).setSerial03(serialNoBean.getSerial03());
 //            ArrayList<CommodityInfoBean> arr = new ArrayList<>();
 //            arr.add(serialNoBean);
 //            orderBean.addComList(arr);
