@@ -67,6 +67,7 @@
 
 
         <RelativeLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="35dp">
 
@@ -76,7 +77,6 @@
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:paddingLeft="@dimen/dp_20"
-                android:paddingTop="@dimen/dp_19"
                 android:text="忘记密码"
                 android:textColor="@color/c_a6a6a6"
                 android:textSize="@dimen/sp_12" />
@@ -89,7 +89,6 @@
                 android:layout_alignParentRight="true"
                 android:includeFontPadding="false"
                 android:paddingRight="@dimen/dp_20"
-                android:paddingTop="@dimen/dp_19"
                 android:text="加入企业"
                 android:textColor="@color/c_6fb1fc"
                 android:textSize="@dimen/sp_12" />

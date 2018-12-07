@@ -27,7 +27,7 @@ public class HomeAPI {
 
 
     public void getVersion(final Context context, final IResultMsg<VersionBean> iResultMsg) {
-        OkGo.<String>get(APIConstant.API + ":3001/crm/stdProductsVersion/currentVersion").tag(context)
+        OkGo.<String>get(APIConstant.API + "crm/stdProductsVersion/currentVersion").tag(context)
                 .params("version", "1.0.0")
                 .params("productType", "jh-erp-3c")
                 .params("typeDetail", "ANDROID")

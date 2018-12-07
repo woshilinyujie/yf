@@ -78,9 +78,9 @@ public class HomeFragmentPresenter implements HomeContract.IHomeFragmentPresente
     public void startSwitch() {
         //数据源
         ArrayList<String> tipData = new ArrayList<>();
-        tipData.add("中科金公司将于21日晚上21:00-22:00升级系统给来的...");
-        tipData.add("国庆放假xxxx天");
-        tipData.add("星期xxxx开会");
+        tipData.add("恭喜骏管家成功上线啦！");
+        tipData.add("骏管家管理更轻松，体验更流畅！");
+        tipData.add("让您享受快捷优质的综合服务");
         homeFragment.getHomeFragmentSwitchText().setDelayMillis(3000);
         homeFragment.getHomeFragmentSwitchText().setData(tipData);
         homeFragment.getHomeFragmentSwitchText().start();

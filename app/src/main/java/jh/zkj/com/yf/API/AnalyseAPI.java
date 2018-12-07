@@ -34,7 +34,7 @@ public class AnalyseAPI {
             dialog = new LoadingDialog(context);
         dialog.showLoading();
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(APIConstant.API+":3001/"+HttpConstant.HTTP_BASIC_DATA_COMPANY).tag(context)
+        OkGo.<String>get(APIConstant.API+HttpConstant.HTTP_BASIC_DATA_COMPANY).tag(context)
                .params("access_token",TOKEN)
                 .params("type","company")
                 .execute(new StringCallback() {
@@ -88,7 +88,7 @@ public class AnalyseAPI {
         if(TextUtils.isEmpty(skuName)||skuName.equals("请选择")){
             skuName="";
         }
-        OkGo.<String>get(APIConstant.API+":3001/report/analysis/graph/statistics").tag(context)
+        OkGo.<String>get(APIConstant.API+"report/analysis/graph/statistics").tag(context)
                 .params("access_token",TOKEN)
                 .params("companyCode",companyCode)
                 .params("companyUuid",companyUuid)
@@ -151,7 +151,7 @@ public class AnalyseAPI {
             skuName="";
         }
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(APIConstant.API+":3001/report/analysis/pie/statistics").tag(context)
+        OkGo.<String>get(APIConstant.API+"report/analysis/pie/statistics").tag(context)
                 .params("access_token",TOKEN)
                 .params("companyCode",companyCode)
                 .params("startDate",startDate)
@@ -194,7 +194,7 @@ public class AnalyseAPI {
      */
     public  void getClassify(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(APIConstant.API+":3001/"+HttpConstant.HTTP_BASIC_DATA_CLASSIFY).tag(context)
+        OkGo.<String>get(APIConstant.API+HttpConstant.HTTP_BASIC_DATA_CLASSIFY).tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -218,7 +218,7 @@ public class AnalyseAPI {
      */
     public  void getBrand(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(APIConstant.API+":3001/"+HttpConstant.HTTP_BASIC_DATA_BRAND).tag(context)
+        OkGo.<String>get(APIConstant.API+HttpConstant.HTTP_BASIC_DATA_BRAND).tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override
@@ -242,7 +242,7 @@ public class AnalyseAPI {
      */
     public  void getProduct(final Context context, final IResultMsg<ArticleBean> iResultMsg ){
         String TOKEN= PrefUtils.getString(context,"erp_token","");
-        OkGo.<String>get(APIConstant.API+":3001/"+HttpConstant.HTTP_BASIC_DATA_PRODUCT).tag(context)
+        OkGo.<String>get(APIConstant.API+HttpConstant.HTTP_BASIC_DATA_PRODUCT).tag(context)
                 .params("access_token",TOKEN)
                 .execute(new StringCallback() {
                     @Override

@@ -26,7 +26,7 @@ public class RetailOrderSubmitPresenter implements RetailOrderSubmitContract.IOr
         activity.getTitleLayout().getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RetailOrderSubmitPresenter.this.activity.setResult(Activity.RESULT_OK);
+//                RetailOrderSubmitPresenter.this.activity.setResult(Activity.RESULT_OK);
                 RetailOrderSubmitPresenter.this.activity.finish();
             }
         });

@@ -179,6 +179,8 @@ public class PrintOrderDataMaker implements PrintDataMaker {
             printer.print("骏杭科技提供技术支持");
             printer.printLineFeed();
             printer.printLineFeed();
+            printer.printLineFeed();
+            printer.printLineFeed();
             printer.feedPaperCutPartial();
 
             data.add(printer.getDataAndClose());
